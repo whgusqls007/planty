@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Header() {
   return (
     <>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="white" expand="lg" className="mb-3">
         <Container className="">
           <Navbar.Brand href="/" className="me-5">
             호미두
