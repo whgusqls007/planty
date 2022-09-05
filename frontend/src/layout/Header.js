@@ -21,7 +21,7 @@ function Header() {
             <Nav className="">
               <Row className="">
                 <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/a">
+                  <Link className="me-4" to="/dictionary">
                     식물 사전
                   </Link>
                 </Col>
