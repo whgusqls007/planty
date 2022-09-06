@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import LevelStar from './LevelStar';
+import LevelStar from '../LevelStar';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 10px 20px 10px;
   & .plant-discription {
     padding-left: 4px;
     & .plant-name {
@@ -23,27 +25,39 @@ const Wrapper = styled.div`
       }
     }
   }
+  & a {
+    text-decoration: none;
+    color: black;
+  }
+  &:hover {
+    & .plant-img {
+      transition: transform 0.3s;
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
+  }
 `;
 
 const PlantImg = styled.div`
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[5]};
 `;
 
 const PlantItem = ({ plant }) => {
-  const { plantName, plantLevel } = plant;
+  const { cntntsNo, cntntsSj, plantLevel } = plant;
   return (
     <Wrapper>
-      <PlantImg />
-      <div className="plant-discription">
-        <div className="plant-name">{plantName}</div>
-        <div className="plant-level">
-          <div>난이도</div>
-          <LevelStar level={plantLevel} />
+      <Link to={`/dictionary/${cntntsNo}`}>
+        <PlantImg className="plant-img" />
+        <div className="plant-discription">
+          <div className="plant-name">{cntntsSj}</div>
+          <div className="plant-level">
+            <div>난이도</div>
+            <LevelStar level={plantLevel} />
+          </div>
         </div>
-      </div>
+      </Link>
     </Wrapper>
   );
 };
