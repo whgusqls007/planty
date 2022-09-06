@@ -9,3 +9,4 @@ router = DefaultRouter()
 router.register(r"", views.MagazineViewSet, basename="")
 
 urlpatterns = [path("", include(router.urls))]
+## 추가예정
