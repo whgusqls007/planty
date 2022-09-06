@@ -229,3 +229,12 @@ $ git push origin 브랜치
     * 한국어 메뉴 명칭도 새로 정하기
   
   * 회원 관리: Accounts
+
+* 가상환경 설정
+  
+  ```bash
+  $ python -m venv venv
+  
+  $ source venv/scripts/activate
+  $ pip install -r requirements.txt
+  ```
