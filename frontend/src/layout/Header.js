@@ -5,23 +5,23 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// bootstrap css
+// css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
   return (
     <>
-      <Navbar bg="light" expand="lg">
-        <Container className="">
+      <Navbar bg="white" expand="lg" className="mb-3">
+        <Container>
           <Navbar.Brand href="/" className="me-5">
             호미두
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
-            <Nav className="">
-              <Row className="">
+            <Nav>
+              <Row>
                 <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/dictionary">
+                  <Link className="me-4 link" to="/dictionary">
                     식물 사전
                   </Link>
                 </Col>
