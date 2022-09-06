@@ -186,3 +186,55 @@ $ git push origin 브랜치
 [피그마](https://www.figma.com/file/MTT300dGI1mSFMY5a74yBb/homido!?node-id=0%3A1)
 
 ![](assets/2022-09-05-16-59-07-image.png)
+
+<br/>
+
+---
+
+<br/>
+
+### 9월 6일 화요일
+
+> 피그마 수정
+> 백엔드 세팅
+
+#### 1. 피그마 수정
+
+* 가로 1440px => 1920px 로 변경
+  
+  ![](assets/2022-09-06-16-38-08-image.png)
+
+* 식물 사전 페이지 수정
+
+* 식물 사전 상세 페이지 제작
+  
+  ![](assets/2022-09-06-16-40-42-image.png)
+
+* 남의 정원 상세 페이지 제작
+  
+  ![](assets/2022-09-06-16-41-00-image.png)
+
+#### 2. 백엔드 세팅
+
+* app 이름 정하기
+  
+  * 식물 사전: Plant
+  
+  * 읽을 거리: Magazine
+  
+  * 나의 정원: MyGarden
+  
+  * 남의 정원: Feed
+    
+    * 한국어 메뉴 명칭도 새로 정하기
+  
+  * 회원 관리: Accounts
+
+* 가상환경 설정
+  
+  ```bash
+  $ python -m venv venv
+  
+  $ source venv/scripts/activate
+  $ pip install -r requirements.txt
+  ```
