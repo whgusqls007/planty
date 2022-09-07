@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import TagButton from '../components/TagButton';
+import HorizontalScroll from '../layout/HorizontalScroll';
 
 const Wrapper = styled.div`
   background: #44855d;
@@ -33,7 +34,6 @@ const Span = styled.span`
   margin-left: 20px;
 `;
 
-// 이 데이터는 나중에 백에서 받아야함
 const arr = [
   '물을 자주 주는',
   '물을 가끔 주는',
@@ -43,6 +43,41 @@ const arr = [
   '초보자가 키우기 쉬운',
   '건조한 곳에서도 잘 자라는',
   '책상 위에 두기 좋은',
+];
+
+const dummyPlants = [
+  {
+    cntntsNo: 1,
+    cntntsSj: '칼라데아 세토사',
+  },
+  {
+    cntntsNo: 2,
+    cntntsSj: '칼라데아 진저',
+  },
+  {
+    cntntsNo: 3,
+    cntntsSj: '칼라데아 아마그리스',
+  },
+  {
+    cntntsNo: 4,
+    cntntsSj: '칼라데아 퓨전화이트',
+  },
+  {
+    cntntsNo: 5,
+    cntntsSj: '칼라데아 세토사',
+  },
+  {
+    cntntsNo: 6,
+    cntntsSj: '칼라데아 진저',
+  },
+  {
+    cntntsNo: 7,
+    cntntsSj: '칼라데아 아마그리스',
+  },
+  {
+    cntntsNo: 8,
+    cntntsSj: '칼라데아 퓨전화이트',
+  },
 ];
 
 const IndexPage = () => {
@@ -59,8 +94,9 @@ const IndexPage = () => {
         </Container>
       </Wrapper>
       <Container>
-        <FisrtList>많이 키우는 식물</FisrtList>
-        <Span>호미두 이용자가 가장 많이 키우고 있는 식물 TOP20</Span>
+        <FisrtList>당신을 위한 맞춤 추천</FisrtList>
+        <Span>이런 식물은 어떠세요?</Span>
+        <HorizontalScroll data={dummyPlants} />
       </Container>
     </>
   );
