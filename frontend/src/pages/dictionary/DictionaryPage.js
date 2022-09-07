@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
-import PlantItem from '../components/PlantItem';
+import PlantItem from '../../components/dictionary/PlantItem';
+import Container from 'react-bootstrap/esm/Container';
 
 const Wrapper = styled.div`
-  width: 100%;
+  /* width: 100%;
   display: flex;
   justify-content: center;
   @media screen and (min-width: 768px) {
     & {
     }
-  }
+  } */
   & .content {
     display: flex;
     flex-direction: column;
@@ -57,11 +58,13 @@ const Wrapper = styled.div`
   & .plantList {
     width: 100%;
     margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* display: grid;
+    grid-template-columns: repeat(4, 1fr); */
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     /* grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); */
-    grid-gap: 30px;
+    /* grid-gap: 30px; */
   }
 `;
 
@@ -69,59 +72,69 @@ const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
   const dummyPlants = [
     {
-      plantName: '칼라데아 세토사',
+      cntntsNo: 1,
+      cntntsSj: '칼라데아 세토사',
       plantLevel: 1,
     },
     {
-      plantName: '칼라데아 진저',
+      cntntsNo: 2,
+      cntntsSj: '칼라데아 진저',
       plantLevel: 2,
     },
     {
-      plantName: '칼라데아 아마그리스',
+      cntntsNo: 3,
+      cntntsSj: '칼라데아 아마그리스',
       plantLevel: 3,
     },
     {
-      plantName: '칼라데아 퓨전화이트',
+      cntntsNo: 4,
+      cntntsSj: '칼라데아 퓨전화이트',
       plantLevel: 4,
     },
     {
-      plantName: '칼라데아 세토사',
+      cntntsNo: 5,
+      cntntsSj: '칼라데아 세토사',
       plantLevel: 1,
     },
     {
-      plantName: '칼라데아 진저',
+      cntntsNo: 6,
+      cntntsSj: '칼라데아 진저',
       plantLevel: 2,
     },
     {
-      plantName: '칼라데아 아마그리스',
+      cntntsNo: 7,
+      cntntsSj: '칼라데아 아마그리스',
       plantLevel: 3,
     },
     {
-      plantName: '칼라데아 퓨전화이트',
+      cntntsNo: 8,
+      cntntsSj: '칼라데아 퓨전화이트',
       plantLevel: 4,
     },
   ];
   return (
-    <Wrapper>
-      <div className="content">
-        <div className="dict-header">
-          <div className="title">
-            {dictionaryTitle.map((e, idx) => (
-              <span key={idx}>{e}</span>
-            ))}
+    <Container>
+      <Wrapper>
+        <div className="content">
+          <div className="dict-header">
+            <div className="title">
+              {dictionaryTitle.map((e, idx) => (
+                <span key={idx}>{e}</span>
+              ))}
+            </div>
+            <form>
+              <input type="text" className="dictionary-search-input" />
+              <SearchIcon className="search-icon" />
+            </form>
           </div>
-          <form>
-            <input type="text" className="dictionary-search-input" />
-            <SearchIcon className="search-icon" />
-          </form>
+          <div className="plantList">
+            {dummyPlants.map((plant, idx) => {
+              return <PlantItem plant={plant} key={idx} />;
+            })}
+          </div>
         </div>
-        <div className="plantList">
-          {dummyPlants.map((plant, idx) => {
-            return <PlantItem plant={plant} key={idx} />;
-          })}
-        </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </Container>
   );
 };
 
