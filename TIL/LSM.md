@@ -47,3 +47,15 @@ https://soumfactory.tistory.com/154
 https://googlewph.com/2881/
 
 https://www.growplantshops.com/%EA%B3%B5%EA%B8%B0%EC%A0%95%ED%99%94%EC%8B%9D%EB%AC%BC-%EC%88%9C%EC%9C%84/
+
+
+## 2022.09.07
+
+erd 작성
+
+구글폼 예시 작성 후 데이터형식 확인
+
+구글폼 작성 완료
+
+사용자추천알고리즘 작성
+
