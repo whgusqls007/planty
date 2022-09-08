@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 const Tag = styled.button`
   border: 1px solid #44855d;
-  border-radius: 7px;
-  opacity: 0.9;
-  font-size: 13px;
+  border-radius: 15px;
+  font-size: 20px;
   font-weight: 500;
   padding-top: 1px;
   text-align: center;
