@@ -21,18 +21,22 @@ const Wrapper = styled.div`
 const FeedListPage = () => {
   const arr = [...Array(15)];
   const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
-      <FeedModal modalOpen={modalOpen} />
+      <FeedModal modalOpen={modalOpen} closeModal={closeModal} />
       <Container>
         <Wrapper>
           {arr.map((e, i) => (
-            <FeedItem
-              key={i}
-              onClick={() => {
-                setModalOpen(true);
-              }}
-            />
+            <FeedItem key={i} onClick={openModal} />
           ))}
         </Wrapper>
       </Container>
