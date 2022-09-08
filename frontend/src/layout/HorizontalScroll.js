@@ -1,7 +1,7 @@
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from '../components/Arrow';
 import styled from 'styled-components';
-import Card from '../components/index/Card';
+import Card from '../components/main/Card';
 
 const ScrollContainer = styled.div`
   margin-top: 2%;
