@@ -48,3 +48,7 @@ https://overjoyed-polonium-99e.notion.site/3-7ffd991c2c08462285353366d2722727
 
 1. mysql 연동
 2. plant table 생성 후 상세 정보 데이터 입력 자동화
+
+##2022.09.08
+
+1. 데이터 속성 확인 후 키워드 업데이트 시작
