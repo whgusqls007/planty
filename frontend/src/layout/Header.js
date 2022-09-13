@@ -33,7 +33,7 @@ function Header() {
                   </Link>
                 </Col>
                 <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/b">
+                  <Link className="me-4" to="/magazine">
                     읽을 거리
                   </Link>
                 </Col>

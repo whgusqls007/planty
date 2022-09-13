@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 10px 0px 20px;
+  margin: 0 10px 0 20px;
 
   &:hover {
     & .plant-img {
