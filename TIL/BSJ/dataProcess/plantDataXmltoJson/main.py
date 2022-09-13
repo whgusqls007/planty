@@ -1,3 +1,4 @@
+from ftplib import all_errors
 import json
 import xmltodict
 import requests
@@ -20,62 +21,80 @@ sql = """drop table if exists plant"""
 cursor.execute(sql)
 connection.commit()
 
+sql = """drop table if exists plantRecomm"""
+
+cursor.execute(sql)
+connection.commit()
+
+sql = """create table if not exists plant (
+    id int not null auto_increment primary key,
+    cntntsNo varchar(255),
+    cntntsSj varchar(255),
+    adviseInfo varchar(255),
+    clCodeNm varchar(255),
+    dlthtsCodeNm varchar(255),
+    dlthtsManageInfo varchar(255),
+    eclgyCodeNm varchar(255),
+    etcEraInfo varchar(255),
+    flclrCodeNm varchar(255),
+    fmlCodeNm varchar(255),
+    fmldeSeasonCodeNm varchar(255),
+    fmldecolrCodeNm varchar(255),
+    fncltyInfo varchar(2000),
+    frtlzrInfo varchar(255),
+    growthAraInfo varchar(255),
+    growthHgInfo varchar(255),
+    grwhTpCodeNm varchar(255),
+    grwhstleCodeNm varchar(255),
+    grwtveCodeNm varchar(255),
+    hdCodeNm varchar(255),
+    ignSeasonCodeNm varchar(255),
+    lefStleInfo varchar(255),
+    lefcolrCodeNm varchar(255),
+    lefmrkCodeNm varchar(255),
+    lighttdemanddoCodeNm varchar(255),
+    managedemanddoCodeNm varchar(255),
+    managelevelCodeNm varchar(255),
+    orgplceInfo varchar(255),
+    postngplaceCodeNm varchar(255),
+    prpgtEraInfo varchar(255),
+    prpgtmthCodeNm varchar(255),
+    smellCodeNm varchar(255),
+    soilInfo varchar(255),
+    speclmanageInfo varchar(2000),
+    toxctyInfo varchar(255),
+    watercycleAutumnCodeNm varchar(255),
+    watercycleSprngCodeNm varchar(255),
+    watercycleSummerCodeNm varchar(255),
+    watercycleWinterCodeNm varchar(255),
+    winterLwetTpCodeNm varchar(255)
+)
+"""
 # sql = """create table if not exists plant (
 #     id int not null auto_increment primary key,
 #     cntntsNo varchar(255),
 #     cntntsSj varchar(255),
-#     adviseInfo varchar(255),
-#     clCodeNm varchar(255),
-#     dlthtsCodeNm varchar(255),
-#     dlthtsManageInfo varchar(255),
-#     eclgyCodeNm varchar(255),
-#     etcEraInfo varchar(255),
-#     flclrCodeNm varchar(255),
-#     fmlCodeNm varchar(255),
-#     fmldeSeasonCodeNm varchar(255),
-#     fmldecolrCodeNm varchar(255),
-#     fncltyInfo varchar(2000),
-#     frtlzrInfo varchar(255),
-#     growthAraInfo varchar(255),
-#     growthHgInfo varchar(255),
-#     grwhTpCodeNm varchar(255),
-#     grwhstleCodeNm varchar(255),
-#     grwtveCodeNm varchar(255),
-#     hdCodeNm varchar(255),
-#     ignSeasonCodeNm varchar(255),
-#     lefStleInfo varchar(255),
-#     lefcolrCodeNm varchar(255),
-#     lefmrkCodeNm varchar(255),
-#     lighttdemanddoCodeNm varchar(255),
-#     managedemanddoCodeNm varchar(255),
-#     managelevelCodeNm varchar(255),
-#     orgplceInfo varchar(255),
-#     postngplaceCodeNm varchar(255),
-#     prpgtEraInfo varchar(255),
-#     prpgtmthCodeNm varchar(255),
-#     smellCodeNm varchar(255),
-#     soilInfo varchar(255),
-#     speclmanageInfo varchar(2000),
-#     toxctyInfo varchar(255),
-#     watercycleAutumnCodeNm varchar(255),
-#     watercycleSprngCodeNm varchar(255),
-#     watercycleSummerCodeNm varchar(255),
-#     watercycleWinterCodeNm varchar(255),
-#     winterLwetTpCodeNm varchar(255),
 #     presentAdequacy int,
 #     airCleaning int,
 #     particulateMatter int,
 #     petSafety int
 # )
 # """
-sql = """create table if not exists plant (
+
+cursor.execute(sql)
+connection.commit()
+
+sql = """create table if not exists plantRecomm (
     id int not null auto_increment primary key,
     cntntsNo varchar(255),
     cntntsSj varchar(255),
     presentAdequacy int,
-    airCleaning int,
-    particulateMatter int,
-    petSafety int
+    airCleaning varchar(3),
+    particulateMatter varchar(3),
+    petSafety int,
+    scent int,
+    humidify int,
+    allergy int
 )
 """
 
@@ -161,171 +180,180 @@ class Plant:
         self.winterLwetTpCode = ""
         self.winterLwetTpCodeNm = ""
         self.presentAdequacy = 0
-        self.airCleaning = 0
-        self.particulateMatter = 0
+        self.airCleaning = ""
+        self.particulateMatter = ""
         self.petSafety = 0
+        self.scent = 0
+        self.humidify = 0
+        self.allergy = 0
 
     def add(
         self,
         cntntsNo,
         cntntsSj,
-        # adviseInfo,
-        # clCodeNm,
-        # distbNm,
-        # dlthtsCodeNm,
-        # dlthtsManageInfo,
-        # eclgyCodeNm,
-        # etcEraInfo,
-        # flclrCodeNm,
-        # flpodmtBigInfo,
-        # flpodmtMddlInfo,
-        # flpodmtSmallInfo,
-        # fmlCodeNm,
-        # fmlNm,
-        # fmldeSeasonCodeNm,
-        # fmldecolrCodeNm,
-        # fncltyInfo,
-        # frtlzrInfo,
-        # growthAraInfo,
-        # growthHgInfo,
-        # grwhTpCode,
-        # grwhTpCodeNm,
-        # grwhstleCodeNm,
-        # grwtveCode,
-        # grwtveCodeNm,
-        # hdCode,
-        # hdCodeNm,
-        # hgBigInfo,
-        # hgMddlInfo,
-        # hgSmallInfo,
-        # ignSeasonCodeNm,
-        # imageEvlLinkCours,
-        # indoorpsncpacompositionCodeNm,
-        # lefStleInfo,
-        # lefcolrCodeNm,
-        # lefmrkCodeNm,
-        # lighttdemanddoCodeNm,
-        # managedemanddoCode,
-        # managedemanddoCodeNm,
-        # managelevelCode,
-        # managelevelCodeNm,
-        # orgplceInfo,
-        # pcBigInfo,
-        # pcMddlInfo,
-        # pcSmallInfo,
-        # plntbneNm,
-        # plntzrNm,
-        # postngplaceCodeNm,
-        # prpgtEraInfo,
-        # prpgtmthCodeNm,
-        # smellCode,
-        # smellCodeNm,
-        # soilInfo,
-        # speclmanageInfo,
-        # toxctyInfo,
-        # volmeBigInfo,
-        # volmeMddlInfo,
-        # volmeSmallInfo,
-        # vrticlBigInfo,
-        # vrticlMddlInfo,
-        # vrticlSmallInfo,
-        # watercycleAutumnCode,
-        # watercycleAutumnCodeNm,
-        # watercycleSprngCode,
-        # watercycleSprngCodeNm,
-        # watercycleSummerCode,
-        # watercycleSummerCodeNm,
-        # watercycleWinterCode,
-        # watercycleWinterCodeNm,
-        # widthBigInfo,
-        # widthMddlInfo,
-        # widthSmallInfo,
-        # winterLwetTpCode,
-        # winterLwetTpCodeNm,
+        adviseInfo,
+        clCodeNm,
+        distbNm,
+        dlthtsCodeNm,
+        dlthtsManageInfo,
+        eclgyCodeNm,
+        etcEraInfo,
+        flclrCodeNm,
+        flpodmtBigInfo,
+        flpodmtMddlInfo,
+        flpodmtSmallInfo,
+        fmlCodeNm,
+        fmlNm,
+        fmldeSeasonCodeNm,
+        fmldecolrCodeNm,
+        fncltyInfo,
+        frtlzrInfo,
+        growthAraInfo,
+        growthHgInfo,
+        grwhTpCode,
+        grwhTpCodeNm,
+        grwhstleCodeNm,
+        grwtveCode,
+        grwtveCodeNm,
+        hdCode,
+        hdCodeNm,
+        hgBigInfo,
+        hgMddlInfo,
+        hgSmallInfo,
+        ignSeasonCodeNm,
+        imageEvlLinkCours,
+        indoorpsncpacompositionCodeNm,
+        lefStleInfo,
+        lefcolrCodeNm,
+        lefmrkCodeNm,
+        lighttdemanddoCodeNm,
+        managedemanddoCode,
+        managedemanddoCodeNm,
+        managelevelCode,
+        managelevelCodeNm,
+        orgplceInfo,
+        pcBigInfo,
+        pcMddlInfo,
+        pcSmallInfo,
+        plntbneNm,
+        plntzrNm,
+        postngplaceCodeNm,
+        prpgtEraInfo,
+        prpgtmthCodeNm,
+        smellCode,
+        smellCodeNm,
+        soilInfo,
+        speclmanageInfo,
+        toxctyInfo,
+        volmeBigInfo,
+        volmeMddlInfo,
+        volmeSmallInfo,
+        vrticlBigInfo,
+        vrticlMddlInfo,
+        vrticlSmallInfo,
+        watercycleAutumnCode,
+        watercycleAutumnCodeNm,
+        watercycleSprngCode,
+        watercycleSprngCodeNm,
+        watercycleSummerCode,
+        watercycleSummerCodeNm,
+        watercycleWinterCode,
+        watercycleWinterCodeNm,
+        widthBigInfo,
+        widthMddlInfo,
+        widthSmallInfo,
+        winterLwetTpCode,
+        winterLwetTpCodeNm,
         presentAdequacy,
         airCleaning,
         particulateMatter,
         petSafety,
+        scent,
+        humidify,
+        allergy
     ):
         self.cntntsNo = cntntsNo
         self.cntntsSj = cntntsSj
-        # self.adviseInfo = adviseInfo
-        # self.clCodeNm = clCodeNm
-        # self.distbNm = distbNm
-        # self.dlthtsCodeNm = dlthtsCodeNm
-        # self.dlthtsManageInfo = dlthtsManageInfo
-        # self.eclgyCodeNm = eclgyCodeNm
-        # self.etcEraInfo = etcEraInfo
-        # self.flclrCodeNm = flclrCodeNm
-        # self.flpodmtBigInfo = flpodmtBigInfo
-        # self.flpodmtMddlInfo = flpodmtMddlInfo
-        # self.flpodmtSmallInfo = flpodmtSmallInfo
-        # self.fmlCodeNm = fmlCodeNm
-        # self.fmlNm = fmlNm
-        # self.fmldeSeasonCodeNm = fmldeSeasonCodeNm
-        # self.fmldecolrCodeNm = fmldecolrCodeNm
-        # self.fncltyInfo = fncltyInfo
-        # self.frtlzrInfo = frtlzrInfo
-        # self.growthAraInfo = growthAraInfo
-        # self.growthHgInfo = growthHgInfo
-        # self.grwhTpCode = grwhTpCode
-        # self.grwhTpCodeNm = grwhTpCodeNm
-        # self.grwhstleCodeNm = grwhstleCodeNm
-        # self.grwtveCode = grwtveCode
-        # self.grwtveCodeNm = grwtveCodeNm
-        # self.hdCode = hdCode
-        # self.hdCodeNm = hdCodeNm
-        # self.hgBigInfo = hgBigInfo
-        # self.hgMddlInfo = hgMddlInfo
-        # self.hgSmallInfo = hgSmallInfo
-        # self.ignSeasonCodeNm = ignSeasonCodeNm
-        # self.imageEvlLinkCours = imageEvlLinkCours
-        # self.indoorpsncpacompositionCodeNm = indoorpsncpacompositionCodeNm
-        # self.lefStleInfo = lefStleInfo
-        # self.lefcolrCodeNm = lefcolrCodeNm
-        # self.lefmrkCodeNm = lefmrkCodeNm
-        # self.lighttdemanddoCodeNm = lighttdemanddoCodeNm
-        # self.managedemanddoCode = managedemanddoCode
-        # self.managedemanddoCodeNm = managedemanddoCodeNm
-        # self.managelevelCode = managelevelCode
-        # self.managelevelCodeNm = managelevelCodeNm
-        # self.orgplceInfo = orgplceInfo
-        # self.pcBigInfo = pcBigInfo
-        # self.pcMddlInfo = pcMddlInfo
-        # self.pcSmallInfo = pcSmallInfo
-        # self.plntbneNm = plntbneNm
-        # self.plntzrNm = plntzrNm
-        # self.postngplaceCodeNm = postngplaceCodeNm
-        # self.prpgtEraInfo = prpgtEraInfo
-        # self.prpgtmthCodeNm = prpgtmthCodeNm
-        # self.smellCode = smellCode
-        # self.smellCodeNm = smellCodeNm
-        # self.soilInfo = soilInfo
-        # self.speclmanageInfo = speclmanageInfo
-        # self.toxctyInfo = toxctyInfo
-        # self.volmeBigInfo = volmeBigInfo
-        # self.volmeMddlInfo = volmeMddlInfo
-        # self.volmeSmallInfo = volmeSmallInfo
-        # self.vrticlBigInfo = vrticlBigInfo
-        # self.vrticlMddlInfo = vrticlMddlInfo
-        # self.vrticlSmallInfo = vrticlSmallInfo
-        # self.watercycleAutumnCode = watercycleAutumnCode
-        # self.watercycleAutumnCodeNm = watercycleAutumnCodeNm
-        # self.watercycleSprngCode = watercycleSprngCode
-        # self.watercycleSprngCodeNm = watercycleSprngCodeNm
-        # self.watercycleSummerCode = watercycleSummerCode
-        # self.watercycleSummerCodeNm = watercycleSummerCodeNm
-        # self.watercycleWinterCode = watercycleWinterCode
-        # self.watercycleWinterCodeNm = watercycleWinterCodeNm
-        # self.widthBigInfo = widthBigInfo
-        # self.widthMddlInfo = widthMddlInfo
-        # self.widthSmallInfo = widthSmallInfo
-        # self.winterLwetTpCode = winterLwetTpCode
-        # self.winterLwetTpCodeNm = winterLwetTpCodeNm
+        self.adviseInfo = adviseInfo
+        self.clCodeNm = clCodeNm
+        self.distbNm = distbNm
+        self.dlthtsCodeNm = dlthtsCodeNm
+        self.dlthtsManageInfo = dlthtsManageInfo
+        self.eclgyCodeNm = eclgyCodeNm
+        self.etcEraInfo = etcEraInfo
+        self.flclrCodeNm = flclrCodeNm
+        self.flpodmtBigInfo = flpodmtBigInfo
+        self.flpodmtMddlInfo = flpodmtMddlInfo
+        self.flpodmtSmallInfo = flpodmtSmallInfo
+        self.fmlCodeNm = fmlCodeNm
+        self.fmlNm = fmlNm
+        self.fmldeSeasonCodeNm = fmldeSeasonCodeNm
+        self.fmldecolrCodeNm = fmldecolrCodeNm
+        self.fncltyInfo = fncltyInfo
+        self.frtlzrInfo = frtlzrInfo
+        self.growthAraInfo = growthAraInfo
+        self.growthHgInfo = growthHgInfo
+        self.grwhTpCode = grwhTpCode
+        self.grwhTpCodeNm = grwhTpCodeNm
+        self.grwhstleCodeNm = grwhstleCodeNm
+        self.grwtveCode = grwtveCode
+        self.grwtveCodeNm = grwtveCodeNm
+        self.hdCode = hdCode
+        self.hdCodeNm = hdCodeNm
+        self.hgBigInfo = hgBigInfo
+        self.hgMddlInfo = hgMddlInfo
+        self.hgSmallInfo = hgSmallInfo
+        self.ignSeasonCodeNm = ignSeasonCodeNm
+        self.imageEvlLinkCours = imageEvlLinkCours
+        self.indoorpsncpacompositionCodeNm = indoorpsncpacompositionCodeNm
+        self.lefStleInfo = lefStleInfo
+        self.lefcolrCodeNm = lefcolrCodeNm
+        self.lefmrkCodeNm = lefmrkCodeNm
+        self.lighttdemanddoCodeNm = lighttdemanddoCodeNm
+        self.managedemanddoCode = managedemanddoCode
+        self.managedemanddoCodeNm = managedemanddoCodeNm
+        self.managelevelCode = managelevelCode
+        self.managelevelCodeNm = managelevelCodeNm
+        self.orgplceInfo = orgplceInfo
+        self.pcBigInfo = pcBigInfo
+        self.pcMddlInfo = pcMddlInfo
+        self.pcSmallInfo = pcSmallInfo
+        self.plntbneNm = plntbneNm
+        self.plntzrNm = plntzrNm
+        self.postngplaceCodeNm = postngplaceCodeNm
+        self.prpgtEraInfo = prpgtEraInfo
+        self.prpgtmthCodeNm = prpgtmthCodeNm
+        self.smellCode = smellCode
+        self.smellCodeNm = smellCodeNm
+        self.soilInfo = soilInfo
+        self.speclmanageInfo = speclmanageInfo
+        self.toxctyInfo = toxctyInfo
+        self.volmeBigInfo = volmeBigInfo
+        self.volmeMddlInfo = volmeMddlInfo
+        self.volmeSmallInfo = volmeSmallInfo
+        self.vrticlBigInfo = vrticlBigInfo
+        self.vrticlMddlInfo = vrticlMddlInfo
+        self.vrticlSmallInfo = vrticlSmallInfo
+        self.watercycleAutumnCode = watercycleAutumnCode
+        self.watercycleAutumnCodeNm = watercycleAutumnCodeNm
+        self.watercycleSprngCode = watercycleSprngCode
+        self.watercycleSprngCodeNm = watercycleSprngCodeNm
+        self.watercycleSummerCode = watercycleSummerCode
+        self.watercycleSummerCodeNm = watercycleSummerCodeNm
+        self.watercycleWinterCode = watercycleWinterCode
+        self.watercycleWinterCodeNm = watercycleWinterCodeNm
+        self.widthBigInfo = widthBigInfo
+        self.widthMddlInfo = widthMddlInfo
+        self.widthSmallInfo = widthSmallInfo
+        self.winterLwetTpCode = winterLwetTpCode
+        self.winterLwetTpCodeNm = winterLwetTpCodeNm
         self.presentAdequacy = presentAdequacy
         self.airCleaning = airCleaning
         self.particulateMatter = particulateMatter
         self.petSafety = petSafety
+        self.scent = scent
+        self.humidify =humidify
+        self.allergy = allergy
 
     def printDtl(self):
         print(
@@ -561,8 +589,12 @@ class Plant:
         )
 
     def dbinsert(self, i):
-        # sql = f"insert into plant (id, cntntsNo, cntntsSj,adviseInfo,clCodeNm,dlthtsCodeNm,dlthtsManageInfo,eclgyCodeNm,etcEraInfo,flclrCodeNm,fmlCodeNm,fmldeSeasonCodeNm,fmldecolrCodeNm,fncltyInfo,frtlzrInfo,growthAraInfo,growthHgInfo,grwhTpCodeNm,grwhstleCodeNm,grwtveCodeNm,hdCodeNm,ignSeasonCodeNm,lefStleInfo,lefcolrCodeNm,lefmrkCodeNm,lighttdemanddoCodeNm,managedemanddoCodeNm,managelevelCodeNm,orgplceInfo,postngplaceCodeNm,prpgtEraInfo,prpgtmthCodeNm,smellCodeNm,soilInfo,speclmanageInfo,toxctyInfo,watercycleAutumnCodeNm,watercycleSprngCodeNm,watercycleSummerCodeNm,watercycleWinterCodeNm,winterLwetTpCodeNm, presentAdequacy, airCleaning, particulateMatter, petSafety) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.adviseInfo}','{self.clCodeNm}','{self.dlthtsCodeNm}','{self.dlthtsManageInfo}','{self.eclgyCodeNm}','{self.etcEraInfo}','{self.flclrCodeNm}','{self.fmlCodeNm}','{self.fmldeSeasonCodeNm}','{self.fmldecolrCodeNm}','{self.fncltyInfo}','{self.frtlzrInfo}','{self.growthAraInfo}','{self.growthHgInfo}','{self.grwhTpCodeNm}','{self.grwhstleCodeNm}','{self.grwtveCodeNm}','{self.hdCodeNm}','{self.ignSeasonCodeNm}','{self.lefStleInfo}','{self.lefcolrCodeNm}','{self.lefmrkCodeNm}','{self.lighttdemanddoCodeNm}','{self.managedemanddoCodeNm}','{self.managelevelCodeNm}','{self.orgplceInfo}','{self.postngplaceCodeNm}','{self.prpgtEraInfo}','{self.prpgtmthCodeNm}','{self.smellCodeNm}','{self.soilInfo}','{self.speclmanageInfo}','{self.toxctyInfo}','{self.watercycleAutumnCodeNm}','{self.watercycleSprngCodeNm}','{self.watercycleSummerCodeNm}','{self.watercycleWinterCodeNm}','{self.winterLwetTpCodeNm}','{self.presentAdequacy}','{self.airCleaning}','{self.particulateMatter}','{self.petSafety}')"
-        sql = f"insert into plant (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.presentAdequacy}','{self.airCleaning}','{self.particulateMatter}','{self.petSafety}')"
+        sql = f"insert into plant (id, cntntsNo, cntntsSj,adviseInfo,clCodeNm,dlthtsCodeNm,dlthtsManageInfo,eclgyCodeNm,etcEraInfo,flclrCodeNm,fmlCodeNm,fmldeSeasonCodeNm,fmldecolrCodeNm,fncltyInfo,frtlzrInfo,growthAraInfo,growthHgInfo,grwhTpCodeNm,grwhstleCodeNm,grwtveCodeNm,hdCodeNm,ignSeasonCodeNm,lefStleInfo,lefcolrCodeNm,lefmrkCodeNm,lighttdemanddoCodeNm,managedemanddoCodeNm,managelevelCodeNm,orgplceInfo,postngplaceCodeNm,prpgtEraInfo,prpgtmthCodeNm,smellCodeNm,soilInfo,speclmanageInfo,toxctyInfo,watercycleAutumnCodeNm,watercycleSprngCodeNm,watercycleSummerCodeNm,watercycleWinterCodeNm,winterLwetTpCodeNm) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.adviseInfo}','{self.clCodeNm}','{self.dlthtsCodeNm}','{self.dlthtsManageInfo}','{self.eclgyCodeNm}','{self.etcEraInfo}','{self.flclrCodeNm}','{self.fmlCodeNm}','{self.fmldeSeasonCodeNm}','{self.fmldecolrCodeNm}','{self.fncltyInfo}','{self.frtlzrInfo}','{self.growthAraInfo}','{self.growthHgInfo}','{self.grwhTpCodeNm}','{self.grwhstleCodeNm}','{self.grwtveCodeNm}','{self.hdCodeNm}','{self.ignSeasonCodeNm}','{self.lefStleInfo}','{self.lefcolrCodeNm}','{self.lefmrkCodeNm}','{self.lighttdemanddoCodeNm}','{self.managedemanddoCodeNm}','{self.managelevelCodeNm}','{self.orgplceInfo}','{self.postngplaceCodeNm}','{self.prpgtEraInfo}','{self.prpgtmthCodeNm}','{self.smellCodeNm}','{self.soilInfo}','{self.speclmanageInfo}','{self.toxctyInfo}','{self.watercycleAutumnCodeNm}','{self.watercycleSprngCodeNm}','{self.watercycleSummerCodeNm}','{self.watercycleWinterCodeNm}','{self.winterLwetTpCodeNm}')"
+        # sql = f"insert into plant (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.presentAdequacy}','{self.airCleaning}','{self.particulateMatter}','{self.petSafety}')"
+        cursor.execute(sql)
+        connection.commit()
+
+        sql = f"insert into plantRecomm (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety, scent, humidify, allergy) values({i}, '{self.cntntsNo}','{self.cntntsSj}',0,'{self.airCleaning}','{self.particulateMatter}',0,0,0,0)"
         cursor.execute(sql)
         connection.commit()
 
@@ -571,83 +603,86 @@ plantDtl = Plant()
 plantDtl.add(
     "cntntsNo(식물번호)",
     "cntntsSj(식물명)",
-    # "adviseInfo",
-    # "clCodeNm",
-    # "distbNm",
-    # "dlthtsCodeNm",
-    # "dlthtsManageInfo",
-    # "eclgyCodeNm",
-    # "etcEraInfo",
-    # "flclrCodeNm",
-    # "flpodmtBigInfo",
-    # "flpodmtMddlInfo",
-    # "flpodmtSmallInfo",
-    # "fmlCodeNm",
-    # "fmlNm",
-    # "fmldeSeasonCodeNm",
-    # "fmldecolrCodeNm",
-    # "fncltyInfo",
-    # "frtlzrInfo",
-    # "growthAraInfo",
-    # "growthHgInfo",
-    # "grwhTpCode",
-    # "grwhTpCodeNm",
-    # "grwhstleCodeNm",
-    # "grwtveCode",
-    # "grwtveCodeNm",
-    # "hdCode",
-    # "hdCodeNm",
-    # "hgBigInfo",
-    # "hgMddlInfo",
-    # "hgSmallInfo",
-    # "ignSeasonCodeNm",
-    # "imageEvlLinkCours",
-    # "indoorpsncpacompositionCodeNm",
-    # "lefStleInfo",
-    # "lefcolrCodeNm",
-    # "lefmrkCodeNm",
-    # "lighttdemanddoCodeNm",
-    # "managedemanddoCode",
-    # "managedemanddoCodeNm",
-    # "managelevelCode",
-    # "managelevelCodeNm",
-    # "orgplceInfo",
-    # "pcBigInfo",
-    # "pcMddlInfo",
-    # "pcSmallInfo",
-    # "plntbneNm",
-    # "plntzrNm",
-    # "postngplaceCodeNm",
-    # "prpgtEraInfo",
-    # "prpgtmthCodeNm",
-    # "smellCode",
-    # "smellCodeNm",
-    # "soilInfo",
-    # "speclmanageInfo",
-    # "toxctyInfo",
-    # "volmeBigInfo",
-    # "volmeMddlInfo",
-    # "volmeSmallInfo",
-    # "vrticlBigInfo",
-    # "vrticlMddlInfo",
-    # "vrticlSmallInfo",
-    # "watercycleAutumnCode",
-    # "watercycleAutumnCodeNm",
-    # "watercycleSprngCode",
-    # "watercycleSprngCodeNm",
-    # "watercycleSummerCode",
-    # "watercycleSummerCodeNm",
-    # "watercycleWinterCode",
-    # "watercycleWinterCodeNm",
-    # "widthBigInfo",
-    # "widthMddlInfo",
-    # "widthSmallInfo",
-    # "winterLwetTpCode",
-    # "winterLwetTpCodeNm",
+    "adviseInfo",
+    "clCodeNm",
+    "distbNm",
+    "dlthtsCodeNm",
+    "dlthtsManageInfo",
+    "eclgyCodeNm",
+    "etcEraInfo",
+    "flclrCodeNm",
+    "flpodmtBigInfo",
+    "flpodmtMddlInfo",
+    "flpodmtSmallInfo",
+    "fmlCodeNm",
+    "fmlNm",
+    "fmldeSeasonCodeNm",
+    "fmldecolrCodeNm",
+    "fncltyInfo",
+    "frtlzrInfo",
+    "growthAraInfo",
+    "growthHgInfo",
+    "grwhTpCode",
+    "grwhTpCodeNm",
+    "grwhstleCodeNm",
+    "grwtveCode",
+    "grwtveCodeNm",
+    "hdCode",
+    "hdCodeNm",
+    "hgBigInfo",
+    "hgMddlInfo",
+    "hgSmallInfo",
+    "ignSeasonCodeNm",
+    "imageEvlLinkCours",
+    "indoorpsncpacompositionCodeNm",
+    "lefStleInfo",
+    "lefcolrCodeNm",
+    "lefmrkCodeNm",
+    "lighttdemanddoCodeNm",
+    "managedemanddoCode",
+    "managedemanddoCodeNm",
+    "managelevelCode",
+    "managelevelCodeNm",
+    "orgplceInfo",
+    "pcBigInfo",
+    "pcMddlInfo",
+    "pcSmallInfo",
+    "plntbneNm",
+    "plntzrNm",
+    "postngplaceCodeNm",
+    "prpgtEraInfo",
+    "prpgtmthCodeNm",
+    "smellCode",
+    "smellCodeNm",
+    "soilInfo",
+    "speclmanageInfo",
+    "toxctyInfo",
+    "volmeBigInfo",
+    "volmeMddlInfo",
+    "volmeSmallInfo",
+    "vrticlBigInfo",
+    "vrticlMddlInfo",
+    "vrticlSmallInfo",
+    "watercycleAutumnCode",
+    "watercycleAutumnCodeNm",
+    "watercycleSprngCode",
+    "watercycleSprngCodeNm",
+    "watercycleSummerCode",
+    "watercycleSummerCodeNm",
+    "watercycleWinterCode",
+    "watercycleWinterCodeNm",
+    "widthBigInfo",
+    "widthMddlInfo",
+    "widthSmallInfo",
+    "winterLwetTpCode",
+    "winterLwetTpCodeNm",
     "presentAdequacy",
     "airCleaning",
     "particulateMatter",
     "petSafety",
+    "scent",
+    "humidify",
+    "allergy"
 )
 plantDtlList.append(plantDtl)
 
@@ -885,99 +920,105 @@ for i in range(plantLength):
     winterLwetTpCodeNm = stringCorrection(winterLwetTpCodeNm)
     presentAdequacy = 0
     if(adviseInfo.__contains__("공기정화") or fncltyInfo.__contains__("공기정화") or speclmanageInfo.__contains__("공기정화") or adviseInfo.__contains__("공기 정화") or fncltyInfo.__contains__("공기 정화") or speclmanageInfo.__contains__("공기 정화")):
-        airCleaning = 1
+        airCleaning = "Yes"
     else:
-        airCleaning = 0
+        airCleaning = "No"
     if(adviseInfo.__contains__("미세먼지") or fncltyInfo.__contains__("미세먼지") or speclmanageInfo.__contains__("미세먼지")):
-        particulateMatter = 1
+        particulateMatter = "Yes"
     else:
-        particulateMatter = 0
+        particulateMatter = "No"
     if(adviseInfo.__contains__("애완동물") or fncltyInfo.__contains__("애완동물") or speclmanageInfo.__contains__("애완동물") or adviseInfo.__contains__("애완 동물") or fncltyInfo.__contains__("애완 동물") or speclmanageInfo.__contains__("애완 동물")):
         petSafety = -1
     else:
         petSafety = 0
+    scent = 0
+    humidify = 0
+    allergy = 0
 
     plantDtl = Plant()
     plantDtl.add(
         cntntsNo,
         cntntsSj,
-        # adviseInfo,
-        # clCodeNm,
-        # distbNm,
-        # dlthtsCodeNm,
-        # dlthtsManageInfo,
-        # eclgyCodeNm,
-        # etcEraInfo,
-        # flclrCodeNm,
-        # flpodmtBigInfo,
-        # flpodmtMddlInfo,
-        # flpodmtSmallInfo,
-        # fmlCodeNm,
-        # fmlNm,
-        # fmldeSeasonCodeNm,
-        # fmldecolrCodeNm,
-        # fncltyInfo,
-        # frtlzrInfo,
-        # growthAraInfo,
-        # growthHgInfo,
-        # grwhTpCode,
-        # grwhTpCodeNm,
-        # grwhstleCodeNm,
-        # grwtveCode,
-        # grwtveCodeNm,
-        # hdCode,
-        # hdCodeNm,
-        # hgBigInfo,
-        # hgMddlInfo,
-        # hgSmallInfo,
-        # ignSeasonCodeNm,
-        # imageEvlLinkCours,
-        # indoorpsncpacompositionCodeNm,
-        # lefStleInfo,
-        # lefcolrCodeNm,
-        # lefmrkCodeNm,
-        # lighttdemanddoCodeNm,
-        # managedemanddoCode,
-        # managedemanddoCodeNm,
-        # managelevelCode,
-        # managelevelCodeNm,
-        # orgplceInfo,
-        # pcBigInfo,
-        # pcMddlInfo,
-        # pcSmallInfo,
-        # plntbneNm,
-        # plntzrNm,
-        # postngplaceCodeNm,
-        # prpgtEraInfo,
-        # prpgtmthCodeNm,
-        # smellCode,
-        # smellCodeNm,
-        # soilInfo,
-        # speclmanageInfo,
-        # toxctyInfo,
-        # volmeBigInfo,
-        # volmeMddlInfo,
-        # volmeSmallInfo,
-        # vrticlBigInfo,
-        # vrticlMddlInfo,
-        # vrticlSmallInfo,
-        # watercycleAutumnCode,
-        # watercycleAutumnCodeNm,
-        # watercycleSprngCode,
-        # watercycleSprngCodeNm,
-        # watercycleSummerCode,
-        # watercycleSummerCodeNm,
-        # watercycleWinterCode,
-        # watercycleWinterCodeNm,
-        # widthBigInfo,
-        # widthMddlInfo,
-        # widthSmallInfo,
-        # winterLwetTpCode,
-        # winterLwetTpCodeNm,
+        adviseInfo,
+        clCodeNm,
+        distbNm,
+        dlthtsCodeNm,
+        dlthtsManageInfo,
+        eclgyCodeNm,
+        etcEraInfo,
+        flclrCodeNm,
+        flpodmtBigInfo,
+        flpodmtMddlInfo,
+        flpodmtSmallInfo,
+        fmlCodeNm,
+        fmlNm,
+        fmldeSeasonCodeNm,
+        fmldecolrCodeNm,
+        fncltyInfo,
+        frtlzrInfo,
+        growthAraInfo,
+        growthHgInfo,
+        grwhTpCode,
+        grwhTpCodeNm,
+        grwhstleCodeNm,
+        grwtveCode,
+        grwtveCodeNm,
+        hdCode,
+        hdCodeNm,
+        hgBigInfo,
+        hgMddlInfo,
+        hgSmallInfo,
+        ignSeasonCodeNm,
+        imageEvlLinkCours,
+        indoorpsncpacompositionCodeNm,
+        lefStleInfo,
+        lefcolrCodeNm,
+        lefmrkCodeNm,
+        lighttdemanddoCodeNm,
+        managedemanddoCode,
+        managedemanddoCodeNm,
+        managelevelCode,
+        managelevelCodeNm,
+        orgplceInfo,
+        pcBigInfo,
+        pcMddlInfo,
+        pcSmallInfo,
+        plntbneNm,
+        plntzrNm,
+        postngplaceCodeNm,
+        prpgtEraInfo,
+        prpgtmthCodeNm,
+        smellCode,
+        smellCodeNm,
+        soilInfo,
+        speclmanageInfo,
+        toxctyInfo,
+        volmeBigInfo,
+        volmeMddlInfo,
+        volmeSmallInfo,
+        vrticlBigInfo,
+        vrticlMddlInfo,
+        vrticlSmallInfo,
+        watercycleAutumnCode,
+        watercycleAutumnCodeNm,
+        watercycleSprngCode,
+        watercycleSprngCodeNm,
+        watercycleSummerCode,
+        watercycleSummerCodeNm,
+        watercycleWinterCode,
+        watercycleWinterCodeNm,
+        widthBigInfo,
+        widthMddlInfo,
+        widthSmallInfo,
+        winterLwetTpCode,
+        winterLwetTpCodeNm,
         presentAdequacy,
         airCleaning,
         particulateMatter,
         petSafety,
+        scent,
+        humidify,
+        allergy,
     )
     plantDtlList.append(plantDtl)
 
