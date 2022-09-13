@@ -5,7 +5,7 @@ import IndexPage from './pages/IndexPage';
 import DictionaryPage from './pages/dictionary/DictionaryPage';
 import DictionaryDetailPage from './pages/dictionary/DictionaryDetailPage';
 import FeedListPage from './pages/feed/FeedListPage';
-
+import MagazinePage from './pages/magazine/MagazinePage';
 const App = () => {
   return (
     <div>
@@ -16,7 +16,7 @@ const App = () => {
           <Route path="" element={<DictionaryPage />} />
           <Route path=":plantId" element={<DictionaryDetailPage />} />
         </Route>
-        <Route path="/b" element={<div>읽을 거리</div>}></Route>
+        <Route path="/magazine" element={<MagazinePage />}></Route>
         <Route path="/c" element={<div>나의 정원</div>}></Route>
         <Route path="/feed" element={<FeedListPage />}></Route>
       </Routes>
