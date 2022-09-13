@@ -1,3 +1,4 @@
+from ftplib import all_errors
 import json
 import xmltodict
 import requests
@@ -88,9 +89,12 @@ sql = """create table if not exists plantRecomm (
     cntntsNo varchar(255),
     cntntsSj varchar(255),
     presentAdequacy int,
-    airCleaning int,
-    particulateMatter int,
-    petSafety int
+    airCleaning varchar(3),
+    particulateMatter varchar(3),
+    petSafety int,
+    scent int,
+    humidify int,
+    allergy int
 )
 """
 
@@ -175,6 +179,13 @@ class Plant:
         self.widthSmallInfo = ""
         self.winterLwetTpCode = ""
         self.winterLwetTpCodeNm = ""
+        self.presentAdequacy = 0
+        self.airCleaning = ""
+        self.particulateMatter = ""
+        self.petSafety = 0
+        self.scent = 0
+        self.humidify = 0
+        self.allergy = 0
 
     def add(
         self,
@@ -253,6 +264,13 @@ class Plant:
         widthSmallInfo,
         winterLwetTpCode,
         winterLwetTpCodeNm,
+        presentAdequacy,
+        airCleaning,
+        particulateMatter,
+        petSafety,
+        scent,
+        humidify,
+        allergy
     ):
         self.cntntsNo = cntntsNo
         self.cntntsSj = cntntsSj
@@ -329,6 +347,13 @@ class Plant:
         self.widthSmallInfo = widthSmallInfo
         self.winterLwetTpCode = winterLwetTpCode
         self.winterLwetTpCodeNm = winterLwetTpCodeNm
+        self.presentAdequacy = presentAdequacy
+        self.airCleaning = airCleaning
+        self.particulateMatter = particulateMatter
+        self.petSafety = petSafety
+        self.scent = scent
+        self.humidify =humidify
+        self.allergy = allergy
 
     def printDtl(self):
         print(
@@ -569,7 +594,7 @@ class Plant:
         cursor.execute(sql)
         connection.commit()
 
-        sql = f"insert into plantRecomm (id, cntntsNo, cntntsSj) values('{i}', '{self.cntntsNo}','{self.cntntsSj}')"
+        sql = f"insert into plantRecomm (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety, scent, humidify, allergy) values({i}, '{self.cntntsNo}','{self.cntntsSj}',0,'{self.airCleaning}','{self.particulateMatter}',0,0,0,0)"
         cursor.execute(sql)
         connection.commit()
 
@@ -651,10 +676,13 @@ plantDtl.add(
     "widthSmallInfo",
     "winterLwetTpCode",
     "winterLwetTpCodeNm",
-    # "presentAdequacy",
-    # "airCleaning",
-    # "particulateMatter",
-    # "petSafety",
+    "presentAdequacy",
+    "airCleaning",
+    "particulateMatter",
+    "petSafety",
+    "scent",
+    "humidify",
+    "allergy"
 )
 plantDtlList.append(plantDtl)
 
@@ -892,17 +920,20 @@ for i in range(plantLength):
     winterLwetTpCodeNm = stringCorrection(winterLwetTpCodeNm)
     presentAdequacy = 0
     if(adviseInfo.__contains__("공기정화") or fncltyInfo.__contains__("공기정화") or speclmanageInfo.__contains__("공기정화") or adviseInfo.__contains__("공기 정화") or fncltyInfo.__contains__("공기 정화") or speclmanageInfo.__contains__("공기 정화")):
-        airCleaning = 1
+        airCleaning = "Yes"
     else:
-        airCleaning = 0
+        airCleaning = "No"
     if(adviseInfo.__contains__("미세먼지") or fncltyInfo.__contains__("미세먼지") or speclmanageInfo.__contains__("미세먼지")):
-        particulateMatter = 1
+        particulateMatter = "Yes"
     else:
-        particulateMatter = 0
+        particulateMatter = "No"
     if(adviseInfo.__contains__("애완동물") or fncltyInfo.__contains__("애완동물") or speclmanageInfo.__contains__("애완동물") or adviseInfo.__contains__("애완 동물") or fncltyInfo.__contains__("애완 동물") or speclmanageInfo.__contains__("애완 동물")):
         petSafety = -1
     else:
         petSafety = 0
+    scent = 0
+    humidify = 0
+    allergy = 0
 
     plantDtl = Plant()
     plantDtl.add(
@@ -981,10 +1012,13 @@ for i in range(plantLength):
         widthSmallInfo,
         winterLwetTpCode,
         winterLwetTpCodeNm,
-        # presentAdequacy,
-        # airCleaning,
-        # particulateMatter,
-        # petSafety,
+        presentAdequacy,
+        airCleaning,
+        particulateMatter,
+        petSafety,
+        scent,
+        humidify,
+        allergy,
     )
     plantDtlList.append(plantDtl)
 
