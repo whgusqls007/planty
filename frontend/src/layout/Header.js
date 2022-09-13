@@ -4,13 +4,20 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import styled from 'styled-components';
 // css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const Wrapper = styled.div`
+  & a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
 function Header() {
   return (
-    <>
+    <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
         <Container>
           <Navbar.Brand href="/" className="me-5">
@@ -46,7 +53,7 @@ function Header() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </Wrapper>
   );
 }
 
