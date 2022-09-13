@@ -19,15 +19,17 @@ const feed = {
   ],
 };
 
-// feed 모달 캐러셀
-const ModalImgWrapper = styled.div`
-  height: 100%;
-  width: 500px;
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
-  & .modal-img-carousel {
+// 날짜 생성 함수
+const makeCreateDate = (dateCreated) => {
+  var splitDate = dateCreated.split('-');
+  return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
+};
+
+const ModalImgCarouselWrapper = styled.div`
+  & {
     background-color: ${({ theme }) => theme.themeColor[1]};
     height: 300px;
+    width: 100%;
     margin-top: 100px;
     & .carousel.slide {
       height: 100%;
@@ -49,6 +51,9 @@ const ModalImgWrapper = styled.div`
   & .carousel-indicators [data-bs-target] {
     transition: background-color 0.6s ease;
     opacity: 1;
+    @media (max-width: 1199px) {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
   }
   & .carousel-indicators .active {
     background-color: ${({ theme }) => theme.themeColor[1]};
@@ -61,35 +66,56 @@ const ModalImgWrapper = styled.div`
   .carousel-item {
     height: 100%;
   }
+  @media (max-width: 1199px) {
+    margin-top: 0px;
+  }
+`;
+
+const ModalImgCarousel = () => {
+  return (
+    <ModalImgCarouselWrapper>
+      <Carousel interval={null}>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="holder.js/800x400?text=First slide&bg=373940"
+            alt="First slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="holder.js/800x400?text=Second slide&bg=282c34"
+            alt="Second slide"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src="holder.js/800x400?text=Third slide&bg=20232a"
+            alt="Third slide"
+          />
+        </Carousel.Item>
+      </Carousel>
+    </ModalImgCarouselWrapper>
+  );
+};
+
+// feed 모달 캐러셀
+const ModalImgWrapper = styled.div`
+  height: 100%;
+  width: 500px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.themeColor[5]};
+
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
 const ModalImg = () => {
   return (
     <ModalImgWrapper>
-      <div className="modal-img-carousel">
-        <Carousel>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="holder.js/800x400?text=First slide&bg=373940"
-              alt="First slide"
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="holder.js/800x400?text=Second slide&bg=282c34"
-              alt="Second slide"
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="holder.js/800x400?text=Third slide&bg=20232a"
-              alt="Third slide"
-            />
-          </Carousel.Item>
-        </Carousel>
-      </div>
+      <ModalImgCarousel />
     </ModalImgWrapper>
   );
 };
@@ -161,13 +187,12 @@ const ModalDescriptionWrapper = styled.div`
     position: absolute;
     bottom: 0;
   }
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
 
 const ModalDescription = ({ closeModal }) => {
-  const makeCreateDate = (dateCreated) => {
-    var splitDate = dateCreated.split('-');
-    return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
-  };
   const { title, content, user, dateCreated, comments } = feed;
   return (
     <ModalDescriptionWrapper>
@@ -205,7 +230,7 @@ const CommentList = ({ comments }) => {
   return (
     <CommentListWrapper>
       {comments.map((comment, idx) => (
-        <CommentItem comment={comment}></CommentItem>
+        <CommentItem comment={comment} key={idx}></CommentItem>
       ))}
     </CommentListWrapper>
   );
@@ -271,6 +296,90 @@ const CommentInputForm = () => {
   );
 };
 
+// MobileModal
+const MobileModalWrapper = styled.div`
+  width: 500px;
+  height: 800px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.themeColor[2]};
+
+  display: none;
+  @media (max-width: 1199px) {
+    display: flex;
+    flex-direction: column;
+  }
+  & .close-btn {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  & .mobile-feed-writer {
+    margin: 10px;
+    & span {
+      margin-left: 8px;
+    }
+  }
+  & .mobile-feed-header {
+    margin-top: 1rem;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    & .mobile-feed-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    & .mobile-feed-date-created {
+      font-size: 0.8rem;
+      color: #797979;
+    }
+  }
+  & .mobile-feed-body {
+    padding: 0 1.2rem;
+    display: flex;
+    flex-direction: column;
+    & .mobile-feed-content {
+      height: 200px;
+      overflow-y: scroll;
+    }
+    & .mobile-feed-comment {
+      margin-top: 4px;
+    }
+  }
+`;
+const MobileModal = ({ closeModal }) => {
+  const { title, content, user, dateCreated, comments } = feed;
+  return (
+    <MobileModalWrapper>
+      <CloseIcon className="close-btn" onClick={closeModal} />
+      <div className="mobile-feed-writer">
+        <CloudIcon />
+        <span>{user}</span>
+      </div>
+      <ModalImgCarousel />
+      <div className="mobile-feed-header">
+        <div className="mobile-feed-title">{title}</div>
+        <div className="mobile-feed-date-created">
+          {makeCreateDate(dateCreated)}
+        </div>
+      </div>
+      <div className="mobile-feed-body">
+        <div className="mobile-feed-content">{content}</div>
+        <div className="mobile-feed-comment">
+          <CommentList comments={comments} />
+          <CommentInputForm />
+        </div>
+      </div>
+    </MobileModalWrapper>
+  );
+};
+
 // FeedModal
 const Wrapper = styled.div`
   display: none;
@@ -294,9 +403,14 @@ const Wrapper = styled.div`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 1200px;
-    height: 633px;
     animation: modal-show 0.4s;
+    @media (min-width: 1200px) {
+      width: 1200px;
+      height: 633px;
+    }
+    @media (max-width: 1199px) {
+      flex-direction: column;
+    }
   }
   & .close-modal {
     position: absolute;
@@ -331,6 +445,7 @@ const FeedModal = ({ modalOpen, closeModal }) => {
         <div className="modal-div">
           <ModalImg />
           <ModalDescription closeModal={closeModal} />
+          <MobileModal closeModal={closeModal} />
         </div>
       </Wrapper>
     </>
