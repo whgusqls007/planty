@@ -15,10 +15,11 @@ const Wrapper = styled.div`
 `;
 
 const PlantImg = styled.div`
-  width: 400px;
+  width: 100%;
   height: 300px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[5]};
+  margin-bottom: 5%;
 `;
 
 const BigCard = () => {

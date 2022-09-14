@@ -113,7 +113,7 @@ const IndexPage = () => {
             <Row>
               {[1, 2, 3].map((e, i) => {
                 return (
-                  <Col md="4">
+                  <Col lg="4">
                     <BigCard />
                   </Col>
                 );

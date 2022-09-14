@@ -52,10 +52,11 @@ const PlantImg = styled.div`
 `;
 
 const Card = (props) => {
-  let { title, writer, date, content } = props.data;
+  const { title, writer, date, content } = props.data;
+  const key = props.key;
   return (
     <Wrapper className="plant-img">
-      <Link to={'/magazine/'}>
+      <Link to={`/magazine/${key}`}>
         <PlantImg />
         <div>
           <Title>{title}</Title>
