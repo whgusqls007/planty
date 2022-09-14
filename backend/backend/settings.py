@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # local apps
     'accounts',
     'magazines',
+    'plants',
     # 3rd party library
     'allauth',
     'allauth.account',
@@ -88,8 +89,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "homidu",
+        "USER": "root",
+        "PASSWORD": "zeitfox",
+        "HOST": "49.173.95.241",
+        "PORT": "13306",
     }
 }
 
