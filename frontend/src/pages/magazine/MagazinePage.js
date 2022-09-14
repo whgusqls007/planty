@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Card from '../../components/magazine/Card';
 
 const Wrapper = styled.div`
-  margin: 0 5% 0 5%;
+  margin: 6% 5% 0 5%;
   padding-bottom: 10%;
   display: flex;
   flex-wrap: wrap;
@@ -97,7 +97,7 @@ const MagazinePage = () => {
         {dummyData.map((e, i) => {
           return (
             <Col lg="4">
-              <Card data={e} />
+              <Card data={e} key={i} />
             </Col>
           );
         })}
