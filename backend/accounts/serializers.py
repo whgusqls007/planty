@@ -12,3 +12,4 @@ class CustomRegisterSerializer(RegisterSerializer):
         data['nickname'] = self.validated_data.get('nickname', '')
 
         return data
+
