@@ -19,6 +19,78 @@ const feed = {
   ],
 };
 
+// FeedModal
+const FeedModal = ({ modalOpen, closeModal }) => {
+  return (
+    <>
+      <Wrapper modalOpen={modalOpen}>
+        <div className="close-modal" onClick={closeModal} />
+        <div className="modal-div">
+          <ModalImg />
+          <ModalDescription closeModal={closeModal} />
+          <MobileModal closeModal={closeModal} />
+        </div>
+      </Wrapper>
+    </>
+  );
+};
+
+const Wrapper = styled.div`
+  display: none;
+  ${({ modalOpen }) =>
+    modalOpen &&
+    css`
+      display: flex;
+      align-items: center;
+      animation: modal-bg-show 0.4s;
+    `}
+
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  & .modal-div {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: modal-show 0.4s;
+    @media (min-width: 1200px) {
+      width: 1200px;
+      height: 633px;
+    }
+    @media (max-width: 1199px) {
+      flex-direction: column;
+    }
+  }
+  & .close-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  @keyframes modal-show {
+    from {
+      margin-top: -50px;
+    }
+    to {
+      margin-top: 0;
+    }
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
 // 날짜 생성 함수
 const makeCreateDate = (dateCreated) => {
   var splitDate = dateCreated.split('-');
@@ -377,78 +449,6 @@ const MobileModal = ({ closeModal }) => {
         </div>
       </div>
     </MobileModalWrapper>
-  );
-};
-
-// FeedModal
-const Wrapper = styled.div`
-  display: none;
-  ${({ modalOpen }) =>
-    modalOpen &&
-    css`
-      display: flex;
-      align-items: center;
-      animation: modal-bg-show 0.4s;
-    `}
-
-  position: fixed;
-  z-index: 99;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.65);
-  & .modal-div {
-    display: flex;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: modal-show 0.4s;
-    @media (min-width: 1200px) {
-      width: 1200px;
-      height: 633px;
-    }
-    @media (max-width: 1199px) {
-      flex-direction: column;
-    }
-  }
-  & .close-modal {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-  @keyframes modal-show {
-    from {
-      margin-top: -50px;
-    }
-    to {
-      margin-top: 0;
-    }
-  }
-  @keyframes modal-bg-show {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`;
-
-const FeedModal = ({ modalOpen, closeModal }) => {
-  return (
-    <>
-      <Wrapper modalOpen={modalOpen}>
-        <div className="close-modal" onClick={closeModal} />
-        <div className="modal-div">
-          <ModalImg />
-          <ModalDescription closeModal={closeModal} />
-          <MobileModal closeModal={closeModal} />
-        </div>
-      </Wrapper>
-    </>
   );
 };
 

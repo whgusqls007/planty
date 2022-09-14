@@ -2,27 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import LevelStar from '../LevelStar';
 
-const Wrapper = styled.div`
-  & .plant-header {
-    display: flex;
-    align-items: flex-end;
-  }
-  & .plant-title {
-    font-size: 30px;
-    font-weight: 500;
-    margin-right: 12px;
-  }
-  & .plant-level {
-    display: flex;
-  }
-  & .plant-category {
-    color: ${({ theme }) => theme.themeColor[1]};
-  }
-  & .plant-content {
-    margin-top: 18px;
-  }
-`;
-
 const PlantDescription = ({ plant }) => {
   // const {cntntsSj, plantLevel, fmlCodeNm, content} = plant
   const dummy = {
@@ -47,5 +26,26 @@ const PlantDescription = ({ plant }) => {
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  & .plant-header {
+    display: flex;
+    align-items: flex-end;
+  }
+  & .plant-title {
+    font-size: 30px;
+    font-weight: 500;
+    margin-right: 12px;
+  }
+  & .plant-level {
+    display: flex;
+  }
+  & .plant-category {
+    color: ${({ theme }) => theme.themeColor[1]};
+  }
+  & .plant-content {
+    margin-top: 18px;
+  }
+`;
 
 export default PlantDescription;
