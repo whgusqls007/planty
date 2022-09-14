@@ -3,6 +3,24 @@ import styled from 'styled-components';
 import LevelStar from '../LevelStar';
 import { Link } from 'react-router-dom';
 
+const PlantItem = ({ plant }) => {
+  const { cntntsNo, cntntsSj, plantLevel } = plant;
+  return (
+    <Wrapper>
+      <Link to={`/dictionary/${cntntsNo}`}>
+        <PlantImg className="plant-img" />
+        <div className="plant-discription">
+          <div className="plant-name">{cntntsSj}</div>
+          <div className="plant-level">
+            <div>난이도</div>
+            <LevelStar level={plantLevel} />
+          </div>
+        </div>
+      </Link>
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,23 +61,5 @@ const PlantImg = styled.div`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[5]};
 `;
-
-const PlantItem = ({ plant }) => {
-  const { cntntsNo, cntntsSj, plantLevel } = plant;
-  return (
-    <Wrapper>
-      <Link to={`/dictionary/${cntntsNo}`}>
-        <PlantImg className="plant-img" />
-        <div className="plant-discription">
-          <div className="plant-name">{cntntsSj}</div>
-          <div className="plant-level">
-            <div>난이도</div>
-            <LevelStar level={plantLevel} />
-          </div>
-        </div>
-      </Link>
-    </Wrapper>
-  );
-};
 
 export default PlantItem;

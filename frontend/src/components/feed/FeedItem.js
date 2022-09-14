@@ -4,6 +4,23 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { Link } from 'react-router-dom';
 
+const FeedItem = ({ onClick }) => {
+  return (
+    <Wrapper onClick={onClick}>
+      <div className="feed-info">
+        <div className="feed-like">
+          <FavoriteBorderIcon />
+          <span>99</span>
+        </div>
+        <div className="feed-comment">
+          <ChatBubbleOutlineIcon />
+          <span>99</span>
+        </div>
+      </div>
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.div`
   width: 245px;
   height: 309px;
@@ -32,22 +49,5 @@ const Wrapper = styled.div`
     transform: scale3d(1.03, 1.03, 1.03);
   }
 `;
-
-const FeedItem = ({ onClick }) => {
-  return (
-    <Wrapper onClick={onClick}>
-      <div className="feed-info">
-        <div className="feed-like">
-          <FavoriteBorderIcon />
-          <span>99</span>
-        </div>
-        <div className="feed-comment">
-          <ChatBubbleOutlineIcon />
-          <span>99</span>
-        </div>
-      </div>
-    </Wrapper>
-  );
-};
 
 export default FeedItem;
