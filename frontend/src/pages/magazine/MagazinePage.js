@@ -2,10 +2,10 @@ import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import Card from '../../components/magazine/Card';
+import Pagination from '../../layout/Pagination';
 
 const Wrapper = styled.div`
   margin: 6% 5% 0 5%;
-  padding-bottom: 10%;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -88,6 +88,104 @@ const dummyData = [
     content:
       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
   },
+  {
+    title: '12제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '13제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '14제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '15제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '16제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '17제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '18제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '19제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '20제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '21제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '22제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '23제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '24제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
+  {
+    title: '25제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
+    writer: '드루이드',
+    date: '22.09.04',
+    content:
+      '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
+  },
 ];
 
 const MagazinePage = () => {
@@ -96,12 +194,13 @@ const MagazinePage = () => {
       <Wrapper>
         {dummyData.map((e, i) => {
           return (
-            <Col lg="4">
+            <Col lg="4" key={i}>
               <Card data={e} key={i} />
             </Col>
           );
         })}
       </Wrapper>
+      <Pagination totalCount={dummyData.length}></Pagination>
     </Container>
   );
 };
