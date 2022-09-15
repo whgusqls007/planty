@@ -7,6 +7,9 @@ import DictionaryDetailPage from './pages/dictionary/DictionaryDetailPage';
 import FeedListPage from './pages/feed/FeedListPage';
 import MagazinePage from './pages/magazine/MagazinePage';
 import MagazineDetailPage from './pages/magazine/MagazineDetailPage';
+import GardenPage from './pages/garden/GardenPage';
+import GardenDetailPage from './pages/garden/GardenDetailPage';
+
 const App = () => {
   return (
     <div>
@@ -24,7 +27,10 @@ const App = () => {
           <Route path=":articleId" element={<MagazineDetailPage />} />
         </Route>
 
-        <Route path="/c" element={<div>나의 정원</div>} />
+        <Route path="/garden" element={<Outlet />}>
+          <Route path="" element={<GardenPage />} />
+          <Route path="gardenId" element={<GardenDetailPage />} />
+        </Route>
         <Route path="/feed" element={<FeedListPage />} />
       </Routes>
     </div>

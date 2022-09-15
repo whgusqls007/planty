@@ -38,7 +38,7 @@ function Header() {
                   </Link>
                 </Col>
                 <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/c">
+                  <Link className="me-4" to="/garden">
                     나의 정원
                   </Link>
                 </Col>
