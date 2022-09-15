@@ -90,16 +90,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-
-        # "ENGINE": "django.db.backends.mysql",
-        # "NAME": "homidu",
-        # "USER": "root",
-        # "PASSWORD": "zeitfox",
-        # "HOST": "49.173.95.241",
-        # "PORT": "13306",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "homidu",
+        "USER": "root",
+        "PASSWORD": "zeitfox",
+        "HOST": "49.173.95.241",
+        "PORT": "13306",
 
     }
 }
@@ -158,6 +154,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+
 # 회원가입 시 이메일 입력
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -170,10 +167,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny', 
     ]
 }
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#     ]
-# }
