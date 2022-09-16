@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { Link } from 'react-router-dom';
 
 const FeedItem = ({ onClick }) => {
   return (

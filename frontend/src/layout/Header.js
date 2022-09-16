@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -18,9 +19,15 @@ const Wrapper = styled.div`
     color: inherit;
     text-decoration: none;
   }
+  & .nav-user-btn {
+    & a {
+      margin-left: 16px;
+    }
+  }
 `;
 
 function Header() {
+  const { userInfo } = useSelector((state) => state.user);
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
@@ -43,7 +50,7 @@ function Header() {
                   </Link>
                 </Col>
                 <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/c">
+                  <Link className="me-4" to="/garden">
                     나의 정원
                   </Link>
                 </Col>
@@ -54,7 +61,14 @@ function Header() {
                 </Col>
               </Row>
             </Nav>
-            <div>어떤 로고를 여기에</div>
+            {userInfo ? (
+              <div>어떤 로고를 여기에</div>
+            ) : (
+              <div className="nav-user-btn">
+                <Link to="login">로그인</Link>
+                <Link to="register">회원가입</Link>
+              </div>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
