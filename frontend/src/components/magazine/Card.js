@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
   display: flex;
   flex-direction: column;
   margin: 0 3% 10% 3%;
