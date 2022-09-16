@@ -94,8 +94,8 @@ const IndexPage = () => {
         <Container>
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
           <ButtonWrapper>
-            {arr.map((e) => {
-              return <TagButton text={e} />;
+            {arr.map((e, i) => {
+              return <TagButton text={e} key={i} />;
             })}
           </ButtonWrapper>
         </Container>
@@ -113,8 +113,8 @@ const IndexPage = () => {
             <Row>
               {[1, 2, 3].map((e, i) => {
                 return (
-                  <Col lg="4">
-                    <BigCard />
+                  <Col lg="4" key={i}>
+                    <BigCard key={i} />
                   </Col>
                 );
               })}

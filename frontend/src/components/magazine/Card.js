@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
   display: flex;
   flex-direction: column;
   margin: 0 3% 10% 3%;
@@ -53,10 +58,9 @@ const PlantImg = styled.div`
 
 const Card = (props) => {
   const { title, writer, date, content } = props.data;
-  const key = props.key;
   return (
     <Wrapper className="plant-img">
-      <Link to={`/magazine/${key}`}>
+      <Link to={`/magazine/어떤키값`}>
         <PlantImg />
         <div>
           <Title>{title}</Title>
