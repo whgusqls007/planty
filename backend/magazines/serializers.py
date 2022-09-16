@@ -16,4 +16,4 @@ class MagazineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Magazine
-        fields = "__all__"
+        fields = ("user", "title", "sub_title", "content", "date_created")

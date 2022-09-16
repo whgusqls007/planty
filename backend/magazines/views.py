@@ -22,6 +22,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(Magazine.objects.get(pk=pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
     # post에 매칭, 게시글 쓰기
     def create(self, request):
         serializer = MagazineSerializer(data=request.data)
@@ -32,5 +33,14 @@ class MagazineViewSet(viewsets.ModelViewSet):
             user.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK)
-            
-        
+
+    
+    # delete에 매칭, 게시글 삭제
+    def destroy(self, request, pk):
+        magazine = Magazine.objects.get(pk=pk)
+        if request.user == magazine.user:
+            magazine.delete()
+            data = {
+                'delete': f'{pk}번 데이터가 삭제되었습니다.'
+            }
+            return Response(data, status=status.HTTP_200_OK)

@@ -12,14 +12,18 @@ class Magazine(models.Model):
     )
     title = models.CharField(
         verbose_name="게시글 제목",
-        max_length=25
+        max_length=15
     )
-    title = models.CharField(
-        verbose_name="게시글 제목",
+    sub_title = models.CharField(
+        verbose_name="게시글 소제목",
         max_length=25
     )
     content = models.TextField(
         verbose_name="내용"
+    )
+    date_created = models.DateTimeField(
+        verbose_name="읽을거리 작성일자",
+        auto_now_add=True
     )
 
     def __str__(self):
