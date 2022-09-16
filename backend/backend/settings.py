@@ -90,13 +90,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "homidu",
-        "USER": "root",
-        "PASSWORD": "zeitfox",
-        "HOST": "49.173.95.241",
-        "PORT": "13306",
-
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'homidu',
+        'USER': 'j7e103',
+        'PASSWORD': '000000',
+        'HOST': 'j7e103.p.ssafy.io',
+        'PORT': '3306',
     }
 }
 

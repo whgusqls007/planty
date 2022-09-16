@@ -9,18 +9,18 @@ class MyUserChangeForm(UserChangeForm):
         model = User
         fields = '__all__'
 
+
 class MyUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        # fields = ('email','username', )
-        exclude = ('password',)
+        fields = ('email','username', )
+
 
 class MyUserAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'username', 'nickname', 'exp', 'point', 'is_editor', 'level_code_id')}),
+        (None, {'fields': ('email', 'username', 'nickname', 'exp', 'point', 'is_editor', 'profile_img')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                    #    'groups', 'user_permissions')}),
-                                       'user_permissions')}),
+                                       'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
@@ -32,8 +32,7 @@ class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
     list_display = ('email', 'username', 'is_staff')
-    # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    list_filter = ('is_staff', 'is_superuser', 'is_active')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email', 'username')
     ordering = ('email',)
 
