@@ -47,5 +47,5 @@ with open(
           )
       )
 
-      plntzrNm = json_dtl_data["response"]["body"]["item"]["plntzrNm"]
-      f.write(cntntsNo + " : " + cntntsSj + " : " + plntzrNm + "\n")
+      plntbneNm = json_dtl_data["response"]["body"]["item"]["plntbneNm"]
+      f.write(cntntsNo + " : " + cntntsSj + " : " + plntbneNm + "\n")
