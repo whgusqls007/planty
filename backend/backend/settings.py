@@ -148,14 +148,26 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = 'accounts.User'
 
+# 로그인 기본 인증 : email
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+# 회원가입 시 이메일 입력
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 회원가입 custom
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
-
-ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
-
-# 회원가입 시 이메일 입력
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # DRF 인증 관련 설정
 REST_FRAMEWORK = {
@@ -164,5 +176,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny', 
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ]
 }
