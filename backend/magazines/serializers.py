@@ -9,6 +9,7 @@ class MagazineSerializer(serializers.ModelSerializer):
 
 
         class Meta:
+            # 레벨, 에디터여부 등 추가해주기
             model = get_user_model()
             fields = ('pk', 'username')
     
@@ -16,4 +17,4 @@ class MagazineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Magazine
-        fields = ("user", "title", "sub_title", "content", "date_created")
+        fields = ('user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url')

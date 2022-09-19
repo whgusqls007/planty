@@ -30,6 +30,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save(user=user)
             user.exp = user.exp + 1
+            user.articles_count = user.articles_count + 1
             user.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -38,8 +39,13 @@ class MagazineViewSet(viewsets.ModelViewSet):
     # delete에 매칭, 게시글 삭제
     def destroy(self, request, pk):
         magazine = Magazine.objects.get(pk=pk)
+        user = request.user
         if request.user == magazine.user:
             magazine.delete()
+
+            user.articles_count = user.articles_count - 1
+            user.save()
+            
             data = {
                 'delete': f'{pk}번 데이터가 삭제되었습니다.'
             }
