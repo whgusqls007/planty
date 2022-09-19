@@ -90,14 +90,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'homidu',
-        # 'USER': 'j7e103',
-        # 'PASSWORD': '000000',
-        # 'HOST': 'j7e103.p.ssafy.io',
-        # 'PORT': '3306',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'homidu',
+        'USER': 'j7e103',
+        'PASSWORD': '000000',
+        'HOST': 'j7e103.p.ssafy.io',
+        'PORT': '3306',
     }
 }
 
