@@ -25,6 +25,17 @@ class Magazine(models.Model):
         verbose_name="읽을거리 작성일자",
         auto_now_add=True
     )
+    comments_count = models.IntegerField(
+        verbose_name="댓글 개수",
+        default=0
+    )
+    likes_count = models.IntegerField(
+        verbose_name="좋아요 개수",
+        default=0
+    )
+    img_url = models.TextField(
+        verbose_name="썸네일 이미지",
+    )
 
     def __str__(self):
         return self.title
