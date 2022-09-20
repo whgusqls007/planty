@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
 // css
@@ -38,28 +37,31 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
             <Nav>
-              <Row>
-                <Col lg className="mb-2 mt-2">
-                  <Link className="me-4 link" to="/dictionary">
-                    식물 사전
-                  </Link>
-                </Col>
-                <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/magazine">
-                    읽을 거리
-                  </Link>
-                </Col>
-                <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/garden">
-                    나의 정원
-                  </Link>
-                </Col>
-                <Col lg className="mb-2 mt-2">
-                  <Link className="me-4" to="/feed">
-                    남의 정원
-                  </Link>
-                </Col>
-              </Row>
+              <Col lg={3} className="mb-2 mt-2">
+                <Link className="me-4 link" to="/dictionary">
+                  식물 사전
+                </Link>
+              </Col>
+              <Col lg={3} className="mb-2 mt-2">
+                <Link className="me-4" to="/magazine">
+                  읽을 거리
+                </Link>
+              </Col>
+              <Col lg={3} className="mb-2 mt-2">
+                <Link className="me-4" to="/garden">
+                  나의 정원
+                </Link>
+              </Col>
+              <Col lg={3} className="mb-2 mt-2">
+                <Link className="me-4" to="/feed">
+                  남의 정원
+                </Link>
+              </Col>
+              <Col lg={3} className="mb-2 mt-2">
+                <Link className="me-4" to="/worldcup">
+                  식이월
+                </Link>
+              </Col>
             </Nav>
             {userInfo ? (
               <div>어떤 로고를 여기에</div>
