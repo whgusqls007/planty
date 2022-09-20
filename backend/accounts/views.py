@@ -28,4 +28,5 @@ class FollowView(viewsets.ViewSet):
             
             me.follows_count = me.follows_count + 1
             me.save()
+            
             return Response({'data' : 'Follow OK'}, status=status.HTTP_200_OK)
