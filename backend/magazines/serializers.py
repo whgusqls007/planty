@@ -5,10 +5,7 @@ from django.contrib.auth import get_user_model
 
 
 # 읽을거리
-class MagazineSerializer(serializers.ModelSerializer):
-
-
-    class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
 
         class Meta:
@@ -16,8 +13,10 @@ class MagazineSerializer(serializers.ModelSerializer):
             model = get_user_model()
             fields = ('id', 'username')
     
+    
+class MagazineSerializer(serializers.ModelSerializer):
+    
     user = UserSerializer(read_only=True)
-
 
     class Meta:
         model = Magazine
@@ -27,16 +26,7 @@ class MagazineSerializer(serializers.ModelSerializer):
 # 읽을거리 댓글
 class MagazineCommentSerializer(serializers.ModelSerializer):
 
-
-    class CommentUserSerializer(serializers.ModelSerializer):
-
-        
-        class Meta:
-            # 레벨, 에디터여부 등 추가해주기
-            model = get_user_model()
-            fields = ('id', 'username',)
-
-    user = CommentUserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
 
 
     class Meta:
