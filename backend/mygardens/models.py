@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 from django.conf import settings
 from plants.models import Plant
@@ -10,12 +9,12 @@ class Garden(models.Model):
         related_name="gardens",
         verbose_name="작성자",
     )
-    plant = models.ForeignKey(
-        Plant,
-        on_delete=models.CASCADE,
-        related_name="gardens",
-        verbose_name="플랜트 이름",
-    )
+    # plant = models.ForeignKey(
+    #     Plant,
+    #     on_delete=models.CASCADE,
+    #     related_name="mygardens",
+    #     verbose_name="플랜트 이름",
+    # )
     date_created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="등록일자"

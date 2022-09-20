@@ -37,5 +37,34 @@ class Magazine(models.Model):
         verbose_name="썸네일 이미지",
     )
 
+    # like_users = models.ManyToManyField(
+    #     settings.AUTH_USER_MODEL,
+    #     related_name='like_articles',
+    # )
+    likes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="like_magazines",
+        through="magazine_like"
+    )
+
     def __str__(self):
         return self.title
+
+
+class Magazine_like(models.Model):
+    magazine = models.ForeignKey(
+        Magazine,
+        on_delete=models.CASCADE,
+        verbose_name="읽을거리 PK",
+    )
+
+    magazine_like_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="내 아이디",
+    )
+
+    date_created = models.DateTimeField(
+        verbose_name="팔로우한 시각",
+        auto_now_add=True
+    )

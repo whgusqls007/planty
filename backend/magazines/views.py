@@ -40,7 +40,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk):
         magazine = Magazine.objects.get(pk=pk)
         user = request.user
-        if request.user == magazine.user:
+        if user == magazine.user:
             magazine.delete()
 
             user.articles_count = user.articles_count - 1
@@ -50,3 +50,29 @@ class MagazineViewSet(viewsets.ModelViewSet):
                 'delete': f'{pk}번 데이터가 삭제되었습니다.'
             }
             return Response(data, status=status.HTTP_200_OK)
+
+
+class MagazineLikeView(viewsets.ViewSet):
+    
+    def like(self, request, pk):
+        magazine = Magazine.objects.get(pk=pk)
+        user = request.user
+        if magazine.likes.filter(pk=user.pk).exists():
+            magazine.likes.remove(user)
+            magazine.likes_count = magazine.likes_count - 1
+            magazine.save()
+
+            user.likes_count = user.likes_count - 1
+            user.save()
+
+            return Response({'data' : 'Unlike_Magazine OK'}, status=status.HTTP_200_OK)
+
+        else:
+            magazine.likes.add(user)
+            magazine.likes_count = magazine.likes_count + 1
+            magazine.save()
+
+            user.likes_count = user.likes_count + 1
+            user.save()
+
+            return Response({'data' : 'Like_Magazine OK'}, status=status.HTTP_200_OK)
