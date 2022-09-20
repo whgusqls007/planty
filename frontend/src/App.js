@@ -16,6 +16,7 @@ import FeedListPage from './pages/feed/FeedListPage';
 // 계정 관련
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
+import WorldCup from './pages/worldcup/Worldcup';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path=":gardenId" element={<GardenDetailPage />} />
         </Route>
         <Route path="/feed" element={<FeedListPage />} />
+        <Route path="/worldcup" element={<WorldCup />} />
       </Routes>
     </>
   );
