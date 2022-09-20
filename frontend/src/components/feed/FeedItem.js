@@ -6,6 +6,11 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 const FeedItem = ({ onClick }) => {
   return (
     <Wrapper onClick={onClick}>
+      <img
+        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/IMG_3063.jpeg"
+        alt=""
+        className="feed-img"
+      />
       <div className="feed-info">
         <div className="feed-like">
           <FavoriteBorderIcon />
@@ -21,12 +26,44 @@ const FeedItem = ({ onClick }) => {
 };
 
 const Wrapper = styled.div`
-  width: 245px;
-  height: 309px;
+  /* width: 245px; */
+  width: 100%;
+  /* height: 309px; */
+  @media (min-width: 1400px) {
+    height: calc(((1320px - 24px) / 5 - 8px) * 1.32);
+  }
+  @media (max-width: 1399px) and (min-width: 1200px) {
+    height: calc(((1140px - 24px) / 4 - 8px) * 1.32);
+  }
+  @media (max-width: 1200px) and (min-width: 992px) {
+    height: calc(((960px - 24px) / 4 - 8px) * 1.32);
+  }
+  @media (max-width: 991px) and (min-width: 768px) {
+    height: calc(((720px - 24px) / 3 - 7px) * 1.32);
+  }
+  @media (max-width: 767px) and (min-width: 576px) {
+    height: calc(((540px - 24px) / 2 - 5px) * 1.32);
+  }
+  /* @media (max-width: 575px) {
+    height: calc(((100vw - 24px) / 2 - 5px) * 1.32);
+  } */
+  @media (max-width: 575px) {
+    height: calc((100vw - 24px) * 1.32);
+  }
+
+  /* width: calc(50vw - 80px);
+  height: calc(50vw - 20px); */
   /* margin-top: 16px; */
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[5]};
   position: relative;
+  overflow: hidden;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  & .feed-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   & .feed-info {
     position: absolute;
     right: 10px;

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import GardenDiaryItem from '../../components/garden/GardenDiaryItem';
+import GardenCreateModal from '../../components/garden/GardenCreateModal';
+import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
 
 const Dummy = {
   title: '해바라기',
@@ -12,33 +14,60 @@ const Dummy = {
 
 const GardenDetailPage = () => {
   const { title, growDate, content } = Dummy;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [diaryOpen, setDiaryOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const openDiary = () => {
+    setDiaryOpen(true);
+  };
+
+  const closeDiary = () => {
+    setDiaryOpen(false);
+  };
+
   return (
-    <Container>
-      <Wrapper>
-        <button>식물 수정</button>
-        <GardenDetailImage />
-        <GardenDetailDescription>
-          <div className="garden-header">
-            <div className="garden-title">{title}</div>
-            <button className="detail-btn">
-              <BackupTableIcon />
-              자세히 보기
-            </button>
-            <div className="grow-date">{growDate} ~</div>
+    <>
+      <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
+      <GardenDiaryModal modalOpen={diaryOpen} closeModal={closeDiary} />
+      <Container>
+        <Wrapper>
+          <div className="button-div">
+            <button onClick={openDiary}>일기 추가</button>
+            <button onClick={openModal}>식물 수정</button>
           </div>
-          <div className="garden-content">{content}</div>
-        </GardenDetailDescription>
-      </Wrapper>
-      <GardenDiaryWrapper>
-        <div className="garden-diary-title">식물 일기</div>
-        <div className="garden-diary-container">
-          <GardenDiaryItem />
-          <GardenDiaryItem />
-          <GardenDiaryItem />
-          <GardenDiaryItem />
-        </div>
-      </GardenDiaryWrapper>
-    </Container>
+          <GardenDetailImage />
+          <GardenDetailDescription>
+            <div className="garden-header">
+              <div className="garden-title">{title}</div>
+              <button className="detail-btn">
+                <BackupTableIcon />
+                자세히 보기
+              </button>
+              <div className="grow-date">{growDate} ~</div>
+            </div>
+            <div className="garden-content">{content}</div>
+          </GardenDetailDescription>
+        </Wrapper>
+        <GardenDiaryWrapper>
+          <div className="garden-diary-title">식물 일기</div>
+          <div className="garden-diary-container">
+            <GardenDiaryItem />
+            <GardenDiaryItem />
+            <GardenDiaryItem />
+            <GardenDiaryItem />
+          </div>
+        </GardenDiaryWrapper>
+      </Container>
+    </>
   );
 };
 
@@ -55,17 +84,20 @@ const Wrapper = styled.div`
   }
   @media (min-width: 576px) {
   }
-  & > button {
+  & .button-div {
     position: absolute;
     right: 0;
     transform: translateY(-140%);
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: white;
-    border: none;
-    border-radius: 10px;
-    width: 130px;
-    height: 42px;
-    font-size: 20px;
+    & > button {
+      background-color: ${({ theme }) => theme.themeColor[1]};
+      color: white;
+      border: none;
+      border-radius: 10px;
+      width: 130px;
+      height: 42px;
+      font-size: 20px;
+      margin-left: 8px;
+    }
   }
   & .garden-header {
     display: flex;

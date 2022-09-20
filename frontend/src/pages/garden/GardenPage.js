@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
-import styled from 'styled-components';
+import GardenCreateModal from '../../components/garden/GardenCreateModal';
 
 const dummyPlants = [
   {
@@ -31,16 +32,33 @@ const dummyPlants = [
 ];
 
 const GardenPage = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   return (
-    <Wrapper>
-      <GardenUserInfo />
-      <GardenWrapper>
-        <button>식물 등록</button>
-        {dummyPlants.map((plant, idx) => (
-          <GardenItem plant={plant} key={idx} />
-        ))}
-      </GardenWrapper>
-    </Wrapper>
+    <>
+      <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
+      <Wrapper>
+        <GardenUserInfo />
+        <div className="toggle-div">
+          <span>|</span>
+          <div className="toggle-btn1">반려식물</div>
+          <div className="toggle-btn2">피드</div>
+        </div>
+        <GardenWrapper>
+          <button onClick={openModal}>식물 등록</button>
+          {dummyPlants.map((plant, idx) => (
+            <GardenItem plant={plant} key={idx} />
+          ))}
+        </GardenWrapper>
+      </Wrapper>
+    </>
   );
 };
 
@@ -50,9 +68,34 @@ const Wrapper = styled.div`
   align-items: center;
 
   flex-direction: column;
+  & .toggle-div {
+    position: relative;
+    width: 300px;
+    & span {
+      position: absolute;
+      left: 50%;
+    }
+    height: 50px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    font-size: 20px;
+  }
+  & .toggle-btn1 {
+    position: absolute;
+    /* top: 0; */
+    left: 50%;
+    transform: translateX(calc(-100% - 16px));
+  }
+  & .toggle-btn2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(20px);
+  }
 `;
 
 const GardenWrapper = styled.div`
+  margin-top: 80px;
   position: relative;
   display: grid;
   justify-content: center;
