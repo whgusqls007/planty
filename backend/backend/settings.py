@@ -111,6 +111,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
+# DB 재연결용 데이터베이스
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'homidu',
+#        'USER': 'j7e103',
+#        'PASSWORD': '000000',
+#        'HOST': 'j7e103.p.ssafy.io',
+#        'PORT': '3306',
+#    }
+#}
+
 # 서버 데이터베이스
 DATABASES = secrets['DATABASES']
 
