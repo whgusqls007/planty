@@ -26,11 +26,7 @@ class Level(models.Model):
 class User(AbstractUser):
     first_name = ""
     last_name = ""
-
-    # nickname = models.CharField(
-    #     verbose_name="닉네임",
-    #     max_length=10
-    # )
+    
     exp = models.IntegerField(
         verbose_name="경험치",
         default=0,
@@ -55,7 +51,8 @@ class User(AbstractUser):
     )
     plants_count = models.IntegerField(
         verbose_name="반려식물 개수",
-        default=0
+        default=0,
+        validators=[MinValueValidator(0)]
     )
     followers_count = models.IntegerField(
         verbose_name="팔로워 수",
@@ -69,7 +66,8 @@ class User(AbstractUser):
     )
     articles_count = models.IntegerField(
         verbose_name="내가 쓴 글 수",
-        default=0
+        default=0,
+        validators=[MinValueValidator(0)]
     )
     comments_count = models.IntegerField(
         verbose_name="내가 쓴 댓글 수",
