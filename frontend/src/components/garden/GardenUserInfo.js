@@ -19,8 +19,9 @@ const GardenUserInfo = () => {
     <Wrapper>
       <div className="user-img"></div>
       <div className="user-header">
-        <div className="user-nickname">{nickname} 님의 정원</div>
         <div className="user-level">lv. {level}</div>
+        <div className="user-nickname">{nickname} 님의 정원</div>
+        <img src="/assets/img/follow.png" alt="" className="follow-icon" />
       </div>
       <div className="user-content">
         {content}
@@ -52,7 +53,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 80px;
+
   & .user-img {
     width: 88px;
     height: 88px;
@@ -63,13 +64,16 @@ const Wrapper = styled.div`
     display: flex;
     align-items: flex-end;
     margin-top: 20px;
+    & .follow-icon {
+      width: 40px;
+    }
   }
   & .user-nickname {
     font-size: 25px;
+    margin: 0 10px;
   }
   & .user-level {
     font-size: 20px;
-    margin-left: 20px;
   }
   & .user-content {
     font-size: 18px;
