@@ -1,13 +1,13 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import User
 
-# Create your views here.
 
 class FollowView(viewsets.ViewSet):
 
     def follow(self, request, pk):
-        person = User.objects.get(pk=pk)
+        person = get_object_or_404(User, pk=pk)
         me = request.user
         # 팔로우가 이미 되어 있을 때 - 언팔로우
         if person.followers.filter(pk=me.pk).exists():

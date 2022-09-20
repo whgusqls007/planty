@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Magazine, MagazineComment
 from rest_framework import viewsets, status
@@ -40,7 +40,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
     
     # delete에 매칭, 게시글 삭제
     def destroy(self, request, pk):
-        magazine = Magazine.objects.get(pk=pk)
+        magazine = get_object_or_404(Magazine, pk=pk)
         user = request.user
         if user == magazine.user:
             magazine.delete()
@@ -59,8 +59,9 @@ class MagazineViewSet(viewsets.ModelViewSet):
 class MagazineLikeView(viewsets.ViewSet):
     
     def like(self, request, magazine_pk):
-        magazine = Magazine.objects.get(pk=magazine_pk)
+        magazine = get_object_or_404(Magazine, pk=magazine_pk)
         user = request.user
+
         if magazine.likes.filter(pk=user.pk).exists():
             magazine.likes.remove(user)
             magazine.likes_count = magazine.likes_count - 1
@@ -89,7 +90,7 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
 
     # post에 매칭, 댓글 작성
     def create(self, request, magazine_pk):
-        magazine = Magazine.objects.get(pk=magazine_pk)
+        magazine = get_object_or_404(Magazine, pk=magazine_pk)
         serializer = MagazineCommentSerializer(data=request.data)
         user = request.user
 
@@ -111,6 +112,7 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
     # put에 매칭, 댓글 수정
     def update(self, request, magazine_pk, comment_pk):
         magazine = Magazine.objects.get(pk=magazine_pk)
+        magazine = get_object_or_404(Magazine, pk=magazine_pk)
         comment = MagazineComment.objects.get(pk=comment_pk)
 
         if request.user == comment.user:
