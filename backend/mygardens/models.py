@@ -12,12 +12,12 @@ class Garden(models.Model):
         verbose_name="작성자",
         related_name="gardens",
     )
-    plant = models.ForeignKey(
-        Plant,
-        on_delete=models.CASCADE,
-        verbose_name="플랜트 이름",
-        related_name="mygardens",
-    )
+    # plant = models.ForeignKey(
+    #     Plant,
+    #     on_delete=models.CASCADE,
+    #     verbose_name="플랜트 이름",
+    #     related_name="mygardens",
+    # )
     date_created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="등록일자"
