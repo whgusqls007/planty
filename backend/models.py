@@ -9,287 +9,287 @@ from django.db import models
 
 
 class Plant(models.Model):
-    plant_no = models.CharField(
+    cntntsno = models.CharField(
         db_column='cntntsNo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='식물 번호'
     )  
-    plant_name = models.CharField(
+    cntntssj = models.CharField(
         db_column='cntntsSj', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='식물 이름'
     )  
-    advise_info = models.CharField(
+    adviseinfo = models.CharField(
         db_column='adviseInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='조언 정보'
     )  
-    classification = models.CharField(
+    clcodenm = models.CharField(
         db_column='clCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='식물 분류'
     )  
-    pest_info = models.CharField(
+    dlthtscodenm = models.CharField(
         db_column='dlthtsCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
-        verbose_name='병해충'
+        verbose_name='병충해'
     )  
-    pest_manage = models.CharField(
+    dlthtsmanageinfo = models.CharField(
         db_column='dlthtsManageInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='병충해 관리법'
     )  
-    ecology_code = models.CharField(
+    eclgycodenm = models.CharField(
         db_column='eclgyCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='생태 코드'
     )  
-    etc_info = models.CharField(
+    etcerainfo = models.CharField(
         db_column='etcEraInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='기타 시기'
     )  
-    flower_color = models.CharField(
+    flclrcodenm = models.CharField(
         db_column='flclrCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='꽃 색상'
     )  
-    family_code = models.CharField(
+    fmlcodenm = models.CharField(
         db_column='fmlCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='과 코드명'
     )  
-    fruit_season = models.CharField(
+    fmldeseasoncodenm = models.CharField(
         db_column='fmldeSeasonCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='과일 열리는 계절'
     )  
-    fruit_color = models.CharField(
+    fmldecolrcodenm = models.CharField(
         db_column='fmldecolrCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='과일 색'
     )  
-    fruit_info = models.CharField(
+    fncltyinfo = models.CharField(
         db_column='fncltyInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='과일 '
     )  
-    fertilizer_info = models.CharField(
+    frtlzrinfo = models.CharField(
         db_column='frtlzrInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='비료 요구 여부'
     )  
-    growth_width = models.CharField(
+    growtharainfo = models.CharField(
         db_column='growthAraInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='성장 넓이 정보'
     )  
-    growth_height = models.CharField(
+    growthhginfo = models.CharField(
         db_column='growthHgInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='성장 높이 정보'
     )  
-    growth_temp = models.CharField(
+    grwhtpcodenm = models.CharField(
         db_column='grwhTpCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='생육 온도'
     )  
-    growth_style = models.CharField(
+    grwhstlecodenm = models.CharField(
         db_column='grwhstleCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='생육 형태'
     )  
-    growth_speed = models.CharField(
+    grwtvecodenm = models.CharField(
         db_column='grwtveCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='생장 속도'
     )  
-    humidity = models.CharField(
+    hdcodenm = models.CharField(
         db_column='hdCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='적정 습도'
     )  
-    blooming_season = models.CharField(
+    ignseasoncodenm = models.CharField(
         db_column='ignSeasonCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='꽃 피는 계절'
     )  
-    leaf_style = models.CharField(
+    lefstleinfo = models.CharField(
         db_column='lefStleInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='잎 모양새'
     )  
-    leaf_color = models.CharField(
+    lefcolrcodenm = models.CharField(
         db_column='lefcolrCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='잎 색상'
     )  
-    leaf_mark = models.CharField(
+    lefmrkcodenm = models.CharField(
         db_column='lefmrkCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='잎 무늬'
     )  
-    light_demand = models.CharField(
+    lighttdemanddocodenm = models.CharField(
         db_column='lighttdemanddoCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='광도'
     )  
-    manage_demand = models.CharField(
+    managedemanddocodenm = models.CharField(
         db_column='managedemanddoCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='관리 요구도'
     )  
-    manage_level = models.CharField(
+    managelevelcodenm = models.CharField(
         db_column='managelevelCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='키우기 난이도'
     )  
-    origin = models.CharField(
+    orgplceinfo = models.CharField(
         db_column='orgplceInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='원산지'
     )  
-    posting_place = models.CharField(
+    postngplacecodenm = models.CharField(
         db_column='postngplaceCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='추천 배치 장소'
     )  
-    propagation_era = models.CharField(
+    prpgterainfo = models.CharField(
         db_column='prpgtEraInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='번식 시기'
     )  
-    propagation_method = models.CharField(
+    prpgtmthcodenm = models.CharField(
         db_column='prpgtmthCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='번식 방법'
     )  
-    smell = models.CharField(
+    smellcodenm = models.CharField(
         db_column='smellCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='냄새 정도'
     )  
-    soil_info = models.CharField(
+    soilinfo = models.CharField(
         db_column='soilInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='추천 토양'
     )  
-    speical_manage_info = models.CharField(
+    speclmanageinfo = models.CharField(
         db_column='speclmanageInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='특별 관리 정보'
     )  
-    toxicity_info = models.CharField(
+    toxctyinfo = models.CharField(
         db_column='toxctyInfo', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='독성'
     )  
-    water_cycle_autumn = models.CharField(
+    watercycleautumncodenm = models.CharField(
         db_column='watercycleAutumnCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='가을 물주기'
     )  
-    water_cycle_spring = models.CharField(
+    watercyclesprngcodenm = models.CharField(
         db_column='watercycleSprngCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='봄 물주기'
     )  
-    water_cycle_summer = models.CharField(
+    watercyclesummercodenm = models.CharField(
         db_column='watercycleSummerCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='여름 물주기'
     )  
-    water_cycle_winter = models.CharField(
+    watercyclewintercodenm = models.CharField(
         db_column='watercycleWinterCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='겨울 물주기'
     )  
-    winter_lowest_temp = models.CharField(
+    winterlwettpcodenm = models.CharField(
         db_column='winterLwetTpCodeNm', 
         max_length=255, 
         blank=True, 
         null=True,
         verbose_name='겨울 최저 온도'
     ) 
-    img_url = models.CharField(
+    imgurl = models.CharField(
         db_column='imageurl',
         max_length=255,
         blank=True,
