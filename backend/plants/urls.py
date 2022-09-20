@@ -5,5 +5,7 @@ from . import views
 app_name = 'plants'
 
 router = DefaultRouter()
-router.register(r"", views.PlantDictViewSet, basename='')
-urlpatterns = [path("", include(router.urls))]
+router.register(r'', views.PlantViewSet, basename='')
+urlpatterns = [
+    path('', include(router.urls))
+]
