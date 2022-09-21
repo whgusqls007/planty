@@ -19,6 +19,16 @@ const Tag = styled.button`
     color: ${({ theme }) => theme.themeColor[5]};
     text-decoration: none;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 3px;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 0.7rem;
+    margin: 3px;
+  }
 `;
 
 // onclick 만들어야함

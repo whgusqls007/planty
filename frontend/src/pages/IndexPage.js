@@ -11,16 +11,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Wrapper = styled.div`
   background: #44855d;
   width: 100%;
-  padding-bottom: 3%;
+  padding-bottom: 1rem;
 
   & .mainTitle {
     font-weight: 700;
     font-size: 50px;
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
     color: white;
     font-style: normal;
-    line-height: 93px;
     text-shadow: 0px 2px 5px gray;
+
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+      padding-bottom: 1.3rem;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 1.7rem;
+      padding-bottom: 1rem;
+    }
   }
 `;
 
@@ -31,14 +40,34 @@ const ButtonWrapper = styled.div`
 const ContentTitle = styled.div`
   margin-top: 4%;
   margin-bottom: 5px;
-  font-size: 30px;
+  font-size: 2rem;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1%;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.2rem;
+    margin-bottom: -1%;
+  }
 `;
 
 const ContentSubTitle = styled.span`
   margin-left: 20px;
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    padding-bottom: 0rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 0.8rem;
+    padding-bottom: 0rem;
+  }
 `;
 
 const arr = [
@@ -109,11 +138,11 @@ const IndexPage = () => {
         <div>
           <ContentTitle>반려식물 이야기</ContentTitle>
           <ContentSubTitle>한번 읽어 보실래요?</ContentSubTitle>
-          <div style={{ marginTop: '2%' }}>
+          <div style={{ marginTop: '0.5rem' }}>
             <Row>
               {[1, 2, 3].map((e, i) => {
                 return (
-                  <Col lg="4" key={i}>
+                  <Col md="4" key={i}>
                     <BigCard key={i} />
                   </Col>
                 );

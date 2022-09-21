@@ -18,12 +18,29 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 576px) {
+  }
 `;
 
 const ImageContainer = styled.div`
   width: 50%;
   height: 500px;
   position: relative;
+
+  @media (max-width: 768px) {
+    height: 25rem;
+    width: 100%;
+  }
+
+  @media (max-width: 576px) {
+    height: 18rem;
+    width: 100%;
+  }
 
   &:hover {
     transition: transform 0.3s;
@@ -44,6 +61,14 @@ const ImageContainer = styled.div`
     font-size: 90px;
     left: 50%;
     transform: translateX(-50%);
+
+    @media (max-width: 768px) {
+      font-size: 50px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 30px;
+    }
   }
 `;
 
