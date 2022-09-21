@@ -15,4 +15,3 @@ urlpatterns = [
     path('<int:magazine_pk>/comment/', MagazineCommentViewSet.as_view({'post': 'create'})),
     path('<int:magazine_pk>/comment/<int:comment_pk>/', MagazineCommentViewSet.as_view({'put': 'update', 'delete':'destroy'})),
     ]
-## 추가예정
