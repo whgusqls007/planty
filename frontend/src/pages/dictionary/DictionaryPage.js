@@ -1,8 +1,90 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import PlantItem from '../../components/dictionary/PlantItem';
 import Container from 'react-bootstrap/esm/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPlantList } from '../../features/dictionary/dictionaryAction';
+
+const DictionaryPage = () => {
+  const dictionaryTitle = '우리가아는모든식물'.split('');
+  const dummyPlants = [
+    {
+      cntntsNo: 1,
+      cntntsSj: '칼라데아 세토사',
+      plantLevel: 1,
+    },
+    {
+      cntntsNo: 2,
+      cntntsSj: '칼라데아 진저',
+      plantLevel: 2,
+    },
+    {
+      cntntsNo: 3,
+      cntntsSj: '칼라데아 아마그리스',
+      plantLevel: 3,
+    },
+    {
+      cntntsNo: 4,
+      cntntsSj: '칼라데아 퓨전화이트',
+      plantLevel: 4,
+    },
+    {
+      cntntsNo: 5,
+      cntntsSj: '칼라데아 세토사',
+      plantLevel: 1,
+    },
+    {
+      cntntsNo: 6,
+      cntntsSj: '칼라데아 진저',
+      plantLevel: 2,
+    },
+    {
+      cntntsNo: 7,
+      cntntsSj: '칼라데아 아마그리스',
+      plantLevel: 3,
+    },
+    {
+      cntntsNo: 8,
+      cntntsSj: '칼라데아 퓨전화이트',
+      plantLevel: 4,
+    },
+  ];
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchPlantList());
+  }, [dispatch]);
+
+  const { plantList } = useSelector((state) => state.dictionary);
+
+  return (
+    <Container>
+      <Wrapper>
+        <div className="content">
+          <div className="dict-header">
+            <div className="title">
+              {dictionaryTitle.map((e, idx) => (
+                <span key={idx}>{e}</span>
+              ))}
+            </div>
+            <form>
+              <input type="text" className="dictionary-search-input" />
+              <SearchIcon className="search-icon" />
+            </form>
+          </div>
+          {plantList && (
+            <div className="plantList">
+              {plantList.map((plant, idx) => {
+                return <PlantItem plant={plant} key={idx} />;
+              })}
+            </div>
+          )}
+        </div>
+      </Wrapper>
+    </Container>
+  );
+};
 
 const Wrapper = styled.div`
   /* width: 100%;
@@ -67,75 +149,5 @@ const Wrapper = styled.div`
     /* grid-gap: 30px; */
   }
 `;
-
-const DictionaryPage = () => {
-  const dictionaryTitle = '우리가아는모든식물'.split('');
-  const dummyPlants = [
-    {
-      cntntsNo: 1,
-      cntntsSj: '칼라데아 세토사',
-      plantLevel: 1,
-    },
-    {
-      cntntsNo: 2,
-      cntntsSj: '칼라데아 진저',
-      plantLevel: 2,
-    },
-    {
-      cntntsNo: 3,
-      cntntsSj: '칼라데아 아마그리스',
-      plantLevel: 3,
-    },
-    {
-      cntntsNo: 4,
-      cntntsSj: '칼라데아 퓨전화이트',
-      plantLevel: 4,
-    },
-    {
-      cntntsNo: 5,
-      cntntsSj: '칼라데아 세토사',
-      plantLevel: 1,
-    },
-    {
-      cntntsNo: 6,
-      cntntsSj: '칼라데아 진저',
-      plantLevel: 2,
-    },
-    {
-      cntntsNo: 7,
-      cntntsSj: '칼라데아 아마그리스',
-      plantLevel: 3,
-    },
-    {
-      cntntsNo: 8,
-      cntntsSj: '칼라데아 퓨전화이트',
-      plantLevel: 4,
-    },
-  ];
-  return (
-    <Container>
-      <Wrapper>
-        <div className="content">
-          <div className="dict-header">
-            <div className="title">
-              {dictionaryTitle.map((e, idx) => (
-                <span key={idx}>{e}</span>
-              ))}
-            </div>
-            <form>
-              <input type="text" className="dictionary-search-input" />
-              <SearchIcon className="search-icon" />
-            </form>
-          </div>
-          <div className="plantList">
-            {dummyPlants.map((plant, idx) => {
-              return <PlantItem plant={plant} key={idx} />;
-            })}
-          </div>
-        </div>
-      </Wrapper>
-    </Container>
-  );
-};
 
 export default DictionaryPage;

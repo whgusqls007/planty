@@ -4,16 +4,16 @@ import LevelStar from '../LevelStar';
 import { Link } from 'react-router-dom';
 
 const PlantItem = ({ plant }) => {
-  const { cntntsNo, cntntsSj, plantLevel } = plant;
+  const { id, plant_name, img_url } = plant;
   return (
     <Wrapper>
-      <Link to={`/dictionary/${cntntsNo}`}>
+      <Link to={`/dictionary/${id}`}>
         <PlantImg className="plant-img" />
         <div className="plant-discription">
-          <div className="plant-name">{cntntsSj}</div>
+          <div className="plant-name">{plant_name}</div>
           <div className="plant-level">
             <div>난이도</div>
-            <LevelStar level={plantLevel} />
+            <LevelStar level={1} />
           </div>
         </div>
       </Link>
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const PlantImg = styled.div`
+const PlantImg = styled.img`
   width: 300px;
   height: 300px;
   border-radius: 10px;
