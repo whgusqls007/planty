@@ -81,6 +81,7 @@ class User(AbstractUser):
     )
     date_of_birth = models.DateField(
         verbose_name="생년월일",
+        null=True
     )
     followings = models.ManyToManyField(
         'self',
