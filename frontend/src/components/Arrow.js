@@ -8,17 +8,36 @@ const Button = styled.button`
   position: absolute;
   z-index: 999;
   color: white;
-  background-color: rgba(0, 0, 0, 0.1);
-  width: 2rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 2.5rem;
   height: 200px;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    width: 2rem;
+    height: 170px;
+  }
+
+  @media (max-width: 576px) {
+    width: 1.7rem;
+    height: 140px;
   }
 `;
 
 const RightButtonWrapper = styled.div`
-  right: 2%;
+  position: absolute;
+  right: 2.5rem;
+
+  @media (max-width: 768px) {
+    right: 2rem;
+  }
+
+  @media (max-width: 576px) {
+    right: 1.5rem;
+  }
 `;
 
 const LeftButtonWrapper = styled.div`

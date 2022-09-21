@@ -2,13 +2,18 @@ import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import Card from '../../components/magazine/Card';
-import Pagination from '../../layout/Pagination';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   margin: 6% 5% 0 5%;
   display: flex;
   flex-wrap: wrap;
+
+  & a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const PagingList = styled.li`
@@ -18,6 +23,12 @@ const PagingList = styled.li`
   border-radius: 5px;
   font-size: 20px;
   margin: 0px 1% 0px 1%;
+
+  @media (max-width: 576px) {
+    margin: 0 0 0 0;
+    padding: 5px 10px 5px 10px;
+    font-size: 15px;
+  }
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -36,189 +47,12 @@ const ListWrapper = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 2rem 2rem 0;
 
   & .active {
     border: 1px solid ${({ theme }) => theme.themeColor[5]};
   }
 `;
-
-// const dummyData = [
-//   {
-//     title: '1제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '2제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '3제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '4제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '5제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '6제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '7제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '8제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '9제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '10제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '11제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '12제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '13제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '14제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '15제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '16제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '17제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '18제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '19제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '20제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '21제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '22제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '23제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '24제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-//   {
-//     title: '25제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 ',
-//     writer: '드루이드',
-//     date: '22.09.04',
-//     content:
-//       '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 ',
-//   },
-// ];
 
 const MagazinePage = () => {
   const [current, setCurrent] = useState(1);
@@ -232,11 +66,11 @@ const MagazinePage = () => {
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8080/test/totalCount`, { method: 'GET' })
+    fetch(`http://192.168.0.95:8080/test/totalCount`, { method: 'GET' })
       .then((res) => res.json())
       .then((data) => setTotalCount(data));
 
-    fetch(`http://127.0.0.1:8080/test/${offset}/${limit}`, {
+    fetch(`http://192.168.0.95:8080/test/${offset}/${limit}`, {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -261,7 +95,7 @@ const MagazinePage = () => {
   }, [pageCount, totalCount]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8080/test/${offset}/${limit}`, {
+    fetch(`http://192.168.0.95:8080/test/${offset}/${limit}`, {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -294,13 +128,14 @@ const MagazinePage = () => {
       <Wrapper>
         {dummyData.map((e, i) => {
           return (
-            <Col xl="4" lg="4" md="4" sm="12" xs="12" key={i}>
-              <Card data={e} key={i} />
+            <Col md="4" sm="12" xs="12" key={i}>
+              <Link to={`/magazine/어떤키값`}>
+                <Card data={e} key={i} />
+              </Link>
             </Col>
           );
         })}
       </Wrapper>
-
       <ListWrapper>
         {pageCount > 5 ? (
           <PagingList

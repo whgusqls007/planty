@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   margin-top: 5%;
+  margin-bottom: 5%;
 `;
 
 const Title = styled.div`
@@ -11,11 +12,22 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    font-weight: 600px;
+    font-size: 40px;
+  }
+
+  @media (max-width: 576px) {
+    font-weight: 600px;
+    font-size: 30px;
+  }
 `;
 
 const Date = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  margin-right: 10%;
   opacity: 0.7;
 `;
 
@@ -34,6 +46,14 @@ const Image = styled.div`
   background-color: ${({ theme }) => theme.themeColor[5]};
   border-radius: 10px;
   margin-left: 10%;
+
+  @media (max-width: 768px) {
+    height: 250px;
+  }
+
+  @media (max-width: 576px) {
+    height: 200px;
+  }
 `;
 
 const Content = styled.div`

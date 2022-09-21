@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  
+
   display: flex;
   flex-direction: column;
   margin: 0 3% 10% 3%;
@@ -17,11 +17,6 @@ const Wrapper = styled.div`
     transition: transform 0.3s;
     transform: scale3d(1.03, 1.03, 1.03);
   }
-
-  & a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 const Title = styled.div`
@@ -29,6 +24,10 @@ const Title = styled.div`
   font-weight: 600;
   font-size: larger;
   margin-top: 1%;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const CtnInfo = styled.div`
@@ -36,12 +35,15 @@ const CtnInfo = styled.div`
   display: flex;
   justify-content: space-between;
   opacity: 0.5;
+
+  @media (max-width: 768px) {
+    margin: 0 0 2% 0;
+  }
 `;
 
 const SubTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -60,17 +62,15 @@ const Card = (props) => {
   const { title, writer, date, content } = props.data;
   return (
     <Wrapper className="plant-img">
-      <Link to={`/magazine/어떤키값`}>
-        <PlantImg />
-        <div>
-          <Title>{title}</Title>
-          <CtnInfo>
-            <span>글쓴이 | {writer}</span>
-            <span>{date}</span>
-          </CtnInfo>
-        </div>
-        <SubTitle>{content}</SubTitle>
-      </Link>
+      <PlantImg />
+      <div>
+        <Title>{title}</Title>
+        <CtnInfo>
+          <span>글쓴이 | {writer}</span>
+          <span>{date}</span>
+        </CtnInfo>
+      </div>
+      <SubTitle>{content}</SubTitle>
     </Wrapper>
   );
 };
