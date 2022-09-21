@@ -1,36 +1,37 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from .models import Magazine, MagazineComment
+from .models import Feed, FeedComment
 from django.contrib.auth import get_user_model
 
 
-# 읽을거리
+# 남의 정원
 class UserSerializer(serializers.ModelSerializer):
 
 
         class Meta:
-            # 레벨, 에디터여부 등 추가해주기
+            # 레벨 등 추가하기
             model = get_user_model()
             fields = ('id', 'username')
     
     
-class MagazineSerializer(serializers.ModelSerializer):
+class FeedSerializer(serializers.ModelSerializer):
     
     user = UserSerializer(read_only=True)
 
+
     class Meta:
-        model = Magazine
-        fields = ('user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url',)
+        model = Feed
+        fields = ('user', 'content', 'date_created', 'img_url', 'comments_count', 'likes_count', )
         read_only_fields = ('comments_count', 'likes_count', )
 
 
-# 읽을거리 댓글
-class MagazineCommentSerializer(serializers.ModelSerializer):
+# 남의 정원 댓글
+class FeedCommentSerializer(serializers.ModelSerializer):
 
     user = UserSerializer(read_only=True)
 
 
     class Meta:
-        model = MagazineComment
+        model = FeedComment
         fields = ('id', 'user', 'content', 'magazine', 'date_created',)
-        read_only_fields = ('magazine', )
+        read_only_fields = ('feed', )
