@@ -18,4 +18,5 @@ class GardenViewSet(viewsets.ModelViewSet):
 
         file_path = s3_upload_image(file, 'feed/')
         
+        
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -8,7 +8,6 @@ class Magazine(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="magazines",
         verbose_name="작성자",
     )
     title = models.CharField(
