@@ -56,7 +56,7 @@ class FeedViewSet(viewsets.ModelViewSet):
 
 
 # 남의 정원 좋아요
-class FeedLikeView(viewsets.ViewSet):
+class FeedLikeViewSet(viewsets.ViewSet):
     
     def like(self, request, feed_pk):
         feed = get_object_or_404(Feed, pk=feed_pk)
@@ -103,7 +103,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             feed.comments_count = feed.comments_count + 1
             feed.save()
             
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializers = FeedCommentSerializer(instance=comments, many=True)
             
             return Response(serializers.data, status=status.HTTP_201_CREATED)
@@ -117,7 +117,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             serializer = FeedCommentSerializer(instance=comment, data=request.data)
             serializer.save()
 
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializer = FeedCommentSerializer(instance=comments, many=True)
             
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -137,7 +137,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             feed.comments_count = feed.comments_count - 1
             feed.save()
             
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializer = FeedCommentSerializer(instance=comments, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
