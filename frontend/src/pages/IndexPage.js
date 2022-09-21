@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Wrapper = styled.div`
   background: #44855d;
   width: 100%;
-  padding-bottom: 1rem;
+  padding: 1.5rem 0 3rem 0;
 
   & .mainTitle {
     font-weight: 700;
