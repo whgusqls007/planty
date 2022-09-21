@@ -8,6 +8,7 @@ import DictionaryDetailPage from './pages/dictionary/DictionaryDetailPage';
 // 읽을거리
 import MagazinePage from './pages/magazine/MagazinePage';
 import MagazineDetailPage from './pages/magazine/MagazineDetailPage';
+import MagazineInputPage from './pages/magazine/MagazineInputPage';
 // 나의 정원
 import GardenPage from './pages/garden/GardenPage';
 import GardenDetailPage from './pages/garden/GardenDetailPage';
@@ -35,12 +36,14 @@ const App = () => {
         <Route path="/magazine" element={<Outlet />}>
           <Route path="" element={<MagazinePage />} />
           <Route path=":articleId" element={<MagazineDetailPage />} />
+          <Route path="magazineinput" element={<MagazineInputPage />} />
         </Route>
 
         <Route path="/garden" element={<Outlet />}>
           <Route path="" element={<GardenPage />} />
           <Route path=":gardenId" element={<GardenDetailPage />} />
         </Route>
+
         <Route path="/feed" element={<FeedListPage />} />
         <Route path="/worldcup" element={<WorldCup />} />
       </Routes>
