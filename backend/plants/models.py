@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 class Plant(models.Model):
@@ -302,15 +295,61 @@ class Plant(models.Model):
 
 
 class Plantrecomm(models.Model):
-    cntntsno = models.CharField(db_column='cntntsNo', max_length=255, blank=True, null=True)  
-    cntntssj = models.CharField(db_column='cntntsSj', max_length=255, blank=True, null=True)  
-    presentadequacy = models.IntegerField(db_column='presentAdequacy', blank=True, null=True)  
-    aircleaning = models.CharField(db_column='airCleaning', max_length=3, blank=True, null=True)  
-    particulatematter = models.CharField(db_column='particulateMatter', max_length=3, blank=True, null=True)  
-    petsafety = models.IntegerField(db_column='petSafety', blank=True, null=True)  
-    scent = models.IntegerField(blank=True, null=True)
-    humidify = models.IntegerField(blank=True, null=True)
-    allergy = models.IntegerField(blank=True, null=True)
+    plant_no = models.CharField(
+        db_column='cntntsNo', 
+        max_length=255, 
+        blank=True, 
+        null=True,
+        verbose_name='식물 번호'
+    )
+    plant_name = models.CharField(
+        db_column='cntntsSj', 
+        max_length=255, 
+        blank=True, 
+        null=True,
+        verbose_name='식물 이름'
+    )    
+    present_adequacy = models.IntegerField(
+        db_column='presentAdequacy', 
+        blank=True, 
+        null=True,
+        verbose_name='선물 적합성'
+    )  
+    aircleaning = models.CharField(
+        db_column='airCleaning', 
+        max_length=3, 
+        blank=True, 
+        null=True,
+        verbose_name='공기 정화 기능'
+    )  
+    particulatematter = models.CharField(
+        db_column='particulateMatter', 
+        max_length=3, 
+        blank=True, 
+        null=True,
+        verbose_name='미세먼지 정화 기능'
+    )
+    petsafety = models.IntegerField(
+        db_column='petSafety', 
+        blank=True, 
+        null=True,
+        verbose_name='반려동물 안전성'
+    )
+    scent = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name='향기'
+    )
+    humidify = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name='습도 조절 기능'
+    )
+    allergy = models.IntegerField(
+        blank=True, 
+        null=True,
+        verbose_name='알러지 가능성'
+    )
 
     class Meta:
         managed = False

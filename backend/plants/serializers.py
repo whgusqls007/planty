@@ -8,7 +8,8 @@ class PlantListSerializer(serializers.ModelSerializer):
             'id',
             'plant_no',
             'plant_name',
-            'img_url'
+            'img_url',
+            'manage_level',
         ]
 
 class PlantDetailSerializer(serializers.ModelSerializer):
