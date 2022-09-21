@@ -80,3 +80,8 @@ https://overjoyed-polonium-99e.notion.site/3-7ffd991c2c08462285353366d2722727
 
 1. 식물 DB imageURL 추가
 2. 키워드 정리
+
+##2022.09.21
+
+1. 카운트 추천 컬럼 추가
+2. 더미데이터용 설문 컬럼값 카운트
