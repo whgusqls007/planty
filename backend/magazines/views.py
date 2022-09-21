@@ -111,9 +111,8 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
 
     # put에 매칭, 댓글 수정
     def update(self, request, magazine_pk, comment_pk):
-        magazine = Magazine.objects.get(pk=magazine_pk)
         magazine = get_object_or_404(Magazine, pk=magazine_pk)
-        comment = MagazineComment.objects.get(pk=comment_pk)
+        comment = get_object_or_404(MagazineComment, pk=comment_pk)
 
         if request.user == comment.user:
             serializer = MagazineCommentSerializer(instance=comment, data=request.data)
@@ -127,8 +126,8 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
 
     # delete에 매칭, 댓글 삭제
     def destroy(self, request, magazine_pk, comment_pk):
-        magazine = Magazine.objects.get(pk=magazine_pk)
-        comment = MagazineComment.objects.get(pk=comment_pk)
+        magazine = get_object_or_404(Magazine, pk=magazine_pk)
+        comment = get_object_or_404(MagazineComment, pk=comment_pk)
 
         if request.user == comment.user:
             comment.delete()
