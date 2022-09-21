@@ -21,10 +21,10 @@ sql = """drop table if exists plant"""
 cursor.execute(sql)
 connection.commit()
 
-sql = """drop table if exists plantRecomm"""
+# sql = """drop table if exists plantRecomm"""
 
-cursor.execute(sql)
-connection.commit()
+# cursor.execute(sql)
+# connection.commit()
 
 sql = """create table if not exists plant (
     id int not null auto_increment primary key,
@@ -67,7 +67,8 @@ sql = """create table if not exists plant (
     watercycleSprngCodeNm varchar(255),
     watercycleSummerCodeNm varchar(255),
     watercycleWinterCodeNm varchar(255),
-    winterLwetTpCodeNm varchar(255)
+    winterLwetTpCodeNm varchar(255),
+    imageURL varchar(255)
 )
 """
 # sql = """create table if not exists plant (
@@ -84,19 +85,19 @@ sql = """create table if not exists plant (
 cursor.execute(sql)
 connection.commit()
 
-sql = """create table if not exists plantRecomm (
-    id int not null auto_increment primary key,
-    cntntsNo varchar(255),
-    cntntsSj varchar(255),
-    presentAdequacy int,
-    airCleaning varchar(3),
-    particulateMatter varchar(3),
-    petSafety int,
-    scent int,
-    humidify int,
-    allergy int
-)
-"""
+# sql = """create table if not exists plantRecomm (
+#     id int not null auto_increment primary key,
+#     cntntsNo varchar(255),
+#     cntntsSj varchar(255),
+#     presentAdequacy int,
+#     airCleaning varchar(3),
+#     particulateMatter varchar(3),
+#     petSafety int,
+#     scent int,
+#     humidify int,
+#     allergy int
+# )
+# """
 
 cursor.execute(sql)
 connection.commit()
@@ -186,6 +187,7 @@ class Plant:
         self.scent = 0
         self.humidify = 0
         self.allergy = 0
+        self.imageURL = ""
 
     def add(
         self,
@@ -270,7 +272,8 @@ class Plant:
         petSafety,
         scent,
         humidify,
-        allergy
+        allergy,
+        imageURL
     ):
         self.cntntsNo = cntntsNo
         self.cntntsSj = cntntsSj
@@ -354,6 +357,7 @@ class Plant:
         self.scent = scent
         self.humidify =humidify
         self.allergy = allergy
+        self.imageURL = imageURL
 
     def printDtl(self):
         print(
@@ -585,18 +589,20 @@ class Plant:
             # + self.winterLwetTpCode
             # + "    "
             + self.winterLwetTpCodeNm
+            + "    "
+            +self.imageURL
             + "\n"
         )
 
     def dbinsert(self, i):
-        sql = f"insert into plant (id, cntntsNo, cntntsSj,adviseInfo,clCodeNm,dlthtsCodeNm,dlthtsManageInfo,eclgyCodeNm,etcEraInfo,flclrCodeNm,fmlCodeNm,fmldeSeasonCodeNm,fmldecolrCodeNm,fncltyInfo,frtlzrInfo,growthAraInfo,growthHgInfo,grwhTpCodeNm,grwhstleCodeNm,grwtveCodeNm,hdCodeNm,ignSeasonCodeNm,lefStleInfo,lefcolrCodeNm,lefmrkCodeNm,lighttdemanddoCodeNm,managedemanddoCodeNm,managelevelCodeNm,orgplceInfo,postngplaceCodeNm,prpgtEraInfo,prpgtmthCodeNm,smellCodeNm,soilInfo,speclmanageInfo,toxctyInfo,watercycleAutumnCodeNm,watercycleSprngCodeNm,watercycleSummerCodeNm,watercycleWinterCodeNm,winterLwetTpCodeNm) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.adviseInfo}','{self.clCodeNm}','{self.dlthtsCodeNm}','{self.dlthtsManageInfo}','{self.eclgyCodeNm}','{self.etcEraInfo}','{self.flclrCodeNm}','{self.fmlCodeNm}','{self.fmldeSeasonCodeNm}','{self.fmldecolrCodeNm}','{self.fncltyInfo}','{self.frtlzrInfo}','{self.growthAraInfo}','{self.growthHgInfo}','{self.grwhTpCodeNm}','{self.grwhstleCodeNm}','{self.grwtveCodeNm}','{self.hdCodeNm}','{self.ignSeasonCodeNm}','{self.lefStleInfo}','{self.lefcolrCodeNm}','{self.lefmrkCodeNm}','{self.lighttdemanddoCodeNm}','{self.managedemanddoCodeNm}','{self.managelevelCodeNm}','{self.orgplceInfo}','{self.postngplaceCodeNm}','{self.prpgtEraInfo}','{self.prpgtmthCodeNm}','{self.smellCodeNm}','{self.soilInfo}','{self.speclmanageInfo}','{self.toxctyInfo}','{self.watercycleAutumnCodeNm}','{self.watercycleSprngCodeNm}','{self.watercycleSummerCodeNm}','{self.watercycleWinterCodeNm}','{self.winterLwetTpCodeNm}')"
+        sql = f"insert into plant (id, cntntsNo, cntntsSj,adviseInfo,clCodeNm,dlthtsCodeNm,dlthtsManageInfo,eclgyCodeNm,etcEraInfo,flclrCodeNm,fmlCodeNm,fmldeSeasonCodeNm,fmldecolrCodeNm,fncltyInfo,frtlzrInfo,growthAraInfo,growthHgInfo,grwhTpCodeNm,grwhstleCodeNm,grwtveCodeNm,hdCodeNm,ignSeasonCodeNm,lefStleInfo,lefcolrCodeNm,lefmrkCodeNm,lighttdemanddoCodeNm,managedemanddoCodeNm,managelevelCodeNm,orgplceInfo,postngplaceCodeNm,prpgtEraInfo,prpgtmthCodeNm,smellCodeNm,soilInfo,speclmanageInfo,toxctyInfo,watercycleAutumnCodeNm,watercycleSprngCodeNm,watercycleSummerCodeNm,watercycleWinterCodeNm,winterLwetTpCodeNm, imageURL) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.adviseInfo}','{self.clCodeNm}','{self.dlthtsCodeNm}','{self.dlthtsManageInfo}','{self.eclgyCodeNm}','{self.etcEraInfo}','{self.flclrCodeNm}','{self.fmlCodeNm}','{self.fmldeSeasonCodeNm}','{self.fmldecolrCodeNm}','{self.fncltyInfo}','{self.frtlzrInfo}','{self.growthAraInfo}','{self.growthHgInfo}','{self.grwhTpCodeNm}','{self.grwhstleCodeNm}','{self.grwtveCodeNm}','{self.hdCodeNm}','{self.ignSeasonCodeNm}','{self.lefStleInfo}','{self.lefcolrCodeNm}','{self.lefmrkCodeNm}','{self.lighttdemanddoCodeNm}','{self.managedemanddoCodeNm}','{self.managelevelCodeNm}','{self.orgplceInfo}','{self.postngplaceCodeNm}','{self.prpgtEraInfo}','{self.prpgtmthCodeNm}','{self.smellCodeNm}','{self.soilInfo}','{self.speclmanageInfo}','{self.toxctyInfo}','{self.watercycleAutumnCodeNm}','{self.watercycleSprngCodeNm}','{self.watercycleSummerCodeNm}','{self.watercycleWinterCodeNm}','{self.winterLwetTpCodeNm}','{self.imageURL}')"
         # sql = f"insert into plant (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety) values({i}, '{self.cntntsNo}','{self.cntntsSj}','{self.presentAdequacy}','{self.airCleaning}','{self.particulateMatter}','{self.petSafety}')"
         cursor.execute(sql)
         connection.commit()
 
-        sql = f"insert into plantRecomm (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety, scent, humidify, allergy) values({i}, '{self.cntntsNo}','{self.cntntsSj}',0,'{self.airCleaning}','{self.particulateMatter}',0,0,0,0)"
-        cursor.execute(sql)
-        connection.commit()
+        # sql = f"insert into plantRecomm (id, cntntsNo, cntntsSj, presentAdequacy, airCleaning, particulateMatter, petSafety, scent, humidify, allergy) values({i}, '{self.cntntsNo}','{self.cntntsSj}',0,'{self.airCleaning}','{self.particulateMatter}',0,0,0,0)"
+        # cursor.execute(sql)
+        # connection.commit()
 
 
 plantDtl = Plant()
@@ -682,7 +688,8 @@ plantDtl.add(
     "petSafety",
     "scent",
     "humidify",
-    "allergy"
+    "allergy",
+    "imageURL",
 )
 plantDtlList.append(plantDtl)
 
@@ -934,6 +941,7 @@ for i in range(plantLength):
     scent = 0
     humidify = 0
     allergy = 0
+    imageURL = f"http://www.nongsaro.go.kr/cms_contents/301/{cntntsNo}_MF_ATTACH_01.jpg"
 
     plantDtl = Plant()
     plantDtl.add(
@@ -1019,6 +1027,7 @@ for i in range(plantLength):
         scent,
         humidify,
         allergy,
+        imageURL,
     )
     plantDtlList.append(plantDtl)
 

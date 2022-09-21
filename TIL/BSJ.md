@@ -75,3 +75,8 @@ https://overjoyed-polonium-99e.notion.site/3-7ffd991c2c08462285353366d2722727
 
 1. 반려동물 위험도 정보 검수 완료
 2. aws db에 업데이트
+
+##2022.09.20
+
+1. 식물 DB imageURL 추가
+2. 키워드 정리
