@@ -7,7 +7,6 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class Plant(models.Model):
     plant_no = models.CharField(
         db_column='cntntsNo', 
@@ -290,7 +289,7 @@ class Plant(models.Model):
         verbose_name='겨울 최저 온도'
     ) 
     img_url = models.CharField(
-        db_column='imageurl',
+        db_column='imageURL',
         max_length=255,
         blank=True,
         null=True,

@@ -5,6 +5,7 @@ class PlantListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plant
         fields = [
+            'id',
             'plant_no',
             'plant_name',
             'img_url'
@@ -14,6 +15,7 @@ class PlantDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plant
         fields = [
+            'id',
             'plant_no',
             'plant_name',
             'classification',
