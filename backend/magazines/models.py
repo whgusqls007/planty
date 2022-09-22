@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 
 
-# Create your models here.
+# 읽을거리
 class Magazine(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -37,6 +37,7 @@ class Magazine(models.Model):
     )
     img_url = models.TextField(
         verbose_name="썸네일 이미지",
+        null=True, # default로 고치기
     )
     likes = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

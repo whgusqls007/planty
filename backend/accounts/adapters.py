@@ -6,6 +6,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
         data = form.cleaned_data
         user = super().save_user(request, user, form, False)
+        
         date_of_birth = data.get("date_of_birth")
         if date_of_birth:
             user.date_of_birth = date_of_birth
@@ -25,7 +26,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
             else:
                 user.age_group = "70대 이상"
-            
             
         user.save()
         return user
