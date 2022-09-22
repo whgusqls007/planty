@@ -70,7 +70,12 @@ const DictionaryPage = () => {
             </div>
             <form>
               <input type="text" className="dictionary-search-input" />
-              <SearchIcon className="search-icon" />
+              <SearchIcon
+                className="search-icon"
+                onClick={() => {
+                  alert('asdfadfs');
+                }}
+              />
             </form>
           </div>
           {plantList && (
@@ -87,13 +92,6 @@ const DictionaryPage = () => {
 };
 
 const Wrapper = styled.div`
-  /* width: 100%;
-  display: flex;
-  justify-content: center;
-  @media screen and (min-width: 768px) {
-    & {
-    }
-  } */
   & .content {
     display: flex;
     flex-direction: column;
@@ -102,26 +100,60 @@ const Wrapper = styled.div`
     max-width: 1440px;
     margin-top: 60px;
   }
+
+  & .dict-header {
+    width: 100%;
+  }
+
   & .title {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0 10px;
+    width: 80%;
+    margin-left: 10%;
+
     & span {
       font-size: 2.5rem;
       font-weight: 700;
+
+      @media (max-width: 768px) {
+        font-weight: 600;
+        font-size: 1.7rem;
+      }
+
+      @media (max-width: 576px) {
+        font-weight: 500;
+        font-size: 1.4rem;
+      }
     }
   }
+
   & form {
     margin-top: 2rem;
-    width: 700px;
-    height: 80px;
+    margin-left: 10%;
+    width: 80%;
+    height: 100%;
     background: ${({ theme }) => theme.themeColor[5]};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     font-size: 2rem;
     display: flex;
     align-items: center;
-    padding: 0rem 2rem;
+    padding: 0.5rem 2rem;
+    position: relative;
+
+    @media (max-width: 768px) {
+      padding: 0rem 2rem;
+      margin-left: 0%;
+      width: 100%;
+    }
+
+    @media (max-width: 576px) {
+      padding: 0rem 2rem;
+      margin-left: 5%;
+      width: 90%;
+    }
+
     & input {
       height: 100%;
       background-color: transparent;
@@ -132,11 +164,16 @@ const Wrapper = styled.div`
         outline: none;
       }
     }
+
     & .search-icon {
       color: white;
       font-size: 2rem;
+      cursor: pointer;
+      position: absolute;
+      right: 5%;
     }
   }
+
   & .plantList {
     width: 100%;
     margin-top: 3rem;

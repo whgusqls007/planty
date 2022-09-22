@@ -5,6 +5,7 @@ import Card from '../../components/magazine/Card';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import TagButton from '../../components/TagButton';
 
 const Wrapper = styled.div`
   margin: 3% 5% 0 5%;
@@ -14,99 +15,6 @@ const Wrapper = styled.div`
   & a {
     text-decoration: none;
     color: black;
-  }
-`;
-
-const InputBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-  width: 100%;
-  box-sizing: border-box;
-  letter-spacing: 1px;
-  position: relative;
-
-  & .effect {
-    border: 0;
-    padding: 2px 6% 2px 6%;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    width: 50%;
-    transition: 0.6s;
-
-    @media (max-width: 768px) {
-      outline: none;
-      transition: 0.6s;
-      padding: 2px 8% 2px 8%;
-      width: 75%;
-    }
-
-    &:focus {
-      outline: none;
-      transition: 0.6s;
-      padding: 8px 6% 8px 6%;
-
-      @media (max-width: 768px) {
-        outline: none;
-        transition: 0.6s;
-        padding: 8px 8% 8px 8%;
-      }
-    }
-  }
-
-  & .effect ~ .focus-border {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: #4caf50;
-    transition: 0.6s;
-
-    @media (max-width: 768px) {
-      left: 50%;
-    }
-  }
-
-  & .effect:focus ~ .focus-border {
-    position: absolute;
-    width: 50%;
-    transition: 0.6s;
-    left: 25%;
-
-    @media (max-width: 768px) {
-      width: 75%;
-      left: 12.5%;
-    }
-  }
-
-  & .search-button {
-    position: absolute;
-    right: 25%;
-    width: 5%;
-
-    @media (max-width: 768px) {
-      right: 12.5%;
-    }
-  }
-
-  & select {
-    position: absolute;
-    text-align: center;
-    width: 5%;
-    left: 25%;
-    height: 100%;
-    border: 0px;
-    border-right: 1px dotted #ccc;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    transition: 0.6s;
-
-    @media (max-width: 768px) {
-      width: 7%;
-      left: 12.5%;
-    }
   }
 `;
 
@@ -166,6 +74,169 @@ const FloatButton = styled.div`
   box-shadow: 2px 2px 3px #999;
 `;
 
+const InputBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  position: relative;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & .effect {
+    border: 0;
+    padding: 2px 6% 2px 11%;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    transition: 0.6s;
+
+    @media (max-width: 768px) {
+      outline: none;
+      transition: 0.6s;
+      padding: 2px 6% 2px 16%;
+      width: 75%;
+    }
+
+    &:focus {
+      outline: none;
+      transition: 0.6s;
+      padding: 8px 6% 8px 11%;
+
+      @media (max-width: 768px) {
+        outline: none;
+        transition: 0.6s;
+        padding: 8px 6% 8px 16%;
+      }
+    }
+  }
+
+  & .effect ~ .focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #4caf50;
+    transition: 0.6s;
+
+    @media (max-width: 768px) {
+      left: 50%;
+    }
+  }
+
+  & .effect:focus ~ .focus-border {
+    position: absolute;
+    width: 50%;
+    transition: 0.6s;
+    left: 25%;
+
+    @media (max-width: 768px) {
+      width: 75%;
+      left: 12.5%;
+    }
+  }
+
+  & .search-button {
+    position: absolute;
+    right: 25%;
+    width: 5%;
+
+    @media (max-width: 768px) {
+      right: 12.5%;
+    }
+  }
+
+  & select {
+    position: absolute;
+    text-align: center;
+    width: 10%;
+    left: 25%;
+    height: 100%;
+    border: 0px;
+    border-right: 1px dotted #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    transition: 0.6s;
+
+    @media (max-width: 768px) {
+      width: 15%;
+      left: 12.5%;
+    }
+  }
+`;
+
+const InputButton = styled.div`
+  background-color: white;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+
+const SubInputBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1%;
+  width: 100%;
+  justify-content: space-around;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+  }
+  & .tag {
+    width: 100px;
+    text-align: center;
+    margin-left: 3%;
+    padding: 2px 6px 2px 6px;
+    border-radius: 6px;
+
+    @media (max-width: 768px) {
+      width: 90px;
+      text-align: center;
+      margin-left: 3%;
+      padding: 2px 6px 2px 6px;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 13px;
+      width: 75px;
+      text-align: center;
+      margin-left: 3%;
+      padding: 2px 6px 2px 6px;
+      border-radius: 6px;
+    }
+  }
+
+  & .tag:hover {
+    background-color: ${({ theme }) => theme.themeColor[5]};
+  }
+
+  & active {
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
+  }
+`;
+
+const SortingButton = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const MagazinePage = () => {
   const [current, setCurrent] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -177,6 +248,13 @@ const MagazinePage = () => {
   const [dummyData, setDummyData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [content, setContent] = useState('');
+  // 0 최신순 1 좋아요순 2 댓글순
+  const [sorting, setSorting] = useState(0);
+
+  const activeEffect = {
+    border: '1px solid #4caf50',
+    padding: '1px 5px 1px 5px',
+  };
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8080/test/totalCount`, { method: 'GET' })
@@ -255,17 +333,57 @@ const MagazinePage = () => {
           />
           <span className="focus-border"></span>
           <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
+            <option>제목</option>
+            <option>글쓴이</option>
           </select>
-          <SearchIcon
+          <InputButton
             className="search-button"
-            style={content === '' ? { display: 'none' } : { display: 'block' }}
+            style={
+              content === ''
+                ? { display: 'none' }
+                : { display: 'block', zIndex: '999' }
+            }
+            onClick={() => {
+              alert(content);
+            }}
           >
-            adsas
-          </SearchIcon>
+            <SearchIcon />
+          </InputButton>
         </InputBox>
+        <SubInputBox>
+          <SortingButton>
+            <div
+              className="tag"
+              style={sorting === 0 ? activeEffect : null}
+              onClick={() => {
+                setSorting(0);
+              }}
+            >
+              최신순
+            </div>
+            <div
+              className="tag"
+              style={sorting === 1 ? activeEffect : null}
+              onClick={() => {
+                setSorting(1);
+              }}
+            >
+              좋아요순
+            </div>
+            <div
+              className="tag"
+              style={sorting === 2 ? activeEffect : null}
+              onClick={() => {
+                setSorting(2);
+              }}
+            >
+              댓글순
+            </div>
+          </SortingButton>
+          <Link to="/magazine/magazineinput">
+            <div className="tag">글쓰기</div>
+          </Link>
+        </SubInputBox>
         <Wrapper>
           {dummyData.map((e, i) => {
             return (
@@ -324,11 +442,11 @@ const MagazinePage = () => {
           ) : null}
         </ListWrapper>
       </Container>
-      <Link to="/magazine/magazineinput">
+      {/* <Link to="/magazine/magazineinput">
         <FloatButton>
           <div className="my-float">글쓰기</div>
         </FloatButton>
-      </Link>
+      </Link> */}
     </>
   );
 };
