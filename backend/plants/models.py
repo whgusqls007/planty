@@ -244,7 +244,7 @@ class Plant(models.Model):
         max_length=255, 
         blank=True, 
         null=True,
-        verbose_name='독성'
+        verbose_name='독성 정보'
     )  
     water_cycle_autumn = models.CharField(
         db_column='watercycleAutumnCodeNm', 
@@ -294,7 +294,7 @@ class Plant(models.Model):
         db_table = 'plant'
 
 
-class Plantrecomm(models.Model):
+class PlantKeyword(models.Model):
     plant_no = models.CharField(
         db_column='cntntsNo', 
         max_length=255, 
@@ -311,44 +311,41 @@ class Plantrecomm(models.Model):
     )    
     present_adequacy = models.IntegerField(
         db_column='presentAdequacy', 
-        blank=True, 
+        blank=True,
         null=True,
         verbose_name='선물 적합성'
     )  
-    aircleaning = models.CharField(
+    air_cleaning = models.CharField(
         db_column='airCleaning', 
         max_length=3, 
         blank=True, 
         null=True,
         verbose_name='공기 정화 기능'
     )  
-    particulatematter = models.CharField(
+    pm_cleaning = models.CharField(
         db_column='particulateMatter', 
         max_length=3, 
         blank=True, 
         null=True,
         verbose_name='미세먼지 정화 기능'
     )
-    petsafety = models.IntegerField(
+    pet_safety = models.IntegerField(
         db_column='petSafety', 
         blank=True, 
         null=True,
         verbose_name='반려동물 안전성'
     )
-    scent = models.IntegerField(
-        blank=True, 
-        null=True,
-        verbose_name='향기'
-    )
     humidify = models.IntegerField(
+        db_column='humidify',
         blank=True, 
         null=True,
-        verbose_name='습도 조절 기능'
+        verbose_name='가습 효과'
     )
-    allergy = models.IntegerField(
+    toxicity = models.IntegerField(
+        db_column='toxcty',
         blank=True, 
         null=True,
-        verbose_name='알러지 가능성'
+        verbose_name='독성'
     )
 
     class Meta:

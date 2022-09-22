@@ -1,21 +1,34 @@
 from rest_framework import serializers
-from .models import Plant
+from .models import Plant, PlantKeyword
 
 class PlantListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plant
-        fields = [
+        fields = (
             'id',
             'plant_no',
             'plant_name',
             'img_url',
             'manage_level',
-        ]
+        )
+
+
+
 
 class PlantDetailSerializer(serializers.ModelSerializer):
+
+    # 식물키워드 DB가 완성 되면 해당 컬럼도 조회해서 반환해야함
+    class PlantKeywordSerializer(serializers.ModelSerializer):
+    
+        class Meta:
+            model = PlantKeyword
+            fields = '__all__'
+
+    plant_keywords = PlantKeywordSerializer(read_only=True, many=True)
+
     class Meta:
         model = Plant
-        fields = [
+        fields = (
             'id',
             'plant_no',
             'plant_name',
@@ -36,7 +49,8 @@ class PlantDetailSerializer(serializers.ModelSerializer):
             'posting_place',
             'water_cycle_spring',
             'water_cycle_summer',
-            'water_cycle_autum',
+            'water_cycle_autumn',
             'water_cycle_winter',
-            'img_url'
-            ]
+            'img_url',
+            'plant_keywords',
+        )
