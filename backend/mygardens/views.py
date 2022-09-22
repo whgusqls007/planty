@@ -31,7 +31,6 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-            # 성목 : 파일 업로드 되는지만 테스트. 수정 필요!!
             try:
                 file=request.FILES['files']
             except:
