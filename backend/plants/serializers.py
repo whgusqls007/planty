@@ -40,3 +40,7 @@ class PlantDetailSerializer(serializers.ModelSerializer):
             'water_cycle_winter',
             'img_url'
             ]
+            
+
+    # 식물키워드 DB가 완성 되면 해당 컬럼도 조회해서 반환해야함
+    
