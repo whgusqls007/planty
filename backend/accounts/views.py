@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import User
 
 
-class FollowView(viewsets.ViewSet):
+class FollowViewSet(viewsets.ViewSet):
 
     def follow(self, request, pk):
         person = get_object_or_404(User, pk=pk)

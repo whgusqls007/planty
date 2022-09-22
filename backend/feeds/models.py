@@ -10,7 +10,7 @@ class Feed(models.Model):
         verbose_name="작성자",
     )
     content = models.TextField(
-        verbose_name="내용"
+        verbose_name="내용",
     )
     date_created = models.DateTimeField(
         verbose_name="읽을거리 작성일자",
@@ -18,6 +18,7 @@ class Feed(models.Model):
     )
     img_url = models.TextField(
         verbose_name="사진",
+        null=True, # default로 고치기
     )
     comments_count = models.IntegerField(
     verbose_name="댓글 개수",
@@ -63,11 +64,13 @@ class FeedComment(models.Model):
         Feed,
         on_delete=models.CASCADE,
         verbose_name="남의 정원 PK",
+        related_name="feed_comments"
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name="내 아이디",
+        related_name="feed_comments"
     )
     content = models.TextField(
         verbose_name="댓글 내용"
