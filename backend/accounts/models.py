@@ -92,6 +92,7 @@ class User(AbstractUser):
     age_group = models.CharField(
         verbose_name="연령대",
         max_length=10,
+        null=True,
     )
 
 
