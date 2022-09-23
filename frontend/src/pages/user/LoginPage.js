@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../features/user/userActions';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.user,
+  );
+  useEffect(() => {
+    if (userInfo) {
+      navigate(-1, { replace: true });
+    }
+  }, [navigate, userInfo]);
   const [loginInputs, setLoginInputs] = useState({
-    username: '',
+    email: '',
     password: '',
   });
   const inputChangeHandler = (e) => {
@@ -15,6 +29,7 @@ const LoginPage = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(userLogin(loginInputs));
   };
   return (
     <Wrapper>
@@ -28,15 +43,15 @@ const LoginPage = () => {
           Planty
         </div>
         <LoginForm onSubmit={submitHandler}>
-          <label htmlFor="username">USERNAME</label>
-          <input type="text" id="username" onChange={inputChangeHandler} />
+          <label htmlFor="email">EMAIL</label>
+          <input type="text" id="email" onChange={inputChangeHandler} />
           <label htmlFor="password">PASSWORD</label>
           <input type="password" id="password" onChange={inputChangeHandler} />
           <div>
             <input type="checkbox" id="remember" />
             <label htmlFor="remember">REMEMBER ME</label>
           </div>
-          <button>LOG IN</button>
+          <button disabled={loading}>LOG IN</button>
           {/* <button>LOG IN</button> */}
           <div className="login-option-div">
             <Link to="">Lost your password?</Link>

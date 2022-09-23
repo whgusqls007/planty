@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserErrorMessage from '../../components/user/UserErrorMessage';
 import UserCorrectMessage from '../../components/user/UserCorrectMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { userRegister } from '../../features/user/userActions';
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.user,
+  );
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(-1, { replace: true });
+    }
+  }, [navigate, userInfo]);
+
   const [registerInputs, setRegisterInputs] = useState({
     username: '',
     email: '',
     password1: '',
     password2: '',
-    nickname: '',
+    date_of_birth: '',
   });
   const [inputErrors, setInputErrors] = useState({
     usernameError: false,
     emailError: false,
-    passwordError: false,
+    passwordError: false, // 비밀번호 8자리
     passwordConfirmError: false,
-    nicknameError: false,
+    birthDateError: false,
   });
   const inputChangeHandler = (e) => {
     setRegisterInputs({
@@ -27,6 +41,7 @@ const RegisterPage = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(userRegister(registerInputs));
   };
   const checkPassword = () => {
     if (
@@ -93,15 +108,11 @@ const RegisterPage = () => {
           </LabelContainer>
           <input type="password" id="password2" onChange={inputChangeHandler} />
           <LabelContainer>
-            <label htmlFor="nickname">NICKNAME</label>
-            {inputErrors.nicknameError && <UserErrorMessage />}
+            <label htmlFor="date_of_birth">BIRTH DATE</label>
+            {inputErrors.birthDateError && <UserErrorMessage />}
           </LabelContainer>
-          <input type="text" id="nickname" onChange={inputChangeHandler} />
-          <div className="checkbox-div">
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">REMEMBER ME</label>
-          </div>
-          <button>LOG IN</button>
+          <input type="date" id="date_of_birth" onChange={inputChangeHandler} />
+          <button>SIGN UP</button>
           <div className="login-option-div">
             <Link to={-1}>Back</Link>
           </div>

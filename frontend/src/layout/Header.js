@@ -64,7 +64,7 @@ function Header() {
               </Col>
             </Nav>
             {userInfo ? (
-              <div>어떤 로고를 여기에</div>
+              <div>프로필이미지</div>
             ) : (
               <div className="nav-user-btn">
                 <Link to="login">로그인</Link>

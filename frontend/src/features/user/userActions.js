@@ -1,19 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { login, register } from '../../api/user';
+import { getUserInfo, login, register } from '../../api/user';
 
 export const userLogin = createAsyncThunk(
   'user/login',
-  async ({ userId, userPassword }, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const { data } = await login({ userId, userPassword });
-
+      const loginData = await login(params);
       // 로컬스토리지에 Token 저장
-      localStorage.setItem('userToken', data.userToken);
-
+      localStorage.setItem('Token', loginData.data.key);
+      const { data } = await getUserInfo();
+      localStorage.setItem('userInfo', JSON.stringify(data));
       return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+      console.log('error', error);
+      if (error.response && error.response.data) {
+        console.log(error.response.data);
+        return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);
       }
@@ -26,11 +28,10 @@ export const userRegister = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await register(params);
-
       return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);
       }
