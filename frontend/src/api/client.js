@@ -7,6 +7,13 @@ const client = axios.create({
   },
 });
 
+const token = localStorage.getItem('Token')
+  ? localStorage.getItem('Token')
+  : null;
+if (token) {
+  client.defaults.headers.common['Authorization'] = `Token ${token}`;
+}
+
 // 요청 인터셉터 추가하기
 client.interceptors.request.use(
   function (config) {
@@ -29,6 +36,15 @@ client.interceptors.response.use(
   function (error) {
     // 2xx 외의 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
     // 응답 오류가 있는 작업 수행
+    if (error.response && error.response.status === 401) {
+      const token = localStorage.getItem('Token')
+        ? localStorage.getItem('Token')
+        : null;
+      if (token) {
+        client.defaults.headers.common['Authorization'] = `Token ${token}`;
+        return client.request(error.config);
+      }
+    }
     return Promise.reject(error);
   },
 );

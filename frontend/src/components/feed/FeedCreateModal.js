@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
+import { createFeed } from '../../features/feed/feedAction';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 const FeedCreateModal = ({ modalOpen, closeModal }) => {
+  const dispatch = useDispatch();
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
-  const [feedInputs, setFeedInputs] = useState({
-    plantname: '',
-    date_grow: null,
-    watering_schedule: null,
-    recent_water: null,
-  });
+  const [content, setContent] = useState('');
 
   const onImageChange = (e) => {
     e.preventDefault();
@@ -29,14 +27,17 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
   };
 
   const onChangeHandler = (e) => {
-    setFeedInputs({
-      ...feedInputs,
-      [e.target.id]: e.target.value,
-    });
+    setContent(e.target.value);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    const data = JSON.stringify({ content });
+    formData.append('data', data);
+    formData.append('files', imgFile);
+    formData.append('enctype', 'multipart/form-data');
+    dispatch(createFeed(formData));
   };
 
   return (
@@ -56,8 +57,8 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
             accept="image/*"
             onChange={onImageChange}
           />
-          <label htmlFor="plantname">내용</label>
-          <input type="text" id="plantname" onChange={onChangeHandler} />
+          <label htmlFor="content">내용</label>
+          <input type="text" id="content" onChange={onChangeHandler} />
           <button>작성</button>
         </FeedForm>
       </div>

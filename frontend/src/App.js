@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchUserInfo } from './features/user/userActions';
 import Header from './layout/Header';
 import IndexPage from './pages/IndexPage';
 // 식물 사전

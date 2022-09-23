@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/esm/Container';
 import FeedItem from '../../components/feed/FeedItem';
 import FeedModal from '../../components/feed/FeedModal';
 import FeedCreateModal from '../../components/feed/FeedCreateModal';
+import TopButton from '../../components/TopButton';
 
 const FeedListPage = () => {
   // Dummy
@@ -45,6 +46,7 @@ const FeedListPage = () => {
           </button>
         </Wrapper>
       </Container>
+      <TopButton />
     </>
   );
 };
