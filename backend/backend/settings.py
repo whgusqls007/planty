@@ -25,12 +25,11 @@ secrets = json.load(open(os.path.join(BASE_DIR, 'secrets.json'), 'rb'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets['SECRET_KEY']
-# AWS 파일
+# AWS
 AWS_ACCESS_KEY_ID = secrets['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = secrets['AWS_SECRET_ACCESS_KEY']
 AWS_DEFAULT_REGION = secrets['AWS_DEFAULT_REGION']
 AWS_BUCKET_URL = secrets['AWS_BUCKET_URL']
-TEST_DATABASES = secrets['DATABASES']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -110,18 +109,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-# DB 재연결용 데이터베이스
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'homidu',
-#        'USER': 'j7e103',
-#        'PASSWORD': '000000',
-#        'HOST': 'j7e103.p.ssafy.io',
-#        'PORT': '3306',
-#    }
-#}
 
 # 서버 데이터베이스
 DATABASES = secrets['DATABASES']
@@ -206,10 +193,6 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ]
 }
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',
-# ]
 
 # 모두에게 교차출처 허용 (*)
 CORS_ALLOW_ALL_ORIGINS = True

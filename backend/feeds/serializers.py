@@ -13,8 +13,8 @@ class FeedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feed
-        fields = ('user', 'content', 'date_created', 'img_url', 'comments_count', 'likes_count', )
-        read_only_fields = ('user', 'comments_count', 'likes_count', )
+        fields = ('id', 'user', 'content', 'date_created', 'img_url', 'comments_count', 'likes_count', )
+        read_only_fields = ('user', 'comments_count', 'likes_count', 'img_url')
 
 
 # 남의 정원 댓글

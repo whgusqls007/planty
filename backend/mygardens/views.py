@@ -26,23 +26,26 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     
     # post에 매칭
     def create(self, request):
-        serializer = MyGardenSerializer(data=request.data)
+        data = eval(request.data['data'])
+        serializer = MyGardenSerializer(data=data)
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-            # 성목 : 파일 업로드 되는지만 테스트. 수정 필요!!
-            # file=request.FILES['files']
-            # file_path = s3_upload_image(file, 'feed/')
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'mygardens/')
 
-            serializer.save(user=user)
+            serializer.save(user=user, img_url=file_path)
 
             user.plants_count = user.plants_count + 1
             user.save()
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-    # delete에 매칭, 게시글 삭제
+    # delete에 매칭, 정원 등록 식물 삭제
     def destroy(self, request, pk):
         my_garden = get_object_or_404(MyGarden, pk=pk)
         user = request.user
@@ -65,7 +68,7 @@ class DiaryViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = DiarySerializer
 
-    # post에 매칭, 댓글 작성
+    # post에 매칭, 일기 작성
     def create(self, request, my_garden_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
         serializer = DiarySerializer(data=request.data)
@@ -81,7 +84,7 @@ class DiaryViewSet(viewsets.ModelViewSet):
             
             return Response(serializers.data, status=status.HTTP_201_CREATED)
 
-    # put에 매칭, 댓글 수정
+    # put에 매칭, 일기 수정
     def update(self, request, my_garden_pk, diary_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
         diary = get_object_or_404(Diary, pk=diary_pk)
@@ -95,7 +98,7 @@ class DiaryViewSet(viewsets.ModelViewSet):
             
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # delete에 매칭, 댓글 삭제
+    # delete에 매칭, 일기 삭제
     def destroy(self, request, my_garden_pk, diary_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
         diary = get_object_or_404(Diary, pk=diary_pk)
