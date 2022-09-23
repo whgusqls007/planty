@@ -17,24 +17,21 @@ import json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 키 값 파일(secrets.json)
-secrets = json.load(open(os.path.join(BASE_DIR, 'secrets.json'), 'rb'))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets['SECRET_KEY']
-# AWS
-AWS_ACCESS_KEY_ID = secrets['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = secrets['AWS_SECRET_ACCESS_KEY']
-AWS_DEFAULT_REGION = secrets['AWS_DEFAULT_REGION']
-AWS_BUCKET_URL = secrets['AWS_BUCKET_URL']
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+# AWS 파일
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_DEFAULT_REGION = os.environ['AWS_DEFAULT_REGION']
+AWS_BUCKET_URL = os.environ['AWS_BUCKET_URL']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['j7e103.p.ssafy.io']
 
 
 # Application definition
@@ -102,16 +99,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# 테스트용 sqlite3 데이터베이스
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 # 서버 데이터베이스
-DATABASES = secrets['DATABASES']
+DATABASES = {
+   'default': {
+       'ENGINE': os.environ["DB_ENGINE"],
+       'NAME': os.environ["DB_NAME"],
+       'USER': os.environ["DB_USER"],
+       'PASSWORD': os.environ["DB_PASSWORD"],
+       'HOST': os.environ["DB_HOST"],
+       'PORT': os.environ["DB_PORT"],
+   }
+}
 
 
 # Password validation
@@ -194,5 +192,9 @@ REST_FRAMEWORK = {
     ]
 }
 
+CORS_ALLOWED_ORIGINS = [
+    'http://j7e103.p.ssafy.io',
+]
+
 # 모두에게 교차출처 허용 (*)
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
