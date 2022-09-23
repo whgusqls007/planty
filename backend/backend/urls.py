@@ -38,11 +38,15 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('dj_rest_auth.urls')),
+    path('api/accounts/', include('accounts.urls')),
     path('api/accounts/signup/', include('dj_rest_auth.registration.urls')),
-    path("api/magazines/", include("magazines.urls")),
+    path('api/magazines/', include('magazines.urls')),
+    path('api/plants/', include('plants.urls')),
+    path('api/mygardens/', include('mygardens.urls')),
+    path('api/feeds/', include('feeds.urls')),
     re_path(
         r"^swagger/$",
-        schema_view.with_ui("swagger", cache_timeout=0),
+        schema_view.with_ui('swagger', cache_timeout=0),
         name="schema-swagger-ui",
     ),
 ]
