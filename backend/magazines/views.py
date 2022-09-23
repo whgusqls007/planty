@@ -29,8 +29,10 @@ class MagazineViewSet(viewsets.ModelViewSet):
     def create(self, request):
         serializer = MagazineSerializer(data=request.data)
         user = request.user
+
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=user)
+
             user.exp = user.exp + 1
             user.articles_count = user.articles_count + 1
             user.save()
@@ -56,7 +58,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
 
 
 # 읽을거리 좋아요
-class MagazineLikeView(viewsets.ViewSet):
+class MagazineLikeViewSet(viewsets.ViewSet):
     
     def like(self, request, magazine_pk):
         magazine = get_object_or_404(Magazine, pk=magazine_pk)
@@ -64,6 +66,7 @@ class MagazineLikeView(viewsets.ViewSet):
 
         if magazine.likes.filter(pk=user.pk).exists():
             magazine.likes.remove(user)
+
             magazine.likes_count = magazine.likes_count - 1
             magazine.save()
 
@@ -74,6 +77,7 @@ class MagazineLikeView(viewsets.ViewSet):
 
         else:
             magazine.likes.add(user)
+            
             magazine.likes_count = magazine.likes_count + 1
             magazine.save()
 
