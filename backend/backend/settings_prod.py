@@ -29,7 +29,8 @@ AWS_DEFAULT_REGION = os.environ['AWS_DEFAULT_REGION']
 AWS_BUCKET_URL = os.environ['AWS_BUCKET_URL']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
