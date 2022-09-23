@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import User
 
 
+# 팔로우 기능
 class FollowViewSet(viewsets.ViewSet):
 
     def follow(self, request, pk):
@@ -30,3 +31,26 @@ class FollowViewSet(viewsets.ViewSet):
             me.save()
             
             return Response({'data' : 'Follow OK'}, status=status.HTTP_200_OK)
+
+
+# 닉네임 중복 확인
+class UsernameCheckViewSet(viewsets.ViewSet):
+    
+    def check(self, request):
+        if User.objects.filter(username=request.data["username"]).exists():
+            return Response({'data' : False}, status=status.HTTP_200_OK)
+
+        return Response({'data' : True}, status=status.HTTP_200_OK)
+
+
+# 이메일 중복 확인
+class EmailCheckViewSet(viewsets.ViewSet):
+
+    def check(self, request):
+        print(request.data)
+        if User.objects.filter(email=request.data["email"]).exists():
+            return Response({'data' : False}, status=status.HTTP_200_OK)
+
+        return Response({'data' : True}, status=status.HTTP_200_OK)
+
+        
