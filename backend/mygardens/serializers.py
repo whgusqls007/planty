@@ -8,7 +8,7 @@ class MyGardenSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyGarden
         fields = "__all__"
-        read_only_fields = ['user', 'diaries_count']
+        read_only_fields = ['user', 'diaries_count', 'img_url']
 
 
 # 식물일기
