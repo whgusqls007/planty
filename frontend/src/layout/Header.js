@@ -5,6 +5,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
+import React from 'react';
+
 // css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -26,7 +28,7 @@ const Wrapper = styled.div`
 `;
 
 function Header() {
-  const { userInfo } = useSelector((state) => state.user);
+  const { userInfo } = useSelector(state => state.user);
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
