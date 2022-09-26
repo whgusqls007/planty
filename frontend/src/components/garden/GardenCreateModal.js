@@ -76,7 +76,14 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
             accept="image/*"
             onChange={onImageChange}
           />
-          <img src={imgSrc} alt="aabbb" className="plant-img" />
+          <img
+            src={imgSrc}
+            alt=""
+            className="plant-img"
+            style={
+              imgSrc !== null ? null : { display: 'none', marginBottom: '3%' }
+            }
+          />
           <button>작성</button>
         </GardenForm>
       </div>
@@ -99,7 +106,8 @@ const Wrapper = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.85);
+  overflow-y: initial !important;
 
   & .close-modal {
     position: absolute;
@@ -110,6 +118,7 @@ const Wrapper = styled.div`
   }
 
   & .modal-div {
+    overflow-y: initial !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,14 +130,9 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    @media (min-width: 1200px) {
-      width: 850px;
-      height: 800px;
-    }
-    @media (max-width: 1199px) {
-      width: 850px;
-      height: 800px;
-    }
+    height: 600px;
+    width: 80%;
+
     & .close-btn {
       position: absolute;
       right: 30px;
@@ -164,9 +168,17 @@ const GardenForm = styled.form`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  & label {
+  overflow-y: auto;
+  @media (max-width: 400px) {
+    font-size: 14px;
+  }
+  */ & label {
     margin-top: 16px;
     color: #787878;
+
+    @media (max-width: 576px) {
+      margin-top: 8px;
+    }
   }
   & input {
     padding: 8px 0;
@@ -175,21 +187,56 @@ const GardenForm = styled.form`
       outline: none;
     }
   }
+  & #date_grow {
+    margin-top: 1rem;
+  }
+
+  & #recent_water {
+    margin-top: 1rem;
+  }
+
   & > div > label {
     margin-left: 6px;
   }
+
   & button {
     border: none;
-    margin-top: 10px;
     background-color: ${({ theme }) => theme.themeColor[1]};
-    height: 44px;
     color: #ffffff;
     border-radius: 8px;
+    margin-bottom: 0px;
+    margin-top: 5%;
+    padding: 0.5% 0 0.5% 0;
   }
+
+  & .plant-img-input {
+    height: 100%;
+    padding-bottom: 50px;
+
+    @media (max-width: 576px) {
+      padding-bottom: 10px;
+      height: 20%;
+    }
+
+    @media (max-width: 400px) {
+      padding-bottom: 10px;
+      height: 10%;
+    }
+  }
+
   & .plant-img {
     border: 2px dashed black;
     width: 300px;
     height: 300px;
+
+    @media (max-width: 576px) {
+      width: 200px;
+      height: 200px;
+    }
+    @media (max-width: 400px) {
+      width: 150px;
+      height: 100px;
+    }
   }
 `;
 
