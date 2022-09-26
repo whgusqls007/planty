@@ -57,6 +57,10 @@ const Wrapper = styled.div`
   & .user-img {
     width: 88px;
     height: 88px;
+    @media (max-width: 576px) {
+      width: 66px;
+      height: 66px;
+    }
     border-radius: 50%;
     background-color: ${({ theme }) => theme.themeColor[1]};
   }
@@ -66,23 +70,55 @@ const Wrapper = styled.div`
     margin-top: 20px;
     & .follow-icon {
       width: 40px;
+      @media (max-width: 576px) {
+        width: 20px;
+      }
     }
   }
   & .user-nickname {
     font-size: 25px;
     margin: 0 10px;
+    @media (max-width: 576px) {
+      font-size: 16px;
+    }
+    @media (max-width: 380px) {
+      font-size: 12px;
+    }
   }
   & .user-level {
     font-size: 20px;
+    @media (max-width: 576px) {
+      font-size: 16px;
+    }
+    @media (max-width: 380px) {
+      font-size: 12px;
+    }
   }
   & .user-content {
     font-size: 18px;
     margin-top: 16px;
+
+    @media (max-width: 576px) {
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    @media (max-width: 380px) {
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
     & .content-edit-icon {
       opacity: 0.4;
       cursor: pointer;
+      font-size: 20px;
       &:hover {
         opacity: 1;
+      }
+      @media (max-width: 576px) {
+        font-size: 16px;
+      }
+      @media (max-width: 380px) {
+        font-size: 12px;
       }
     }
   }
@@ -94,7 +130,19 @@ const Wrapper = styled.div`
       flex-direction: column;
       align-items: center;
       margin: 0px 13px;
-      font-weight: 200;
+
+      & > span {
+        font-size: 18px;
+        font-weight: 300;
+
+        @media (max-width: 576px) {
+          font-size: 16px;
+        }
+
+        @media (max-width: 380px) {
+          font-size: 12px;
+        }
+      }
     }
   }
 `;

@@ -96,16 +96,33 @@ const Wrapper = styled.div`
     justify-content: center;
     font-size: 20px;
   }
+
   & .toggle-btn1 {
     position: absolute;
     /* top: 0; */
     left: 50%;
     transform: translateX(calc(-100% - 16px));
+
+    @media (max-width: 576px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 380px) {
+      font-size: 12px;
+    }
   }
   & .toggle-btn2 {
     position: absolute;
     left: 50%;
     transform: translateX(20px);
+
+    @media (max-width: 576px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 380px) {
+      font-size: 12px;
+    }
   }
 `;
 
@@ -130,6 +147,12 @@ const GardenWrapper = styled.div`
     width: 130px;
     height: 42px;
     font-size: 20px;
+
+    @media (max-width: 576px) {
+      width: 100%;
+      height: 36px;
+      font-size: 16px;
+    }
   }
 
   /* 반응형 */
