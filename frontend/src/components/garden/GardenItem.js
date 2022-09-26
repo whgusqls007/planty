@@ -35,6 +35,9 @@ const Wrapper = styled.div`
   @media (max-width: 576px) {
     width: 350px;
   }
+  @media (max-width: 380px) {
+    width: 280px;
+  }
   /* height: 568px; */
   & a {
     text-decoration: none;
@@ -50,11 +53,26 @@ const Wrapper = styled.div`
   & .garden-title {
     font-size: 24px;
     font-weight: 500;
+    @media (max-width: 576px) {
+      font-size: 20px;
+      font-weight: 400;
+    }
+    @media (max-width: 380px) {
+      font-size: 16px;
+    }
   }
   & .garden-date-grow {
     font-size: 18px;
     font-weight: 400;
     color: #565656;
+
+    @media (max-width: 576px) {
+      font-size: 14px;
+      font-weight: 400;
+    }
+    @media (max-width: 380px) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -64,6 +82,11 @@ const GardenImg = styled.div`
   @media (max-width: 576px) {
     height: 350px;
   }
+
+  @media (max-width: 380px) {
+    height: 280px;
+  }
+
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: ${({ theme }) => theme.themeColor[5]};
