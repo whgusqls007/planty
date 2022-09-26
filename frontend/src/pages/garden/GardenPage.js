@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
+import { useDispatch } from 'react-redux';
+import { fetchGardenList } from '../../features/garden/gardenActions';
+import { useSelector } from 'react-redux';
 
 const dummyPlants = [
   {
@@ -33,6 +36,9 @@ const dummyPlants = [
 
 const GardenPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const { gardenList } = useSelector((state) => state.garden);
+
+  console.log(gardenList !== null ? gardenList.slice(0, 5) : null);
 
   const openModal = () => {
     setModalOpen(true);
@@ -41,6 +47,13 @@ const GardenPage = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGardenList());
+  }, [dispatch]);
+
   return (
     <>
       <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
@@ -53,9 +66,11 @@ const GardenPage = () => {
         </div>
         <GardenWrapper>
           <button onClick={openModal}>식물 등록</button>
-          {dummyPlants.map((plant, idx) => (
-            <GardenItem plant={plant} key={idx} />
-          ))}
+          {dummyPlants !== null
+            ? dummyPlants
+                .slice(0, 5)
+                .map((plant, idx) => <GardenItem plant={plant} key={idx} />)
+            : null}
         </GardenWrapper>
       </Wrapper>
     </>
@@ -96,12 +111,14 @@ const Wrapper = styled.div`
 
 const GardenWrapper = styled.div`
   margin-top: 80px;
+  margin-bottom: 2rem;
   position: relative;
   display: grid;
   justify-content: center;
   grid-column-gap: 14px;
   grid-row-gap: 20px;
   background-color: white;
+
   & button {
     position: absolute;
     right: 0;
@@ -128,6 +145,22 @@ const GardenWrapper = styled.div`
   }
   @media (max-width: 800px) {
   }
+
+  /* grid-template-columns: repeat(3, 436px);
+  width: 1336px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(3, 436px);
+    width: 1336px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 436px);
+    width: 886px;
+  }
+
+  @media (max-width: 576px) {
+  } */
 `;
 
 export default GardenPage;

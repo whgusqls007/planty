@@ -31,6 +31,10 @@ const GardenItem = ({ plant }) => {
 
 const Wrapper = styled.div`
   width: 436px;
+
+  @media (max-width: 576px) {
+    width: 350px;
+  }
   /* height: 568px; */
   & a {
     text-decoration: none;
@@ -56,6 +60,10 @@ const Wrapper = styled.div`
 
 const GardenImg = styled.div`
   height: 436px;
+
+  @media (max-width: 576px) {
+    height: 350px;
+  }
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: ${({ theme }) => theme.themeColor[5]};
