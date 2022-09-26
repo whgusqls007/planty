@@ -36,7 +36,7 @@ const FeedListPage = () => {
         modalOpen={createModalOpen}
         closeModal={closeCreateModal}
       />
-      <Container className="d-flex flex-column justify-content-center" st>
+      <Container className="d-flex flex-column justify-content-center">
         <Wrapper>
           {arr.map((e, i) => (
             <FeedItem key={i} onClick={openModal} />
@@ -100,7 +100,8 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, calc((100vw - 24px) / 2 - 5px));
   } */
   @media (max-width: 575px) {
-    grid-template-columns: repeat(1, calc((100vw - 24px)));
+    padding: 0 10px;
+    grid-template-columns: repeat(1, calc((100vw - 44px)));
   }
   & .feed-create-btn {
     position: absolute;

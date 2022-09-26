@@ -103,14 +103,9 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    @media (min-width: 1200px) {
-      width: 850px;
-      height: 800px;
-    }
-    @media (max-width: 1199px) {
-      width: 850px;
-      height: 800px;
-    }
+    width: 90vw;
+    max-width: 850px;
+    height: 800px;
     & .close-btn {
       position: absolute;
       right: 30px;

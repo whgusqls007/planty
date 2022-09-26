@@ -20,6 +20,7 @@ import FeedListPage from './pages/feed/FeedListPage';
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
 import WorldCup from './pages/worldcup/Worldcup';
+import ProfilePage from './pages/user/ProfilePage';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="" element={<IndexPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="profile/:userId" element={<ProfilePage />} />
 
         <Route path="/dictionary" element={<Outlet />}>
           <Route path="" element={<DictionaryPage />} />
