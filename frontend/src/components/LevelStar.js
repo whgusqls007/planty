@@ -11,7 +11,15 @@ const Wrapper = styled.div`
   }
 `;
 
-const LevelStar = ({ level }) => {
+const LevelStar = ({ manage_level }) => {
+  let level;
+  if (manage_level === '초보자') {
+    level = 1;
+  } else if (manage_level === '경험자') {
+    level = 2;
+  } else if (manage_level === '전문가') {
+    level = 3;
+  }
   const arr = [...Array(level)];
   return (
     <Wrapper>

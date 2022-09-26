@@ -3,20 +3,25 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../../features/user/userActions';
+import { confirmError } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, userInfo, error, success } = useSelector(
-    (state) => state.user,
-  );
+  const { loading, userInfo, error } = useSelector((state) => state.user);
   useEffect(() => {
     if (userInfo) {
       navigate(-1, { replace: true });
     }
   }, [navigate, userInfo]);
+  useEffect(() => {
+    if (error) {
+      alert(JSON.stringify(error));
+      dispatch(confirmError());
+    }
+  }, [error]);
   const [loginInputs, setLoginInputs] = useState({
     email: '',
     password: '',
@@ -74,11 +79,23 @@ const Wrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  & img {
+  @media (min-width: 993px) {
+    z-index: -1;
+  }
+  & > img {
+    display: inline;
     height: 100%;
     opacity: 0.8;
-    /* width: 20%; */
-    /* object-fit: cover; */
+    /* width: 30%; */
+    max-width: calc(775px);
+    width: calc(100vw - 600px);
+    object-fit: cover;
+    object-position: center;
+
+    /* @media (max-width:) */
+    @media (max-width: 992px) {
+      display: none;
+    }
   }
 `;
 const LoginWrapper = styled.div`
@@ -88,6 +105,7 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  /* padding: 0px 50px; */
   & .logo {
     font-size: 54px;
     margin-bottom: 44px;
@@ -102,7 +120,8 @@ const LoginWrapper = styled.div`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 500px;
+  width: 90vw;
   & label {
     margin-top: 16px;
     color: #787878;

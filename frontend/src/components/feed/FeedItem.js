@@ -7,7 +7,7 @@ const FeedItem = ({ onClick }) => {
   return (
     <Wrapper onClick={onClick}>
       <img
-        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/IMG_3063.jpeg"
+        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/2022_09_19_23_57_51_IMG_3063.jpeg"
         alt=""
         className="feed-img"
       />
@@ -80,9 +80,11 @@ const Wrapper = styled.div`
     }
   }
   &:hover {
-    cursor: pointer;
-    transition: transform 0.3s;
-    transform: scale3d(1.03, 1.03, 1.03);
+    @media (min-width: 768px) {
+      cursor: pointer;
+      transition: transform 0.3s;
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
   }
 `;
 
