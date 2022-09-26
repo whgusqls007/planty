@@ -7,6 +7,7 @@ from .serializers import PlantDetailSerializer, PlantListSerializer
 
 class PlantViewSet(viewsets.ReadOnlyModelViewSet):   
     queryset = Plant.objects.all()
+    serializer_class = PlantListSerializer
 
     # 모든 식물 전체 보여주기 (id + 국명 + 이미지)
     def list(self, request):

@@ -1,8 +1,6 @@
-from dataclasses import field
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from .models import Level, User
+
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -15,3 +13,5 @@ class CustomRegisterSerializer(RegisterSerializer):
         data['date_of_birth'] = self.validated_data.get('date_of_birth', '')
 
         return data
+
+# class UsernameCheckSerializer()

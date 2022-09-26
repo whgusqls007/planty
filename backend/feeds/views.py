@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import Feed, FeedComment
 from rest_framework import viewsets, status
 from .serializers import FeedSerializer, FeedCommentSerializer
-
+from core.utils import s3_upload_image
 
 # 남의 정원 CRUD
 class FeedViewSet(viewsets.ModelViewSet):
@@ -27,14 +27,20 @@ class FeedViewSet(viewsets.ModelViewSet):
 
     # post에 매칭, 게시글 쓰기
     def create(self, request):
-        serializer = FeedSerializer(data=request.data)
+        data = eval(request.data['data'])
+        serializer = FeedSerializer(data=data)
         user = request.user
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=user)
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'feed/')
+            serializer.save(user=user, img_url=file_path)
             user.exp = user.exp + 1
             user.articles_count = user.articles_count + 1
             user.save()
-
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     
@@ -56,7 +62,7 @@ class FeedViewSet(viewsets.ModelViewSet):
 
 
 # 남의 정원 좋아요
-class FeedLikeView(viewsets.ViewSet):
+class FeedLikeViewSet(viewsets.ViewSet):
     
     def like(self, request, feed_pk):
         feed = get_object_or_404(Feed, pk=feed_pk)
@@ -103,7 +109,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             feed.comments_count = feed.comments_count + 1
             feed.save()
             
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializers = FeedCommentSerializer(instance=comments, many=True)
             
             return Response(serializers.data, status=status.HTTP_201_CREATED)
@@ -117,7 +123,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             serializer = FeedCommentSerializer(instance=comment, data=request.data)
             serializer.save()
 
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializer = FeedCommentSerializer(instance=comments, many=True)
             
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -137,7 +143,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             feed.comments_count = feed.comments_count - 1
             feed.save()
             
-            comments = feed.comments.all()
+            comments = feed.feed_comments.all()
             serializer = FeedCommentSerializer(instance=comments, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)

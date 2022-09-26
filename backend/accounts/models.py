@@ -39,7 +39,7 @@ class User(AbstractUser):
     )
     profile_img = models.TextField(
         verbose_name="프로필 사진",
-        null=True
+        default='https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png'
     )
     is_editor = models.BooleanField(
         verbose_name="에디터 여부",
@@ -81,6 +81,7 @@ class User(AbstractUser):
     )
     date_of_birth = models.DateField(
         verbose_name="생년월일",
+        null=True
     )
     followings = models.ManyToManyField(
         'self',
@@ -91,6 +92,7 @@ class User(AbstractUser):
     age_group = models.CharField(
         verbose_name="연령대",
         max_length=10,
+        null=True,
     )
 
 

@@ -1,23 +1,22 @@
 from pyexpat import model
 from rest_framework import serializers
-from .models import Garden, Diary
+from .models import MyGarden, Diary
 
 
 # 나의 정원
-class GardenSerializer(serializers.ModelSerializer):
+class MyGardenSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Garden
+        model = MyGarden
         fields = "__all__"
-        # read_only_fields = ['user', 'plant']
-        read_only_fields = ['user',]
+        read_only_fields = ['user', 'diaries_count', 'img_url']
 
 
 # 식물일기
 class DiarySerializer(serializers.ModelSerializer):
     
-    garden = GardenSerializer(read_only=True)
+    my_garden = MyGardenSerializer(read_only=True)
 
 
     class Meta:
         model = Diary
-        fields = ('id', 'garden', 'content', 'date_created', 'diary_img')
+        fields = ('id', 'my_garden', 'content', 'date_created', 'diary_img')
