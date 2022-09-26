@@ -105,7 +105,7 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding: 0px 50px;
+  /* padding: 0px 50px; */
   & .logo {
     font-size: 54px;
     margin-bottom: 44px;

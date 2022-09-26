@@ -224,7 +224,7 @@ const LoginWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 50px;
+  /* padding: 0px 50px; */
   height: 100vh;
   & .logo {
     font-size: 54px;
