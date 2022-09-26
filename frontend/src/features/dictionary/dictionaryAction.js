@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { plantList, plantItem } from '../../api/dictionary';
+import { plantList, plantItem, plantSearch } from '../../api/dictionary';
 
 export const fetchPlant = createAsyncThunk(
   'dictionary/fetchPlant',
@@ -31,5 +31,16 @@ export const fetchPlantList = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
+  },
+);
+
+export const searchPlant = createAsyncThunk(
+  'dictionary/searchPlant',
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const { data } = await plantSearch(keyword);
+      console.log(data);
+      return data;
+    } catch (error) {}
   },
 );
