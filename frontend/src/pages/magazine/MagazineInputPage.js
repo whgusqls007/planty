@@ -120,7 +120,7 @@ const MagazineInputPage = () => {
             <input
               type="text"
               id="title"
-              onChange={e => {
+              onChange={(e) => {
                 setTitle(e.target.value);
                 console.log(title);
               }}
@@ -138,7 +138,7 @@ const MagazineInputPage = () => {
             <input
               type="text"
               id="subTitle"
-              onChange={e => {
+              onChange={(e) => {
                 setSubTitle(e.target.value);
                 console.log(title);
               }}
@@ -160,11 +160,11 @@ const MagazineInputPage = () => {
       <CKEditor
         editor={ClassicEditor}
         config={{
-          plugins: [Paragraph, Bold, Italic, Essentials],
+          // plugins: [Paragraph, Bold, Italic, Essentials],
           toolbar: ['bold', 'italic'],
         }}
         data="<p>Hello from CKEditor 5!</p>"
-        onReady={editor => {
+        onReady={(editor) => {
           console.log('Editor is ready to use!', editor);
         }}
         onChange={(event, editor) => {
