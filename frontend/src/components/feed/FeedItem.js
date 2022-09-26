@@ -7,7 +7,7 @@ const FeedItem = ({ onClick }) => {
   return (
     <Wrapper onClick={onClick}>
       <img
-        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/IMG_3063.jpeg"
+        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/2022_09_19_23_57_51_IMG_3063.jpeg"
         alt=""
         className="feed-img"
       />

@@ -4,52 +4,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import PlantItem from '../../components/dictionary/PlantItem';
 import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlantList } from '../../features/dictionary/dictionaryAction';
+import {
+  fetchPlantList,
+  searchPlant,
+} from '../../features/dictionary/dictionaryAction';
 
 const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
-  const dummyPlants = [
-    {
-      cntntsNo: 1,
-      cntntsSj: '칼라데아 세토사',
-      plantLevel: 1,
-    },
-    {
-      cntntsNo: 2,
-      cntntsSj: '칼라데아 진저',
-      plantLevel: 2,
-    },
-    {
-      cntntsNo: 3,
-      cntntsSj: '칼라데아 아마그리스',
-      plantLevel: 3,
-    },
-    {
-      cntntsNo: 4,
-      cntntsSj: '칼라데아 퓨전화이트',
-      plantLevel: 4,
-    },
-    {
-      cntntsNo: 5,
-      cntntsSj: '칼라데아 세토사',
-      plantLevel: 1,
-    },
-    {
-      cntntsNo: 6,
-      cntntsSj: '칼라데아 진저',
-      plantLevel: 2,
-    },
-    {
-      cntntsNo: 7,
-      cntntsSj: '칼라데아 아마그리스',
-      plantLevel: 3,
-    },
-    {
-      cntntsNo: 8,
-      cntntsSj: '칼라데아 퓨전화이트',
-      plantLevel: 4,
-    },
-  ];
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -57,6 +18,12 @@ const DictionaryPage = () => {
   }, [dispatch]);
 
   const { plantList } = useSelector((state) => state.dictionary);
+
+  const searchInputChangeHandler = (e) => {
+    const keyword = e.target.value;
+    console.log(keyword);
+    dispatch(searchPlant(keyword));
+  };
 
   return (
     <Container>
@@ -69,7 +36,11 @@ const DictionaryPage = () => {
               ))}
             </div>
             <form>
-              <input type="text" className="dictionary-search-input" />
+              <input
+                type="text"
+                className="dictionary-search-input"
+                onChange={searchInputChangeHandler}
+              />
               <SearchIcon
                 className="search-icon"
                 onClick={() => {

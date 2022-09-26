@@ -3,26 +3,42 @@ import styled from 'styled-components';
 import LevelStar from '../LevelStar';
 
 const PlantDescription = ({ plant }) => {
-  // const {cntntsSj, plantLevel, fmlCodeNm, content} = plant
-  const dummy = {
-    cntntsSj: '칼라데아 세토사',
-    plantLevel: 2,
-    fmlInfo: 'Calathea Setosa(Ctenanthe)',
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  };
-  const { cntntsSj, plantLevel, fmlInfo, content } = dummy;
+  const {
+    id,
+    plant_no,
+    plant_name,
+    classification,
+    pest_info,
+    ecology_code,
+    family_code,
+    fruit_info,
+    growth_width,
+    growth_height,
+    growth_temp,
+    growth_speed,
+    humidity,
+    blooming_season,
+    light_demand,
+    manage_demand,
+    manage_level,
+    posting_place,
+    water_cycle_spring,
+    water_cycle_summer,
+    water_cycle_autumn,
+    water_cycle_winter,
+    img_url,
+  } = plant;
   return (
     <Wrapper>
       <div className="plant-header">
-        <div className="plant-title">{cntntsSj}</div>
+        <div className="plant-title">{plant_name}</div>
         <div className="plant-level">
           <span>난이도 </span>
-          <LevelStar level={plantLevel} />
+          <LevelStar level={manage_level} />
         </div>
       </div>
-      <div className="plant-category">{fmlInfo}</div>
-      <div className="plant-content">{content}</div>
+      <div className="plant-category">{family_code}</div>
+      <div className="plant-content">{fruit_info}</div>
     </Wrapper>
   );
 };

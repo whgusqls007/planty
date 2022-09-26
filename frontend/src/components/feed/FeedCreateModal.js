@@ -99,7 +99,7 @@ const Wrapper = styled.div`
     padding: 50px;
     left: 50%;
     transform: translateX(-50%);
-    animation: modal-show 0.4s;
+    /* animation: modal-show 0.4s; */
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
@@ -116,16 +116,20 @@ const Wrapper = styled.div`
         cursor: pointer;
       }
     }
+    @media (max-width: 1199px) {
+      margin-top: 5vh;
+      height: 90vh;
+    }
   }
 
-  @keyframes modal-show {
+  /* @keyframes modal-show {
     from {
       margin-top: -50px;
     }
     to {
       margin-top: 0;
     }
-  }
+  } */
   @keyframes modal-bg-show {
     from {
       opacity: 0;
