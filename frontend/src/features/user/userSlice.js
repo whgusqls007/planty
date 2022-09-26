@@ -10,6 +10,7 @@ const initialState = {
   userInfo,
   error: null,
   success: false,
+  registerState: false,
 };
 
 const userSlice = createSlice({
@@ -20,6 +21,12 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.error = null;
       state.loading = false;
+    },
+    registerDone: (state) => {
+      state.registerState = false;
+    },
+    confirmError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: {
@@ -48,6 +55,7 @@ const userSlice = createSlice({
     [userRegister.fulfilled]: (state, { payload }) => {
       // 요청 성공
       state.loading = false;
+      state.registerState = true;
     },
     [userRegister.rejected]: (state, { payload }) => {
       // 요청 실패
@@ -57,4 +65,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { logout, registerDone, confirmError } = userSlice.actions;
 export default userSlice.reducer;

@@ -5,6 +5,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
+import React from 'react';
+
 // css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -23,10 +25,22 @@ const Wrapper = styled.div`
       margin-left: 16px;
     }
   }
+  & .user-info {
+    display: flex;
+    align-items: center;
+  }
+  & .profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: ${({ theme }) => theme.themeColor[5]};
+    margin-left: 8px;
+  }
 `;
 
 function Header() {
-  const { userInfo } = useSelector((state) => state.user);
+  const { userInfo } = useSelector(state => state.user);
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
@@ -64,7 +78,16 @@ function Header() {
               </Col>
             </Nav>
             {userInfo ? (
-              <div>프로필이미지</div>
+              <Link to={`/profile/${userInfo.username}`}>
+                <div className="user-info">
+                  <div className="user-name">{userInfo.username}</div>
+                  <img
+                    className="profile-img"
+                    src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
+                    alt=""
+                  />
+                </div>
+              </Link>
             ) : (
               <div className="nav-user-btn">
                 <Link to="login">로그인</Link>

@@ -1,5 +1,6 @@
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
+import React from 'react';
 
 const Wrapper = styled.div`
   margin-top: 5%;
@@ -61,7 +62,7 @@ const Content = styled.div`
   width: 80%;
 `;
 
-const MagazineDetailPage = (props) => {
+const MagazineDetailPage = props => {
   const dummyData = {
     title: '반려식물을 처음 들이는 당신을 위한 글',
     writer: '드루이드',

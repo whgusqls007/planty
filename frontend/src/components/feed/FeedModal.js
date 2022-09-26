@@ -19,6 +19,12 @@ const feed = {
   ],
 };
 
+// 날짜 생성 함수
+const makeCreateDate = (dateCreated) => {
+  var splitDate = dateCreated.split('-');
+  return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
+};
+
 // FeedModal
 const FeedModal = ({ modalOpen, closeModal }) => {
   return (
@@ -91,20 +97,113 @@ const Wrapper = styled.div`
   }
 `;
 
-// 날짜 생성 함수
-const makeCreateDate = (dateCreated) => {
-  var splitDate = dateCreated.split('-');
-  return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
+const MobileModal = ({ closeModal }) => {
+  const { title, content, user, dateCreated, comments } = feed;
+  return (
+    <MobileModalWrapper>
+      <CloseIcon className="close-btn" onClick={closeModal} />
+      <div className="mobile-feed-writer">
+        <CloudIcon />
+        <span>{user}</span>
+      </div>
+      <ModalImgCarousel />
+      <div className="mobile-feed-header">
+        <div className="mobile-feed-title">{title}</div>
+        <div className="mobile-feed-date-created">
+          {makeCreateDate(dateCreated)}
+        </div>
+      </div>
+      <div className="mobile-feed-body">
+        <div className="mobile-feed-content">{content}</div>
+        <div className="mobile-feed-comment">
+          <CommentList comments={comments} />
+          <CommentInputForm />
+        </div>
+      </div>
+    </MobileModalWrapper>
+  );
 };
+
+// MobileModal
+const MobileModalWrapper = styled.div`
+  width: 90vw;
+  max-width: 700px;
+  height: 80vh;
+  overflow-y: scroll;
+  margin-top: 5vh;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.themeColor[2]};
+
+  display: none;
+  position: relative;
+  @media (max-width: 1199px) {
+    display: flex;
+    flex-direction: column;
+  }
+  & .close-btn {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  & .mobile-feed-writer {
+    margin: 10px;
+    & span {
+      margin-left: 8px;
+    }
+  }
+  & .mobile-feed-header {
+    margin-top: 1rem;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    @media (max-width: 400px) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    & .mobile-feed-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    & .mobile-feed-date-created {
+      font-size: 0.8rem;
+      color: #797979;
+    }
+  }
+  & .mobile-feed-body {
+    padding: 0 1.2rem 1.2rem 1.2rem;
+    display: flex;
+    /* flex-grow: 1; */
+    flex-direction: column;
+    & .mobile-feed-content {
+      /* height: 100px; */
+      /* overflow-y: scroll; */
+      /* flex-grow: 1; */
+      font-size: 0.9rem;
+    }
+    & .mobile-feed-comment {
+      margin-top: 1.5rem;
+    }
+  }
+`;
 
 const ModalImgCarouselWrapper = styled.div`
   & {
     background-color: ${({ theme }) => theme.themeColor[1]};
-    height: 300px;
+    height: 50vw;
+    max-height: 350px;
     width: 100%;
     margin-top: 100px;
-    & .carousel.slide {
-      height: 100%;
+    & img {
+      height: 50vw;
+      max-height: 350px;
     }
   }
   // Bootstrap Carousel css 수정
@@ -295,7 +394,7 @@ const CommentListWrapper = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const CommentList = ({ comments }) => {
@@ -332,10 +431,13 @@ const CommentItem = ({ comment }) => {
 const CommentInputWrapper = styled.div`
   & form {
     display: flex;
+    margin-top: 6px;
   }
   & .comment-input {
+    width: 0;
     flex-grow: 1;
     border: none;
+    /* border: 1px solid black; */
     border-radius: 5px;
     padding: 0px 10px;
     &:focus {
@@ -365,90 +467,6 @@ const CommentInputForm = () => {
         <button className="comment-submit-btn">등록</button>
       </form>
     </CommentInputWrapper>
-  );
-};
-
-// MobileModal
-const MobileModalWrapper = styled.div`
-  width: 500px;
-  height: 800px;
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.themeColor[2]};
-
-  display: none;
-  @media (max-width: 1199px) {
-    display: flex;
-    flex-direction: column;
-  }
-  & .close-btn {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    opacity: 0.5;
-    &:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-  }
-  & .mobile-feed-writer {
-    margin: 10px;
-    & span {
-      margin-left: 8px;
-    }
-  }
-  & .mobile-feed-header {
-    margin-top: 1rem;
-    padding: 1.2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    & .mobile-feed-title {
-      font-size: 1.2rem;
-      font-weight: 500;
-    }
-    & .mobile-feed-date-created {
-      font-size: 0.8rem;
-      color: #797979;
-    }
-  }
-  & .mobile-feed-body {
-    padding: 0 1.2rem;
-    display: flex;
-    flex-direction: column;
-    & .mobile-feed-content {
-      height: 200px;
-      overflow-y: scroll;
-    }
-    & .mobile-feed-comment {
-      margin-top: 4px;
-    }
-  }
-`;
-const MobileModal = ({ closeModal }) => {
-  const { title, content, user, dateCreated, comments } = feed;
-  return (
-    <MobileModalWrapper>
-      <CloseIcon className="close-btn" onClick={closeModal} />
-      <div className="mobile-feed-writer">
-        <CloudIcon />
-        <span>{user}</span>
-      </div>
-      <ModalImgCarousel />
-      <div className="mobile-feed-header">
-        <div className="mobile-feed-title">{title}</div>
-        <div className="mobile-feed-date-created">
-          {makeCreateDate(dateCreated)}
-        </div>
-      </div>
-      <div className="mobile-feed-body">
-        <div className="mobile-feed-content">{content}</div>
-        <div className="mobile-feed-comment">
-          <CommentList comments={comments} />
-          <CommentInputForm />
-        </div>
-      </div>
-    </MobileModalWrapper>
   );
 };
 
