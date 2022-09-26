@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPlant, fetchPlantList } from './dictionaryAction';
+import { fetchPlant, fetchPlantList, searchPlant } from './dictionaryAction';
 
 const initialState = {
   loading: false,
-  plant: null,
-  plantList: null,
+  plant: {},
+  plantList: [],
+  searchResult: [],
   error: null,
   success: false,
 };
@@ -37,6 +38,9 @@ const dictionarySlice = createSlice({
     [fetchPlantList.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+    },
+    [searchPlant.fulfilled]: (state, { payload }) => {
+      state.searchResult = payload;
     },
   },
 });
