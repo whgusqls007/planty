@@ -79,7 +79,9 @@ const Wrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  @media (min-width: 993px) {
+    z-index: -1;
+  }
   & > img {
     display: inline;
     height: 100%;
@@ -103,6 +105,7 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 0px 50px;
   & .logo {
     font-size: 54px;
     margin-bottom: 44px;
@@ -117,7 +120,8 @@ const LoginWrapper = styled.div`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 500px;
+  width: 90vw;
   & label {
     margin-top: 16px;
     color: #787878;

@@ -128,11 +128,14 @@ const MobileModal = ({ closeModal }) => {
 const MobileModalWrapper = styled.div`
   width: 90vw;
   max-width: 700px;
-  height: 95vh;
+  height: 80vh;
+  overflow-y: scroll;
+  margin-top: 5vh;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[2]};
 
   display: none;
+  position: relative;
   @media (max-width: 1199px) {
     display: flex;
     flex-direction: column;
@@ -159,6 +162,11 @@ const MobileModalWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    @media (max-width: 400px) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
     & .mobile-feed-title {
       font-size: 1.2rem;
@@ -172,15 +180,16 @@ const MobileModalWrapper = styled.div`
   & .mobile-feed-body {
     padding: 0 1.2rem 1.2rem 1.2rem;
     display: flex;
-    flex-grow: 1;
+    /* flex-grow: 1; */
     flex-direction: column;
     & .mobile-feed-content {
-      height: 100px;
-      overflow-y: scroll;
-      flex-grow: 1;
+      /* height: 100px; */
+      /* overflow-y: scroll; */
+      /* flex-grow: 1; */
+      font-size: 0.9rem;
     }
     & .mobile-feed-comment {
-      margin-top: 4px;
+      margin-top: 1.5rem;
     }
   }
 `;
@@ -188,11 +197,13 @@ const MobileModalWrapper = styled.div`
 const ModalImgCarouselWrapper = styled.div`
   & {
     background-color: ${({ theme }) => theme.themeColor[1]};
-    height: 300px;
+    height: 50vw;
+    max-height: 350px;
     width: 100%;
     margin-top: 100px;
-    & .carousel.slide {
-      height: 100%;
+    & img {
+      height: 50vw;
+      max-height: 350px;
     }
   }
   // Bootstrap Carousel css 수정
@@ -383,7 +394,7 @@ const CommentListWrapper = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const CommentList = ({ comments }) => {
@@ -420,10 +431,13 @@ const CommentItem = ({ comment }) => {
 const CommentInputWrapper = styled.div`
   & form {
     display: flex;
+    margin-top: 6px;
   }
   & .comment-input {
+    width: 0;
     flex-grow: 1;
     border: none;
+    /* border: 1px solid black; */
     border-radius: 5px;
     padding: 0px 10px;
     &:focus {
