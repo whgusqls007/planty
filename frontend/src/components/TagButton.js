@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from 'react';
 
 const Tag = styled.button`
   border: 1px solid ${({ theme }) => theme.themeColor[1]};
@@ -32,7 +33,7 @@ const Tag = styled.button`
 `;
 
 // onclick 만들어야함
-const TagButton = (props) => {
+const TagButton = props => {
   return <Tag>{props.text}</Tag>;
 };
 

@@ -3,9 +3,8 @@ import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import Card from '../../components/magazine/Card';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import TagButton from '../../components/TagButton';
 
 const Wrapper = styled.div`
   margin: 3% 5% 0 5%;
@@ -54,24 +53,6 @@ const ListWrapper = styled.ul`
   & .active {
     border: 1px solid ${({ theme }) => theme.themeColor[5]};
   }
-`;
-
-const FloatButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-
-  width: 60px;
-  height: 60px;
-  bottom: 40px;
-  right: 15%;
-
-  background-color: ${({ theme }) => theme.themeColor[5]};
-  color: #fff;
-  border-radius: 50px;
-  text-align: center;
-  box-shadow: 2px 2px 3px #999;
 `;
 
 const InputBox = styled.div`
@@ -258,14 +239,14 @@ const MagazinePage = () => {
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8080/test/totalCount`, { method: 'GET' })
-      .then((res) => res.json())
-      .then((data) => setTotalCount(data));
+      .then(res => res.json())
+      .then(data => setTotalCount(data));
 
     fetch(`http://127.0.0.1:8080/test/${offset}/${limit}`, {
       method: 'GET',
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setDummyData(data);
       });
   }, []);
@@ -289,8 +270,8 @@ const MagazinePage = () => {
     fetch(`http://127.0.0.1:8080/test/${offset}/${limit}`, {
       method: 'GET',
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setDummyData(data);
       });
 
@@ -322,7 +303,7 @@ const MagazinePage = () => {
             id="searchText"
             className="effect"
             type="text"
-            onChange={(text) => {
+            onChange={text => {
               setContent(text.target.value);
             }}
             style={

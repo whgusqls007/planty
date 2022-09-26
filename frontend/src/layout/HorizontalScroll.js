@@ -2,6 +2,7 @@ import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from '../components/Arrow';
 import styled from 'styled-components';
 import Card from '../components/main/Card';
+import React from 'react';
 
 const ScrollContainer = styled.div`
   margin: 0.5rem 1.5rem 1rem 1.5rem;
@@ -18,7 +19,7 @@ const ScrollContainer = styled.div`
   }
 `;
 
-const HorizontalScroll = (props) => {
+const HorizontalScroll = props => {
   const dummyPlants = props.data;
   return (
     <ScrollContainer>

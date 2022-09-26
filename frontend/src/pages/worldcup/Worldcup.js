@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import AOS from 'aos';
@@ -150,7 +150,7 @@ const WorldCup = () => {
     }
   }, [count]);
 
-  const clickHandler = (plant) => () => {
+  const clickHandler = plant => () => {
     if (plants.length <= 2) {
       if (winners.length === 0) {
         setDisplays([plant]);
@@ -173,7 +173,7 @@ const WorldCup = () => {
         <h1>Favorite Worldcup {stage}</h1>
       </Title>
       <Wrapper>
-        {displays.map((e) => {
+        {displays.map(e => {
           return (
             <ImageContainer
               style={{ backgroundColor: e.name }}

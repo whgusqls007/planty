@@ -80,9 +80,11 @@ const Wrapper = styled.div`
     }
   }
   &:hover {
-    cursor: pointer;
-    transition: transform 0.3s;
-    transform: scale3d(1.03, 1.03, 1.03);
+    @media (min-width: 768px) {
+      cursor: pointer;
+      transition: transform 0.3s;
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
   }
 `;
 
