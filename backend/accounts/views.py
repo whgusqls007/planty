@@ -3,8 +3,23 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import User
-from .serializers import DescriptionSerializer
+from .serializers import DescriptionSerializer, ProfileSerializer
 from drf_yasg.utils import swagger_auto_schema
+
+
+# 나의 정원 유저 프로필
+class ProfileViewSet(viewsets.ViewSet):
+
+    # swagger 설명
+    @swagger_auto_schema(
+    operation_summary='나의 정원 유저 프로필')
+
+    def profile(self, request, username):
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = ProfileSerializer(user)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # 나의 정원 한줄 소개 수정
 class DescriptionViewSet(viewsets.ViewSet):
@@ -12,7 +27,6 @@ class DescriptionViewSet(viewsets.ViewSet):
     # swagger 설명
     @swagger_auto_schema(
     operation_summary='나의 정원 한줄 소개 수정',
-    operation_description='나의 정원 한줄 소개 수정입니다.',
     request_body=DescriptionSerializer)
 
     def update_description(self, request):

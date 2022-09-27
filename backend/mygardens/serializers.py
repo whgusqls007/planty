@@ -5,26 +5,19 @@ from plants.serializers import PlantListSerializer
 
 
 # 유저 프로필
-class ProfileSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = get_user_model()
-        fields = ('profile_img', 'username', 'description', 'exp', 'is_private', 'plants_count', 'followers_count', 'follows_count', 'description')
-        read_only_fields = ('profile_img', 'username', 'is_private', 'exp', 'plants_count', 'followers_count', 'follows_count', 'description')
-
 
 # 나의 정원
 class MyGardenSerializer(serializers.ModelSerializer):
 
-    profile = ProfileSerializer()
-    plant = PlantListSerializer()
+    user = get_user_model()
+    plant = PlantListSerializer(read_only=True)
 
     class Meta:
         model = MyGarden
-        fields = ('profile', 'user', 'plant', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo')
+        fields = ('id', 'user', 'plant', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo')
         # 테스트용
         # fields = ('id', 'profile', 'user', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo')
-        read_only_fields = ('profile', 'user', 'plant', 'diaries_count', 'img_url', 'date_created')
+        read_only_fields = ('user', 'plant', 'diaries_count', 'img_url', 'date_created')
 
 
 # 식물일기
