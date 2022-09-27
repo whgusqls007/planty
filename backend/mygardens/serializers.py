@@ -4,8 +4,6 @@ from django.contrib.auth import get_user_model
 from plants.serializers import PlantListSerializer
 
 
-# 유저 프로필
-
 # 나의 정원
 class MyGardenSerializer(serializers.ModelSerializer):
 

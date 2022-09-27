@@ -1,17 +1,22 @@
 from core.utils import s3_upload_image
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import MyGarden, Diary
 from accounts.models import User
 from .serializers import MyGardenSerializer, DiarySerializer
-from django.contrib.auth import get_user_model
+from drf_yasg.utils import swagger_auto_schema
 
 
 # 나의 정원 식물 목록
 class MygardenListViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = MyGardenSerializer
+
+    @swagger_auto_schema(
+    operation_summary='나의 정원 반려 식물 목록',
+    operation_description='유저 이름으로 데이터 주고 받아야 합니다.')
 
     # get에 매칭, 리스트, username으로 접근
     def list(self, request, username):

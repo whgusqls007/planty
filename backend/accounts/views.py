@@ -12,7 +12,8 @@ class ProfileViewSet(viewsets.ViewSet):
 
     # swagger 설명
     @swagger_auto_schema(
-    operation_summary='나의 정원 유저 프로필')
+    operation_summary='나의 정원 유저 프로필',
+    operation_description='유저 이름으로 데이터 주고 받아야 합니다.')
 
     def profile(self, request, username):
         user = get_object_or_404(get_user_model(), username=username)
