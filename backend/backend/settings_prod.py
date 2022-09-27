@@ -31,7 +31,7 @@ AWS_BUCKET_URL = os.environ['AWS_BUCKET_URL']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['j7e103.p.ssafy.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -192,9 +192,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://j7e103.p.ssafy.io',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://j7e103.p.ssafy.io',
+# ]
 
 # 모두에게 교차출처 허용 (*)
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True

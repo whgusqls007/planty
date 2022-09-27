@@ -13,7 +13,7 @@ class MyGarden(models.Model):
     plant = models.ForeignKey(
         Plant,
         on_delete=models.CASCADE,
-        verbose_name="플랜트 이름",
+        verbose_name="플랜트 PK",
     )
     date_created = models.DateTimeField(
         auto_now_add=True,
@@ -45,7 +45,7 @@ class MyGarden(models.Model):
     )
 
     def __str__(self):
-        return self.plant
+        return self.user
 
 
 # 식물일기
@@ -69,4 +69,4 @@ class Diary(models.Model):
     )
 
     def __str__(self):
-        return self.content
+        return self.my_garden
