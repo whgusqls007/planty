@@ -20,7 +20,7 @@ class MagazineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Magazine
-        fields = ('user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url',)
+        fields = ('id', 'user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url',)
         read_only_fields = ['user', 'comments_count', 'likes_count', ]
 
 
