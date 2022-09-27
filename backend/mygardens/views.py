@@ -1,21 +1,29 @@
+from core.utils import s3_upload_image
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from .models import MyGarden, Diary
-from .serializers import MyGardenSerializer, DiarySerializer
 from rest_framework.response import Response
-import boto3
-from core.utils import s3_upload_image
+from .models import MyGarden, Diary
+from accounts.models import User
+from .serializers import MyGardenSerializer, DiarySerializer, ProfileSerializer
+from django.contrib.auth import get_user_model
+
+
+# 나의 정원 식물 목록
+class MygardenListViewSet(viewsets.ModelViewSet):
+    queryset = MyGarden.objects.all()
+    serializer_class = MyGardenSerializer
+
+    # get에 매칭, 리스트, user_name으로 접근
+    def list(self, request, user_name):
+        person = get_object_or_404(User, username=user_name)
+        serializer = self.get_serializer(self.queryset.filter(user=person.id), many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class MyGardenViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = MyGardenSerializer
-    
-    # get에 매칭, 리스트
-    def list(self, request):
-        serializer = self.get_serializer(self.queryset, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
     # get에 매칭, 상세페이지
     def retrieve(self, request, pk):
@@ -23,31 +31,43 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    
     # post에 매칭
+    # def create(self, request):
+    #     data = eval(request.data['data'])
+    #     serializer = MyGardenSerializer(data=data)
+    #     user = request.user
+
+    #     if serializer.is_valid(raise_exception=True):
+    #         try:
+    #             file=request.FILES['files']
+    #         except:
+    #             file=''
+    #         file_path = s3_upload_image(file, 'mygardens/')
+
+    #         serializer.save(user=user, img_url=file_path)
+
+    #         user.plants_count = user.plants_count + 1
+    #         user.save()
+
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+
     def create(self, request):
-        data = eval(request.data['data'])
-        serializer = MyGardenSerializer(data=data)
+        serializer = MyGardenSerializer(data=request.data)
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-            try:
-                file=request.FILES['files']
-            except:
-                file=''
-            file_path = s3_upload_image(file, 'mygardens/')
+            serializer.save(user=user)
 
-            serializer.save(user=user, img_url=file_path)
-
-            user.plants_count = user.plants_count + 1
+            user.exp = user.exp + 1
+            user.articles_count = user.articles_count + 1
             user.save()
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
     # delete에 매칭, 정원 등록 식물 삭제
-    def destroy(self, request, pk):
-        my_garden = get_object_or_404(MyGarden, pk=pk)
+    def destroy(self, request, mygarden_pk):
+        my_garden = get_object_or_404(MyGarden, pk=mygarden_pk)
         user = request.user
 
         if user == my_garden.user:
@@ -57,7 +77,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             user.save()
             
             data = {
-                'delete': f'{pk}번 데이터가 삭제되었습니다.'
+                'delete': f'{mygarden_pk}번 데이터가 삭제되었습니다.'
             }
 
             return Response(data, status=status.HTTP_200_OK)

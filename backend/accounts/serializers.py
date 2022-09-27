@@ -1,6 +1,14 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
+
+class DescriptionSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = get_user_model()
+        fields = ('description',)
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -14,4 +22,4 @@ class CustomRegisterSerializer(RegisterSerializer):
 
         return data
 
-# class UsernameCheckSerializer()
+

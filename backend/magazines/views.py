@@ -41,8 +41,8 @@ class MagazineViewSet(viewsets.ModelViewSet):
 
     
     # delete에 매칭, 게시글 삭제
-    def destroy(self, request, pk):
-        magazine = get_object_or_404(Magazine, pk=pk)
+    def destroy(self, request, magazine_pk):
+        magazine = get_object_or_404(Magazine, pk=magazine_pk)
         user = request.user
         if user == magazine.user:
             magazine.delete()
@@ -51,7 +51,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
             user.save()
             
             data = {
-                'delete': f'{pk}번 데이터가 삭제되었습니다.'
+                'delete': f'{magazine_pk}번 데이터가 삭제되었습니다.'
             }
 
             return Response(data, status=status.HTTP_200_OK)
@@ -59,7 +59,8 @@ class MagazineViewSet(viewsets.ModelViewSet):
 
 # 읽을거리 좋아요
 class MagazineLikeViewSet(viewsets.ViewSet):
-    
+
+    # post에 매칭, 좋아요
     def like(self, request, magazine_pk):
         magazine = get_object_or_404(Magazine, pk=magazine_pk)
         user = request.user
