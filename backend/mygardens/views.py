@@ -37,37 +37,38 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # post에 매칭
-    # def create(self, request):
-    #     data = eval(request.data['data'])
-    #     serializer = MyGardenSerializer(data=data)
-    #     user = request.user
-
-    #     if serializer.is_valid(raise_exception=True):
-    #         try:
-    #             file=request.FILES['files']
-    #         except:
-    #             file=''
-    #         file_path = s3_upload_image(file, 'mygardens/')
-
-    #         serializer.save(user=user, img_url=file_path)
-
-    #         user.plants_count = user.plants_count + 1
-    #         user.save()
-
-    #         return Response(serializer.data, status=status.HTTP_200_OK)
-
     def create(self, request):
-        serializer = MyGardenSerializer(data=request.data)
+        data = eval(request.data['data'])
+        serializer = MyGardenSerializer(data=data)
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=user)
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'mygardens/')
 
-            user.exp = user.exp + 1
-            user.articles_count = user.articles_count + 1
+            serializer.save(user=user, img_url=file_path)
+
+            user.plants_count = user.plants_count + 1
             user.save()
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # 테스트용
+    # def create(self, request):
+    #     serializer = MyGardenSerializer(data=request.data)
+    #     user = request.user
+
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save(user=user)
+
+    #         user.exp = user.exp + 1
+    #         user.articles_count = user.articles_count + 1
+    #         user.save()
+
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
     # delete에 매칭, 정원 등록 식물 삭제
