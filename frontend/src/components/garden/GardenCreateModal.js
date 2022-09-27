@@ -118,6 +118,7 @@ const Wrapper = styled.div`
   }
 
   & .modal-div {
+    max-width: 700px;
     overflow-y: initial !important;
     display: flex;
     align-items: center;
