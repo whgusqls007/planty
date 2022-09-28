@@ -3,19 +3,46 @@ from rest_framework.response import Response
 from .models import Magazine, MagazineComment
 from rest_framework import viewsets, status
 from .serializers import MagazineSerializer, MagazineCommentSerializer
-
+from collections import OrderedDict
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 # 읽을거리 CRUD
 class MagazineViewSet(viewsets.ModelViewSet):
     queryset = Magazine.objects.all()
     serializer_class = MagazineSerializer
 
+    list_params = [
+        openapi.Parameter(
+            'limit',
+            openapi.IN_QUERY,
+            description="Limit",
+            type=openapi.TYPE_INTEGER),
+        openapi.Parameter(
+            'offset',
+            openapi.IN_QUERY,
+            description="Offset",
+            type=openapi.TYPE_INTEGER
+        )
+    ]
     # 기존 구성된 내용에 오버라이딩 가능
     # get에 매칭, 리스트
+    @swagger_auto_schema(
+    operation_summary='읽을거리 목록',
+    operation_description='페이지네이션',
+    manual_parameters=list_params
+    )
     def list(self, request):
-        serializer = self.get_serializer(self.queryset, many=True)
+        queryset = self.get_queryset()
+        limit = int(request.query_params.get('limit', len(queryset)))
+        offset = int(request.query_params.get('offset', 0))
+        magazines = queryset[offset:offset + limit]
+        serializer = self.get_serializer(magazines, many=True)
         
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(OrderedDict([
+            ('count', len(queryset)),
+            ('results', serializer.data)
+        ]), status=status.HTTP_200_OK)
 
 
     # get에 매칭, 상세페이지
