@@ -23,7 +23,8 @@ class FeedViewSet(viewsets.ModelViewSet):
 
     # get에 매칭, 상세페이지
     def retrieve(self, request, pk):
-        serializer = self.get_serializer(Feed.objects.get(pk=pk))
+        feed = get_object_or_404(Feed, pk=pk)
+        serializer = self.get_serializer(instance=feed)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
