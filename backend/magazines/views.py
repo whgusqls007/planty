@@ -23,6 +23,12 @@ class MagazineViewSet(viewsets.ModelViewSet):
             openapi.IN_QUERY,
             description="Offset",
             type=openapi.TYPE_INTEGER
+        ),
+        openapi.Parameter(
+            'order',
+            openapi.IN_QUERY,
+            description="정렬기준 |  0 : 최신 순, 1: 좋아요 순, 2: 댓글 순",
+            type=openapi.TYPE_INTEGER
         )
     ]
     # 기존 구성된 내용에 오버라이딩 가능
@@ -36,7 +42,10 @@ class MagazineViewSet(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         limit = int(request.query_params.get('limit', len(queryset)))
         offset = int(request.query_params.get('offset', 0))
-        magazines = queryset[offset:offset + limit]
+        # 0 : 최신 순, 1: 좋아요 순, 2: 댓글 순
+        order = int(request.query_params.get('order', 0))
+        order_list = ['-date_created', '-likes_count', '-comments_count']
+        magazines = queryset.order_by(order_list[order])[offset:offset + limit]
         serializer = self.get_serializer(magazines, many=True)
         
         return Response(OrderedDict([

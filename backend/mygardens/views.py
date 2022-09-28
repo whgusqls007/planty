@@ -3,8 +3,9 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .models import MyGarden, Diary
 from accounts.models import User
+from plants.models import PlantKeyword
+from .models import MyGarden, Diary
 from .serializers import MyGardenSerializer, DiarySerializer
 from drf_yasg.utils import swagger_auto_schema
 
@@ -49,6 +50,11 @@ class MyGardenViewSet(viewsets.ModelViewSet):
                 file=''
             file_path = s3_upload_image(file, 'mygardens/')
 
+            if request.data['present'] == True:
+                get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+                get_plant.present_adequacy = get_plant.present_adequacy + 1
+                get_plant.save()
+
             serializer.save(user=user, img_url=file_path)
 
             user.plants_count = user.plants_count + 1
@@ -63,6 +69,11 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
     #     if serializer.is_valid(raise_exception=True):
     #         serializer.save(user=user)
+
+    #         if request.data['present'] == True:
+    #             get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+    #             get_plant.present_adequacy = get_plant.present_adequacy + 1
+    #             get_plant.save()
 
     #         user.exp = user.exp + 1
     #         user.articles_count = user.articles_count + 1
