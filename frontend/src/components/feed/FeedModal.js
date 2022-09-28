@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import Carousel from 'react-bootstrap/Carousel';
 import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from 'react-redux';
 
 // 테스트용 더미 feed
 const feed = {
@@ -27,14 +28,20 @@ const makeCreateDate = (dateCreated) => {
 
 // FeedModal
 const FeedModal = ({ modalOpen, closeModal }) => {
+  const { feed, loading } = useSelector((state) => state.feed);
+
   return (
     <>
       <Wrapper modalOpen={modalOpen}>
         <div className="close-modal" onClick={closeModal} />
         <div className="modal-div">
-          <ModalImg />
-          <ModalDescription closeModal={closeModal} />
-          <MobileModal closeModal={closeModal} />
+          {!loading && (
+            <>
+              <ModalImg />
+              <ModalDescription closeModal={closeModal} />
+              <MobileModal closeModal={closeModal} />
+            </>
+          )}
         </div>
       </Wrapper>
     </>
