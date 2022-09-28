@@ -63,4 +63,4 @@ const PlantImg = styled.img`
   /* background-color: ${({ theme }) => theme.themeColor[5]}; */
 `;
 
-export default React.memo(PlantItem);
+export default PlantItem;
