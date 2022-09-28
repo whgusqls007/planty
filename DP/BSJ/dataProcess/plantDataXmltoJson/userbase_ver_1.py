@@ -3,12 +3,14 @@ import numpy as np
 from collections import defaultdict
 from scipy.stats import pearsonr
 import pymysql
+from datetime import datetime
 
+db_start_time = datetime.now()
 connection = pymysql.connect(
     user="j7e103",
     passwd="000000",
     host="j7e103.p.ssafy.io",
-    port=3306,
+    port=3307,
     db="homidu",
     charset="utf8",
 )
@@ -22,7 +24,12 @@ cursor = connection.cursor(pymysql.cursors.DictCursor)
 
 SQL = 'select user_id, plant_id, score from plantLike'  # 갖고올 쿼리
 df = pd.read_sql(SQL, connection)   #연결
+db_end_time = datetime.now()
+db_elapsed_time = db_end_time-db_start_time
+print("db : " + str(db_elapsed_time))
 
+
+sim_start_time = datetime.now()
 zeros = np.zeros((len(set(df['user_id'])), len(set(df['plant_id']))))     #유저id 개수만큼 행을 만들고 0으로 채워줌 *df를 쓰는 이유!!!!
 farm = pd.DataFrame(zeros, index=list(set(df['user_id'])), columns=sorted(list(set(df['plant_id']))))   # df 생성
 
@@ -37,12 +44,18 @@ for user in list_user:
 n = len(farm.index)
 zeros = np.zeros((n, n))
 sim = pd.DataFrame(zeros, index=list(farm.index), columns=list(farm.index))
+sim_end_time = datetime.now()
+sim_elapsed_time = sim_end_time - sim_start_time
+print("sim : " + str(sim_elapsed_time))
 
+cal_sim_start_time = datetime.now()
 # 유사도 계산
 for name1 in sim.index:
     for name2 in sim.index:
         sim[name1].loc[name2] = round(pearsonr(list(farm.loc[name1]), list(farm.loc[name2]))[0], 4) # scipy 라이브러리 사용
-
+cal_sim_end_time = datetime.now()
+cal_elapsed_time = cal_sim_end_time - cal_sim_start_time
+print("cal : " + str(cal_elapsed_time))
 
 def get_recommendation_top_cnt(name, top_cnt):
     plants = list(farm.columns)
@@ -67,4 +80,16 @@ def get_recommendation_top_cnt(name, top_cnt):
 
     return sorted(ret, key=lambda x: x[0], reverse=True)
 
+get_rec_start_time = datetime.now()
 print(get_recommendation_top_cnt(14, 5))
+get_rec_end_time = datetime.now()
+
+# db_elapsed_time = db_end_time - db_start_time
+# sim_elapsed_time = sim_end_time - sim_start_time
+# cal_sim_elapsed_time = cal_sim_end_time - cal_sim_start_time
+get_rec_elapsed_time = get_rec_end_time - get_rec_start_time
+
+# print("db : " + str(db_elapsed_time))
+# print("sim : " + str(sim_elapsed_time))
+# print("cal_sim : " + str(cal_sim_elapsed_time))
+print("get_rec : " + str(get_rec_elapsed_time))
