@@ -45,8 +45,12 @@ class User(AbstractUser):
         verbose_name="에디터 여부",
         default=False
     )
+    description = models.TextField(
+        verbose_name="한줄 소개",
+        default="한줄 소개가 없습니다.",
+    )
     is_private = models.BooleanField(
-        verbose_name = "나의 정원 공개 설정",
+        verbose_name = "나의 정원 비공개 설정",
         default=False
     )
     plants_count = models.IntegerField(
