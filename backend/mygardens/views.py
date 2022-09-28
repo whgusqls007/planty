@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from accounts.models import User
 from plants.models import PlantKeyword
 from .models import MyGarden, Diary
 from .serializers import MyGardenSerializer, DiarySerializer
@@ -21,8 +20,8 @@ class MygardenListViewSet(viewsets.ModelViewSet):
 
     # get에 매칭, 리스트, username으로 접근
     def list(self, request, username):
-        person = get_object_or_404(User, username=username)
-        serializer = self.get_serializer(self.queryset.filter(user=person.id), many=True)
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = self.get_serializer(self.queryset.filter(user=user.id), many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -32,8 +31,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     serializer_class = MyGardenSerializer
 
     # get에 매칭, 상세페이지
-    def retrieve(self, request, pk):
-        serializer = self.get_serializer(MyGarden.objects.get(pk=pk))
+    def retrieve(self, request, mygarden_pk):
+        serializer = self.get_serializer(MyGarden.objects.get(pk=mygarden_pk))
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
