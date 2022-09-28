@@ -43,9 +43,6 @@ const GardenPage = () => {
     dispatch(fetchUserInfo(userName));
   }, [dispatch]);
 
-  const {userInfo, loading } = useSelector((state) => state.garden);
-  console.log(userInfo);
-
 
   const [modalOpen, setModalOpen] = useState(false);
   const { gardenList } = useSelector((state) => state.garden);

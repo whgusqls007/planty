@@ -1,48 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useSelector } from 'react-redux';
 
-const dummy = {
-  nickname: '그루이두',
-  level: 99,
-  content: '나는야 정령왕 그루이두 ~',
-  plantCount: 99,
-  follower: 100,
-  following: 100,
-  score: 999,
-};
 
 const GardenUserInfo = () => {
-  const { nickname, level, content, plantCount, follower, following, score } =
-    dummy;
+  const { gardenUserInfo } = useSelector((state) => state.garden);
+  const { userInfo } = useSelector((state) => state.user);
+  const { profile_img, username, description, exp, is_private, plants_count, followers_count, follows_count } = gardenUserInfo;
+  const me = userInfo.username;
+
+
   return (
     <Wrapper>
       <div className="user-img"></div>
       <div className="user-header">
-        <div className="user-level">lv. {level}</div>
-        <div className="user-nickname">{nickname} 님의 정원</div>
+        <div className="user-level">lv. {exp}</div>
+        <div className="user-nickname">{username} 님의 정원</div>
         <img src="/assets/img/follow.png" alt="" className="follow-icon" />
       </div>
       <div className="user-content">
-        {content}
+        {description}
         <BorderColorIcon className="content-edit-icon" />
       </div>
       <div className="user-info">
         <div>
           <span>반려 식물</span>
-          <span>{plantCount}</span>
+          <span>{plants_count}</span>
         </div>
         <div>
           <span>팔로워</span>
-          <span>{follower}</span>
+          <span>{followers_count}</span>
         </div>
         <div>
           <span>팔로우</span>
-          <span>{following}</span>
+          <span>{follows_count}</span>
         </div>
         <div>
           <span>활동점수</span>
-          <span>{score}</span>
+          <span>{exp}</span>
         </div>
       </div>
     </Wrapper>
