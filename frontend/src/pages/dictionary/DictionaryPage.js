@@ -19,6 +19,7 @@ const DictionaryPage = () => {
   const [searchParams] = useSearchParams();
   const [pageNum, setPageNum] = useState(1);
   const [focused, setFocused] = useState(false);
+  const [keyword, setKeyword] = useState(null);
   const searchRef = useRef(null);
 
   useEffect(() => {
@@ -38,16 +39,20 @@ const DictionaryPage = () => {
 
   const { plantList, searchResult } = useSelector((state) => state.dictionary);
 
+  const searchResultOpen = () => {
+    setFocused(true);
+  };
+
   // memo
   const plantListPagination = useMemo(() => {
     return plantList.slice((pageNum - 1) * 12, (pageNum - 1) * 12 + 12);
   });
 
   const searchInputChangeHandler = (e) => {
-    const keyword = e.target.value;
-    if (keyword) {
-      dispatch(searchPlant(keyword));
+    if (e.target.value) {
+      dispatch(searchPlant(e.target.value));
     }
+    setKeyword(e.target.value);
   };
 
   return (
@@ -77,9 +82,7 @@ const DictionaryPage = () => {
                   type="text"
                   className="dictionary-search-input"
                   onChange={searchInputChangeHandler}
-                  onFocus={() => {
-                    setFocused(true);
-                  }}
+                  onFocus={searchResultOpen}
                 />
                 <SearchIcon
                   className="search-icon"
@@ -87,9 +90,11 @@ const DictionaryPage = () => {
                     alert('asdfadfs');
                   }}
                 />
-                <SearchResult visible={focused}>
+                <SearchResult
+                  visible={focused && keyword && searchResult.length !== 0}
+                >
                   {searchResult.map((plant, idx) => (
-                    <SearchItem plant={plant} />
+                    <SearchItem plant={plant} key={idx} />
                   ))}
                 </SearchResult>
               </PlantSearchForm>
