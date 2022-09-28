@@ -6,7 +6,7 @@ connection = pymysql.connect(
     user="j7e103",
     passwd="000000",
     host="j7e103.p.ssafy.io",
-    port=3306,
+    port=3307,
     db="homidu",
     charset="utf8",
 )
@@ -103,7 +103,7 @@ for idx in reader:
     # print()
         if(idx[j] !='-'):
             if(idx[j]!='0'):
-                sql = f"""insert into mygardens_mygarden (date_created, diaries_count, plant_id, user_id) values (CURRENT_TIMESTAMP(), '0', '{idx_convert_list[j]}', '{userId}')"""
+                sql = f"""insert into mygardens_mygarden (date_created, diaries_count, plant_id, user_id, present) values (CURRENT_TIMESTAMP(), '0', '{idx_convert_list[j]}', '{userId}','0')"""
                 cursor.execute(sql)
     # 유저 선호도 입력 idx[1] age
             sql = f"""insert into plantLike (plant_id, user_id, age, score) values ('{idx_convert_list[j]}', '{userId}','{idx[1]}','{idx[j]}')"""
