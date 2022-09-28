@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 `;
 
 function Header() {
-  const { userInfo } = useSelector(state => state.user);
+  const { userInfo } = useSelector((state) => state.user);
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">

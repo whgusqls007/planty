@@ -2,20 +2,29 @@ import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import { Base64UploadAdapter } from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
+import Ckeditor5 from '../../components/CKEditor5';
 
 const FormBox = styled.div`
+  margin: 6% 0 0 0;
   display: flex;
   justify-content: center;
 
   & .title-box {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 85%;
+  }
+
+  & .second {
+    margin-top: 2%;
+
+    @media (max-width: 576px) {
+      margin-top: 6%;
+    }
+
+    @media (max-width: 380px) {
+      margin-top: 10%;
+    }
   }
 
   & .title {
@@ -25,19 +34,20 @@ const FormBox = styled.div`
 
     & label {
       position: absolute;
-      transition: 0.4s;
       left: 0%;
+      top: 0px;
+      transition: 0.4s;
       border-top: 0px;
       border-left: 0px;
       border-right: 0px;
+      font-size: 20px;
     }
 
     & input:focus ~ label {
       position: absolute;
-      left: 0%;
-      top: -20px;
-      font-size: 2px;
+      top: -35px;
       transition: 0.4s;
+      font-size: 20px;
       border: 1px solid green;
       border-top: 0px;
       border-left: 0px;
@@ -50,6 +60,7 @@ const FormBox = styled.div`
       border-left: 0px;
       border-right: 0px;
       transition: 0.4s;
+      font-size: 20px;
     }
 
     & input:focus {
@@ -89,16 +100,34 @@ const FormBox = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  border: 0px;
+
+  & button {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
+    padding: 5px 10px 5px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+    margin-right: 7.5%;
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
+  }
+`;
+
 const MagazineInputPage = () => {
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
-  const [ckeditor, setCKEditor] = useState(null);
 
   const activeLabel = {
     position: 'absolute',
     left: '0%',
-    top: '-20px',
-    fontSize: '2px',
+    top: '-25px',
+    fontSize: '15px',
     transition: '0.4s',
     border: '1px solid green',
     borderTop: '0px',
@@ -111,6 +140,15 @@ const MagazineInputPage = () => {
     width: '100%',
     borderBottom: '1px solid green',
   };
+
+  const ckeditorStyle = styled.div`
+    margin-top: 0.5%;
+    width: 85%;
+    margin-left: 7.5%;
+    & .ck-editor__editable {
+      min-height: 400px;
+    }
+  `;
 
   return (
     <Container>
@@ -134,7 +172,7 @@ const MagazineInputPage = () => {
               style={title !== '' ? activeSpan : {}}
             ></span>
           </div>
-          <div className="title">
+          <div className="title second">
             <input
               type="text"
               id="subTitle"
@@ -157,27 +195,10 @@ const MagazineInputPage = () => {
           </div>
         </div>
       </FormBox>
-      <CKEditor
-        editor={ClassicEditor}
-        config={{
-          // plugins: [Paragraph, Bold, Italic, Essentials],
-          toolbar: ['bold', 'italic'],
-        }}
-        data="<p>Hello from CKEditor 5!</p>"
-        onReady={(editor) => {
-          console.log('Editor is ready to use!', editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log({ event, editor, data });
-        }}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
-      />
+      <ButtonWrapper>
+        <button>글 작성</button>
+      </ButtonWrapper>
+      <Ckeditor5 Style={ckeditorStyle} />
     </Container>
   );
 };
