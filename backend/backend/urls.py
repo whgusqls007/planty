@@ -44,6 +44,7 @@ urlpatterns = [
     path('api/plants/', include('plants.urls')),
     path('api/mygardens/', include('mygardens.urls')),
     path('api/feeds/', include('feeds.urls')),
+    path('api/recommendations/', include('recommendations.urls')),
     re_path(
         r"^swagger/$",
         schema_view.with_ui('swagger', cache_timeout=0),

@@ -13,7 +13,11 @@ const initialState = {
 const dictionarySlice = createSlice({
   name: 'dictionary',
   initialState,
-  reducers: {},
+  reducers: {
+    clearSearchResult: (state) => {
+      state.searchResult = [];
+    },
+  },
   extraReducers: {
     [fetchPlant.pending]: (state) => {
       state.loading = true;
@@ -45,4 +49,5 @@ const dictionarySlice = createSlice({
   },
 });
 
+export const { clearSearchResult } = dictionarySlice.actions;
 export default dictionarySlice.reducer;
