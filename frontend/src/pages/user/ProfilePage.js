@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import { Link, useSearchParams } from 'react-router-dom';
-import QueryString from 'qs';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
