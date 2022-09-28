@@ -32,8 +32,8 @@ class MyGarden(models.Model):
         null=True
     )
     diaries_count = models.IntegerField(
-        default=0,
-        verbose_name="일기 개수"
+        verbose_name="일기 개수",
+        default=0
     )
     img_url = models.TextField(
         verbose_name="식물 사진",
@@ -42,6 +42,10 @@ class MyGarden(models.Model):
     memo = models.TextField(
         verbose_name="한줄소개 메모",
         null=True
+    )
+    present = models.BooleanField(
+        default=False,
+        verbose_name="선물용 여부"
     )
 
     def __str__(self):

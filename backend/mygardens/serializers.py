@@ -12,7 +12,7 @@ class MyGardenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyGarden
-        fields = ('id', 'user', 'plant', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo')
+        fields = ('id', 'user', 'plant', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo', 'present')
         # 테스트용
         # fields = ('id', 'profile', 'user', 'date_created', 'date_grow', 'watering_schedule', 'recent_water', 'diaries_count', 'img_url', 'memo')
         read_only_fields = ('user', 'plant', 'diaries_count', 'img_url', 'date_created')
