@@ -97,34 +97,4 @@ const GardenImg = styled.div`
   }
 `;
 
-// const GardenDescription = styled.div`
-//   height: 224px;
-//   background-color: ${({ theme }) => theme.themeColor[2]};
-//   padding: 16px;
-// & .garden-header {
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 20px;
-// }
-//   & .garden-title {
-//     font-size: 30px;
-//     font-weight: 500;
-//   }
-//   & .garden-date-grow {
-//     font-size: 20px;
-//     font-weight: 400;
-//     color: #565656;
-//   }
-//   & .garden-badge-container {
-//     display: flex;
-//     justify-content: space-between;
-//   }
-// `;
-// const GardenBadge = styled.div`
-//   width: 90px;
-//   height: 90px;
-//   border-radius: 5px;
-//   background-color: ${({ theme }) => theme.themeColor[5]};
-// `;
-
 export default GardenItem;
