@@ -23,7 +23,7 @@ cursor = connection.cursor(pymysql.cursors.DictCursor)
 SQL = 'select user_id, plant_id, score from plantLike'  # 갖고올 쿼리
 df = pd.read_sql(SQL, connection)   #연결
 
-zeros = np.zeros((len(set(df['user_id'])), 25))     #유저id 개수만큼 행을 만들고 0으로 채워줌 *df를 쓰는 이유!!!!
+zeros = np.zeros((len(set(df['user_id'])), len(set(df['plant_id']))))     #유저id 개수만큼 행을 만들고 0으로 채워줌 *df를 쓰는 이유!!!!
 farm = pd.DataFrame(zeros, index=list(set(df['user_id'])), columns=sorted(list(set(df['plant_id']))))   # df 생성
 
 # sql = """select user_id, plant_id, score from plantLike"""
