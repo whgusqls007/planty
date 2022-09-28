@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import Carousel from 'react-bootstrap/Carousel';
 import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createFeedComment } from '../../features/feed/feedAction';
 
 // 테스트용 더미 feed
 const feed = {
@@ -22,8 +23,9 @@ const feed = {
 
 // 날짜 생성 함수
 const makeCreateDate = (dateCreated) => {
-  var splitDate = dateCreated.split('-');
-  return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
+  // var splitDate = dateCreated.split('-');
+  // return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
+  return dateCreated;
 };
 
 // FeedModal
@@ -32,18 +34,20 @@ const FeedModal = ({ modalOpen, closeModal }) => {
 
   return (
     <>
-      <Wrapper modalOpen={modalOpen}>
-        <div className="close-modal" onClick={closeModal} />
-        <div className="modal-div">
-          {!loading && (
-            <>
-              <ModalImg />
-              <ModalDescription closeModal={closeModal} />
-              <MobileModal closeModal={closeModal} />
-            </>
-          )}
-        </div>
-      </Wrapper>
+      {!loading && (
+        <Wrapper modalOpen={modalOpen}>
+          <div className="close-modal" onClick={closeModal} />
+          <div className="modal-div">
+            {!loading && (
+              <>
+                <ModalImg />
+                <ModalDescription closeModal={closeModal} />
+                <MobileModal closeModal={closeModal} />
+              </>
+            )}
+          </div>
+        </Wrapper>
+      )}
     </>
   );
 };
@@ -105,25 +109,27 @@ const Wrapper = styled.div`
 `;
 
 const MobileModal = ({ closeModal }) => {
-  const { title, content, user, dateCreated, comments } = feed;
+  const { loading, feed } = useSelector((state) => state.feed);
+  const { content, user, date_created, comments } = feed;
   return (
     <MobileModalWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="mobile-feed-writer">
         <CloudIcon />
-        <span>{user}</span>
+        <span>{user?.username}</span>
       </div>
       <ModalImgCarousel />
       <div className="mobile-feed-header">
-        <div className="mobile-feed-title">{title}</div>
+        <div className="mobile-feed-title">title</div>
         <div className="mobile-feed-date-created">
-          {makeCreateDate(dateCreated)}
+          {makeCreateDate(date_created)}
         </div>
       </div>
       <div className="mobile-feed-body">
         <div className="mobile-feed-content">{content}</div>
         <div className="mobile-feed-comment">
-          <CommentList comments={comments} />
+          {comments && <CommentList comments={comments} />}
+
           <CommentInputForm />
         </div>
       </div>
@@ -371,19 +377,21 @@ const ModalDescriptionWrapper = styled.div`
 `;
 
 const ModalDescription = ({ closeModal }) => {
-  const { title, content, user, dateCreated, comments } = feed;
+  const { loading, feed } = useSelector((state) => state.feed);
+  const { content, user, date_created, comments } = feed;
+  // const { title, content, user, dateCreated, comments } = feed;
   return (
     <ModalDescriptionWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="description-header">
-        <div className="description-title">{title}</div>
+        <div className="description-title">제목</div>
         <div className="description-writer">
           <CloudIcon />
-          <span>{user}</span>
+          <span>{user?.username}</span>
         </div>
       </div>
       <div className="description-date-created">
-        {makeCreateDate(dateCreated)}
+        {makeCreateDate(date_created)}
       </div>
       <div className="description-body">
         <div className="description-content">{content}</div>
@@ -407,9 +415,10 @@ const CommentListWrapper = styled.div`
 const CommentList = ({ comments }) => {
   return (
     <CommentListWrapper>
-      {comments.map((comment, idx) => (
-        <CommentItem comment={comment} key={idx}></CommentItem>
-      ))}
+      {comments &&
+        comments.map((comment, idx) => (
+          <CommentItem comment={comment} key={idx}></CommentItem>
+        ))}
     </CommentListWrapper>
   );
 };
@@ -463,14 +472,25 @@ const CommentInputWrapper = styled.div`
 `;
 
 const CommentInputForm = () => {
+  const { id } = useSelector((state) => state.feed);
+  const dispatch = useDispatch();
+  const [commentInput, setCommentInput] = useState('');
+
   return (
     <CommentInputWrapper>
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          dispatch(createFeedComment());
         }}
       >
-        <input type="text" className="comment-input" />
+        <input
+          type="text"
+          className="comment-input"
+          onChange={(e) => {
+            setCommentInput(e.target.value);
+          }}
+        />
         <button className="comment-submit-btn">등록</button>
       </form>
     </CommentInputWrapper>
