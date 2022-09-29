@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMagazine } from '../../features/magazine/magazineActions';
+import { magazine } from '../../api/magazine';
+import { useSelect } from '@mui/base';
 
 const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -59,18 +63,19 @@ const PlantImg = styled.div`
 `;
 
 const Card = (props) => {
-  const { title, writer, date, content } = props.data;
+  const { title, sub_title, date_created, user } = props.data;
+
   return (
     <Wrapper className="plant-img">
       <PlantImg />
       <div>
         <Title>{title}</Title>
         <CtnInfo>
-          <span>글쓴이 | {writer}</span>
-          <span>{date}</span>
+          <span>글쓴이 | {user.username}</span>
+          <span>{date_created.split('T')[0]}</span>
         </CtnInfo>
       </div>
-      <SubTitle>{content}</SubTitle>
+      <SubTitle>{sub_title}</SubTitle>
     </Wrapper>
   );
 };

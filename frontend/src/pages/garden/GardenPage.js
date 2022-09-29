@@ -38,8 +38,6 @@ const GardenPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { gardenList } = useSelector((state) => state.garden);
 
-  console.log(gardenList !== null ? gardenList.slice(0, 5) : null);
-
   const openModal = () => {
     setModalOpen(true);
   };
