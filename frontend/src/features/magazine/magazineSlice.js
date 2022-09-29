@@ -69,8 +69,14 @@ const magazineSlice = createSlice({
       }
       state.prevCurrent = -1;
       state.array = [];
-      for (let i = 0; i < state.pageCount; i++) {
-        state.array.push(i);
+      if (state.pageCount >= 5) {
+        for (let i = 0; i < 5; i++) {
+          state.array.push(i);
+        }
+      } else {
+        for (let i = 0; i < state.pageCount; i++) {
+          state.array.push(i);
+        }
       }
     },
     [fetchMagazineList.rejected]: (state, { payload }) => {
@@ -120,8 +126,15 @@ const magazineSlice = createSlice({
       state.totalCount = payload.count;
       state.pageCount = Math.ceil(state.totalCount / 9);
       state.array = [];
-      for (let i = 0; i < state.pageCount; i++) {
-        state.array.push(i);
+      let tmp = Math.floor(state.current / 5);
+      if (tmp * 5 + 5 >= state.pageCount) {
+        for (let i = tmp * 5; i < state.pageCount; i++) {
+          state.array.push(i);
+        }
+      } else {
+        for (let i = tmp * 5; i < tmp * 5 + 5; i++) {
+          state.array.push(i);
+        }
       }
     },
     [fetchMagazineListForPagination.rejected]: (state, { payload }) => {

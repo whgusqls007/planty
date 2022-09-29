@@ -36,7 +36,7 @@ const MagazinePage = () => {
     dispatch(
       fetchMagazineList({
         offset: offset,
-        limit: limit,
+        limit: 9,
         sorting: sorting,
         search: null,
         searchBy: searchBy,
@@ -48,7 +48,7 @@ const MagazinePage = () => {
     dispatch(
       fetchMagazineListForPagination({
         offset: offset,
-        limit: limit,
+        limit: 9,
         sorting: sorting,
         search:
           searchWord !== undefined && searchWord !== '' ? searchWord : null,
@@ -62,7 +62,7 @@ const MagazinePage = () => {
       dispatch(
         fetchMagazineList({
           offset: offset,
-          limit: limit,
+          limit: 9,
           sorting: sorting,
           search:
             searchWord !== undefined && searchWord !== '' ? searchWord : null,
@@ -76,7 +76,7 @@ const MagazinePage = () => {
     dispatch(
       fetchMagazineList({
         offset: offset,
-        limit: limit,
+        limit: 9,
         sorting: sorting,
         search:
           searchWord !== undefined && searchWord !== '' ? searchWord : null,
@@ -199,13 +199,13 @@ const MagazinePage = () => {
           {array.map((e, i) => {
             return (
               <PagingList
-                className={current === i ? 'active' : ''}
+                className={current === e ? 'active' : ''}
                 onClick={() => {
-                  dispatch(setCurrentOffsetLimit({ current: i }));
+                  dispatch(setCurrentOffsetLimit({ current: e }));
                 }}
                 key={i}
               >
-                {i + 1}
+                {e + 1}
               </PagingList>
             );
           })}
@@ -213,7 +213,7 @@ const MagazinePage = () => {
           {pageCount > 5 ? (
             <PagingList
               onClick={() => {
-                if (current !== pageCount) {
+                if (current !== pageCount - 1) {
                   dispatch(setCurrentOffsetLimit({ current: current + 1 }));
                 }
               }}

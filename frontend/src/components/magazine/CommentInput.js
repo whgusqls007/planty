@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CommentInput = ({ comment, setComment, submitHandler, username }) => {
   const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.user);
+
   useEffect(() => {}, [dispatch]);
   const activeLabel = {
     position: 'absolute',
@@ -23,34 +26,38 @@ const CommentInput = ({ comment, setComment, submitHandler, username }) => {
   };
 
   return (
-    <tr>
-      <td>'작성'</td>
-      <td colSpan={5}>
-        <div className="commentInput">
-          <input
-            type="text"
-            id="commentInput"
-            onChange={(e) => {
-              setComment(e.target.value);
-            }}
-            style={comment !== '' ? { border: '0px', outline: 'none' } : {}}
-            value={comment}
-          />
-          <label
-            className="input_label"
-            htmlFor="commentInput"
-            style={comment !== '' ? activeLabel : {}}
-          >
-            {comment !== '' ? '' : '내용'}
-          </label>
-          <span
-            className="effect"
-            style={comment !== '' ? activeSpan : {}}
-          ></span>
-          <button onClick={submitHandler}>작성</button>
-        </div>
-      </td>
-    </tr>
+    <>
+      {userInfo && (
+        <tr>
+          <td>'작성'</td>
+          <td colSpan={5}>
+            <div className="commentInput">
+              <input
+                type="text"
+                id="commentInput"
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+                style={comment !== '' ? { border: '0px', outline: 'none' } : {}}
+                value={comment}
+              />
+              <label
+                className="input_label"
+                htmlFor="commentInput"
+                style={comment !== '' ? activeLabel : {}}
+              >
+                {comment !== '' ? '' : '내용'}
+              </label>
+              <span
+                className="effect"
+                style={comment !== '' ? activeSpan : {}}
+              ></span>
+              <button onClick={submitHandler}>작성</button>
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
   );
 };
 

@@ -19,6 +19,7 @@ const MagazineDetailPage = (props) => {
   const dispatch = useDispatch();
   const { articleId } = useParams();
   const { magazine, comments } = useSelector((state) => state.magazine);
+  const { userInfo } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
 
   useEffect(() => {
@@ -26,7 +27,11 @@ const MagazineDetailPage = (props) => {
   }, [dispatch, articleId]);
 
   const likeButtonHandler = async () => {
-    dispatch(fetchLike(articleId));
+    if (userInfo !== null) {
+      dispatch(fetchLike(articleId));
+    } else {
+      alert('로그인 ㄱㄱ');
+    }
   };
 
   const submitHandler = () => {
