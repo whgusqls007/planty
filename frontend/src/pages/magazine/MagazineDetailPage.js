@@ -9,9 +9,93 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchMagazine,
-  increaseLike,
-  decreaseLike,
+  fetchLike,
+  fetchComment,
 } from '../../features/magazine/magazineActions';
+import CommentLine from '../../components/magazine/CommentLine';
+import CommentInput from '../../components/magazine/CommentInput';
+
+const MagazineDetailPage = (props) => {
+  const dispatch = useDispatch();
+  const { articleId } = useParams();
+  const { magazine, comments } = useSelector((state) => state.magazine);
+  const [comment, setComment] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchMagazine(articleId));
+  }, [dispatch, articleId]);
+
+  const likeButtonHandler = async () => {
+    dispatch(fetchLike(articleId));
+  };
+
+  const submitHandler = () => {
+    dispatch(fetchComment({ id: articleId, comment: { content: comment } }));
+    setComment('');
+  };
+
+  return (
+    <Container>
+      <Wrapper>
+        <Title>{magazine.title}</Title>
+        <Writer>
+          글쓴이 | {magazine.user !== undefined ? magazine.user.username : ''}
+        </Writer>
+        <Date>
+          {magazine.date_created !== undefined
+            ? magazine.date_created.split('T')[0]
+            : null}{' '}
+          작성
+        </Date>
+        <Content>{ReactHtmlParser(magazine.content)}</Content>
+        <div className="favorite">
+          <span>좋아용</span>
+          <FavoriteButton1
+            onClick={likeButtonHandler}
+            style={
+              !magazine.is_liked
+                ? { display: 'block', opacity: '0.6', cursor: 'pointer' }
+                : { display: 'none' }
+            }
+          />
+          <FavoriteButton2
+            onClick={likeButtonHandler}
+            style={
+              magazine.is_liked
+                ? { display: 'block', color: '#8FB99F', cursor: 'pointer' }
+                : { display: 'none' }
+            }
+          />
+        </div>
+        <div className="comment">
+          <Table>
+            <thead>
+              <tr>
+                <th>유저</th>
+                <th>댓글</th>
+                <th colSpan={4}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {comments.map((e, i) => {
+                return <CommentLine articleId={articleId} data={e} key={i} />;
+              })}
+              <tr>
+                <td colSpan={6}></td>
+              </tr>
+              <CommentInput
+                articleId={articleId}
+                comment={comment}
+                setComment={setComment}
+                submitHandler={submitHandler}
+              />
+            </tbody>
+          </Table>
+        </div>
+      </Wrapper>
+    </Container>
+  );
+};
 
 const Wrapper = styled.div`
   margin-top: 5%;
@@ -31,9 +115,78 @@ const Wrapper = styled.div`
     margin: 5% 15% 0 15%;
 
     & Table {
-      & thead {
-        & th {
-          min-width: 50px;
+      & th {
+        min-width: 50px;
+      }
+      & .modify_delete {
+        width: 10%;
+        text-align: end;
+        padding-right: 2%;
+        cursor: pointer;
+
+        @media (max-width: 768px) {
+          width: 70px;
+          padding-left: 0px;
+          padding-right: 3%;
+        }
+
+        @media (max-width: 576px) {
+          width: 50px;
+          padding-left: 0px;
+          padding-right: 4%;
+        }
+
+        & .modify {
+          &:hover {
+            font-weight: 600;
+            transition: 0.3s;
+          }
+        }
+
+        & .delete {
+          color: red;
+          &:hover {
+            font-weight: 600;
+            transition: 0.3s;
+          }
+        }
+      }
+      & td {
+        @media (max-width: 992px) {
+          font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+
+        @media (max-width: 576px) {
+          font-size: 12px;
+        }
+      }
+
+      & button {
+        width: 100px;
+        border: 2px solid ${({ theme }) => theme.themeColor[5]};
+        background-color: rgba(0, 0, 0, 0);
+        border-radius: 6px;
+        transition: 0.4s;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.themeColor[5]};
+          transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+          width: 70px;
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        @media (max-width: 576px) {
+          width: 50px;
+          padding-left: 0px;
+          padding-right: 0px;
         }
       }
     }
@@ -43,6 +196,41 @@ const Wrapper = styled.div`
     display: flex;
     position: relative;
 
+    & .confirm_cancle {
+      display: block;
+      width: 10%;
+      text-align: end;
+      padding-right: 1%;
+      cursor: pointer;
+
+      @media (max-width: 768px) {
+        width: 70px;
+        padding-left: 0px;
+        padding-right: 3%;
+      }
+
+      @media (max-width: 576px) {
+        width: 50px;
+        padding-left: 0px;
+        padding-right: 4%;
+      }
+
+      & .confirm {
+        &:hover {
+          font-weight: 600;
+          transition: 0.3s;
+        }
+      }
+
+      & .cancle {
+        color: red;
+        &:hover {
+          font-weight: 600;
+          transition: 0.3s;
+        }
+      }
+    }
+
     & label {
       position: absolute;
       left: 0%;
@@ -51,8 +239,20 @@ const Wrapper = styled.div`
       border-top: 0px;
       border-left: 0px;
       border-right: 0px;
-      font-size: 20px;
+      font-size: 16px;
       display: block;
+
+      @media (max-width: 992px) {
+        font-size: 16px;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        font-size: 12px;
+      }
     }
 
     & input:focus ~ label {
@@ -60,7 +260,7 @@ const Wrapper = styled.div`
       top: -35px;
       transition: 0.4s;
       font-size: 20px;
-      border: 1px solid green;
+      border: 2px solid green;
       border-top: 0px;
       border-left: 0px;
       border-right: 0px;
@@ -73,7 +273,19 @@ const Wrapper = styled.div`
       border-left: 0px;
       border-right: 0px;
       transition: 0.4s;
-      font-size: 20px;
+      font-size: 16px;
+
+      @media (max-width: 992px) {
+        font-size: 16px;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        font-size: 12px;
+      }
     }
 
     & input:focus {
@@ -93,7 +305,7 @@ const Wrapper = styled.div`
     & input:focus ~ .effect {
       position: absolute;
       width: 100%;
-      border-bottom: 1px solid green;
+      border-bottom: 2px solid green;
       bottom: 0;
       left: 0;
       transition: 0.6s;
@@ -101,14 +313,17 @@ const Wrapper = styled.div`
 
     @media (max-width: 992px) {
       margin-bottom: 6%;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
       margin-bottom: 6%;
+      font-size: 12px;
     }
 
     @media (max-width: 576px) {
       margin-bottom: 7%;
+      font-size: 10px;
     }
   }
 `;
@@ -145,158 +360,9 @@ const Writer = styled.div`
   margin: 2% 15% 0 0;
 `;
 
-const Image = styled.div`
-  display: flex;
-  margin-top: 5%;
-  width: 80%;
-  height: 300px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
-  border-radius: 10px;
-  margin-left: 10%;
-
-  @media (max-width: 768px) {
-    height: 250px;
-  }
-
-  @media (max-width: 576px) {
-    height: 200px;
-  }
-`;
-
 const Content = styled.div`
   margin: 5% 15% 0 15%;
   width: 70%;
 `;
-
-const MagazineDetailPage = (props) => {
-  const dispatch = useDispatch();
-  const { articleId } = useParams();
-  const { magazine, comments } = useSelector((state) => state.magazine);
-  const [isLiked, setIsLiked] = useState(false);
-  const [comment, setComment] = useState('');
-
-  useEffect(() => {
-    dispatch(fetchMagazine(articleId));
-  }, [dispatch, articleId]);
-
-  const activeLabel = {
-    position: 'absolute',
-    left: '0%',
-    top: '-25px',
-    fontSize: '15px',
-    transition: '0.4s',
-    border: '1px solid green',
-    borderTop: '0px',
-    borderLeft: '0px',
-    borderRight: '0px',
-  };
-
-  const activeSpan = {
-    position: 'absolute',
-    width: '100%',
-    borderBottom: '1px solid green',
-  };
-
-  const LikeButtonHandler = () => {
-    if (isLiked) {
-      dispatch(increaseLike(articleId));
-      setIsLiked(false);
-    } else {
-      dispatch(decreaseLike(articleId));
-      setIsLiked(true);
-    }
-  };
-
-  return (
-    <Container>
-      <Wrapper>
-        <Title>{magazine.title}</Title>
-        <Writer>글쓴이 | {}</Writer>
-        <Date>
-          {magazine.date_created !== undefined
-            ? magazine.date_created.split('T')[0]
-            : null}{' '}
-          작성
-        </Date>
-        <Content>{ReactHtmlParser(magazine.content)}</Content>
-        <div className="favorite">
-          <span>좋아용</span>
-          <FavoriteButton1
-            onClick={LikeButtonHandler}
-            style={
-              !isLiked
-                ? { display: 'block', opacity: '0.6' }
-                : { display: 'none' }
-            }
-          />
-          <FavoriteButton2
-            onClick={LikeButtonHandler}
-            style={
-              isLiked
-                ? { display: 'block', color: '#8FB99F' }
-                : { display: 'none' }
-            }
-          />
-        </div>
-        <div className="comment">
-          <Table striped>
-            <thead>
-              <tr>
-                <th>유저</th>
-                <th>내용</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td colSpan={5}>
-                  Larry the BirdLarry the BirdLarry the BirdLarry the BirdLarry
-                  the Bird Larry the BirdLarry the BirdLarry the BirdLarry the
-                  BirdLarry the Bird
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td colSpan={5}>Larry the Bird</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td colSpan={5}>Larry the Bird</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td colSpan={5}>
-                  <div className="commentInput">
-                    <input
-                      type="text"
-                      id="commentInput"
-                      onChange={(e) => {
-                        setComment(e.target.value);
-                      }}
-                      style={
-                        comment !== '' ? { border: '0px', outline: 'none' } : {}
-                      }
-                    />
-                    <label
-                      htmlFor="commentInput"
-                      style={comment !== '' ? activeLabel : {}}
-                    >
-                      {comment !== '' ? '' : '내용을 입력해 주세요'}
-                    </label>
-                    <span
-                      className="effect"
-                      style={comment !== '' ? activeSpan : {}}
-                    ></span>
-                    <button>as</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
-      </Wrapper>
-    </Container>
-  );
-};
 
 export default MagazineDetailPage;
