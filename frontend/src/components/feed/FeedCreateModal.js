@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import { createFeed } from '../../features/feed/feedAction';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 
 const FeedCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [content, setContent] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
+
+  const dragRef = useRef(null);
 
   const onImageChange = (e) => {
     e.preventDefault();
@@ -40,13 +42,93 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
     dispatch(createFeed(formData));
   };
 
+  const handleDragIn = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDragOut = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(false);
+  }, []);
+
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const onChangeFiles = useCallback((e) => {
+    let selectFiles = [];
+    if (e.type === 'drop') {
+      selectFiles = e.dataTransfer.files;
+    } else {
+      selectFiles = e.target.files;
+    }
+
+    const imgTarget = selectFiles[0];
+    setImgFile(imgTarget);
+    if (imgTarget) {
+      const reader = new FileReader();
+      reader.readAsDataURL(imgTarget);
+      reader.onload = (e) => {
+        setImgSrc(e.target.result);
+      };
+    } else {
+      setImgSrc(null);
+    }
+  }, []);
+
+  const handleDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      onChangeFiles(e);
+      setIsDragging(false);
+    },
+    [onChangeFiles],
+  );
+
+  const initDragEvents = useCallback(() => {
+    if (dragRef.current !== null) {
+      dragRef.current.addEventListener('dragenter', handleDragIn);
+      dragRef.current.addEventListener('dragleave', handleDragOut);
+      dragRef.current.addEventListener('dragover', handleDragOver);
+      dragRef.current.addEventListener('drop', handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  const resetDragEvents = useCallback(() => {
+    if (dragRef.current !== null) {
+      dragRef.current.removeEventListener('dragenter', handleDragIn);
+      dragRef.current.removeEventListener('dragleave', handleDragOut);
+      dragRef.current.removeEventListener('dragover', handleDragOver);
+      dragRef.current.removeEventListener('drop', handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  useEffect(() => {
+    initDragEvents();
+
+    return () => resetDragEvents();
+  }, [initDragEvents, resetDragEvents]);
+
   return (
     <Wrapper modalOpen={modalOpen}>
       <div className="close-modal" onClick={closeModal} />
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         <FeedForm onSubmit={onSubmitHandler}>
-          <div className="img-div">
+          <div
+            className={isDragging ? 'img-div dragging' : 'img-div'}
+            ref={dragRef}
+          >
             <img src={imgSrc} alt="aabbb" className="plant-img" />
           </div>
           <label htmlFor="plant_img">식물 사진</label>
@@ -57,6 +139,7 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
             accept="image/*"
             onChange={onImageChange}
           />
+
           <label htmlFor="content">내용</label>
           <input type="text" id="content" onChange={onChangeHandler} />
           <button>작성</button>
@@ -174,6 +257,10 @@ const FeedForm = styled.form`
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  & .dragging {
+    background-color: #dbdbdb;
   }
 
   & .plant-img {

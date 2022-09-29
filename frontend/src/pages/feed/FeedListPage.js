@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import FeedItem from '../../components/feed/FeedItem';
 import FeedModal from '../../components/feed/FeedModal';
 import FeedCreateModal from '../../components/feed/FeedCreateModal';
 import TopButton from '../../components/TopButton';
+import { fetchFeedList } from '../../features/feed/feedAction';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const FeedListPage = () => {
   // Dummy
   const arr = [...Array(18)];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchFeedList());
+  }, []);
+  const { feedList } = useSelector((state) => state.feed);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -38,6 +46,9 @@ const FeedListPage = () => {
       />
       <Container className="d-flex flex-column justify-content-center">
         <Wrapper>
+          {feedList.map((feed, idx) => (
+            <FeedItem key={feed.id} feed={feed} onClick={openModal} />
+          ))}
           {arr.map((e, i) => (
             <FeedItem key={i} onClick={openModal} />
           ))}
