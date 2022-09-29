@@ -47,3 +47,27 @@ class UserKeywordCount(models.Model):
         default=0,
         verbose_name="낮은 온도"
     )
+
+class Plantlike(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, 
+        models.CASCADE, 
+        primary_key=True
+        )
+    score = models.CharField(
+        max_length=500, 
+        blank=True, 
+        null=True
+        )
+
+    class Meta:
+        managed = False
+        db_table = 'plantLike'
+
+
+class UpdateTable(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'update_table'
