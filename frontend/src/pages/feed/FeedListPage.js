@@ -16,7 +16,7 @@ const FeedListPage = () => {
   useEffect(() => {
     dispatch(fetchFeedList());
   }, []);
-  const { feedList } = useSelector((state) => state.feed);
+  const feedList = useSelector((state) => state.feed.feedList);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
