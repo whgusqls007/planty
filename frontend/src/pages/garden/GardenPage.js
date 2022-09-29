@@ -4,8 +4,9 @@ import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
 import { useDispatch } from 'react-redux';
-import { fetchGardenList } from '../../features/garden/gardenActions';
+import { fetchUserInfo } from '../../features/garden/gardenActions';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const dummyPlants = [
   {
@@ -35,6 +36,17 @@ const dummyPlants = [
 ];
 
 const GardenPage = () => {
+  const dispatch = useDispatch();
+  const { userName } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchUserInfo(userName));
+  }, [dispatch]);
+
+  const {userInfo, loading } = useSelector((state) => state.garden);
+  console.log(userInfo);
+
+
   const [modalOpen, setModalOpen] = useState(false);
   const { gardenList } = useSelector((state) => state.garden);
 
@@ -46,11 +58,7 @@ const GardenPage = () => {
     setModalOpen(false);
   };
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchGardenList());
-  }, [dispatch]);
 
   return (
     <>

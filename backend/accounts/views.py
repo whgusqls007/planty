@@ -1,9 +1,47 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import User
+from .serializers import DescriptionSerializer, ProfileSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 
+# 나의 정원 유저 프로필
+class ProfileViewSet(viewsets.ViewSet):
+
+    # swagger 설명
+    @swagger_auto_schema(
+    operation_summary='나의 정원 유저 프로필',
+    operation_description='유저 이름으로 데이터 주고 받아야 합니다.')
+
+    def profile(self, request, username):
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = ProfileSerializer(user)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 나의 정원 한줄 소개 수정
+class DescriptionViewSet(viewsets.ViewSet):
+
+    # swagger 설명
+    @swagger_auto_schema(
+    operation_summary='나의 정원 한줄 소개 수정',
+    request_body=DescriptionSerializer)
+
+    def update_description(self, request):
+        profile = get_object_or_404(get_user_model(), pk=request.user.id)
+        serializer = DescriptionSerializer(instance=profile, data=request.data)
+        serializer.description = request.data["description"]
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({'data': "test"})
+
+# post에 매칭, 팔로우
 class FollowViewSet(viewsets.ViewSet):
 
     def follow(self, request, pk):
@@ -30,3 +68,30 @@ class FollowViewSet(viewsets.ViewSet):
             me.save()
             
             return Response({'data' : 'Follow OK'}, status=status.HTTP_200_OK)
+
+
+# post에 매칭, 닉네임 중복 확인
+class UsernameCheckViewSet(viewsets.ViewSet):
+    
+    def check(self, request):
+        if User.objects.filter(username=request.data["username"]).exists():
+            return Response({'data' : False}, status=status.HTTP_200_OK)
+
+        return Response({'data' : True}, status=status.HTTP_200_OK)
+
+
+# post에 매칭, 이메일 중복 확인
+class EmailCheckViewSet(viewsets.ViewSet):
+
+    def check(self, request):
+        print(request.data)
+        if User.objects.filter(email=request.data["email"]).exists():
+            return Response({'data' : False}, status=status.HTTP_200_OK)
+
+        return Response({'data' : True}, status=status.HTTP_200_OK)
+
+
+
+# 프로필 수정 - username, date_of_birth, 비밀번호
+# patch -> 한줄 소개만 수정하도록
+# get, post, delete, put, patch

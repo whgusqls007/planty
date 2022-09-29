@@ -2,7 +2,7 @@ FROM node:alpine as builder
 
 WORKDIR "/usr/src/app"
 COPY package.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 copy ./ ./
 # CMD ["npm", "run", "build"]
 RUN npm run build
