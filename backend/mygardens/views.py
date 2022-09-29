@@ -59,6 +59,10 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             user.plants_count = user.plants_count + 1
             user.save()
 
+            # 식물 키워드 카운트 등록 (Table UserKeywordCount)
+            # plant_id = serializer.data.plant.id
+            plant_id = 1
+            
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 테스트용

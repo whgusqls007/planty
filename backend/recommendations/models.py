@@ -19,6 +19,10 @@ class UserKeywordCount(models.Model):
         default=0,
         verbose_name="미세먼지 정화 기능"
     )
+    air_cleaning = models.IntegerField(
+        default=0,
+        verbose_name="공기 정화 기능"
+    )
     beginner = models.IntegerField(
         default=0,
         verbose_name="초보자용"
