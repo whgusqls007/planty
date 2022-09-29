@@ -29,9 +29,10 @@ AWS_DEFAULT_REGION = os.environ['AWS_DEFAULT_REGION']
 AWS_BUCKET_URL = os.environ['AWS_BUCKET_URL']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['j7e103.p.ssafy.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'mygardens',
     'feeds',
     'core',  # utils
+    'recommendations',
     # 3rd party library
     'corsheaders',
     'django_extensions',
@@ -192,9 +194,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://j7e103.p.ssafy.io',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://j7e103.p.ssafy.io',
+# ]
 
 # 모두에게 교차출처 허용 (*)
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True

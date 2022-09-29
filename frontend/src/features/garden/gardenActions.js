@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { gardenList } from '../../api/garden';
+import { gardenUser } from '../../api/garden';
 
-export const fetchGardenList = createAsyncThunk(
-  'mygarden/gardenList',
-  async (params, { rejectWithValue }) => {
+export const fetchUserInfo = createAsyncThunk(
+  'mygarden/fetchUserInfo',
+  async (userName, { rejectWithValue }) => {
     try {
-      const { data } = await gardenList();
+      const { data } = await gardenUser(userName);
 
       return data;
     } catch (error) {

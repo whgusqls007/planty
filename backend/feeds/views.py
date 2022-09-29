@@ -1,9 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Feed, FeedComment
 from rest_framework import viewsets, status
 from .serializers import FeedSerializer, FeedCommentSerializer
 from core.utils import s3_upload_image
+from drf_yasg.utils import swagger_auto_schema
+
 
 # 남의 정원 CRUD
 class FeedViewSet(viewsets.ModelViewSet):
@@ -20,7 +23,8 @@ class FeedViewSet(viewsets.ModelViewSet):
 
     # get에 매칭, 상세페이지
     def retrieve(self, request, pk):
-        serializer = self.get_serializer(Feed.objects.get(pk=pk))
+        feed = get_object_or_404(Feed, pk=pk)
+        serializer = self.get_serializer(instance=feed)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -147,3 +151,17 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             serializer = FeedCommentSerializer(instance=comments, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 나의 정원 피드 목록
+class MyFeedListViewSet(viewsets.ViewSet):
+
+    @swagger_auto_schema(
+    operation_summary='나의 정원 피드',
+    operation_description='유저 이름으로 데이터 주고 받아야 합니다.')
+
+    def list(self, reqeust, username):
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = FeedSerializer(Feed.objects.filter(user=user.id), many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

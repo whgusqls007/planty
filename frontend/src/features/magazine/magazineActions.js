@@ -4,14 +4,44 @@ import {
   magazineList,
   magazine,
   like,
-  dislike,
+  comment,
+  commentDelete,
+  commentModify,
 } from '../../api/magazine';
 
 export const fetchMagazineList = createAsyncThunk(
   'magazine/magazineList',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await magazineList(params.offset, params.limit);
+      const { data } = await magazineList(
+        params.offset,
+        params.limit,
+        params.sorting,
+        params.search,
+        params.searchBy,
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchMagazineListForPagination = createAsyncThunk(
+  'magazine/magazineListForPagination',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await magazineList(
+        params.offset,
+        params.limit,
+        params.sorting,
+        params.search,
+        params.searchBy,
+      );
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -55,11 +85,12 @@ export const fetchMagazine = createAsyncThunk(
   },
 );
 
-export const increaseLike = createAsyncThunk(
+export const fetchLike = createAsyncThunk(
   'magazine/like',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await like(params);
+      await like(params);
+      const { data } = await magazine(params);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -71,11 +102,46 @@ export const increaseLike = createAsyncThunk(
   },
 );
 
-export const decreaseLike = createAsyncThunk(
-  'magazine/dislike',
+export const fetchComment = createAsyncThunk(
+  'magazine/comment',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await like(params);
+      await comment(params.id, params.comment);
+      const { data } = await magazine(params.id);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const deleteComment = createAsyncThunk(
+  'magazine/deleteComment',
+  async (params, { rejectWithValue }) => {
+    try {
+      await commentDelete(params.articleId, params.commentId);
+      const { data } = await magazine(params.articleId);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const modifyComment = createAsyncThunk(
+  'magazine/modifyComment',
+  async (params, { rejectWithValue }) => {
+    try {
+      await commentModify(params.articleId, params.commentId);
+      const { data } = await magazine(params.articleId);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

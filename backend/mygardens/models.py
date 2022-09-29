@@ -13,7 +13,7 @@ class MyGarden(models.Model):
     plant = models.ForeignKey(
         Plant,
         on_delete=models.CASCADE,
-        verbose_name="플랜트 이름",
+        verbose_name="플랜트 PK",
     )
     date_created = models.DateTimeField(
         auto_now_add=True,
@@ -32,8 +32,8 @@ class MyGarden(models.Model):
         null=True
     )
     diaries_count = models.IntegerField(
-        default=0,
-        verbose_name="일기 개수"
+        verbose_name="일기 개수",
+        default=0
     )
     img_url = models.TextField(
         verbose_name="식물 사진",
@@ -43,9 +43,13 @@ class MyGarden(models.Model):
         verbose_name="한줄소개 메모",
         null=True
     )
+    present = models.BooleanField(
+        default=False,
+        verbose_name="선물용 여부"
+    )
 
     def __str__(self):
-        return self.plant
+        return self.user
 
 
 # 식물일기
@@ -69,4 +73,4 @@ class Diary(models.Model):
     )
 
     def __str__(self):
-        return self.content
+        return self.my_garden

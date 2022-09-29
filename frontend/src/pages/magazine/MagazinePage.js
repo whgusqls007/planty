@@ -5,8 +5,225 @@ import Card from '../../components/magazine/Card';
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchMagazineList } from '../../features/magazine/magazineActions';
+
+import {
+  fetchMagazineList,
+  fetchMagazineListForPagination,
+} from '../../features/magazine/magazineActions';
+
 import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  setCurrentOffsetLimit,
+  setPrevCurrent,
+  setSorting,
+} from '../../features/magazine/magazineSlice';
+
+const MagazinePage = () => {
+  const dispatch = useDispatch();
+  const [searchWord, setSearchWord] = useState('');
+  const [searchBy, setSearchBy] = useState(0);
+  const { magazineList, pageCount, current, offset, limit, array, sorting } =
+    useSelector((state) => state.magazine);
+  const { userInfo } = useSelector((state) => state.user);
+
+  const activeEffect = {
+    border: '1px solid #4caf50',
+    padding: '1px 5px 1px 5px',
+  };
+
+  useEffect(() => {
+    dispatch(
+      fetchMagazineList({
+        offset: offset,
+        limit: 9,
+        sorting: sorting,
+        search: null,
+        searchBy: searchBy,
+      }),
+    );
+  }, [sorting]);
+
+  useEffect(() => {
+    dispatch(
+      fetchMagazineListForPagination({
+        offset: offset,
+        limit: 9,
+        sorting: sorting,
+        search:
+          searchWord !== undefined && searchWord !== '' ? searchWord : null,
+        searchBy: searchBy,
+      }),
+    );
+  }, [current]);
+
+  const onKeyDownHandler = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(
+        fetchMagazineList({
+          offset: offset,
+          limit: 9,
+          sorting: sorting,
+          search:
+            searchWord !== undefined && searchWord !== '' ? searchWord : null,
+          searchBy: searchBy,
+        }),
+      );
+    }
+  };
+
+  const searchHandler = () => {
+    dispatch(
+      fetchMagazineList({
+        offset: offset,
+        limit: 9,
+        sorting: sorting,
+        search:
+          searchWord !== undefined && searchWord !== '' ? searchWord : null,
+        searchBy: searchBy,
+      }),
+    );
+  };
+
+  return (
+    <>
+      <Container>
+        <InputBox>
+          <input
+            id="searchText"
+            className="effect"
+            type="text"
+            onChange={(text) => {
+              setSearchWord(text.target.value);
+            }}
+            style={
+              searchWord !== ''
+                ? { paddingTop: '8px', paddingBottom: '8px' }
+                : { paddingTop: '2px', paddingBottom: '2px' }
+            }
+            value={searchWord}
+            onKeyDown={onKeyDownHandler}
+          />
+          <span className="focus-border"></span>
+          <select
+            onChange={(e) => {
+              setSearchBy(e.target.value);
+            }}
+          >
+            <option value="0">제목</option>
+            <option value="1">글쓴이</option>
+            <option value="2">내용</option>
+            <option value="3">제목+내용</option>
+          </select>
+          <InputButton
+            className="search-button"
+            style={
+              searchWord === ''
+                ? { display: 'none' }
+                : { display: 'block', zIndex: '999' }
+            }
+            onClick={searchHandler}
+          >
+            <SearchIcon style={{ cursor: 'pointer' }} />
+          </InputButton>
+        </InputBox>
+        <SubInputBox>
+          <SortingButton>
+            <div
+              className="tag"
+              style={sorting === 0 ? activeEffect : null}
+              onClick={() => {
+                dispatch(setSorting({ sorting: 0 }));
+              }}
+            >
+              최신순
+            </div>
+            <div
+              className="tag"
+              style={sorting === 1 ? activeEffect : null}
+              onClick={() => {
+                dispatch(setSorting({ sorting: 1 }));
+              }}
+            >
+              좋아요순
+            </div>
+            <div
+              className="tag"
+              style={sorting === 2 ? activeEffect : null}
+              onClick={() => {
+                dispatch(setSorting({ sorting: 2 }));
+              }}
+            >
+              댓글순
+            </div>
+          </SortingButton>
+          {userInfo && (
+            <Link to="/magazine/magazineinput">
+              <div className="tag">글쓰기</div>
+            </Link>
+          )}
+        </SubInputBox>
+        <Wrapper>
+          {magazineList !== null || magazineList !== undefined
+            ? magazineList.map((e, i) => {
+                return (
+                  <Col md="4" sm="12" xs="12" key={i}>
+                    <Link
+                      to={`/magazine/${e.id}`}
+                      onClick={() => {
+                        dispatch(
+                          setPrevCurrent({
+                            prevCurrent: current,
+                            prevSorting: sorting,
+                          }),
+                        );
+                      }}
+                    >
+                      <Card data={e} key={i} />
+                    </Link>
+                  </Col>
+                );
+              })
+            : null}
+        </Wrapper>
+        <ListWrapper>
+          {pageCount > 5 ? (
+            <PagingList
+              onClick={() => {
+                if (current !== 0) {
+                  dispatch(setCurrentOffsetLimit({ current: current - 1 }));
+                }
+              }}
+            >{`<`}</PagingList>
+          ) : null}
+          {array.map((e, i) => {
+            return (
+              <PagingList
+                className={current === e ? 'active' : ''}
+                onClick={() => {
+                  dispatch(setCurrentOffsetLimit({ current: e }));
+                }}
+                key={i}
+              >
+                {e + 1}
+              </PagingList>
+            );
+          })}
+
+          {pageCount > 5 ? (
+            <PagingList
+              onClick={() => {
+                if (current !== pageCount - 1) {
+                  dispatch(setCurrentOffsetLimit({ current: current + 1 }));
+                }
+              }}
+            >{`>`}</PagingList>
+          ) : null}
+        </ListWrapper>
+      </Container>
+    </>
+  );
+};
 
 const Wrapper = styled.div`
   margin: 3% 5% 0 5%;
@@ -130,6 +347,7 @@ const InputBox = styled.div`
     position: absolute;
     right: 25%;
     width: 5%;
+    background-color: rgba(0, 0, 0, 0);
 
     @media (max-width: 768px) {
       right: 12.5%;
@@ -219,219 +437,5 @@ const SortingButton = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
-const MagazinePage = () => {
-  const dispatch = useDispatch();
-
-  const [current, setCurrent] = useState(1);
-  const [listArray, setListArray] = useState([]);
-  const [next, setNext] = useState(false);
-  const [prev, setPrev] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(9);
-  const [content, setContent] = useState('');
-  // 1 최신순 2 좋아요순 3 댓글순
-  const [sorting, setSorting] = useState(0);
-
-  const { magazineList, pageCount } = useSelector((state) => state.magazine);
-  const { userInfo } = useSelector((state) => state.user);
-
-  const activeEffect = {
-    border: '1px solid #4caf50',
-    padding: '1px 5px 1px 5px',
-  };
-
-  useEffect(() => {
-    dispatch(fetchMagazineList({ offset, limit, sorting }));
-  }, [dispatch]);
-
-  useEffect(() => {
-    let array = [];
-    if (pageCount > 5) {
-      for (let i = 0; i < 5; i++) {
-        array.push(current + i);
-      }
-    } else {
-      for (let i = 0; i < pageCount; i++) {
-        array.push(i);
-      }
-    }
-    setListArray(array);
-  }, []);
-
-  useEffect(() => {
-    let array = [];
-    if (current % 5 === 1 && next) {
-      if (current + 5 < pageCount) {
-        for (let i = current; i < current + 5; i++) {
-          array.push(i);
-        }
-      } else {
-        for (let i = current; i < pageCount + 1; i++) {
-          array.push(i);
-        }
-      }
-      setListArray(array);
-    } else if (current % 5 === 0 && prev) {
-      for (let i = current - 4; i < current + 1; i++) {
-        array.push(i);
-      }
-      setListArray(array);
-    }
-  }, [current]);
-
-  return (
-    <>
-      <Container>
-        <InputBox>
-          <input
-            id="searchText"
-            className="effect"
-            type="text"
-            onChange={(text) => {
-              setContent(text.target.value);
-            }}
-            style={
-              content !== ''
-                ? { paddingTop: '8px', paddingBottom: '8px' }
-                : { paddingTop: '2px', paddingBottom: '2px' }
-            }
-          />
-          <span className="focus-border"></span>
-          <select>
-            <option>제목</option>
-            <option>글쓴이</option>
-          </select>
-          <InputButton
-            className="search-button"
-            style={
-              content === ''
-                ? { display: 'none' }
-                : { display: 'block', zIndex: '999' }
-            }
-            onClick={() => {
-              alert(content);
-            }}
-          >
-            <SearchIcon />
-          </InputButton>
-        </InputBox>
-        <SubInputBox>
-          <SortingButton>
-            <div
-              className="tag"
-              style={sorting === 1 ? activeEffect : null}
-              onClick={() => {
-                setSorting(1);
-              }}
-            >
-              최신순
-            </div>
-            <div
-              className="tag"
-              style={sorting === 2 ? activeEffect : null}
-              onClick={() => {
-                setSorting(2);
-              }}
-            >
-              좋아요순
-            </div>
-            <div
-              className="tag"
-              style={sorting === 3 ? activeEffect : null}
-              onClick={() => {
-                setSorting(3);
-              }}
-            >
-              댓글순
-            </div>
-          </SortingButton>
-          {userInfo && (
-            <Link to="/magazine/magazineinput">
-              <div className="tag">글쓰기</div>
-            </Link>
-          )}
-        </SubInputBox>
-        <Wrapper>
-          {magazineList !== null || magazineList !== undefined
-            ? magazineList.map((e, i) => {
-                return (
-                  <Col md="4" sm="12" xs="12" key={i}>
-                    <Link to={`/magazine/${e.id}`}>
-                      <Card data={e} key={i} />
-                    </Link>
-                  </Col>
-                );
-              })
-            : null}
-        </Wrapper>
-        <ListWrapper>
-          {pageCount > 5 ? (
-            <PagingList
-              onClick={() => {
-                if (current !== 1) {
-                  setCurrent(current - 1);
-                  setPrev(true);
-                  setNext(false);
-                  setOffset(offset - 9);
-                  setLimit(limit - 9);
-                }
-              }}
-            >{`<`}</PagingList>
-          ) : null}
-          {listArray.map((e, i) => {
-            return (
-              <PagingList
-                className={current === e ? 'active' : ''}
-                onClick={() => {
-                  setCurrent(e);
-                  setNext(false);
-                  setPrev(false);
-                  setOffset((e - 1) * 9);
-                  setLimit((e - 1) * 9 + 9);
-                }}
-                key={i}
-              >
-                {e + 1}
-              </PagingList>
-            );
-          })}
-
-          {/* {new Array(pageCount).map((e, i) => {
-            return (
-              <PagingList
-                className={current === e ? 'active' : ''}
-                onClick={() => {
-                  setCurrent(i + 1);
-                  setNext(false);
-                  setPrev(false);
-                  setOffset(i * 9);
-                  setLimit(i * 9 + 9);
-                }}
-                key={i}
-              >
-                {i + 1}
-              </PagingList>
-            );
-          })} */}
-
-          {pageCount > 5 ? (
-            <PagingList
-              onClick={() => {
-                if (current !== pageCount) {
-                  setCurrent(current + 1);
-                  setNext(true);
-                  setPrev(false);
-                  setOffset(limit);
-                  setLimit(limit + 9);
-                }
-              }}
-            >{`>`}</PagingList>
-          ) : null}
-        </ListWrapper>
-      </Container>
-    </>
-  );
-};
 
 export default MagazinePage;
