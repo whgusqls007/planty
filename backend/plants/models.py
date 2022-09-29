@@ -350,4 +350,4 @@ class PlantKeyword(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'plantRecomm'
+        db_table = 'plantKeyword'

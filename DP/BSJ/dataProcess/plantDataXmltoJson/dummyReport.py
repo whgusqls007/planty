@@ -1,5 +1,6 @@
 import os
 import csv
+from numpy import zeros
 import pymysql
 
 connection = pymysql.connect(
@@ -15,7 +16,7 @@ cursor = connection.cursor(pymysql.cursors.DictCursor)
 print("====================================")
 print(os.getcwd())
 
-path = os.getcwd()+"\DP\BSJ\dataProcess\plantDataXmltoJson\\"
+path = os.getcwd() + "\DP\BSJ\dataProcess\plantDataXmltoJson\\"
 
 idx_convert_list = [
     0,
@@ -56,19 +57,17 @@ csv_cursor = open(f"{path}1.csv", "r", encoding="utf-8")
 reader = csv.reader(csv_cursor)
 
 i = 1
-userId = -1;
+userId = -1
 
-sql = """drop table if exists plantLike""";
+sql = """drop table if exists plantLike"""
 cursor.execute(sql)
 connection.commit()
 
 sql = """create table if not exists plantLike (
-    plant_id bigint not null,
     user_id bigint not null,
     score varchar(500),
-    foreign key (plant_id) references plant (id),
     foreign key (user_id) references accounts_user (id),
-    primary key (plant_id, user_id)
+    primary key (user_id)
 )
 """
 
@@ -80,6 +79,8 @@ for idx in reader:
     if i < 5:
         i += 1
         continue
+    substring = zeros(218, int)
+    substring=list(substring)
     for j in range(len(idx)):
         if j < 1:
             continue
@@ -102,14 +103,17 @@ for idx in reader:
     # print()
         if(idx[j] !='-'):
             if(idx[j]!='0'):
-                sql = f"""insert into mygardens_mygarden (date_created, diaries_count, plant_id, user_id, present) values (CURRENT_TIMESTAMP(), '0', '{idx_convert_list[j]}', '{userId}','0')"""
+                sql = f"""insert into mygardens_mygarden (date_created, diaries_count, plant_id, user_id, present) values (CURRENT_TIMESTAMP(), '0', '{idx_convert_list[j]}', '{userId}', '0')"""
                 cursor.execute(sql)
+                substring[idx_convert_list[j]]=idx[j]
     # 유저 선호도 입력 idx[1] age
-            sql = f"""insert into plantLike (plant_id, user_id, score) values ('{idx_convert_list[j]}', '{userId}','{idx[j]}')"""
-            cursor.execute(sql)
-            connection.commit()
+    substring=substring[1:]
+    result = "".join(str(elem) for elem in substring)
+    sql = f"""insert into plantLike (user_id, score) values ('{userId}','{result}')"""
+    cursor.execute(sql)
+    connection.commit()
         # value 값이 0 이 아니면 나의 정원에 등록
         # print(f'idx : {idx_convert_list[j]} value : {idx[j]}', end = ' ') #선호도 테이블에 값 등록
         # print(idx[j], end=" ")
-    i+=1
+    i += 1
     print()

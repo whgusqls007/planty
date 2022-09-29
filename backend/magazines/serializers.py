@@ -15,12 +15,22 @@ class UserSerializer(serializers.ModelSerializer):
     
 class MagazineSerializer(serializers.ModelSerializer):
     
-    user = UserSerializer(read_only=True)
+    
 
+    class MagazineInnerCommentSerializer(serializers.ModelSerializer):
+        user = UserSerializer(read_only=True)
+        
+        class Meta:
+            model = MagazineComment
+            fields = ('id', 'user', 'content', 'date_created',)
+            read_only_fields = ['user', ]
+
+    user = UserSerializer(read_only=True)
+    comments = MagazineInnerCommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Magazine
-        fields = ('user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url',)
+        fields = ('id', 'user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url', 'comments')
         read_only_fields = ['user', 'comments_count', 'likes_count', ]
 
 

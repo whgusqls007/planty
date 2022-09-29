@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from plants.models import PlantKeyword
 from .models import MyGarden, Diary
-from accounts.models import User
 from .serializers import MyGardenSerializer, DiarySerializer
 from drf_yasg.utils import swagger_auto_schema
 
@@ -20,8 +20,8 @@ class MygardenListViewSet(viewsets.ModelViewSet):
 
     # get에 매칭, 리스트, username으로 접근
     def list(self, request, username):
-        person = get_object_or_404(User, username=username)
-        serializer = self.get_serializer(self.queryset.filter(user=person.id), many=True)
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = self.get_serializer(self.queryset.filter(user=user.id), many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -31,8 +31,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     serializer_class = MyGardenSerializer
 
     # get에 매칭, 상세페이지
-    def retrieve(self, request, pk):
-        serializer = self.get_serializer(MyGarden.objects.get(pk=pk))
+    def retrieve(self, request, mygarden_pk):
+        serializer = self.get_serializer(MyGarden.objects.get(pk=mygarden_pk))
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -49,6 +49,11 @@ class MyGardenViewSet(viewsets.ModelViewSet):
                 file=''
             file_path = s3_upload_image(file, 'mygardens/')
 
+            if request.data['present'] == True:
+                get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+                get_plant.present_adequacy = get_plant.present_adequacy + 1
+                get_plant.save()
+
             serializer.save(user=user, img_url=file_path)
 
             user.plants_count = user.plants_count + 1
@@ -63,6 +68,11 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
     #     if serializer.is_valid(raise_exception=True):
     #         serializer.save(user=user)
+
+    #         if request.data['present'] == True:
+    #             get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+    #             get_plant.present_adequacy = get_plant.present_adequacy + 1
+    #             get_plant.save()
 
     #         user.exp = user.exp + 1
     #         user.articles_count = user.articles_count + 1
