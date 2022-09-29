@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { plantList, plantItem, plantSearch } from '../../api/dictionary';
+import {
+  plantList,
+  plantItem,
+  plantSearch,
+  plantListPagination,
+} from '../../api/dictionary';
 
 export const fetchPlant = createAsyncThunk(
   'dictionary/fetchPlant',
@@ -42,5 +47,24 @@ export const searchPlant = createAsyncThunk(
       console.log(data);
       return data;
     } catch (error) {}
+  },
+);
+
+export const fetchPlantListPagination = createAsyncThunk(
+  'dictionary/fetchPlantListPagination',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { offset, limit } = params;
+      console.log(offset, limit, params);
+      const { data } = await plantListPagination(offset, limit);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
   },
 );

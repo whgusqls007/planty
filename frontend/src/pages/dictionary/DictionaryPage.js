@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPlantList,
+  fetchPlantListPagination,
   searchPlant,
 } from '../../features/dictionary/dictionaryAction';
 import { clearSearchResult } from '../../features/dictionary/dictionarySlice';
@@ -20,15 +21,20 @@ const DictionaryPage = () => {
   const [pageNum, setPageNum] = useState(1);
   const [focused, setFocused] = useState(false);
   const [keyword, setKeyword] = useState(null);
+  const [limit, setLimit] = useState(12);
   const searchRef = useRef(null);
+  const { plantList, plantTotalCount, loading, searchResult } = useSelector(
+    (state) => state.dictionary,
+  );
 
   useEffect(() => {
     dispatch(clearSearchResult());
   }, []);
 
   useEffect(() => {
-    dispatch(fetchPlantList());
-  }, [dispatch]);
+    const offset = (pageNum - 1) * 12;
+    dispatch(fetchPlantListPagination({ limit, offset }));
+  }, [dispatch, pageNum]);
 
   useEffect(() => {
     const query = parseInt(searchParams.get('pageNum'))
@@ -37,16 +43,11 @@ const DictionaryPage = () => {
     setPageNum(query);
   }, [searchParams]);
 
-  const { plantList, searchResult } = useSelector((state) => state.dictionary);
-
   const searchResultOpen = () => {
     setFocused(true);
   };
 
   // memo
-  const plantListPagination = useMemo(() => {
-    return plantList.slice((pageNum - 1) * 12, (pageNum - 1) * 12 + 12);
-  });
 
   const searchInputChangeHandler = (e) => {
     if (e.target.value) {
@@ -99,16 +100,16 @@ const DictionaryPage = () => {
                 </SearchResult>
               </PlantSearchForm>
             </div>
-            {plantList && (
+            {plantList && !loading && (
               <div className="plantList">
-                {plantListPagination.map((plant, idx) => {
+                {plantList.map((plant, idx) => {
                   return <PlantItem plant={plant} key={idx} />;
                 })}
               </div>
             )}
           </div>
           <Pagination
-            count={Math.ceil(plantList.length / 20)}
+            count={Math.ceil(plantTotalCount / limit)}
             shape="rounded"
             onChange={(e, page) => {
               window.scrollTo({ top: 0, behavior: 'instant' });
