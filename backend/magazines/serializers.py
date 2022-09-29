@@ -14,9 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
     
     
 class MagazineSerializer(serializers.ModelSerializer):
-    
-    
-
     class MagazineInnerCommentSerializer(serializers.ModelSerializer):
         user = UserSerializer(read_only=True)
         
@@ -31,6 +28,25 @@ class MagazineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Magazine
         fields = ('id', 'user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url', 'comments')
+        read_only_fields = ['user', 'comments_count', 'likes_count', ]
+
+
+class MagazineDetailSerializer(serializers.ModelSerializer):
+    class MagazineInnerCommentSerializer(serializers.ModelSerializer):
+        user = UserSerializer(read_only=True)
+        
+        class Meta:
+            model = MagazineComment
+            fields = ('id', 'user', 'content', 'date_created',)
+            read_only_fields = ['user', ]
+
+    user = UserSerializer(read_only=True)
+    comments = MagazineInnerCommentSerializer(read_only=True, many=True)
+    is_liked = serializers.BooleanField(default=False)
+
+    class Meta:
+        model = Magazine
+        fields = ('id', 'user', 'title', 'sub_title', 'content', 'date_created', 'comments_count', 'likes_count', 'img_url', 'comments', 'is_liked')
         read_only_fields = ['user', 'comments_count', 'likes_count', ]
 
 
