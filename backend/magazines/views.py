@@ -187,15 +187,17 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
     def update(self, request, magazine_pk, comment_pk):
         magazine = get_object_or_404(Magazine, pk=magazine_pk)
         comment = get_object_or_404(MagazineComment, pk=comment_pk)
+        if request.user != comment.user:
+            Response({'data': '권한이 없습니다!'}, status=status.HTTP_403_FORBIDDEN)
 
-        if request.user == comment.user:
-            serializer = MagazineCommentSerializer(instance=comment, data=request.data)
+        serializer = MagazineCommentSerializer(instance=comment, data=request.data)
+        if serializer.is_valid():
             serializer.save()
 
             comments = magazine.comments.all()
-            serializer = MagazineCommentSerializer(instance=comments, many=True)
+            serializers = MagazineCommentSerializer(instance=comments, many=True)
             
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializers.data, status=status.HTTP_200_OK)
 
 
     # delete에 매칭, 댓글 삭제

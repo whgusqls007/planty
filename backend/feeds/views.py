@@ -123,9 +123,11 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
     def update(self, request, feed_pk, comment_pk):
         feed = get_object_or_404(Feed, pk=feed_pk)
         comment = get_object_or_404(FeedComment, pk=comment_pk)
+        if request.user != comment.user:
+            Response({'data': '권한이 없습니다!'}, status=status.HTTP_403_FORBIDDEN)
 
-        if request.user == comment.user:
-            serializer = FeedCommentSerializer(instance=comment, data=request.data)
+        serializer = FeedCommentSerializer(instance=comment, data=request.data)
+        if serializer.is_valid():
             serializer.save()
 
             comments = feed.feed_comments.all()
