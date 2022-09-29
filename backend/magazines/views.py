@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Magazine, MagazineComment
 from rest_framework import viewsets, status
-from .serializers import MagazineSerializer, MagazineCommentSerializer
+from .serializers import MagazineSerializer, MagazineCommentSerializer, MagazineDetailSerializer
 from collections import OrderedDict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -56,7 +56,10 @@ class MagazineViewSet(viewsets.ModelViewSet):
 
     # get에 매칭, 상세페이지
     def retrieve(self, request, pk):
-        serializer = self.get_serializer(Magazine.objects.get(pk=pk))
+        # magazine = Magazine.objects.get(pk=pk)
+        magazine = get_object_or_404(Magazine, pk=pk)
+        magazine.is_liked = (request.user in magazine.likes.all())
+        serializer = MagazineDetailSerializer(magazine)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
