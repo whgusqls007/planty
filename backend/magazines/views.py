@@ -6,6 +6,8 @@ from .serializers import MagazineSerializer, MagazineCommentSerializer, Magazine
 from collections import OrderedDict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 # 읽을거리 CRUD
 class MagazineViewSet(viewsets.ModelViewSet):
@@ -29,7 +31,20 @@ class MagazineViewSet(viewsets.ModelViewSet):
             openapi.IN_QUERY,
             description="정렬기준 |  0 : 최신 순, 1: 좋아요 순, 2: 댓글 순",
             type=openapi.TYPE_INTEGER
-        )
+        ),
+        openapi.Parameter(
+            'search',
+            openapi.IN_QUERY,
+            description="검색 키워드",
+            type=openapi.TYPE_STRING
+        ),
+        openapi.Parameter(
+            'searchBy',
+            openapi.IN_QUERY,
+            description="검색기준 |  0: 제목, 1: 글쓴이, 2: 내용, 3: 제목+내용",
+            type=openapi.TYPE_INTEGER
+        ),
+        
     ]
     # 기존 구성된 내용에 오버라이딩 가능
     # get에 매칭, 리스트
@@ -39,7 +54,22 @@ class MagazineViewSet(viewsets.ModelViewSet):
     manual_parameters=list_params
     )
     def list(self, request):
+        search = self.request.query_params.get('search')
+        search_by = int(request.query_params.get('searchBy', 0))
         queryset = self.get_queryset()
+        
+        # 검색기준 0: 제목, 1: 글쓴이, 2: 내용, 3: 제목+내용
+        if search:
+            if search_by == 0:
+                queryset = queryset.filter(title__contains=search)
+            elif search_by == 1:
+                users = get_user_model().objects.filter(username__contains=search)
+                queryset = queryset.filter(user__in=users)
+            elif search_by == 2:
+                queryset = queryset.filter(content__contains=search)
+            elif search_by == 3:
+                queryset = queryset.filter(Q(title__contains=search) | Q(content__contains=search))
+        
         limit = int(request.query_params.get('limit', len(queryset)))
         offset = int(request.query_params.get('offset', 0))
         # 0 : 최신 순, 1: 좋아요 순, 2: 댓글 순
