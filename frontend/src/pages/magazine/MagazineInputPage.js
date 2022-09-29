@@ -3,6 +3,9 @@ import Container from 'react-bootstrap/esm/Container';
 import styled from 'styled-components';
 import { useState } from 'react';
 import Ckeditor5 from '../../components/CKEditor5';
+import { createMagazine } from '../../features/magazine/magazineActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const FormBox = styled.div`
   margin: 6% 0 0 0;
@@ -120,8 +123,11 @@ const ButtonWrapper = styled.div`
 `;
 
 const MagazineInputPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
+  const [contentData, setContentData] = useState('');
 
   const activeLabel = {
     position: 'absolute',
@@ -141,14 +147,21 @@ const MagazineInputPage = () => {
     borderBottom: '1px solid green',
   };
 
-  const ckeditorStyle = styled.div`
-    margin-top: 0.5%;
-    width: 85%;
-    margin-left: 7.5%;
-    & .ck-editor__editable {
-      min-height: 400px;
-    }
-  `;
+  const onChangeHandler = (event, editor) => {
+    setContentData(editor.getData());
+  };
+
+  const onSubmitHandler = () => {
+    dispatch(
+      createMagazine({
+        title: title,
+        sub_title: subTitle,
+        content: contentData,
+        img_url: 'aa',
+      }),
+    );
+    navigate('/magazine', { replace: true });
+  };
 
   return (
     <Container>
@@ -160,7 +173,6 @@ const MagazineInputPage = () => {
               id="title"
               onChange={(e) => {
                 setTitle(e.target.value);
-                console.log(title);
               }}
               style={title !== '' ? { border: '0px', outline: 'none' } : {}}
             />
@@ -178,7 +190,6 @@ const MagazineInputPage = () => {
               id="subTitle"
               onChange={(e) => {
                 setSubTitle(e.target.value);
-                console.log(title);
               }}
               style={title !== '' ? { border: '0px', outline: 'none' } : {}}
             />
@@ -196,9 +207,9 @@ const MagazineInputPage = () => {
         </div>
       </FormBox>
       <ButtonWrapper>
-        <button>글 작성</button>
+        <button onClick={onSubmitHandler}>글 작성</button>
       </ButtonWrapper>
-      <Ckeditor5 Style={ckeditorStyle} />
+      <Ckeditor5 onChangeHandler={onChangeHandler} />
     </Container>
   );
 };

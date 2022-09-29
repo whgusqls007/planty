@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
@@ -7,6 +7,7 @@ import TagButton from '../components/TagButton';
 import HorizontalScroll from '../layout/HorizontalScroll';
 import BigCard from '../components/main/BigCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import WorldCup2 from './worldcup/Worldcup2';
 
 const Wrapper = styled.div`
   background: #44855d;
@@ -70,6 +71,32 @@ const ContentSubTitle = styled.span`
   }
 `;
 
+const WorldCupWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-right: 2%;
+
+  & button {
+    border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
+    background-color: white;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      padding-bottom: 0rem;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 0.8rem;
+      padding-bottom: 0rem;
+    }
+  }
+`;
+
 const arr = [
   '물을 자주 주는',
   '물을 가끔 주는',
@@ -117,8 +144,19 @@ const dummyPlants = [
 ];
 
 const IndexPage = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
+      <WorldCup2 modalOpen={modalOpen} closeModal={closeModal} />
       <Wrapper>
         <Container>
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
@@ -132,7 +170,10 @@ const IndexPage = () => {
       <Container>
         <div>
           <ContentTitle>당신을 위한 맞춤 추천</ContentTitle>
-          <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
+            <button onClick={openModal}>이상형 월드컵</button>
+          </WorldCupWrapper>
           <HorizontalScroll data={dummyPlants} />
         </div>
         <div>
