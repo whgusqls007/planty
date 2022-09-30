@@ -5,10 +5,10 @@ from numpy import zeros
 import pymysql
 
 connection = pymysql.connect(
-    user="j7e103",
-    passwd="000000",
-    host="j7e103.p.ssafy.io",
-    port=3307,
+    user="root",
+    passwd="ssafy",
+    host="localhost",
+    port=3306,
     db="homidu",
     charset="utf8",
 )
@@ -110,7 +110,7 @@ for i in range(allCnt):
         )
         humidify += int(countreturn.split("'humidify': ")[1].split(",")[0])
         airCleaning += int(
-            countreturn.split("'air_cleaning': ")[1].split("}")[0]
+            countreturn.split("'air_cleaning': ")[1].split(",")[0]
         )
         managelevelCodeNm += int(
             countreturn.split("'beginner': ")[1].split(",")[0]
