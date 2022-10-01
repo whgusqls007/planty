@@ -14,9 +14,9 @@ class ProfileViewSet(viewsets.ViewSet):
     @swagger_auto_schema(
     operation_summary='나의 정원 유저 프로필',
     operation_description='유저 이름으로 데이터 주고 받아야 합니다.')
-
     def profile(self, request, username):
         user = get_object_or_404(get_user_model(), username=username)
+        user.is_follow = (request.user in user.followers.all())
         serializer = ProfileSerializer(user)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -44,8 +44,8 @@ class DescriptionViewSet(viewsets.ViewSet):
 # post에 매칭, 팔로우
 class FollowViewSet(viewsets.ViewSet):
 
-    def follow(self, request, pk):
-        person = get_object_or_404(User, pk=pk)
+    def follow(self, request, username):
+        person = get_object_or_404(get_user_model(), username=username)
         me = request.user
         # 팔로우가 이미 되어 있을 때 - 언팔로우
         if person.followers.filter(pk=me.pk).exists():
@@ -56,7 +56,10 @@ class FollowViewSet(viewsets.ViewSet):
             me.follows_count = me.follows_count - 1
             me.save()
 
-            return Response({'data' : 'Unfollow OK'}, status=status.HTTP_200_OK)
+            person.is_follow = False
+            # serializer = ProfileSerializer(person)
+
+            # return Response(serializer.data, status=status.HTTP_200_OK)
 
         # 팔로우가 안 되어 있을 때 - 팔로우
         else:
@@ -66,8 +69,10 @@ class FollowViewSet(viewsets.ViewSet):
             
             me.follows_count = me.follows_count + 1
             me.save()
-            
-            return Response({'data' : 'Follow OK'}, status=status.HTTP_200_OK)
+            person.is_follow = True
+        serializer = ProfileSerializer(person)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # post에 매칭, 닉네임 중복 확인
