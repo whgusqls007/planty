@@ -90,7 +90,6 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
             except:
                 # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
-                print('error!')
                 plant_like = Plantlike()
                 plant_like.user = user
                 tmp = ['0' for _ in range(216)]
@@ -139,15 +138,31 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         my_garden = get_object_or_404(MyGarden, pk=pk)
         serializer = MyGardenSerializer(instance=my_garden, data=request.data)
         user = request.user
+        plant_num = int(request.data['plant'])
 
-        if request.data["keep"] != my_garden.keep:
+        if request.data.get("keep"):
             serializer.keep = request.data["keep"]
         
-        if request.data["memo"] != my_garden.memo:
+        if request.data.get("memo"):
             serializer.memo = request.data["memo"]
 
-        if request.data["preference"] != my_garden.preference:
+        if request.data.get("preference"):
             serializer.preference = request.data["preference"]
+
+            # update_table에 유저가 없을 때만 추가
+            if not UpdateTable.objects.filter(user_id=user.pk).exists():
+                update_user = UpdateTable()
+                update_user.user_id = user.pk
+                update_user.save()
+
+            plant_like = Plantlike.objects.get(user=user)
+            score = plant_like.score
+            tmp = list(score)
+            tmp[plant_num - 1] = str(request.data['preference'])
+            update_score = ''.join(tmp)
+            plant_like.score = update_score
+            plant_like.save()
+
  
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -158,9 +173,23 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk):
         my_garden = get_object_or_404(MyGarden, pk=pk)
         user = request.user
+        plant_num = int(request.data['plant'])
 
         if user == my_garden.user:
             my_garden.delete()
+
+            plant_like = Plantlike.objects.get(user=user)
+            score = plant_like.score
+            tmp = list(score)
+            tmp[plant_num - 1] = '0'
+            update_score = ''.join(tmp)
+            plant_like.score = update_score
+            plant_like.save()
+
+            if not UpdateTable.objects.filter(user_id=user.pk).exists():
+                update_user = UpdateTable()
+                update_user.user_id = user.pk
+                update_user.save()
 
             user.plants_count = user.plants_count - 1
             user.save()
