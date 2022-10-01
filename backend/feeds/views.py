@@ -43,7 +43,7 @@ class FeedViewSet(viewsets.ModelViewSet):
                 file=''
             file_path = s3_upload_image(file, 'feed/')
             serializer.save(user=user, img_url=file_path)
-            user.exp = user.exp + 1
+            user.exp = user.exp + 10
             user.articles_count = user.articles_count + 1
             user.save()
             
@@ -110,6 +110,7 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
             serializer.save(feed=feed, user=user)
 
             user.comments_count = user.comments_count + 1
+            user.exp = user.exp + 5
             user.save()
 
             feed.comments_count = feed.comments_count + 1
