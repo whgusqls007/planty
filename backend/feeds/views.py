@@ -16,7 +16,8 @@ class FeedViewSet(viewsets.ModelViewSet):
     # 기존 구성된 내용에 오버라이딩 가능
     # get에 매칭, 리스트
     def list(self, request):
-        serializer = self.get_serializer(self.queryset, many=True)
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
 

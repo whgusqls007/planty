@@ -111,20 +111,20 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-# 서버 데이터베이스
-# DATABASES = secrets['DATABASES']
-
 # 테스트용 서버 데이터베이스
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'homidu',
-        'USER': 'root',
-        'PASSWORD': 'zeitfox',
-        'HOST': '49.173.95.241',
-        'PORT': '13306',
-    }
+   'default': {
+       'ENGINE': "django.db.backends.mysql",
+       'NAME': "homidu",
+       'USER': "root",
+       'PASSWORD': "zeitfox",
+       'HOST': "49.173.95.241",
+       'PORT': "13306",
+   }
 }
+
+# 서버 데이터베이스
+# DATABASES = secrets['DATABASES']
 
 
 # Password validation

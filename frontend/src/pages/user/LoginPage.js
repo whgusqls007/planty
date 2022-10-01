@@ -13,7 +13,7 @@ const LoginPage = () => {
   const { loading, userInfo, error } = useSelector((state) => state.user);
   useEffect(() => {
     if (userInfo) {
-      navigate(-1, { replace: true });
+      navigate('/', { replace: true });
     }
   }, [navigate, userInfo]);
   useEffect(() => {

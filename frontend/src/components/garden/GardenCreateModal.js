@@ -173,7 +173,7 @@ const GardenForm = styled.form`
   @media (max-width: 400px) {
     font-size: 14px;
   }
-  */ & label {
+  & label {
     margin-top: 16px;
     color: #787878;
 
