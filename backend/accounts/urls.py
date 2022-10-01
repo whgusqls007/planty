@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import ProfileViewSet, DescriptionViewSet, FollowViewSet, UsernameCheckViewSet, EmailCheckViewSet
 
+
 urlpatterns = [
     path('profile/<username>/', ProfileViewSet.as_view({'get': 'profile'})),
     path('usernamecheck/', UsernameCheckViewSet.as_view({'post': 'check'})),
