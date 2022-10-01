@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -9,6 +9,7 @@ import React from 'react';
 
 // css
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { logout } from '../features/user/userSlice';
 
 const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -23,6 +24,11 @@ const Wrapper = styled.div`
   & .nav-user-btn {
     & a {
       margin-left: 16px;
+
+      @media (max-width: 992px) {
+        margin-left: 0px;
+        margin-right: 16px;
+      }
     }
   }
   & .user-info {
@@ -39,8 +45,39 @@ const Wrapper = styled.div`
   }
 `;
 
+const UserInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: end;
+
+  @media (max-width: 992px) {
+    width: 100%;
+    margin-left: 0px;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & button {
+    margin-right: 5%;
+    border: 0px;
+    background: white;
+    font-size: 16px;
+    padding: 0;
+  }
+`;
+
 function Header() {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
+
+  const LogOutHandler = () => {
+    sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('Token');
+    dispatch(logout());
+  };
+
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
@@ -62,7 +99,7 @@ function Header() {
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/garden">
+                <Link className="me-4" to={`/garden/${userInfo?.username}`}>
                   나의 정원
                 </Link>
               </Col>
@@ -78,16 +115,19 @@ function Header() {
               </Col>
             </Nav>
             {userInfo ? (
-              <Link to={`/profile/${userInfo.username}`}>
-                <div className="user-info">
-                  <div className="user-name">{userInfo.username}</div>
-                  <img
-                    className="profile-img"
-                    src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
-                    alt=""
-                  />
-                </div>
-              </Link>
+              <UserInfoWrapper>
+                <button onClick={LogOutHandler}>로그아웃</button>
+                <Link to={`/profile/${userInfo.username}`}>
+                  <div className="user-info">
+                    <div className="user-name">{userInfo.username}</div>
+                    <img
+                      className="profile-img"
+                      src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
+                      alt=""
+                    />
+                  </div>
+                </Link>
+              </UserInfoWrapper>
             ) : (
               <div className="nav-user-btn">
                 <Link to="login">로그인</Link>

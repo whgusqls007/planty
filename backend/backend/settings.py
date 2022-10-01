@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'plants',
     'mygardens',
     'feeds',
-    'core',
-    'recommendations',  # utils
+    'core',  # utils
+    'recommendations',
     # 3rd party library
     'corsheaders',
     'django_extensions',
