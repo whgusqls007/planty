@@ -17,10 +17,6 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 
-  & a {
-    color: inherit;
-    text-decoration: none;
-  }
   & .nav-user-btn {
     & a {
       margin-left: 16px;

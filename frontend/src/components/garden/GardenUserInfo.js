@@ -1,27 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { GardenUserInfoWrapper } from '../../styles/garden/GardenComponentStyle';
+import { followUser } from '../../features/garden/gardenActions';
 
 const GardenUserInfo = () => {
-  const { gardenUserInfo } = useSelector((state) => state.garden);
+  const dispatch = useDispatch();
+  const [isEditting, setIsEditting] = useState(false);
+  const { gardenUserInfo, loading } = useSelector((state) => state.garden);
   const { userInfo } = useSelector((state) => state.user);
-  const { profile_img, username, description, exp, is_private, plants_count, followers_count, follows_count } = gardenUserInfo;
-  const me = userInfo.username;
+  const {
+    profile_img,
+    username,
+    description,
+    exp,
+    is_private,
+    plants_count,
+    followers_count,
+    follows_count,
+    is_follow,
+  } = gardenUserInfo;
+  const me = userInfo?.username;
 
+  const onClickFollow = () => {
+    dispatch(followUser(username));
+  };
+  const onClickEdit = () => {};
 
   return (
-    <Wrapper>
-      <div className="user-img"></div>
+    <GardenUserInfoWrapper>
+      <img src={profile_img} alt="profile-img" className="user-img" />
       <div className="user-header">
         <div className="user-level">lv. {exp}</div>
         <div className="user-nickname">{username} 님의 정원</div>
-        <img src="/assets/img/follow.png" alt="" className="follow-icon" />
+        {me !== username && (
+          <img
+            src={
+              is_follow ? '/assets/img/follow.png' : '/assets/img/unfollow.png'
+            }
+            alt=""
+            className="follow-icon"
+            onClick={onClickFollow}
+          />
+        )}
       </div>
       <div className="user-content">
-        {description}
-        <BorderColorIcon className="content-edit-icon" />
+        <span>{description}</span>
+        {me === username && <BorderColorIcon className="content-edit-icon" />}
       </div>
       <div className="user-info">
         <div>
@@ -41,106 +66,8 @@ const GardenUserInfo = () => {
           <span>{exp}</span>
         </div>
       </div>
-    </Wrapper>
+    </GardenUserInfoWrapper>
   );
 };
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & .user-img {
-    width: 88px;
-    height: 88px;
-    @media (max-width: 576px) {
-      width: 66px;
-      height: 66px;
-    }
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-  }
-  & .user-header {
-    display: flex;
-    align-items: flex-end;
-    margin-top: 20px;
-    & .follow-icon {
-      width: 40px;
-      @media (max-width: 576px) {
-        width: 20px;
-      }
-    }
-  }
-  & .user-nickname {
-    font-size: 25px;
-    margin: 0 10px;
-    @media (max-width: 576px) {
-      font-size: 16px;
-    }
-    @media (max-width: 380px) {
-      font-size: 12px;
-    }
-  }
-  & .user-level {
-    font-size: 20px;
-    @media (max-width: 576px) {
-      font-size: 16px;
-    }
-    @media (max-width: 380px) {
-      font-size: 12px;
-    }
-  }
-  & .user-content {
-    font-size: 18px;
-    margin-top: 16px;
-
-    @media (max-width: 576px) {
-      font-size: 14px;
-      margin-top: 12px;
-    }
-    @media (max-width: 380px) {
-      font-size: 12px;
-      margin-top: 10px;
-    }
-
-    & .content-edit-icon {
-      opacity: 0.4;
-      cursor: pointer;
-      font-size: 20px;
-      &:hover {
-        opacity: 1;
-      }
-      @media (max-width: 576px) {
-        font-size: 16px;
-      }
-      @media (max-width: 380px) {
-        font-size: 12px;
-      }
-    }
-  }
-  & .user-info {
-    display: flex;
-    margin-top: 30px;
-    & > div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0px 13px;
-
-      & > span {
-        font-size: 18px;
-        font-weight: 300;
-
-        @media (max-width: 576px) {
-          font-size: 16px;
-        }
-
-        @media (max-width: 380px) {
-          font-size: 12px;
-        }
-      }
-    }
-  }
-`;
 
 export default GardenUserInfo;
