@@ -19,10 +19,11 @@ class CustomRegisterSerializer(RegisterSerializer):
 # 유저 프로필
 class ProfileSerializer(serializers.ModelSerializer):
 
+    is_follow = serializers.BooleanField(default=False)
 
     class Meta:
         model = get_user_model()
-        fields = ('profile_img', 'username', 'description', 'exp', 'is_private', 'plants_count', 'followers_count', 'follows_count', 'description')
+        fields = ('profile_img', 'username', 'description', 'exp', 'is_private', 'plants_count', 'followers_count', 'follows_count', 'description', 'is_follow')
         read_only_fields = ('profile_img', 'username', 'is_private', 'exp', 'plants_count', 'followers_count', 'follows_count', 'description')
 
 
