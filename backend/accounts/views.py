@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import User
-from .serializers import DescriptionSerializer, ProfileSerializer
+from .serializers import DescriptionSerializer, ProfileSerializer, MyPageSerializer
 from drf_yasg.utils import swagger_auto_schema
 
 
@@ -39,7 +39,17 @@ class DescriptionViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response({'data': "test"})
+
+# 마이페이지 유저 정보
+class MyPageViewSet(viewsets.ViewSet):
+
+    # get에 매칭, 유저 정보 조회
+    def userinfo(self, request, pk):
+        user = get_object_or_404(get_user_model(), pk=pk)
+        serializer = MyPageSerializer(user)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # post에 매칭, 팔로우
 class FollowViewSet(viewsets.ViewSet):
