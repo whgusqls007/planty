@@ -39,6 +39,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         #     'pet_safe': 0,
         #     'humidify': 0,
         #     'pm_cleaning': 0,
+        #     'air_cleanging': 0,
         #     'beginner': 0,
         #     'unscented': 0,
         #     'hydroponics': 0,
