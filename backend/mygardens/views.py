@@ -131,7 +131,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     # patch에 매칭, 정원 등록 식물 수정
     @swagger_auto_schema(
     operation_summary='나의 정원 식물 수정',
-    operation_description='식물 소개(메모), 식물 보관, 선호도, 이미지',
+    operation_description='키운 날짜, 물주는 주기, 최근 물 준 날짜, 한줄 메모, 식물 보관, 선호도, 이미지(추가해야 함)',
     request_body=updateMyGarden_params)
 
     def partial_update(self, request, pk):
@@ -139,6 +139,15 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         serializer = MyGardenSerializer(instance=my_garden, data=request.data)
         user = request.user
         plant_num = int(request.data['plant'])
+
+        if request.data.get("date_grow"):
+            serializer.keep = request.data["date_grow"]
+
+        if request.data.get("watering_schedule"):
+            serializer.keep = request.data["watering_schedule"]
+
+        if request.data.get("recent_water"):
+            serializer.keep = request.data["recent_water"]
 
         if request.data.get("keep"):
             serializer.keep = request.data["keep"]
@@ -148,6 +157,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
         if request.data.get("preference"):
             serializer.preference = request.data["preference"]
+
 
             # update_table에 유저가 없을 때만 추가
             if not UpdateTable.objects.filter(user_id=user.pk).exists():
