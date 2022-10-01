@@ -45,8 +45,8 @@ const App = () => {
         </Route>
 
         <Route path="/garden" element={<Outlet />}>
-          <Route path="" element={<GardenPage />} />
-          <Route path=":gardenId" element={<GardenDetailPage />} />
+          <Route path=":userName" element={<GardenPage />} />
+          <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
         </Route>
 
         <Route path="/feed" element={<FeedListPage />} />
