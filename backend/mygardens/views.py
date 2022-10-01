@@ -30,8 +30,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     serializer_class = MyGardenSerializer
 
     # get에 매칭, 상세페이지
-    def retrieve(self, request, mygarden_pk):
-        serializer = self.get_serializer(MyGarden.objects.get(pk=mygarden_pk))
+    def retrieve(self, request, pk):
+        serializer = self.get_serializer(MyGarden.objects.get(pk=pk))
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -83,10 +83,45 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+    updateMyGarden_params = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'date_grow': openapi.Schema(type=openapi.TYPE_STRING, format='date', description='키운날짜'),
+        'watering_schedule': openapi.Schema(type=openapi.TYPE_INTEGER,  description='물주는 주기'),
+        'recent_water': openapi.Schema(type=openapi.TYPE_STRING, format='date', description='최근 물 준 날짜'),
+        'memo': openapi.Schema(type=openapi.TYPE_STRING, description='한줄 메모'),
+        # 'present': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='선물용 여부'),
+        'preference': openapi.Schema(type=openapi.TYPE_INTEGER, description='선호도'),
+        'keep': openapi.Schema(type=openapi.TYPE_INTEGER, description='식물 보관'),
+        }
+    )
+
+    # patch에 매칭, 정원 등록 식물 수정
+    @swagger_auto_schema(
+    operation_summary='나의 정원 식물 수정',
+    request_body=updateMyGarden_params)
+
+    def partial_update(self, request, pk):
+        my_garden = get_object_or_404(MyGarden, pk=pk)
+        serializer = MyGardenSerializer(instance=my_garden, data=request.data)
+        user = request.user
+
+        if request.data["keep"] != my_garden.keep:
+            serializer.keep = request.data["keep"]
+        
+        if request.data["memo"] != my_garden.memo:
+            serializer.memo = request.data["memo"]
+
+        if request.data["preference"] != my_garden.preference:
+            serializer.preference = request.data["preference"]
+ 
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
     # delete에 매칭, 정원 등록 식물 삭제
-    def destroy(self, request, mygarden_pk):
-        my_garden = get_object_or_404(MyGarden, pk=mygarden_pk)
+    def destroy(self, request, pk):
+        my_garden = get_object_or_404(MyGarden, pk=pk)
         user = request.user
 
         if user == my_garden.user:
@@ -96,7 +131,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             user.save()
             
             data = {
-                'delete': f'{mygarden_pk}번 데이터가 삭제되었습니다.'
+                'delete': f'{pk}번 데이터가 삭제되었습니다.'
             }
 
             return Response(data, status=status.HTTP_200_OK)
