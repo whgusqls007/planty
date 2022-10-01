@@ -16,7 +16,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 
-# 유저 프로필
+# 나의 정원 유저 프로필
 class ProfileSerializer(serializers.ModelSerializer):
 
     is_follow = serializers.BooleanField(default=False)
@@ -35,3 +35,11 @@ class DescriptionSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('description',)
 
+
+# 마이페이지에 넘기는 정보
+class MyPageSerializer(serializers.ModelSerializer):
+
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'likes_count')

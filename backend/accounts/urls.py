@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProfileViewSet, DescriptionViewSet, FollowViewSet, UsernameCheckViewSet, EmailCheckViewSet
+from .views import ProfileViewSet, DescriptionViewSet, FollowViewSet, UsernameCheckViewSet, EmailCheckViewSet, MyPageViewSet
 
 
 urlpatterns = [
@@ -8,6 +8,7 @@ urlpatterns = [
     path('emailcheck/', EmailCheckViewSet.as_view({'post': 'check'})),
     path('description/', DescriptionViewSet.as_view({'patch' : 'update_description'})),
     path('follow/<username>/', FollowViewSet.as_view({'post': 'follow'})),
-    # path('<int:pk>/profile/', ProfileViewSet.as_view({'get': 'profile'}))
-    # path('user/', ProfileViewSet.as_view({'get': 'profile'}))
+    path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
+    # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
+    # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
 ]
