@@ -329,7 +329,7 @@ class PlantKeyword(models.Model):
         null=True,
         verbose_name='미세먼지 정화 기능'
     )
-    pet_safety = models.IntegerField(
+    pet_safe = models.IntegerField(
         db_column='petSafety', 
         blank=True, 
         null=True,
@@ -350,4 +350,4 @@ class PlantKeyword(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'plantRecomm'
+        db_table = 'plantKeyword'

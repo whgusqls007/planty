@@ -39,14 +39,18 @@ class User(AbstractUser):
     )
     profile_img = models.TextField(
         verbose_name="프로필 사진",
-        null=True
+        default='https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png'
     )
     is_editor = models.BooleanField(
         verbose_name="에디터 여부",
         default=False
     )
+    description = models.TextField(
+        verbose_name="한줄 소개",
+        default="한줄 소개가 없습니다.",
+    )
     is_private = models.BooleanField(
-        verbose_name = "나의 정원 공개 설정",
+        verbose_name = "나의 정원 비공개 설정",
         default=False
     )
     plants_count = models.IntegerField(

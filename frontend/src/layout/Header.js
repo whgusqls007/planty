@@ -99,7 +99,7 @@ function Header() {
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/garden">
+                <Link className="me-4" to={`/garden/${userInfo?.username}`}>
                   나의 정원
                 </Link>
               </Col>
