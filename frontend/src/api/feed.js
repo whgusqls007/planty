@@ -21,8 +21,8 @@ export const feedCreate = async (params) => {
   return response;
 };
 
-export const feedCommentCreate = async (feedId, params) => {
-  const response = client.post(`feeds/${feedId}/comment`, params);
+export const feedCommentCreate = async ({ feedId, content }) => {
+  const response = client.post(`feeds/${feedId}/comment/`, { content });
 
   return response;
 };

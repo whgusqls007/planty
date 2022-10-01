@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
@@ -9,6 +10,7 @@ const ProfilePage = () => {
   const profileNav = ['나의 글', '나의 댓글', '좋아요한 글'];
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const query = parseInt(searchParams.get('tab'))
@@ -33,17 +35,28 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="profile-nav">
-          {profileNav.map((e, i) => (
-            <div
-              className="profile-nav-item"
-              key={i}
-              onClick={() => setProfileNum(i + 1)}
-            >
-              <Link to={`?tab=${i + 1}`} replace>
-                {e}
-              </Link>
-            </div>
-          ))}
+          <div className="profile-nav-tab">
+            {profileNav.map((e, i) => (
+              <div
+                className="profile-nav-item"
+                key={i}
+                onClick={() => setProfileNum(i + 1)}
+              >
+                <Link to={`?tab=${i + 1}`} replace>
+                  {e}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div
+            className="profile-setting"
+            onClick={() => {
+              navigate('/profile/update');
+            }}
+          >
+            <span>정보 수정</span>
+            <SettingsIcon />
+          </div>
         </div>
         <ProfileWrapper>
           {profileNum === 1 && <div className="profile1">profile1</div>}
@@ -84,10 +97,23 @@ const Wrapper = styled.div`
   & .profile-nav {
     display: flex;
     border-bottom: 2px solid #565656;
+    padding-bottom: 8px;
+    justify-content: space-between;
+  }
+  & .profile-nav-tab {
+    display: flex;
+  }
+  & .profile-setting {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    & > span {
+      margin-right: 2px;
+    }
   }
   & .profile-nav-item {
     width: 130px;
-    height: 40px;
+    /* height: 40px; */
     display: flex;
     justify-content: center;
     font-size: 1.2rem;
@@ -95,6 +121,10 @@ const Wrapper = styled.div`
     & a {
       text-decoration: none;
       color: inherit;
+    }
+    @media (max-width: 576px) {
+      width: 80px;
+      font-size: 1rem;
     }
   }
 `;

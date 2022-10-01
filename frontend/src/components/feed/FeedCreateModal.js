@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import { createFeed } from '../../features/feed/feedAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createConfirm } from '../../features/feed/feedSlice';
 
 const FeedCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
@@ -10,8 +11,24 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [content, setContent] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  const { success, loading, error } = useSelector((state) => state.feed);
 
   const dragRef = useRef(null);
+
+  const closeFeedCreateModal = () => {
+    setImgFile(null);
+    setImgSrc(null);
+    setContent('');
+    closeModal();
+  };
+
+  useEffect(() => {
+    if (success) {
+      console.log('good!');
+      dispatch(createConfirm());
+      closeFeedCreateModal();
+    }
+  }, [success, dispatch, createConfirm]);
 
   const onImageChange = (e) => {
     e.preventDefault();
@@ -34,12 +51,18 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    const data = JSON.stringify({ content });
-    formData.append('data', data);
-    formData.append('files', imgFile);
-    formData.append('enctype', 'multipart/form-data');
-    dispatch(createFeed(formData));
+    if (content && imgFile) {
+      const formData = new FormData();
+      const data = JSON.stringify({ content });
+      formData.append('data', data);
+      formData.append('files', imgFile);
+      formData.append('enctype', 'multipart/form-data');
+      dispatch(createFeed(formData));
+    } else if (!imgFile) {
+      alert('사진을 추가해주세요!');
+    } else if (!content) {
+      alert('내용을 입력해주세요!');
+    }
   };
 
   const handleDragIn = useCallback((e) => {
@@ -121,27 +144,37 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
 
   return (
     <Wrapper modalOpen={modalOpen}>
-      <div className="close-modal" onClick={closeModal} />
+      <div className="close-modal" onClick={closeFeedCreateModal} />
       <div className="modal-div">
-        <CloseIcon className="close-btn" onClick={closeModal} />
+        <CloseIcon className="close-btn" onClick={closeFeedCreateModal} />
         <FeedForm onSubmit={onSubmitHandler}>
           <div
             className={isDragging ? 'img-div dragging' : 'img-div'}
             ref={dragRef}
           >
-            <img src={imgSrc} alt="aabbb" className="plant-img" />
+            <img
+              src={imgSrc}
+              alt="피드 이미지"
+              className="plant-img"
+              onError={() => console.log('error')}
+            />
           </div>
-          <label htmlFor="plant_img">식물 사진</label>
+          {/* <label htmlFor="plant_img">식물 사진</label>
           <input
             type="file"
             id="plant_img"
             className="plant-img-input"
             accept="image/*"
             onChange={onImageChange}
-          />
+          /> */}
 
           <label htmlFor="content">내용</label>
-          <input type="text" id="content" onChange={onChangeHandler} />
+          <input
+            type="text"
+            id="content"
+            onChange={onChangeHandler}
+            value={content}
+          />
           <button>작성</button>
         </FeedForm>
       </div>
@@ -253,10 +286,15 @@ const FeedForm = styled.form`
 
   & .img-div {
     border: 2px dashed black;
+    border-radius: 20px;
     height: 50%;
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    & img {
+      /* width: 100%; */
+    }
   }
 
   & .dragging {
