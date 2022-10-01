@@ -58,7 +58,7 @@ class MyGarden(models.Model):
     
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 # 식물일기

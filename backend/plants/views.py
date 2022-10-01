@@ -7,6 +7,7 @@ from .serializers import PlantDetailSerializer, PlantListSerializer
 from collections import OrderedDict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from mygardens.models import MyGarden
 
 class PlantViewSet(viewsets.ReadOnlyModelViewSet):   
     queryset = Plant.objects.all()
@@ -64,3 +65,20 @@ class PlantViewSet(viewsets.ReadOnlyModelViewSet):
         plant = get_object_or_404(plants_list, pk=pk)
         serializer = PlantDetailSerializer(plant)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PopularPlantViewSet(viewsets.ViewSet):
+    
+    def list(self, request):
+        count_dict = {1: 2, 2: 3}
+        # mygardens = MyGarden.objects.all()
+        # for m in mygardens:
+        #     count_dict[m.plant.pk] = count_dict.get(m.plant.pk, 0) + 1
+        for key in count_dict.keys():
+            try:
+                plant = Plant.objects.get(pk=key)
+                plant.popular = count_dict.get(plant, 0)
+                plant.save()
+            except:
+                print('error!', key)
+                continue
+        return Response({'data': 'done'}, status=status.HTTP_200_OK)

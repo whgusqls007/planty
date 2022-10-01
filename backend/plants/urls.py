@@ -7,5 +7,6 @@ app_name = 'plants'
 router = DefaultRouter()
 router.register(r'', views.PlantViewSet, basename='')
 urlpatterns = [
-    path('', include(router.urls))
+    path('popular/list/', views.PopularPlantViewSet.as_view({'get': 'list'})),
+    path('', include(router.urls)),
 ]
