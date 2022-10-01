@@ -31,24 +31,19 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         # 유저 정보
         User = get_user_model()
         user = User.objects.get(pk=1)
-        print('user 가져왔습니다===========================================')
-        print(user)
         # 식물 키워드 카운트 등록 (Table UserKeywordCount)
         try:
             # 이미 UserKeywordCount가 있다면
             keyword_count = UserKeywordCount.objects.get(user_id=user.pk)
-            print(keyword_count)
-            print('keywordcount 있습니다~!')
         except:
             # UserKeywordCount가 없다면 새로 생성
-            print('없다고? ㅋ')
             keyword_count = UserKeywordCount(user_id=user.pk)
             keyword_count.save()
-            print('keywordcount 없어서 새로 생성했습니다~!')
         # plant_id = serializer.data.plant.id
-        plant_id = 1 # 테스트용
+        plant_id = 2 # 테스트용
         plant_data = Plant.objects.get(pk=plant_id)
         plant_keyword = PlantKeyword.objects.get(pk=plant_id)
+        # 식물 키워드 정보 확인
         if plant_keyword.pet_safe == 1:
             keyword_count.pet_safe += 1
             keyword_count.save()
@@ -64,6 +59,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         if plant_data.manage_level == '초보자':
             keyword_count.beginner += 1
             keyword_count.save()
+        # 식물 기본 정보 확인
         if plant_data.smell == '거의 없음':
             keyword_count.unscented += 1
             keyword_count.save()
@@ -79,44 +75,6 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         if '16' in plant_data.growth_temp:
             keyword_count.low_temp += 1
             keyword_count.save()
-
-        # my_plants = get_object_or_404(MyGarden, user=user)
-        # my_plants = MyGarden.objects.filter(user=user)
-        # serializer = MyGardenSerializer(my_plants, many=True)
-        # plant_count = {
-        #     'user_id': user.pk,   
-        #     'pet_safe': 0,
-        #     'humidify': 0,
-        #     'pm_cleaning': 0,
-        #     'air_cleanging': 0,
-        #     'beginner': 0,
-        #     'unscented': 0,
-        #     'hydroponics': 0,
-        #     'low_growth_demand': 0,
-        #     'low_light_demand': 0,
-        #     'low_temp': 0,
-        #     }
-        # for my_plant in my_plants:
-        #     plant_data = Plant.objects.get(pk=my_plant.plant_id)
-        #     plant_keyword = PlantKeyword.objects.get(pk=my_plant.plant_id)
-        #     if plant_keyword.pm_cleaning:
-        #         plant_count['pm_cleaning'] += 1
-        #     if plant_keyword.pet_safe == 1:
-        #         plant_count['pet_safe'] += 1
-        #     if plant_keyword.humidify == 1:
-        #         plant_count['humidify'] += 1
-        #     if plant_data.manage_level == '초보자':
-        #         plant_count['beginner'] += 1
-        #     if plant_data.smell == '거의 없음':
-        #         plant_count['unscented'] += 1
-        #     if '낮음' in plant_data.manage_demand:
-        #         plant_count['low_growth_demand'] += 1
-        #     if '낮은' in plant_data.light_demand:
-        #         plant_count['low_light_demand'] += 1
-        #     if '수경형' in plant_data.ecology_code:
-        #         plant_count['hydroponics'] += 1
-        #     if '16' in plant_data.growth_temp:
-        #         plant_count['low_temp'] += 1
 
         # 해당 유저의 선호 키워드 데이터 가져오기
         user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
