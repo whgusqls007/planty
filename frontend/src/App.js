@@ -20,6 +20,7 @@ import FeedListPage from './pages/feed/FeedListPage';
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
 import ProfilePage from './pages/user/ProfilePage';
+import ProfileUpdatePage from './pages/user/ProfileUpdatePage';
 // 식이월
 import WorldCup from './pages/worldcup/Worldcup';
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />
+        <Route path="profile/update" element={<ProfileUpdatePage />} />
 
         <Route path="/dictionary" element={<Outlet />}>
           <Route path="" element={<DictionaryPage />} />

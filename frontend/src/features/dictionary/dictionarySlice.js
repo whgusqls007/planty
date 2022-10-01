@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPlant, fetchPlantList, searchPlant } from './dictionaryAction';
+import {
+  fetchPlant,
+  fetchPlantList,
+  fetchPlantListPagination,
+  searchPlant,
+} from './dictionaryAction';
 
 const initialState = {
   loading: false,
   plant: {},
   plantList: [],
+  plantTotalCount: 0,
   searchResult: [],
   error: null,
   success: false,
@@ -37,7 +43,8 @@ const dictionarySlice = createSlice({
     },
     [fetchPlantList.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.plantList = payload;
+      state.plantList = payload.results;
+      state.plantTotalCount = payload.count;
     },
     [fetchPlantList.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -45,6 +52,19 @@ const dictionarySlice = createSlice({
     },
     [searchPlant.fulfilled]: (state, { payload }) => {
       state.searchResult = payload;
+    },
+    [fetchPlantListPagination.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchPlantListPagination.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.plantList = payload.results;
+      state.plantTotalCount = payload.count;
+    },
+    [fetchPlantListPagination.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
   },
 });

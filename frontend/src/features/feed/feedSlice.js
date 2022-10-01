@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   feed: {},
   feedList: [],
-  commentList: [],
+  // commentList: [],
   error: null,
   success: false,
 };
@@ -18,11 +18,14 @@ const initialState = {
 const feedSlice = createSlice({
   name: 'feed',
   initialState,
-  reducers: {},
+  reducers: {
+    createConfirm: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+    },
+  },
   extraReducers: {
-    [createFeed.pending]: (state) => {},
-    [createFeed.fulfilled]: (state) => {},
-    [createFeed.rejected]: (state) => {},
     [fetchFeedList.pending]: (state) => {
       state.loading = true;
       state.error = null;
@@ -48,10 +51,29 @@ const feedSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    [createFeed.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [createFeed.fulfilled]: (state, { payload }) => {
+      state.feedList = [...state.feedList, payload];
+      state.success = true;
+    },
+    [createFeed.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
     [createFeedComment.pending]: (state) => {},
-    [createFeedComment.fulfilled]: (state, { payload }) => {},
+    [createFeedComment.fulfilled]: (state, { payload }) => {
+      state.feed = {
+        ...state.feed,
+        feed_comments: payload,
+      };
+    },
     [createFeedComment.rejected]: (state, { payload }) => {},
   },
 });
+
+export const { createConfirm } = feedSlice.actions;
 
 export default feedSlice.reducer;

@@ -5,6 +5,7 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { createFeedComment } from '../../features/feed/feedAction';
+import { useNavigate, Link } from 'react-router-dom';
 
 // 테스트용 더미 feed
 const feed = {
@@ -110,13 +111,16 @@ const Wrapper = styled.div`
 
 const MobileModal = ({ closeModal }) => {
   const { loading, feed } = useSelector((state) => state.feed);
-  const { content, user, date_created, comments } = feed;
+  const { content, user, date_created, feed_comments } = feed;
+
   return (
     <MobileModalWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="mobile-feed-writer">
-        <CloudIcon />
-        <span>{user?.username}</span>
+        <Link to={`/garden/${user?.username}`}>
+          <CloudIcon />
+          <span>{user?.username}</span>
+        </Link>
       </div>
       <ModalImgCarousel />
       <div className="mobile-feed-header">
@@ -128,7 +132,7 @@ const MobileModal = ({ closeModal }) => {
       <div className="mobile-feed-body">
         <div className="mobile-feed-content">{content}</div>
         <div className="mobile-feed-comment">
-          {comments && <CommentList comments={comments} />}
+          {feed_comments && <CommentList comments={feed_comments} />}
 
           <CommentInputForm />
         </div>
@@ -165,6 +169,7 @@ const MobileModalWrapper = styled.div`
   }
   & .mobile-feed-writer {
     margin: 10px;
+
     & span {
       margin-left: 8px;
     }
@@ -210,13 +215,20 @@ const MobileModalWrapper = styled.div`
 const ModalImgCarouselWrapper = styled.div`
   & {
     background-color: ${({ theme }) => theme.themeColor[1]};
+    /* background-color: #ffffff; */
     height: 50vw;
     max-height: 350px;
     width: 100%;
     margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    /* overflow: hidden; */
     & img {
-      height: 50vw;
-      max-height: 350px;
+      /* height: 50vw; */
+      /* max-height: 350px; */
+      object-fit: cover;
+      /* width: 100%; */
+      height: 100%;
     }
   }
   // Bootstrap Carousel css 수정
@@ -256,9 +268,11 @@ const ModalImgCarouselWrapper = styled.div`
 `;
 
 const ModalImgCarousel = () => {
+  const { feed } = useSelector((state) => state.feed);
   return (
     <ModalImgCarouselWrapper>
-      <Carousel interval={null}>
+      <img src={feed.img_url} alt="Feed Image" />
+      {/* <Carousel interval={null}>
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -280,7 +294,7 @@ const ModalImgCarousel = () => {
             alt="Third slide"
           />
         </Carousel.Item>
-      </Carousel>
+      </Carousel> */}
     </ModalImgCarouselWrapper>
   );
 };
@@ -342,6 +356,7 @@ const ModalDescriptionWrapper = styled.div`
     font-size: 20px;
     display: flex;
     align-items: center;
+
     & span {
       margin-left: 10px;
     }
@@ -378,7 +393,7 @@ const ModalDescriptionWrapper = styled.div`
 
 const ModalDescription = ({ closeModal }) => {
   const { loading, feed } = useSelector((state) => state.feed);
-  const { content, user, date_created, comments } = feed;
+  const { content, user, date_created, feed_comments } = feed;
   // const { title, content, user, dateCreated, comments } = feed;
   return (
     <ModalDescriptionWrapper>
@@ -386,8 +401,10 @@ const ModalDescription = ({ closeModal }) => {
       <div className="description-header">
         <div className="description-title">제목</div>
         <div className="description-writer">
-          <CloudIcon />
-          <span>{user?.username}</span>
+          <Link to={`/garden/${user?.username}`}>
+            <CloudIcon />
+            <span>{user?.username}</span>
+          </Link>
         </div>
       </div>
       <div className="description-date-created">
@@ -396,7 +413,7 @@ const ModalDescription = ({ closeModal }) => {
       <div className="description-body">
         <div className="description-content">{content}</div>
         <div className="description-comment">
-          <CommentList comments={comments} />
+          <CommentList comments={feed_comments} />
           <CommentInputForm />
         </div>
       </div>
@@ -409,7 +426,7 @@ const CommentListWrapper = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  /* overflow: hidden; */
+  overflow-y: scroll;
 `;
 
 const CommentList = ({ comments }) => {
@@ -436,7 +453,7 @@ const CommentItem = ({ comment }) => {
   const { user, content } = comment;
   return (
     <CommentItemWrapper>
-      <div>{user}</div>
+      <div>{user.username}</div>
       <span>::</span>
       <div>{content}</div>
     </CommentItemWrapper>
@@ -472,7 +489,7 @@ const CommentInputWrapper = styled.div`
 `;
 
 const CommentInputForm = () => {
-  const { id } = useSelector((state) => state.feed);
+  const { feed } = useSelector((state) => state.feed);
   const dispatch = useDispatch();
   const [commentInput, setCommentInput] = useState('');
 
@@ -481,12 +498,16 @@ const CommentInputForm = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          dispatch(createFeedComment());
+          dispatch(
+            createFeedComment({ feedId: feed.id, content: commentInput }),
+          );
+          setCommentInput('');
         }}
       >
         <input
           type="text"
           className="comment-input"
+          value={commentInput}
           onChange={(e) => {
             setCommentInput(e.target.value);
           }}

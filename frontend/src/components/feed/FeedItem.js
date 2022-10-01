@@ -101,4 +101,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default FeedItem;
+export default React.memo(FeedItem);

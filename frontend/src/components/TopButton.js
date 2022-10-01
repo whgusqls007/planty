@@ -39,4 +39,4 @@ const Wrapper = styled.div`
   box-shadow: 2px 2px 3px #999;
 `;
 
-export default TopButton;
+export default React.memo(TopButton);
