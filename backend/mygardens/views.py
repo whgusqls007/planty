@@ -122,7 +122,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         'watering_schedule': openapi.Schema(type=openapi.TYPE_INTEGER,  description='물주는 주기'),
         'recent_water': openapi.Schema(type=openapi.TYPE_STRING, format='date', description='최근 물 준 날짜'),
         'memo': openapi.Schema(type=openapi.TYPE_STRING, description='한줄 메모'),
-        # 'present': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='선물용 여부'),
+        'present': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='선물용 여부'),
         'preference': openapi.Schema(type=openapi.TYPE_INTEGER, description='선호도'),
         'keep': openapi.Schema(type=openapi.TYPE_INTEGER, description='식물 보관'),
         }
