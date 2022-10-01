@@ -111,18 +111,20 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
             # serializer.save(user=user, img_url=file_path)
             serializer.save(user=user, plant=plant)
-
+            
+            plant.popular = plant.popular + 1
             user.plants_count = user.plants_count + 1
+            user.exp = user.exp + 10
             user.save()
 
             # 식물 키워드 카운트 등록 (Table UserKeywordCount)
             try:
                 # 이미 UserKeywordCount가 있다면
-                keyword_count = UserKeywordCount.objects.get(user=user.pk)
+                keyword_count = UserKeywordCount.objects.get(user=user)
                 pass
             except:
                 # UserKeywordCount가 없다면 새로 생성
-                keyword_count = UserKeywordCount(user=user.pk)
+                keyword_count = UserKeywordCount(user=user)
                 keyword_count.save()
             # plant_id = serializer.data.plant.id
             plant_id = 1 # 테스트용
@@ -303,13 +305,16 @@ class DiaryViewSet(viewsets.ModelViewSet):
     def create(self, request, my_garden_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
         serializer = DiarySerializer(data=request.data)
-
+        user = request.user
         if serializer.is_valid(raise_exception=True):
             serializer.save(my_garden=my_garden)
 
             my_garden.diaries_count = my_garden.diaries_count + 1
             my_garden.save()
             
+            user.exp = user.exp + 5
+            user.save()
+
             diaries = my_garden.diaries.all()
             serializers = DiarySerializer(instance=diaries, many=True)
             

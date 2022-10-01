@@ -291,6 +291,9 @@ class Plant(models.Model):
         null=True,
         verbose_name='식물 사진'
     )
+    popular = models.IntegerField(
+        verbose_name = '인기도'
+    )
 
     class Meta:
         managed = False

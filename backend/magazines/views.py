@@ -102,7 +102,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=user)
 
-            user.exp = user.exp + 1
+            user.exp = user.exp + 20
             user.articles_count = user.articles_count + 1
             user.save()
 
@@ -172,6 +172,7 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
             serializer.save(magazine=magazine, user=user)
 
             user.comments_count = user.comments_count + 1
+            user.exp = user.exp + 5
             user.save()
 
             magazine.comments_count = magazine.comments_count + 1
