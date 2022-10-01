@@ -421,30 +421,3 @@ class PlantKeyword(models.Model):
     class Meta:
         managed = False
         db_table = 'plants_plantkeyword'
-
-
-# 식물 선호도
-class Plantlike(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        models.DO_NOTHING,
-        primary_key=True
-    )
-    score = models.CharField(
-        max_length=500,
-        blank=True,
-        null=True
-    )
-
-    class Meta:
-        managed = False
-        db_table = 'plantlike'
-
-
-# 선호도 변경 유저 목록
-class UpdateTable(models.Model):
-    user_id = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'update_table'

@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from plants.models import Plant, PlantKeyword
 from recommendations.models import UserKeywordCount
 from .models import MyGarden, Diary
-from plants.models import Plant, Plantlike, UpdateTable
+from plants.models import Plant
+from recommendations.models import Plantlike, UpdateTable
 from .serializers import MyGardenSerializer, DiarySerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
