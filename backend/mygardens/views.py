@@ -6,7 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from plants.models import PlantKeyword
 from .models import MyGarden, Diary
-from plants.models import Plant
+from plants.models import Plant, Plantlike, UpdateTable
 from .serializers import MyGardenSerializer, DiarySerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -25,6 +25,7 @@ class MygardenListViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# 나의 정원 식물 상세 및 CRUD
 class MyGardenViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = MyGardenSerializer
@@ -44,7 +45,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         'watering_schedule': openapi.Schema(type=openapi.TYPE_INTEGER,  description='물주는 주기'),
         'recent_water': openapi.Schema(type=openapi.TYPE_STRING, format='date', description='최근 물 준 날짜'),
         'memo': openapi.Schema(type=openapi.TYPE_STRING, description='한줄 메모'),
-        # 'present': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='선물용 여부'),
+        'present': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='선물용 여부'),
         'preference': openapi.Schema(type=openapi.TYPE_INTEGER, description='선호도'),
         }
     )
@@ -55,13 +56,14 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         operation_description='유저 이름으로 데이터 주고 받아야 합니다.',
         request_body=createMyGarden_params)
 
-    # post에 매칭
+    # post에 매칭, 나의 정원 식물 등록
     def create(self, request):
         # data = eval(request.data['data'])
         # serializer = MyGardenSerializer(data=data)
         serializer = MyGardenSerializer(data=request.data)
         user = request.user
-        plant = Plant.objects.get(pk=request.data['plant'])
+        plant_num = int(request.data['plant'])
+        plant = Plant.objects.get(pk=plant_num)
 
         if serializer.is_valid(raise_exception=True):
             # try:
@@ -69,11 +71,42 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             # except:
             #     file=''
             # file_path = s3_upload_image(file, 'mygardens/')
+            
+            try:
+                # 선호도 테이블에 user정보가 있을 때
+                plant_like = Plantlike.objects.get(user=user)
+                score = plant_like.score
+                tmp = list(score)
+                tmp[plant_num - 1] = str(request.data['preference'])
+                update_score = ''.join(tmp)
+                plant_like.score = update_score
+                plant_like.save()
 
-            # if request.data['present'] == True:
-            #     get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
-            #     get_plant.present_adequacy = get_plant.present_adequacy + 1
-            #     get_plant.save()
+                # update_table에 유저가 없을 때만 추가
+                if not UpdateTable.objects.filter(user_id=user.pk).exists():
+                    update_user = UpdateTable()
+                    update_user.user_id = user.pk
+                    update_user.save()
+
+            except:
+                # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
+                print('error!')
+                plant_like = Plantlike()
+                plant_like.user = user
+                tmp = ['0' for _ in range(216)]
+                tmp[plant_num - 1] = str(request.data['preference'])
+                score = ''.join(tmp)
+                plant_like.score = score
+                plant_like.save()
+                
+                update_user = UpdateTable()
+                update_user.user_id = user.pk
+                update_user.save()
+
+            if request.data.get('present'):
+                get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+                get_plant.present_adequacy = get_plant.present_adequacy + 1
+                get_plant.save()
 
             # serializer.save(user=user, img_url=file_path)
             serializer.save(user=user, plant=plant)
@@ -99,6 +132,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     # patch에 매칭, 정원 등록 식물 수정
     @swagger_auto_schema(
     operation_summary='나의 정원 식물 수정',
+    operation_description='식물 소개(메모), 식물 보관, 선호도, 이미지',
     request_body=updateMyGarden_params)
 
     def partial_update(self, request, pk):
@@ -118,6 +152,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+
 
     # delete에 매칭, 정원 등록 식물 삭제
     def destroy(self, request, pk):

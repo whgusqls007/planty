@@ -395,3 +395,11 @@ class RecommendationsUserkeywordcount(models.Model):
     class Meta:
         managed = False
         db_table = 'recommendations_userkeywordcount'
+
+
+class UpdateTable(models.Model):
+    user_id = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'update_table'
