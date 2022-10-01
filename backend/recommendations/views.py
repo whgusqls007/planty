@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_list_or_404
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from plants.models import Plant, PlantKeyword
 from plants.serializers import PlantListSerializer
@@ -106,8 +106,8 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
                 # Plant 테이블 순회
                 try:
                     column_name = plant_columns[keyword[0]]
-                    condition = plant_columns[keyword[1]]
-                    candinates = Plant.objects.filter(**{column_name: condition})
+                    value = plant_columns[keyword[1]]
+                    candinates = Plant.objects.filter(**{column_name: value})
                 # PlantKeyword 테이블 순회
                 except:
                     column_name = keyword[0]
@@ -126,3 +126,17 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = PlantListSerializer(recommend_queryset, many=True)
 
         return Response(serializer.data)
+
+    
+    # 선택한 키워드에 해당하는 식물 정보만 보여주기
+    def retrieve(self, request, keyword=None):
+        plants_list = Plant.objects.all()
+        # 키워드 번호별로 확인해야하는 column 정보 + 값
+        # index == 키워드 번호 / (column명, 값)
+        keywords = []
+        column_name = keywords[keyword][0]
+        value = keywords[keyword][1]
+        plants_list = Plant.objects.filter(**{column_name: value})
+        serializer = PlantListSerializer(plants_list, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
