@@ -111,7 +111,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
             # serializer.save(user=user, img_url=file_path)
             serializer.save(user=user, plant=plant)
-
+            
+            plant.popular = plant.popular + 1
             user.plants_count = user.plants_count + 1
             user.exp = user.exp + 10
             user.save()
