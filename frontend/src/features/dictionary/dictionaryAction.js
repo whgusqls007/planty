@@ -44,7 +44,6 @@ export const searchPlant = createAsyncThunk(
   async (keyword, { rejectWithValue }) => {
     try {
       const { data } = await plantSearch(keyword);
-      console.log(data);
       return data;
     } catch (error) {}
   },
@@ -55,7 +54,6 @@ export const fetchPlantListPagination = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { offset, limit } = params;
-      console.log(offset, limit, params);
       const { data } = await plantListPagination(offset, limit);
 
       return data;

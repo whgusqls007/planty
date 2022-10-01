@@ -65,7 +65,6 @@ const feedSlice = createSlice({
     },
     [createFeedComment.pending]: (state) => {},
     [createFeedComment.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.feed = {
         ...state.feed,
         feed_comments: payload,

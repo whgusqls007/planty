@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import axios from 'axios';
+import { GardenForm } from '../../styles/garden/GardenComponentStyle';
 
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const [imgFile, setImgFile] = useState(null); // img 전송용
@@ -160,83 +160,6 @@ const Wrapper = styled.div`
     }
     to {
       opacity: 1;
-    }
-  }
-`;
-
-const GardenForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  @media (max-width: 400px) {
-    font-size: 14px;
-  }
-  & label {
-    margin-top: 16px;
-    color: #787878;
-
-    @media (max-width: 576px) {
-      margin-top: 8px;
-    }
-  }
-  & input {
-    padding: 8px 0;
-    border-width: 0 0 1px 0;
-    &:focus {
-      outline: none;
-    }
-  }
-  & #date_grow {
-    margin-top: 1rem;
-  }
-
-  & #recent_water {
-    margin-top: 1rem;
-  }
-
-  & > div > label {
-    margin-left: 6px;
-  }
-
-  & button {
-    border: none;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: #ffffff;
-    border-radius: 8px;
-    margin-bottom: 0px;
-    margin-top: 5%;
-    padding: 0.5% 0 0.5% 0;
-  }
-
-  & .plant-img-input {
-    height: 100%;
-    padding-bottom: 50px;
-
-    @media (max-width: 576px) {
-      padding-bottom: 10px;
-      height: 20%;
-    }
-
-    @media (max-width: 400px) {
-      padding-bottom: 10px;
-      height: 10%;
-    }
-  }
-
-  & .plant-img {
-    border: 2px dashed black;
-    width: 300px;
-    height: 300px;
-
-    @media (max-width: 576px) {
-      width: 200px;
-      height: 200px;
-    }
-    @media (max-width: 400px) {
-      width: 150px;
-      height: 100px;
     }
   }
 `;

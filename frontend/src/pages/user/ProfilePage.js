@@ -118,10 +118,7 @@ const Wrapper = styled.div`
     justify-content: center;
     font-size: 1.2rem;
     cursor: pointer;
-    & a {
-      text-decoration: none;
-      color: inherit;
-    }
+
     @media (max-width: 576px) {
       width: 80px;
       font-size: 1rem;

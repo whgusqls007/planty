@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { createFeed } from '../../features/feed/feedAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { createConfirm } from '../../features/feed/feedSlice';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const FeedCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
 
   useEffect(() => {
     if (success) {
-      console.log('good!');
       dispatch(createConfirm());
       closeFeedCreateModal();
     }
@@ -152,29 +152,43 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
             className={isDragging ? 'img-div dragging' : 'img-div'}
             ref={dragRef}
           >
+            <label htmlFor="plant-img" className="plant-img-label">
+              <div
+                className={!imgSrc ? 'label-div' : 'label-div plant-img-hide'}
+              >
+                <FileUploadIcon className="upload-icon" />
+                <span>Drag & Drop images or Click to Upload</span>
+              </div>
+            </label>
+
+            <input
+              type="file"
+              id="plant-img"
+              className="plant-img-hide"
+              accept="image/*"
+              onChange={onImageChange}
+            />
             <img
               src={imgSrc}
               alt="피드 이미지"
-              className="plant-img"
-              onError={() => console.log('error')}
+              className={imgSrc ? 'plant-img' : 'plant-img-hide'}
             />
           </div>
-          {/* <label htmlFor="plant_img">식물 사진</label>
-          <input
-            type="file"
-            id="plant_img"
-            className="plant-img-input"
-            accept="image/*"
-            onChange={onImageChange}
-          /> */}
 
           <label htmlFor="content">내용</label>
-          <input
+          <textarea
+            className="content-area"
             type="text"
             id="content"
             onChange={onChangeHandler}
             value={content}
           />
+          {/* <input
+            type="text"
+            id="content"
+            onChange={onChangeHandler}
+            value={content}
+          /> */}
           <button>작성</button>
         </FeedForm>
       </div>
@@ -285,6 +299,7 @@ const FeedForm = styled.form`
   }
 
   & .img-div {
+    position: relative;
     border: 2px dashed black;
     border-radius: 20px;
     height: 50%;
@@ -303,6 +318,45 @@ const FeedForm = styled.form`
 
   & .plant-img {
     height: 100%;
+  }
+  & .plant-img-label {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    & .label-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & span {
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    & .upload-icon {
+      width: 10vw;
+      height: 10vw;
+    }
+    & .plant-img-hide {
+      display: none;
+    }
+  }
+  & .plant-img-hide {
+    display: none;
+  }
+  & .content-area {
+    flex-grow: 1;
+    padding: 6px;
+    font-size: 1.1rem;
   }
 `;
 

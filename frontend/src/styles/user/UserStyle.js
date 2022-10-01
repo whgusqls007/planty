@@ -72,7 +72,6 @@ export const UserForm = styled.form`
 
     & > a {
       margin-top: 10px;
-      text-decoration: none;
       color: #787878;
     }
   }

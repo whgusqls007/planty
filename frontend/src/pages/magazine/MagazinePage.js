@@ -229,11 +229,6 @@ const Wrapper = styled.div`
   margin: 3% 5% 0 5%;
   display: flex;
   flex-wrap: wrap;
-
-  & a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 const PagingList = styled.li`
@@ -395,10 +390,6 @@ const SubInputBox = styled.div`
   -ms-user-select: none;
   user-select: none;
 
-  & a {
-    color: inherit;
-    text-decoration: none;
-  }
   & .tag {
     width: 100px;
     text-align: center;

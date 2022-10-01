@@ -5,6 +5,7 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { createFeedComment } from '../../features/feed/feedAction';
+import { useNavigate, Link } from 'react-router-dom';
 
 // 테스트용 더미 feed
 const feed = {
@@ -111,12 +112,15 @@ const Wrapper = styled.div`
 const MobileModal = ({ closeModal }) => {
   const { loading, feed } = useSelector((state) => state.feed);
   const { content, user, date_created, feed_comments } = feed;
+
   return (
     <MobileModalWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="mobile-feed-writer">
-        <CloudIcon />
-        <span>{user?.username}</span>
+        <Link to={`/garden/${user?.username}`}>
+          <CloudIcon />
+          <span>{user?.username}</span>
+        </Link>
       </div>
       <ModalImgCarousel />
       <div className="mobile-feed-header">
@@ -165,6 +169,7 @@ const MobileModalWrapper = styled.div`
   }
   & .mobile-feed-writer {
     margin: 10px;
+
     & span {
       margin-left: 8px;
     }
@@ -351,6 +356,7 @@ const ModalDescriptionWrapper = styled.div`
     font-size: 20px;
     display: flex;
     align-items: center;
+
     & span {
       margin-left: 10px;
     }
@@ -388,7 +394,6 @@ const ModalDescriptionWrapper = styled.div`
 const ModalDescription = ({ closeModal }) => {
   const { loading, feed } = useSelector((state) => state.feed);
   const { content, user, date_created, feed_comments } = feed;
-  console.log(feed_comments);
   // const { title, content, user, dateCreated, comments } = feed;
   return (
     <ModalDescriptionWrapper>
@@ -396,8 +401,10 @@ const ModalDescription = ({ closeModal }) => {
       <div className="description-header">
         <div className="description-title">제목</div>
         <div className="description-writer">
-          <CloudIcon />
-          <span>{user?.username}</span>
+          <Link to={`/garden/${user?.username}`}>
+            <CloudIcon />
+            <span>{user?.username}</span>
+          </Link>
         </div>
       </div>
       <div className="description-date-created">
