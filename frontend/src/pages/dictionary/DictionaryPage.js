@@ -23,7 +23,7 @@ const DictionaryPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(null);
   const [focused, setFocused] = useState(false);
   const [keyword, setKeyword] = useState(null);
   const [limit, setLimit] = useState(12);
@@ -36,17 +36,16 @@ const DictionaryPage = () => {
     dispatch(clearSearchResult());
   }, []);
 
-  useEffect(() => {
-    const offset = (pageNum - 1) * 12;
-    dispatch(fetchPlantListPagination({ limit, offset }));
-  }, [dispatch, pageNum]);
+  // useEffect(() => {}, [dispatch, pageNum]);
 
   useEffect(() => {
     const query = parseInt(searchParams.get('pageNum'))
       ? parseInt(searchParams.get('pageNum'))
       : 1;
     setPageNum(query);
-  }, [searchParams]);
+    const offset = (query - 1) * 12;
+    dispatch(fetchPlantListPagination({ limit, offset }));
+  }, [searchParams, dispatch, pageNum]);
 
   const searchResultOpen = () => {
     setFocused(true);
@@ -108,14 +107,17 @@ const DictionaryPage = () => {
               </div>
             )}
           </div>
-          <Pagination
-            count={Math.ceil(plantTotalCount / limit)}
-            shape="rounded"
-            onChange={(e, page) => {
-              window.scrollTo({ top: 0, behavior: 'instant' });
-              navigate(`/dictionary?pageNum=${page}`, { replace: true });
-            }}
-          />
+          {pageNum && (
+            <Pagination
+              count={Math.ceil(plantTotalCount / limit)}
+              shape="rounded"
+              page={pageNum}
+              onChange={(e, page) => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                navigate(`/dictionary?pageNum=${page}`, { replace: true });
+              }}
+            />
+          )}
         </Wrapper>
       </Container>
     </div>

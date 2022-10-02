@@ -11,7 +11,8 @@ export const register = async (params) => {
 };
 
 export const getUserInfo = async () => {
-  const response = await client.get('accounts/user/');
+  // const response = await client.get('accounts/user/');
+  const response = await client.get('accounts/mypageuserinfo/');
   return response;
 };
 
