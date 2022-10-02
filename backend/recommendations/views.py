@@ -132,7 +132,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
     def retrieve(self, request, keyword=None):
         plants_list = Plant.objects.all()
         # 키워드 번호별로 확인해야하는 column 정보 + 값
-        # index == 키워드 번호 / (column명, 값)
+        # index == 키워드 번호 / [column명, 값]
         keywords = []
         column_name = keywords[keyword][0]
         value = keywords[keyword][1]
