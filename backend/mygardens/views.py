@@ -120,48 +120,48 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             user.save()
 
             # 식물 키워드 카운트 등록 (Table UserKeywordCount)
-            try:
-                # 이미 UserKeywordCount가 있다면
-                keyword_count = UserKeywordCount.objects.get(user=user)
-                pass
-            except:
-                # UserKeywordCount가 없다면 새로 생성
-                keyword_count = UserKeywordCount(user=user)
-                keyword_count.save()
+            # try:
+            #     # 이미 UserKeywordCount가 있다면
+            #     keyword_count = UserKeywordCount.objects.get(user=user)
+            #     pass
+            # except:
+            #     # UserKeywordCount가 없다면 새로 생성
+            #     keyword_count = UserKeywordCount(user=user)
+            #     keyword_count.save()
             # plant_id = serializer.data.plant.id
-            plant_id = 1 # 테스트용
-            plant_data = Plant.objects.get(pk=plant_id)
-            plant_keyword = PlantKeyword.objects.get(pk=plant_id)
-            if plant_keyword.pet_safe == 1:
-                keyword_count.pet_safe += 1
-                keyword_count.save()
-            if plant_keyword.humidify == 1:
-                keyword_count.humidify += 1
-                keyword_count.save()
-            if plant_keyword.pm_cleaning:
-                keyword_count.pm_cleaning += 1
-                keyword_count.save()
-            if plant_keyword.air_cleaning:
-                keyword_count.air_cleaning += 1
-                keyword_count.save()
-            if plant_data.manage_level == '초보자':
-                keyword_count.beginner += 1
-                keyword_count.save()
-            if plant_data.smell == '거의 없음':
-                keyword_count.unscented += 1
-                keyword_count.save()
-            if '낮음' in plant_data.manage_demand:
-                keyword_count.low_growth_demand += 1
-                keyword_count.save()
-            if '낮은' in plant_data.light_demand:
-                keyword_count.low_light_demand += 1
-                keyword_count.save()
-            if '수경형' in plant_data.ecology_code:
-                keyword_count.hydroponics += 1
-                keyword_count.save()
-            if '16' in plant_data.growth_temp:
-                keyword_count.low_temp += 1
-                keyword_count.save()
+            # plant_id = 1 # 테스트용
+            # plant_data = Plant.objects.get(pk=plant_id)
+            # plant_keyword = PlantKeyword.objects.get(pk=plant_id)
+            # if plant_keyword.pet_safe == 1:
+            #     keyword_count.pet_safe += 1
+            #     keyword_count.save()
+            # if plant_keyword.humidify == 1:
+            #     keyword_count.humidify += 1
+            #     keyword_count.save()
+            # if plant_keyword.pm_cleaning:
+            #     keyword_count.pm_cleaning += 1
+            #     keyword_count.save()
+            # if plant_keyword.air_cleaning:
+            #     keyword_count.air_cleaning += 1
+            #     keyword_count.save()
+            # if plant_data.manage_level == '초보자':
+            #     keyword_count.beginner += 1
+            #     keyword_count.save()
+            # if plant_data.smell == '거의 없음':
+            #     keyword_count.unscented += 1
+            #     keyword_count.save()
+            # if '낮음' in plant_data.manage_demand:
+            #     keyword_count.low_growth_demand += 1
+            #     keyword_count.save()
+            # if '낮은' in plant_data.light_demand:
+            #     keyword_count.low_light_demand += 1
+            #     keyword_count.save()
+            # if '수경형' in plant_data.ecology_code:
+            #     keyword_count.hydroponics += 1
+            #     keyword_count.save()
+            # if '16' in plant_data.growth_temp:
+            #     keyword_count.low_temp += 1
+            #     keyword_count.save()
             
             # plant_count = {
             #     'pet_safe': 0,

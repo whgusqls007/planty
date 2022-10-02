@@ -60,16 +60,18 @@ class FeedViewSet(viewsets.ModelViewSet):
 
     # post에 매칭, 게시글 쓰기
     def create(self, request):
-        data = eval(request.data['data'])
-        serializer = FeedSerializer(data=data)
+        # data = eval(request.data['data'])
+        # serializer = FeedSerializer(data=data)
+        serializer = FeedSerializer(data=request.data)
         user = request.user
         if serializer.is_valid(raise_exception=True):
-            try:
-                file=request.FILES['files']
-            except:
-                file=''
-            file_path = s3_upload_image(file, 'feed/')
-            serializer.save(user=user, img_url=file_path)
+            # try:
+            #     file=request.FILES['files']
+            # except:
+            #     file=''
+            # file_path = s3_upload_image(file, 'feed/')
+            # serializer.save(user=user, img_url=file_path)
+            serializer.save(user=user)
             user.exp = user.exp + 10
             user.articles_count = user.articles_count + 1
             user.save()
