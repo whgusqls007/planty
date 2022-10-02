@@ -7,14 +7,12 @@ export const userLogin = createAsyncThunk(
     try {
       const loginData = await login(params);
       // 로컬스토리지에 Token 저장
-      localStorage.setItem('Token', loginData.data.key);
+      sessionStorage.setItem('Token', loginData.data.key);
       const { data } = await getUserInfo();
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      sessionStorage.setItem('userInfo', JSON.stringify(data));
       return data;
     } catch (error) {
-      console.log('error', error);
       if (error.response && error.response.data) {
-        console.log(error.response.data);
         return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);

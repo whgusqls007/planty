@@ -43,10 +43,7 @@ const Wrapper = styled.div`
       }
     }
   }
-  & a {
-    text-decoration: none;
-    color: black;
-  }
+
   &:hover {
     & .plant-img {
       transition: transform 0.3s;
