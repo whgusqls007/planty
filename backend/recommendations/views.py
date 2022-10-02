@@ -48,9 +48,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
             'low_temp': ['growth_temp', '16'],
         }
         # 선호도 높은 순서대로 키워드 순회
-        print(sorted_user_keywords)
         for keyword in sorted_user_keywords:
-            print(keyword)
             # 추천할 식물이 16개 이상 모이면 종료
             if len(plants_to_recommend) >= 16:
                 break
