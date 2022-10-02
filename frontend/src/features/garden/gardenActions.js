@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { gardenUser, postFollowUser, userPlant } from '../../api/garden';
+import {
+  gardenUser,
+  postFollowUser,
+  userFeed,
+  userPlant,
+} from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
 export const fetchUserInfo = createAsyncThunk(
@@ -58,6 +63,23 @@ export const fetchUserPlant = createAsyncThunk(
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await userPlant(userName);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchUserFeed = createAsyncThunk(
+  'mygarden/fetchUserFeed',
+  async (userName, { rejectWithValue }) => {
+    try {
+      const { data } = await userFeed(userName);
 
       return data;
     } catch (error) {
