@@ -299,6 +299,21 @@ class Plant(models.Model):
         managed = False
         db_table = 'plant'
 
+    @property
+    def watering(self):
+        watering_dict = {
+            '화분 흙 대부분 말랐을때 충분히 관수함' : -1,
+            '토양 표면이 말랐을때 충분히 관수함' : 0,
+            '흙을 촉촉하게 유지함(물에 잠기지 않도록 주의)' : 1,
+        }
+        total = 0
+        total += watering_dict.get(self.water_cycle_spring, 0)
+        total += watering_dict.get(self.water_cycle_summer, 0)
+        total += watering_dict.get(self.water_cycle_autumn, 0)
+        total += watering_dict.get(self.water_cycle_winter, 0)
+
+        return total
+
 
 # 식물 키워드
 class PlantKeyword(models.Model):

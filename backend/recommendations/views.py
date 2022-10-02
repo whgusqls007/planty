@@ -7,8 +7,9 @@ from plants.serializers import PlantListSerializer
 from mygardens.models import MyGarden
 # from recommendations.models import UserKeywordCount
 from django.forms.models import model_to_dict
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 import random
-
 
 '''
 [RecommendViewSet 로직]
@@ -79,15 +80,57 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
     
-    # 선택한 키워드에 해당하는 식물 정보만 보여주기
-    def retrieve(self, request, keyword=None):
-        plants_list = Plant.objects.all()
-        # 키워드 번호별로 확인해야하는 column 정보 + 값
-        # index == 키워드 번호 / [column명, 값]
-        keywords = []
-        column_name = keywords[keyword][0]
-        value = keywords[keyword][1]
-        plants_list = Plant.objects.filter(**{column_name: value})
-        serializer = PlantListSerializer(plants_list, many=True)
+    
+
+class KeywordViewSet(viewsets.ViewSet):
+
+    @swagger_auto_schema(
+        operation_summary='선택한 키워드에 해당하는 식물 정보만 보여주기',
+        operation_description='선택한 키워드에 해당하는 식물 중 랜덤한 12개의 정보를 반환합니다.',
+        manual_parameters=[
+            openapi.Parameter(
+                'keyword',
+                openapi.IN_QUERY,
+                description="""1: 물을 자주 주는
+                2: 물을 가끔 주는
+                3: 습한 곳에서도 잘 자라는
+                4: 선물하기 좋은
+                5: 공기 정화용
+                6: 초보자가 키우기 쉬운
+                7: 가습 효과가 있는
+                """,
+                type=openapi.TYPE_INTEGER
+            )
+        ])
+    def list(self, request):
+        keyword = int(request.query_params.get('keyword', 0))
+        # 물을 자주 주는
+        if keyword == 1:
+            plants = [plant for plant in Plant.objects.all() if plant.watering >= 2]
+            plants = random.sample(plants, 12)
+        # 물을 가끔 주는
+        elif keyword == 2:
+            plants = [plant for plant in Plant.objects.all() if plant.watering <= -2]
+            plants = random.sample(plants, 12)
+        # 습한 곳에서도 잘 자라는
+        elif keyword == 3:
+            plants = Plant.objects.filter(humidity="70% 이상").order_by("?")[:12]
+        # 선물하기 좋은
+        elif keyword == 4:
+            plants = PlantKeyword.objects.filter(present_adequacy__gte=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
+        # 공기 정화용
+        elif keyword == 5:
+            plants = PlantKeyword.objects.filter(air_cleaning=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
+        # 초보자가 키우기 쉬운
+        elif keyword == 6:
+            plants = Plant.objects.filter(manage_level="초보자").order_by("?")[:12]
+        # 가습 효과가 있는
+        elif keyword == 7:
+            plants = PlantKeyword.objects.filter(humidify=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
         
+        
+        serializer = PlantListSerializer(plants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
