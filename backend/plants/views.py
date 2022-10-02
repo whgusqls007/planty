@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
-from .models import Plant
+from .models import Plant, PlantKeyword
 from rest_framework import viewsets, status, generics, filters
 from django.views.generic.edit import FormView
 from .serializers import PlantDetailSerializer, PlantListSerializer
 from collections import OrderedDict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from mygardens.models import MyGarden
+import random
 
 class PlantViewSet(viewsets.ReadOnlyModelViewSet):   
     queryset = Plant.objects.all()
@@ -56,8 +56,6 @@ class PlantViewSet(viewsets.ReadOnlyModelViewSet):
                 ('results', serializer.data)
             ]), status=status.HTTP_200_OK)
             
-        
-        
 
     # 선택한 식물의 상세 정보 보여주기
     def retrieve(self, request, pk=None):
@@ -66,7 +64,7 @@ class PlantViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = PlantDetailSerializer(plant)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class PopularPlantViewSet(viewsets.ViewSet):
+# class PopularPlantViewSet(viewsets.ViewSet):
     
     # def list(self, request):
     #     count_dict = {}
@@ -85,3 +83,32 @@ class PopularPlantViewSet(viewsets.ViewSet):
     #             print('error!', key)
     #             continue
     #     return Response({'data': 'done'}, status=status.HTTP_200_OK)
+
+# 메인페이지 반려동물에게 안전한 식물
+class PetSafetyViewSet(viewsets.ViewSet):
+
+    @swagger_auto_schema(
+        operation_summary='반려동물에게 안전한 식물',
+        operation_description='안전한 식물 중 랜덤 8개를 반환합니다(새로고침 시 바뀔 수 있도록)',
+        )
+    def list(self, request):
+        id_list = [plant_keyword.pk for plant_keyword in PlantKeyword.objects.filter(pet_safe=1)]
+        id_list = random.sample(id_list, 8)
+        plants = Plant.objects.filter(pk__in=id_list)
+        serializers = PlantListSerializer(plants, many=True)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+class PopularViewSet(viewsets.ViewSet):
+    @swagger_auto_schema(
+        operation_summary='많은 유저들이 키우는 식물',
+        operation_description='상위 20개 중 랜덤 8개를 반환합니다(새로고침 시 바뀔 수 있도록)',
+        )
+    def list(self, request):
+        id_list = [plant_keyword.pk for plant_keyword in Plant.objects.order_by('-popular')][:20]
+        id_list = random.sample(id_list, 8)
+        plants = Plant.objects.filter(pk__in=id_list)
+        serializers = PlantListSerializer(plants, many=True)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)

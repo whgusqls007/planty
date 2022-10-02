@@ -6,19 +6,46 @@ from rest_framework import viewsets, status
 from .serializers import FeedSerializer, FeedCommentSerializer, FeedDetailSerializer
 from core.utils import s3_upload_image
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 # 남의 정원 CRUD
 class FeedViewSet(viewsets.ModelViewSet):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer
+    search_params = [
+        openapi.Parameter(
+            'search',
+            openapi.IN_QUERY,
+            description="검색 키워드",
+            type=openapi.TYPE_STRING
+            ),
+        openapi.Parameter(
+            'order',
+            openapi.IN_QUERY,
+            description="정렬기준 |  0 : 최신 순, 1: 좋아요 순, 2: 댓글 순",
+            type=openapi.TYPE_INTEGER
+        )]
 
     # 기존 구성된 내용에 오버라이딩 가능
     # get에 매칭, 리스트
+    @swagger_auto_schema(
+    operation_summary='피드 목록',
+    manual_parameters=search_params
+    )
     def list(self, request):
+        search = self.request.query_params.get('search')
         queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
         
+        if search:
+            users = get_user_model().objects.filter(username__contains=search)
+            queryset = queryset.filter(user__in=users)
+            serializer = self.get_serializer(queryset, many=True)
+
+        order = int(request.query_params.get('order', 0))
+        order_list = ['-date_created', '-likes_count', '-comments_count']
+        feeds = queryset.order_by(order_list[order])
+        serializer = self.get_serializer(feeds, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

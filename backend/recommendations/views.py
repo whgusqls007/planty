@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_list_or_404
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from plants.models import Plant, PlantKeyword
 from plants.serializers import PlantListSerializer
@@ -30,47 +30,55 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         # 유저 정보
         User = get_user_model()
-        user = User.objects.get(pk=10145)
-        # my_plants = get_object_or_404(MyGarden, user=user)
-        # my_plants = MyGarden.objects.filter(user=user)
-        # serializer = MyGardenSerializer(my_plants, many=True)
-        # plant_count = {
-        #     'user_id': user.pk,   
-        #     'pet_safe': 0,
-        #     'humidify': 0,
-        #     'pm_cleaning': 0,
-        #     'air_cleanging': 0,
-        #     'beginner': 0,
-        #     'unscented': 0,
-        #     'hydroponics': 0,
-        #     'low_growth_demand': 0,
-        #     'low_light_demand': 0,
-        #     'low_temp': 0,
-        #     }
-        # for my_plant in my_plants:
-        #     plant_data = Plant.objects.get(pk=my_plant.plant_id)
-        #     plant_keyword = PlantKeyword.objects.get(pk=my_plant.plant_id)
-        #     if plant_keyword.pm_cleaning:
-        #         plant_count['pm_cleaning'] += 1
-        #     if plant_keyword.pet_safe == 1:
-        #         plant_count['pet_safe'] += 1
-        #     if plant_keyword.humidify == 1:
-        #         plant_count['humidify'] += 1
-        #     if plant_data.manage_level == '초보자':
-        #         plant_count['beginner'] += 1
-        #     if plant_data.smell == '거의 없음':
-        #         plant_count['unscented'] += 1
-        #     if '낮음' in plant_data.manage_demand:
-        #         plant_count['low_growth_demand'] += 1
-        #     if '낮은' in plant_data.light_demand:
-        #         plant_count['low_light_demand'] += 1
-        #     if '수경형' in plant_data.ecology_code:
-        #         plant_count['hydroponics'] += 1
-        #     if '16' in plant_data.growth_temp:
-        #         plant_count['low_temp'] += 1
+        user = User.objects.get(pk=1)
+        # 식물 키워드 카운트 등록 (Table UserKeywordCount)
+        try:
+            # 이미 UserKeywordCount가 있다면
+            keyword_count = UserKeywordCount.objects.get(user_id=user.pk)
+        except:
+            # UserKeywordCount가 없다면 새로 생성
+            keyword_count = UserKeywordCount(user_id=user.pk)
+            keyword_count.save()
+        # plant_id = serializer.data.plant.id
+        plant_id = 2 # 테스트용
+        plant_data = Plant.objects.get(pk=plant_id)
+        plant_keyword = PlantKeyword.objects.get(pk=plant_id)
+        # 식물 키워드 정보 확인
+        if plant_keyword.pet_safe == 1:
+            keyword_count.pet_safe += 1
+            keyword_count.save()
+        if plant_keyword.humidify == 1:
+            keyword_count.humidify += 1
+            keyword_count.save()
+        if plant_keyword.pm_cleaning:
+            keyword_count.pm_cleaning += 1
+            keyword_count.save()
+        if plant_keyword.air_cleaning:
+            keyword_count.air_cleaning += 1
+            keyword_count.save()
+        if plant_data.manage_level == '초보자':
+            keyword_count.beginner += 1
+            keyword_count.save()
+        # 식물 기본 정보 확인
+        if plant_data.smell == '거의 없음':
+            keyword_count.unscented += 1
+            keyword_count.save()
+        if '낮음' in plant_data.manage_demand:
+            keyword_count.low_growth_demand += 1
+            keyword_count.save()
+        if '낮은' in plant_data.light_demand:
+            keyword_count.low_light_demand += 1
+            keyword_count.save()
+        if '수경형' in plant_data.ecology_code:
+            keyword_count.hydroponics += 1
+            keyword_count.save()
+        if '16' in plant_data.growth_temp:
+            keyword_count.low_temp += 1
+            keyword_count.save()
 
         # 해당 유저의 선호 키워드 데이터 가져오기
-        user_keywords = UserKeywordCount.objects.get(user=user)
+        user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
+        # user_keywords = UserKeywordCount.objects.get(user=user)
         # 정렬, 순회하기 좋게 딕셔너리로 변환
         dic_user_keywords = model_to_dict(user_keywords)
         # 선호도 높은 순으로 키워드 정렬
@@ -88,7 +96,7 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
             'low_light_demand': ['light_demand', '낮은'],
             'low_temp': ['growth_temp', '16'],
         }
-        # 선호도 높은 순선대로 키워드 순회
+        # 선호도 높은 순서대로 키워드 순회
         for keyword in sorted_user_keywords:
             # 추천할 식물이 16개 이상 모이면 종료
             if len(plants_to_recommend) >= 16:
@@ -98,8 +106,8 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
                 # Plant 테이블 순회
                 try:
                     column_name = plant_columns[keyword[0]]
-                    condition = plant_columns[keyword[1]]
-                    candinates = Plant.objects.filter(**{column_name: condition})
+                    value = plant_columns[keyword[1]]
+                    candinates = Plant.objects.filter(**{column_name: value})
                 # PlantKeyword 테이블 순회
                 except:
                     column_name = keyword[0]
@@ -118,3 +126,17 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = PlantListSerializer(recommend_queryset, many=True)
 
         return Response(serializer.data)
+
+    
+    # 선택한 키워드에 해당하는 식물 정보만 보여주기
+    def retrieve(self, request, keyword=None):
+        plants_list = Plant.objects.all()
+        # 키워드 번호별로 확인해야하는 column 정보 + 값
+        # index == 키워드 번호 / [column명, 값]
+        keywords = []
+        column_name = keywords[keyword][0]
+        value = keywords[keyword][1]
+        plants_list = Plant.objects.filter(**{column_name: value})
+        serializer = PlantListSerializer(plants_list, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
