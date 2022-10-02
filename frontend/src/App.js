@@ -23,6 +23,7 @@ import ProfilePage from './pages/user/ProfilePage';
 import ProfileUpdatePage from './pages/user/ProfileUpdatePage';
 // 식이월
 import WorldCup from './pages/worldcup/Worldcup';
+import IntroPage from './pages/intro/IntroPage';
 
 const App = () => {
   return (
@@ -54,6 +55,8 @@ const App = () => {
         <Route path="/feed" element={<FeedListPage />} />
         <Route path="/feed/:feedId" element={<FeedListPage />} />
         <Route path="/worldcup" element={<WorldCup />} />
+
+        <Route path="/intro" element={<IntroPage />} />
       </Routes>
     </>
   );
