@@ -68,17 +68,20 @@ class PlantViewSet(viewsets.ReadOnlyModelViewSet):
 
 class PopularPlantViewSet(viewsets.ViewSet):
     
-    def list(self, request):
-        count_dict = {1: 2, 2: 3}
-        # mygardens = MyGarden.objects.all()
-        # for m in mygardens:
-        #     count_dict[m.plant.pk] = count_dict.get(m.plant.pk, 0) + 1
-        for key in count_dict.keys():
-            try:
-                plant = Plant.objects.get(pk=key)
-                plant.popular = count_dict.get(plant, 0)
-                plant.save()
-            except:
-                print('error!', key)
-                continue
-        return Response({'data': 'done'}, status=status.HTTP_200_OK)
+    # def list(self, request):
+    #     count_dict = {}
+    #     mygardens = MyGarden.objects.all()
+    #     for m in mygardens:
+    #         count_dict[m.plant.pk] = count_dict.get(m.plant.pk, 0) + 1
+    #         # print(f'\r{m.pk}', end='')
+    #     # print()
+    #     for key in count_dict.keys():
+    #         try:
+    #             plant = Plant.objects.get(pk=key)
+    #             plant.popular = count_dict.get(key, 0)
+    #             print(plant, plant.popular)
+    #             plant.save()
+    #         except:
+    #             print('error!', key)
+    #             continue
+    #     return Response({'data': 'done'}, status=status.HTTP_200_OK)
