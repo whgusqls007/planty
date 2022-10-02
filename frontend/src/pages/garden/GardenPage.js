@@ -73,7 +73,9 @@ const GardenPage = () => {
           {gardenPlantList !== null
             ? gardenPlantList
                 // .slice(0, gardenPlantList.length)
-                .map((plant, idx) => <GardenItem plant={plant} key={idx} />)
+                .map((plant, idx) => (
+                  <GardenItem gardenPlant={plant} key={idx} />
+                ))
             : null}
         </GardenWrapper>
       </Wrapper>
