@@ -11,6 +11,9 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     date_grow: null,
     watering_schedule: null,
     recent_water: null,
+    memo: null,
+    preference: 4,
+    present: false,
   });
 
   const onImageChange = (e) => {
@@ -33,6 +36,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       ...gardenInputs,
       [e.target.id]: e.target.value,
     });
+    console.log(gardenInputs);
   };
 
   const onSubmitHandler = (e) => {
@@ -56,15 +60,18 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         <GardenForm onSubmit={onSubmitHandler}>
-          <label htmlFor="plantname">식물 이름</label>
+          <label htmlFor="plantname">식물 종류</label>
           <input type="text" id="plantname" onChange={onChangeHandler} />
+          <label htmlFor="plantname">한줄 메모</label>
+          <input type="text" id="plantmemo" onChange={onChangeHandler} />
           <label htmlFor="date_grow">키운 날짜</label>
           <input type="date" id="date_grow" onChange={onChangeHandler} />
-          <label htmlFor="watering_schedule">물주기 주기</label>
+          <label htmlFor="watering_schedule">물주는 주기 (일)</label>
           <input
             type="text"
             id="watering_schedule"
             onChange={onChangeHandler}
+            placeholder="숫자만 입력해 주세요. ex. 1일: 1, 7일: 7"
           />
           <label htmlFor="recent_water">최근 물 준 날짜</label>
           <input type="date" id="recent_water" onChange={onChangeHandler} />
@@ -84,6 +91,25 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               imgSrc !== null ? null : { display: 'none', marginBottom: '3%' }
             }
           />
+          <label htmlFor="preference">추천 점수(선호 점수)</label>
+          <select
+            name="plant-preference"
+            id="preference"
+            onChange={onChangeHandler}
+          >
+            <option value="4">4점</option>
+            <option value="3">3점</option>
+            <option value="2">2점</option>
+            <option value="1">1점</option>
+            <option value="0">0점</option>
+          </select>
+          <input
+            type="checkbox"
+            id="present"
+            value={true}
+            onChange={onChangeHandler}
+          />
+          선물 받은 식물
           <button>작성</button>
         </GardenForm>
       </div>
