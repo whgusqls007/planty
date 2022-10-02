@@ -42,10 +42,13 @@ class DescriptionViewSet(viewsets.ViewSet):
 
 # 마이페이지 유저 정보
 class MyPageViewSet(viewsets.ViewSet):
-
+    @swagger_auto_schema(
+        operation_summary='마이페이지에 띄울 유저 정보',
+        operation_description='토큰으로 접근합니다.',
+        )
     # get에 매칭, 유저 정보 조회
-    def userinfo(self, request, pk):
-        user = get_object_or_404(get_user_model(), pk=pk)
+    def userinfo(self, request):
+        user = get_object_or_404(get_user_model(), pk=request.user.id)
         serializer = MyPageSerializer(user)
         
         return Response(serializer.data, status=status.HTTP_200_OK)

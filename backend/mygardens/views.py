@@ -19,12 +19,16 @@ class MygardenListViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = MyGardenSerializer
 
+    @swagger_auto_schema(
+        operation_summary='나의 정원 반려 식물 목록',
+        operation_description='유저 이름으로 접근하셔야 합니다.',
+        )
+    # get에 매칭, 리스트, username으로 접근
     def list(self, request, username):
         user = get_object_or_404(get_user_model(), username=username)
         serializer = self.get_serializer(self.queryset.filter(user=user.id), many=True)
 
-        if serializer.is_valid(raise_exception=True):
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # 나의 정원 식물 상세 및 CRUD
@@ -52,12 +56,10 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         }
     )
 
-    # get에 매칭, 리스트, username으로 접근
     @swagger_auto_schema(
-        operation_summary='나의 정원 반려 식물 목록',
-        operation_description='유저 이름으로 데이터 주고 받아야 합니다.',
+        operation_summary='나의 정원 반려 식물  등록',
+        operation_description='외래키로 끌어오던 plant_id를 직접 입력하면 됩니다.',
         request_body=createMyGarden_params)
-
     # post에 매칭, 나의 정원 식물 등록
     def create(self, request):
         # data = eval(request.data['data'])
