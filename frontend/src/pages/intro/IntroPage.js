@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Wrapper } from './css/IntroPageCss';
 import Aos from 'aos';
 import { FullPage, Slide } from 'react-full-page';
-import { Parallax } from 'react-parallax';
 import 'aos/dist/aos.css';
 import './css/IntroPageCss.css';
 import IntroFirstPage from './intropages/IntroFirstPage';
