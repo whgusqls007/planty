@@ -68,8 +68,26 @@ class PlantViewSet(viewsets.ReadOnlyModelViewSet):
 # 메인페이지 반려동물에게 안전한 식물
 class PetSafetyViewSet(viewsets.ViewSet):
 
+    @swagger_auto_schema(
+        operation_summary='반려동물에게 안전한 식물',
+        operation_description='안전한 식물 중 랜덤 8개를 반환합니다(새로고침 시 바뀔 수 있도록)',
+        )
     def list(self, request):
         id_list = [plant_keyword.pk for plant_keyword in PlantKeyword.objects.filter(pet_safe=1)]
+        id_list = random.sample(id_list, 8)
+        plants = Plant.objects.filter(pk__in=id_list)
+        serializers = PlantListSerializer(plants, many=True)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+class PopularViewSet(viewsets.ViewSet):
+    @swagger_auto_schema(
+        operation_summary='많은 유저들이 키우는 식물',
+        operation_description='상위 20개 중 랜덤 8개를 반환합니다(새로고침 시 바뀔 수 있도록)',
+        )
+    def list(self, request):
+        id_list = [plant_keyword.pk for plant_keyword in Plant.objects.order_by('-popular')][:20]
         id_list = random.sample(id_list, 8)
         plants = Plant.objects.filter(pk__in=id_list)
         serializers = PlantListSerializer(plants, many=True)

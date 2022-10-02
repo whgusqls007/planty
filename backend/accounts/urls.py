@@ -8,7 +8,5 @@ urlpatterns = [
     path('emailcheck/', EmailCheckViewSet.as_view({'post': 'check'})),
     path('description/', DescriptionViewSet.as_view({'patch' : 'update_description'})),
     path('follow/<username>/', FollowViewSet.as_view({'post': 'follow'})),
-    path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
-    # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
-    # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
+    path('mypageuserinfo/', MyPageViewSet.as_view({'get': 'userinfo'})),
 ]
