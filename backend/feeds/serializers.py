@@ -45,3 +45,13 @@ class FeedCommentSerializer(serializers.ModelSerializer):
         model = FeedComment
         fields = ('id', 'user', 'content', 'feed', 'date_created',)
         read_only_fields = ('feed', 'user',)
+
+# 유저 댓글 목록
+class FeedCommentUserSerializer(serializers.ModelSerializer):
+
+    user = UserSerializer()
+    feed = FeedSerializer()
+    class Meta:
+        model = FeedComment
+        fields = ('id', 'user', 'content', 'feed', 'date_created',)
+        read_only_fields = ('feed', 'user',)
