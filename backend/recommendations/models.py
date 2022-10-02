@@ -6,51 +6,61 @@ class UserKeywordCount(models.Model):
         primary_key=True
     )
     pet_safe = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="반려동물 안전성"
     )
     humidify = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="가습 기능"
     )
     pm_cleaning = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="미세먼지 정화 기능"
     )
     beginner = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="초보자용"
     )
     unscented = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="무향"
     )
     hydroponics = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="수경 재배 가능"
     )
     low_growth_demand = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="손쉬운 관리"
     )
     low_light_demand = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="적은 빛"
     )
     low_temp = models.IntegerField(
+        default=0,
         blank=True, 
         null=True,
         verbose_name="낮은 온도"
     )
     air_cleaning = models.IntegerField(
+        default=0,
         blank=True, 
         null=True
     )
