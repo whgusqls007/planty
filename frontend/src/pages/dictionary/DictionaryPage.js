@@ -16,7 +16,9 @@ import {
   PlantSearchForm,
   SearchResult,
   SearchItemWrapper,
+  DictionaryPageWrapper,
 } from '../../styles/dictionary/DictionaryStyle';
+import DictionaryTag from '../../components/dictionary/DictionaryTag';
 
 const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
@@ -31,6 +33,17 @@ const DictionaryPage = () => {
   const { plantList, plantTotalCount, loading, searchResult } = useSelector(
     (state) => state.dictionary,
   );
+
+  const tagList = [
+    '물을 자주 주는',
+    '물을 가끔 주는',
+    '습한 곳에서도 잘 자라는',
+    '선물하기 좋은',
+    '공기 정화용',
+    '초보자가 키우기 쉬운',
+    '건조한 곳에서도 잘 자라는',
+    // '책상 위에 두기 좋은',
+  ];
 
   useEffect(() => {
     dispatch(clearSearchResult());
@@ -67,8 +80,9 @@ const DictionaryPage = () => {
           setFocused(false);
         }
       }}
+      style={{ display: 'flex', justifyContent: 'center' }}
     >
-      <Container>
+      <DictionaryPageWrapper>
         <Wrapper>
           <div className="content">
             <div className="dict-header">
@@ -98,6 +112,7 @@ const DictionaryPage = () => {
                   ))}
                 </SearchResult>
               </PlantSearchForm>
+              <DictionaryTag tagList={tagList} />
             </div>
             {plantList && !loading && (
               <div className="plantList">
@@ -119,7 +134,7 @@ const DictionaryPage = () => {
             />
           )}
         </Wrapper>
-      </Container>
+      </DictionaryPageWrapper>
     </div>
   );
 };

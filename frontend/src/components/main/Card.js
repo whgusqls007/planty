@@ -26,11 +26,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const PlantImg = styled.div`
+const PlantImg = styled.img`
   width: 300px;
   height: 200px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.themeColor[5]};
+  object-fit: cover;
 
   &:hover {
     transition: transform 0.3s;
@@ -49,13 +50,13 @@ const PlantImg = styled.div`
 `;
 
 const Card = ({ data, marginLeft, marginRight }) => {
-  const { cntntsNo, cntntsSj } = data;
+  const { id, plant_no, plant_name, img_url, manage_level } = data;
   return (
     <Wrapper style={{ marginLeft: marginLeft, marginRight: marginRight }}>
-      <Link to={`/dictionary/${cntntsNo}`}>
-        <PlantImg />
+      <Link to={`/dictionary/${id}`}>
+        <PlantImg src={img_url} />
         <div className="plant-discription">
-          <div className="plant-name">{cntntsSj}</div>
+          <div className="plant-name">{plant_name}</div>
         </div>
       </Link>
     </Wrapper>
