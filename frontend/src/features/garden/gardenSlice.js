@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   garden: null,
   gardenUserInfo: {},
-  gardenPlantList: {},
+  gardenPlantList: [],
   error: null,
   success: false,
 };
