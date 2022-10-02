@@ -51,12 +51,7 @@ class MyPageViewSet(viewsets.ViewSet):
         )
     # get에 매칭, 유저 정보 조회
     def userinfo(self, request):
-<<<<<<< HEAD
         serializer = MyPageSerializer(request.user)
-=======
-        user = get_object_or_404(get_user_model(), pk=request.user.id)
-        serializer = MyPageSerializer(user)
->>>>>>> 46f4f70076970dbe5321c3352838db4dc3126a17
         
         return Response(serializer.data, status=status.HTTP_200_OK)
 
