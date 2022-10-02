@@ -49,6 +49,8 @@ export const GardenUserInfoWrapper = styled.div`
   & .user-content {
     font-size: 18px;
     margin-top: 16px;
+    display: flex;
+    align-items: center;
 
     @media (max-width: 576px) {
       font-size: 14px;
@@ -57,6 +59,63 @@ export const GardenUserInfoWrapper = styled.div`
     @media (max-width: 380px) {
       font-size: 12px;
       margin-top: 10px;
+    }
+
+    & form {
+      align-items: center;
+      display: flex;
+
+      & .edit-btn {
+        height: 26px;
+        margin-right: 5px;
+        border-radius: 5px;
+        font-size: 15px;
+        text-align: center;
+        background-color: ${({ theme }) => theme.themeColor[1]};
+        color: white;
+
+        @media (max-width: 576px) {
+          height: 22px;
+          font-size: 11px;
+        }
+        @media (max-width: 380px) {
+          height: 18px;
+          font-size: 7px;
+        }
+      }
+
+      & .cancel-btn {
+        height: 26px;
+        margin-right: 5px;
+        border-radius: 5px;
+        font-size: 15px;
+        text-align: center;
+        background-color: gray;
+        color: white;
+        opacity: 0.5;
+
+        @media (max-width: 576px) {
+          height: 22px;
+          font-size: 11px;
+        }
+        @media (max-width: 380px) {
+          height: 18px;
+          font-size: 7px;
+        }
+      }
+    }
+
+    & input {
+      height: 26px;
+      margin-right: 5px;
+      border-radius: 5px;
+
+      @media (max-width: 576px) {
+        height: 22px;
+      }
+      @media (max-width: 380px) {
+        height: 18px;
+      }
     }
 
     & .content-edit-icon {
@@ -74,6 +133,7 @@ export const GardenUserInfoWrapper = styled.div`
       }
     }
   }
+
   & .user-info {
     display: flex;
     margin-top: 30px;

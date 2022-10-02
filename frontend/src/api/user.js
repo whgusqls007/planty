@@ -25,3 +25,8 @@ export const usernameCheck = async (params) => {
   const response = await client.post('accounts/usernamecheck/', params);
   return response;
 };
+
+export const patchDescription = async (params) => {
+  const response = await client.patch('accounts/description/', params);
+  return response;
+};
