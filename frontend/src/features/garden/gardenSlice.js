@@ -1,11 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserInfo, followUser, updateDescription } from './gardenActions';
+import {
+  fetchUserInfo,
+  followUser,
+  updateDescription,
+  fetchUserPlant,
+} from './gardenActions';
 
 const initialState = {
   loading: false,
   garden: null,
   gardenUserInfo: {},
-  gardenList: null,
+  gardenPlantList: {},
   error: null,
   success: false,
 };
@@ -48,6 +53,18 @@ const gardenSlice = createSlice({
       state.gardenUserInfo = { ...state.gardenUserInfo, ...payload };
     },
     [updateDescription.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [fetchUserPlant.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserPlant.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenPlantList = payload;
+    },
+    [fetchUserPlant.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

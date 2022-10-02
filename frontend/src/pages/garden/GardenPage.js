@@ -3,7 +3,10 @@ import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
 import { useDispatch } from 'react-redux';
-import { fetchUserInfo } from '../../features/garden/gardenActions';
+import {
+  fetchUserInfo,
+  fetchUserPlant,
+} from '../../features/garden/gardenActions';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Wrapper, GardenWrapper } from '../../styles/garden/GardenStyle';
@@ -41,10 +44,11 @@ const GardenPage = () => {
 
   useEffect(() => {
     dispatch(fetchUserInfo(userName));
+    dispatch(fetchUserPlant(userName));
   }, [dispatch]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { gardenList } = useSelector((state) => state.garden);
+  const { gardenPlantList } = useSelector((state) => state.garden);
 
   const openModal = () => {
     setModalOpen(true);
@@ -66,9 +70,9 @@ const GardenPage = () => {
         </div>
         <GardenWrapper>
           <button onClick={openModal}>식물 등록</button>
-          {dummyPlants !== null
-            ? dummyPlants
-                .slice(0, 5)
+          {gardenPlantList !== null
+            ? gardenPlantList
+                // .slice(0, gardenPlantList.length)
                 .map((plant, idx) => <GardenItem plant={plant} key={idx} />)
             : null}
         </GardenWrapper>
