@@ -24,11 +24,6 @@ const Wrapper = styled.div`
       }
     }
   }
-
-  & a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 const PlantImg = styled.div`

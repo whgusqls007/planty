@@ -12,9 +12,7 @@ export const userLogin = createAsyncThunk(
       sessionStorage.setItem('userInfo', JSON.stringify(data));
       return data;
     } catch (error) {
-      console.log('error', error);
       if (error.response && error.response.data) {
-        console.log(error.response.data);
         return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);

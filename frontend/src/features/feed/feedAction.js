@@ -61,7 +61,6 @@ export const createFeedComment = createAsyncThunk(
   'feed/createFeedComment',
   async (params, { rejectWithValue }) => {
     try {
-      console.log(params);
       const { data } = await feedCommentCreate(params);
 
       return data;

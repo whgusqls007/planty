@@ -17,10 +17,6 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 
-  & a {
-    color: inherit;
-    text-decoration: none;
-  }
   & .nav-user-btn {
     & a {
       margin-left: 16px;
@@ -99,7 +95,7 @@ function Header() {
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/garden">
+                <Link className="me-4" to={`/garden/${userInfo?.username}`}>
                   나의 정원
                 </Link>
               </Col>

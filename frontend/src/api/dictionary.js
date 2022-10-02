@@ -6,6 +6,12 @@ export const plantList = async () => {
   return response;
 };
 
+export const plantListPagination = async (offset, limit) => {
+  const response = client.get(`plants?offset=${offset}&limit=${limit}`);
+
+  return response;
+};
+
 export const plantItem = async (plantId) => {
   const response = client.get(`plants/${plantId}`);
 
