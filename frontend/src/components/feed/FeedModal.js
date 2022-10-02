@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import Carousel from 'react-bootstrap/Carousel';
+// import Carousel from 'react-bootstrap/Carousel';
 import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { createFeedComment } from '../../features/feed/feedAction';
-import { useNavigate, Link } from 'react-router-dom';
-
-// 테스트용 더미 feed
-const feed = {
-  title: '장미꽃이 피었어요~',
-  content:
-    '18세기 말에 아시아의 각 원종이 유럽에 도입되고 이들 유럽과 아시아 원종간의 교배가 이루어져 화색이나 화형은 물론 사계성이나 개화성 등 생태적으로 변화가 많은 품종들이 만들어졌다. 18세기 이전의 장미를 고대장미(old rose), 19세기 이후의 장미를 현대장미(modern rose)라 한다. 장미는 온대성의 상록관목으로 햇빛을 좋아하는 식물이다. 적정생육온도는 구간 24~27℃이고 야간온도 15~18℃이다. 30℃이상이면 꽃이 작아지고 꽃잎수가 줄어들어 퇴색하고 잎이 작아지며 엽색이 진해진다. 5℃정도이면 생육이 정지되고 0℃이하가 되면 낙엽이 지면서 휴면에 들어간다. [네이버 지식백과] 장미 [Rose, 薔薇] (경기도농업기술원, 손에 잡히는 생태수목도감, 조경식물소재도감, 네이버 포토갤러리)18세기 말에 아시아의 각 원종이 유럽에 도입되고 이들 유럽과 아시아 원종간의 교배가 이루어져 화색이나 화형은 물론 사계성이나 개화성 등 생태적으로 변화가 많은 품종들이 만들어졌다. 18세기 이전의 장미를 고대장미(old rose), 19세기 이후의 장미를 현대장미(modern rose)라 한다. 장미는 온대성의 상록관목으로 햇빛을 좋아하는 식물이다. 적정생육온도는 구간 24~27℃이고 야간온도 15~18℃이다. 30℃이상이면 꽃이 작아지고 꽃잎수가 줄어들어 퇴색하고 잎이 작아지며 엽색이 진해진다. 5℃정도이면 생육이 정지되고 0℃이하가 되면 낙엽이 지면서 휴면에 들어간다. [네이버 지식백과] 장미 [Rose, 薔薇] (경기도농업기술원, 손에 잡히는 생태수목도감, 조경식물소재도감, 네이버 포토갤러리)',
-  user: '드루이두',
-  dateCreated: '2022-09-06',
-  comments: [
-    { user: '밤여우', content: '장미 너무 예쁘게 잘 키우셨네요' },
-    { user: '드루이두', content: '감사합니다.' },
-    { user: '마늘곰', content: '장미 묘목 어디서 사셨나요?' },
-    { user: '드루이두', content: '잠시만요 가게 연락처 드릴게요' },
-  ],
-};
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Link } from 'react-router-dom';
 
 // 날짜 생성 함수
 const makeCreateDate = (dateCreated) => {
@@ -368,6 +354,21 @@ const ModalDescriptionWrapper = styled.div`
     padding-top: 26px;
     height: 80%;
   }
+  & .description-like {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+    & .like-icon:hover {
+      transform: scale3d(1.2, 1.2, 1.2);
+      transition: 0.3s;
+    }
+    & span {
+      font-size: 1.1rem;
+      margin-left: 3px;
+      margin-bottom: 4px;
+    }
+  }
   & .description-content {
     height: 55%;
     overflow-y: scroll;
@@ -393,8 +394,7 @@ const ModalDescriptionWrapper = styled.div`
 
 const ModalDescription = ({ closeModal }) => {
   const { loading, feed } = useSelector((state) => state.feed);
-  const { content, user, date_created, feed_comments } = feed;
-  // const { title, content, user, dateCreated, comments } = feed;
+  const { content, user, date_created, feed_comments, likes_count } = feed;
   return (
     <ModalDescriptionWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
@@ -412,6 +412,10 @@ const ModalDescription = ({ closeModal }) => {
       </div>
       <div className="description-body">
         <div className="description-content">{content}</div>
+        <div className="description-like">
+          <FavoriteBorderIcon className="like-icon" />
+          <span>{likes_count}</span>
+        </div>
         <div className="description-comment">
           <CommentList comments={feed_comments} />
           <CommentInputForm />

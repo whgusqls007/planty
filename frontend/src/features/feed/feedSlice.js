@@ -56,7 +56,7 @@ const feedSlice = createSlice({
       state.error = false;
     },
     [createFeed.fulfilled]: (state, { payload }) => {
-      state.feedList = [...state.feedList, payload];
+      state.feedList = [payload, ...state.feedList];
       state.success = true;
     },
     [createFeed.rejected]: (state, { payload }) => {
