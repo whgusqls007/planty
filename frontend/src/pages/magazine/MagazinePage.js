@@ -1,11 +1,18 @@
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
-import styled from 'styled-components';
 import Card from '../../components/magazine/Card';
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import {
+  Wrapper,
+  PagingList,
+  ListWrapper,
+  InputBox,
+  InputButton,
+  SubInputBox,
+  SortingButton,
+} from './css/MagazinePageCss';
 import {
   fetchMagazineList,
   fetchMagazineListForPagination,
