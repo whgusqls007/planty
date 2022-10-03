@@ -8,6 +8,7 @@ import HorizontalScroll from '../layout/HorizontalScroll';
 import BigCard from '../components/main/BigCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WorldCup2 from './worldcup/Worldcup2';
+import Footer from '../layout/footer/Footer';
 
 const Wrapper = styled.div`
   background: #44855d;
@@ -202,6 +203,7 @@ const IndexPage = () => {
           <HorizontalScroll data={dummyPlants} />
         </div>
       </Container>
+      <Footer></Footer>
     </>
   );
 };

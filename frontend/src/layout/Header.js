@@ -79,7 +79,7 @@ function Header() {
       <Navbar bg="white" expand="lg" className="mb-3">
         <Container>
           <Navbar.Brand href="/" className="me-5">
-            호미두
+            플랜티
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
