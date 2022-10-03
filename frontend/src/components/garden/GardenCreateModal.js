@@ -6,6 +6,7 @@ import { GardenForm } from '../../styles/garden/GardenComponentStyle';
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
+  const [presentCheck, setPresentCheck] = useState(false);
   const [gardenInputs, setGardenInputs] = useState({
     plantname: '',
     date_grow: null,
@@ -39,6 +40,14 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     console.log(gardenInputs);
   };
 
+  const onCheckHandler = (e) => {
+    if (presentCheck) {
+      setPresentCheck(false);
+    } else {
+      setPresentCheck(true);
+    }
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -60,20 +69,25 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         <GardenForm onSubmit={onSubmitHandler}>
-          <label htmlFor="plantname">식물 종류</label>
+          <label htmlFor="plantname">🌱 식물 종류</label>
           <input type="text" id="plantname" onChange={onChangeHandler} />
-          <label htmlFor="plantname">한줄 메모</label>
-          <input type="text" id="plantmemo" onChange={onChangeHandler} />
-          <label htmlFor="date_grow">키운 날짜</label>
+          <label htmlFor="plantname">💬 한줄 메모</label>
+          <input
+            type="text"
+            id="plantmemo"
+            onChange={onChangeHandler}
+            placeholder="반려식물을 소개해주세요."
+          />
+          <label htmlFor="date_grow">📆 키운 날짜</label>
           <input type="date" id="date_grow" onChange={onChangeHandler} />
-          <label htmlFor="watering_schedule">물주는 주기 (일)</label>
+          <label htmlFor="watering_schedule">💧 물주는 주기 (일)</label>
           <input
             type="text"
             id="watering_schedule"
             onChange={onChangeHandler}
             placeholder="숫자만 입력해 주세요. ex. 1일: 1, 7일: 7"
           />
-          <label htmlFor="recent_water">최근 물 준 날짜</label>
+          <label htmlFor="recent_water">🚿 최근 물 준 날짜</label>
           <input type="date" id="recent_water" onChange={onChangeHandler} />
           <label htmlFor="plant_img">식물 사진</label>
           <input
@@ -91,7 +105,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               imgSrc !== null ? null : { display: 'none', marginBottom: '3%' }
             }
           />
-          <label htmlFor="preference">추천 점수(선호 점수)</label>
+          <label htmlFor="preference">💚 추천 점수(선호 점수)</label>
           <select
             name="plant-preference"
             id="preference"
@@ -103,14 +117,17 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
             <option value="1">1점</option>
             <option value="0">0점</option>
           </select>
-          <input
-            type="checkbox"
-            id="present"
-            value={true}
-            onChange={onChangeHandler}
-          />
-          선물 받은 식물
-          <button>작성</button>
+          <span>
+            <span>🎁 선물 받은 식물&nbsp;&nbsp;</span>
+            <input
+              type="checkbox"
+              id="present"
+              value={true}
+              onClick={setPresentCheck}
+              onChange={onChangeHandler}
+            />
+          </span>
+          <button type="submit">작성</button>
         </GardenForm>
       </div>
     </Wrapper>

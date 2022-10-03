@@ -409,4 +409,10 @@ export const GardenForm = styled.form`
       height: 100px;
     }
   }
+
+  & span > input {
+    transform: scale(1.5);
+    margin-left: 2px;
+    margin-top: 20px;
+  }
 `;
