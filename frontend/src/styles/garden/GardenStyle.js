@@ -22,6 +22,7 @@ export const Wrapper = styled.div`
 
   & .toggle-btn1 {
     position: absolute;
+    cursor: pointer;
     /* top: 0; */
     left: 50%;
     transform: translateX(calc(-100% - 16px));
@@ -36,6 +37,7 @@ export const Wrapper = styled.div`
   }
   & .toggle-btn2 {
     position: absolute;
+    cursor: pointer;
     left: 50%;
     transform: translateX(20px);
 

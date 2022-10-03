@@ -7,6 +7,7 @@ import {
 
 const GardenItem = ({ gardenPlant }) => {
   const { plant, date_grow } = gardenPlant;
+
   return (
     <GardenItemWrapper>
       <Link to="1">

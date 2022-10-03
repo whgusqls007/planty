@@ -23,3 +23,9 @@ export const userPlant = async (username) => {
 
   return response;
 };
+
+export const userFeed = async (username) => {
+  const response = client.get(`feeds/user/${username}/`);
+
+  return response;
+};
