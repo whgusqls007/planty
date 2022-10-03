@@ -32,11 +32,6 @@ class User(AbstractUser):
         default=0,
         validators=[MinValueValidator(0)]
     )
-    point = models.IntegerField(
-        verbose_name="포인트",
-        default=0,
-        validators=[MinValueValidator(0)]
-    )
     profile_img = models.TextField(
         verbose_name="프로필 사진",
         default='https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png'
@@ -98,6 +93,16 @@ class User(AbstractUser):
         max_length=10,
         null=True,
     )
+    
+    @property
+    def grade(self):
+        levels = Level.objects.all()
+        tmp = 1
+        for level in levels:
+            if level.threshold <= self.exp:
+                tmp = level.level_name
+        return tmp
+        
 
 
 # 팔로우

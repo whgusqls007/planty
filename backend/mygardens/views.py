@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from plants.models import Plant, PlantKeyword
 from recommendations.models import UserKeywordCount
 from .models import MyGarden, Diary
-from plants.models import Plant, Plantlike, UpdateTable
+from plants.models import Plant
+from recommendations.models import Plantlike, UpdateTable
 from .serializers import MyGardenSerializer, DiarySerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -18,12 +19,16 @@ class MygardenListViewSet(viewsets.ModelViewSet):
     queryset = MyGarden.objects.all()
     serializer_class = MyGardenSerializer
 
+    @swagger_auto_schema(
+        operation_summary='나의 정원 반려 식물 목록',
+        operation_description='유저 이름으로 접근하셔야 합니다.',
+        )
+    # get에 매칭, 리스트, username으로 접근
     def list(self, request, username):
         user = get_object_or_404(get_user_model(), username=username)
         serializer = self.get_serializer(self.queryset.filter(user=user.id), many=True)
 
-        if serializer.is_valid(raise_exception=True):
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # 나의 정원 식물 상세 및 CRUD
@@ -51,12 +56,10 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         }
     )
 
-    # get에 매칭, 리스트, username으로 접근
     @swagger_auto_schema(
-        operation_summary='나의 정원 반려 식물 목록',
-        operation_description='유저 이름으로 데이터 주고 받아야 합니다.',
+        operation_summary='나의 정원 반려 식물  등록',
+        operation_description='외래키로 끌어오던 plant_id를 직접 입력하면 됩니다.',
         request_body=createMyGarden_params)
-
     # post에 매칭, 나의 정원 식물 등록
     def create(self, request):
         # data = eval(request.data['data'])
@@ -110,53 +113,55 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
             # serializer.save(user=user, img_url=file_path)
             serializer.save(user=user, plant=plant)
-
+            
+            plant.popular = plant.popular + 1
             user.plants_count = user.plants_count + 1
+            user.exp = user.exp + 10
             user.save()
 
             # 식물 키워드 카운트 등록 (Table UserKeywordCount)
-            try:
-                # 이미 UserKeywordCount가 있다면
-                keyword_count = UserKeywordCount.objects.get(user=user.pk)
-                pass
-            except:
-                # UserKeywordCount가 없다면 새로 생성
-                keyword_count = UserKeywordCount(user=user.pk)
-                keyword_count.save()
+            # try:
+            #     # 이미 UserKeywordCount가 있다면
+            #     keyword_count = UserKeywordCount.objects.get(user=user)
+            #     pass
+            # except:
+            #     # UserKeywordCount가 없다면 새로 생성
+            #     keyword_count = UserKeywordCount(user=user)
+            #     keyword_count.save()
             # plant_id = serializer.data.plant.id
-            plant_id = 1 # 테스트용
-            plant_data = Plant.objects.get(pk=plant_id)
-            plant_keyword = PlantKeyword.objects.get(pk=plant_id)
-            if plant_keyword.pet_safe == 1:
-                keyword_count.pet_safe += 1
-                keyword_count.save()
-            if plant_keyword.humidify == 1:
-                keyword_count.humidify += 1
-                keyword_count.save()
-            if plant_keyword.pm_cleaning:
-                keyword_count.pm_cleaning += 1
-                keyword_count.save()
-            if plant_keyword.air_cleaning:
-                keyword_count.air_cleaning += 1
-                keyword_count.save()
-            if plant_data.manage_level == '초보자':
-                keyword_count.beginner += 1
-                keyword_count.save()
-            if plant_data.smell == '거의 없음':
-                keyword_count.unscented += 1
-                keyword_count.save()
-            if '낮음' in plant_data.manage_demand:
-                keyword_count.low_growth_demand += 1
-                keyword_count.save()
-            if '낮은' in plant_data.light_demand:
-                keyword_count.low_light_demand += 1
-                keyword_count.save()
-            if '수경형' in plant_data.ecology_code:
-                keyword_count.hydroponics += 1
-                keyword_count.save()
-            if '16' in plant_data.growth_temp:
-                keyword_count.low_temp += 1
-                keyword_count.save()
+            # plant_id = 1 # 테스트용
+            # plant_data = Plant.objects.get(pk=plant_id)
+            # plant_keyword = PlantKeyword.objects.get(pk=plant_id)
+            # if plant_keyword.pet_safe == 1:
+            #     keyword_count.pet_safe += 1
+            #     keyword_count.save()
+            # if plant_keyword.humidify == 1:
+            #     keyword_count.humidify += 1
+            #     keyword_count.save()
+            # if plant_keyword.pm_cleaning:
+            #     keyword_count.pm_cleaning += 1
+            #     keyword_count.save()
+            # if plant_keyword.air_cleaning:
+            #     keyword_count.air_cleaning += 1
+            #     keyword_count.save()
+            # if plant_data.manage_level == '초보자':
+            #     keyword_count.beginner += 1
+            #     keyword_count.save()
+            # if plant_data.smell == '거의 없음':
+            #     keyword_count.unscented += 1
+            #     keyword_count.save()
+            # if '낮음' in plant_data.manage_demand:
+            #     keyword_count.low_growth_demand += 1
+            #     keyword_count.save()
+            # if '낮은' in plant_data.light_demand:
+            #     keyword_count.low_light_demand += 1
+            #     keyword_count.save()
+            # if '수경형' in plant_data.ecology_code:
+            #     keyword_count.hydroponics += 1
+            #     keyword_count.save()
+            # if '16' in plant_data.growth_temp:
+            #     keyword_count.low_temp += 1
+            #     keyword_count.save()
             
             # plant_count = {
             #     'pet_safe': 0,
@@ -302,13 +307,16 @@ class DiaryViewSet(viewsets.ModelViewSet):
     def create(self, request, my_garden_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
         serializer = DiarySerializer(data=request.data)
-
+        user = request.user
         if serializer.is_valid(raise_exception=True):
             serializer.save(my_garden=my_garden)
 
             my_garden.diaries_count = my_garden.diaries_count + 1
             my_garden.save()
             
+            user.exp = user.exp + 5
+            user.save()
+
             diaries = my_garden.diaries.all()
             serializers = DiarySerializer(instance=diaries, many=True)
             
