@@ -36,7 +36,9 @@ class DescriptionViewSet(viewsets.ViewSet):
     def update_description(self, request):
         profile = get_object_or_404(get_user_model(), pk=request.user.id)
         serializer = DescriptionSerializer(instance=profile, data=request.data)
-        serializer.description = request.data["description"]
+        # serializer.data = request.data
+        print(request.data)
+        print("===========")
 
         if serializer.is_valid():
             serializer.save()
