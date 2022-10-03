@@ -29,7 +29,7 @@ const arr = [
   '선물하기 좋은',
   '공기 정화용',
   '초보자가 키우기 쉬운',
-  '건조한 곳에서도 잘 자라는',
+  '가습 효과가 있는',
   // '책상 위에 두기 좋은',
 ];
 
@@ -128,7 +128,7 @@ const IndexPage = () => {
         </div>
         <div>
           <ContentTitle>지금 유저들이 많이 키우는 식물</ContentTitle>
-          <ContentSubTitle>풀리 유저들이 많이 키워요!</ContentSubTitle>
+          <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
           <HorizontalScroll data={popularPlants} />
         </div>
         <div style={{ marginBottom: '10%' }}>

@@ -164,7 +164,7 @@ const ProfileUpdatePage = () => {
             type="password"
             id="new_password1"
             onChange={inputChangeHandler}
-            placeholder="8자리 이상의 문자+숫자로 입력해주세요."
+            placeholder="8자 이상의 문자+숫자를 입력해주세요."
           />
           <LabelContainer>
             <label htmlFor="password2">NEW PASSWORD CONFIRM</label>
@@ -176,7 +176,7 @@ const ProfileUpdatePage = () => {
             type="password"
             id="new_password2"
             onChange={inputChangeHandler}
-            placeholder="8자리 이상의 문자+숫자로 입력해주세요."
+            placeholder="8자 이상의 문자+숫자를 입력해주세요."
           />
           <SubmitButton>UPDATE</SubmitButton>
           <div className="option-div">

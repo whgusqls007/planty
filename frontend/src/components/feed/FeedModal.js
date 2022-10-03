@@ -10,9 +10,14 @@ import { Link } from 'react-router-dom';
 
 // 날짜 생성 함수
 const makeCreateDate = (dateCreated) => {
-  // var splitDate = dateCreated.split('-');
-  // return `${splitDate[0]}년 ${splitDate[1]}월 ${splitDate[2]}일 작성`;
-  return dateCreated;
+  const feedDateCreated =
+    dateCreated.substr(0, 10) +
+    ' ' +
+    dateCreated.substr(11, 2) +
+    '시 ' +
+    dateCreated.substr(14, 2) +
+    '분';
+  return feedDateCreated;
 };
 
 // FeedModal
