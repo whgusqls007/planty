@@ -435,4 +435,10 @@ export const GardenForm = styled.form`
   & .plant-img-hide {
     display: none;
   }
+
+  & span > input {
+    transform: scale(1.5);
+    margin-left: 2px;
+    margin-top: 20px;
+  }
 `;
