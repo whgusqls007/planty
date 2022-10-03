@@ -64,8 +64,6 @@ const DictionaryPage = () => {
     setFocused(true);
   };
 
-  // memo
-
   const searchInputChangeHandler = (e) => {
     if (e.target.value) {
       dispatch(searchPlant(e.target.value));
