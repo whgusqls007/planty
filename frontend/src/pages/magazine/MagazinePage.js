@@ -118,7 +118,7 @@ const MagazinePage = () => {
             }}
           >
             <option value="0">제목</option>
-            <option value="1">글쓴이</option>
+            <option value="1">에디터</option>
             <option value="2">내용</option>
             <option value="3">제목+내용</option>
           </select>

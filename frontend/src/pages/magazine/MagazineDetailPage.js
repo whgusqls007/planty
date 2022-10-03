@@ -50,7 +50,7 @@ const MagazineDetailPage = (props) => {
       <Wrapper>
         <Title>{magazine.title}</Title>
         <Writer>
-          글쓴이 | {magazine.user !== undefined ? magazine.user.username : ''}
+          에디터 | {magazine.user !== undefined ? magazine.user.username : ''}
         </Writer>
         <Date>
           {magazine.date_created !== undefined
