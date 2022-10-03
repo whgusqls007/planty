@@ -35,3 +35,9 @@ export const myGarden = async (mygardenId) => {
 
   return response;
 };
+
+export const Diary = async (mygardenId) => {
+  const response = client.get(`mygardens/${mygardenId}/`);
+
+  return response;
+};

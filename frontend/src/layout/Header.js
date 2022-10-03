@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -70,12 +70,14 @@ const UserInfoWrapper = styled.div`
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
+    navigate('/');
   };
 
   return (

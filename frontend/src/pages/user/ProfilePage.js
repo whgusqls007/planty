@@ -18,6 +18,7 @@ const ProfilePage = () => {
     articles_count,
     comments_count,
     likes_count,
+    grade,
   } = userInfo;
   useEffect(() => {
     const query = parseInt(searchParams.get('tab'))
@@ -34,7 +35,7 @@ const ProfilePage = () => {
           <div className="profile-user-detail">
             <div className="profile-user-name">{username}</div>
             <div className="profile-user-score">
-              <span>레벨 {exp}</span>
+              <span>레벨 {grade}</span>
               <span>나의 글 {articles_count}</span>
               <span>나의 댓글 {comments_count}</span>
               <span>좋아요한 글 {likes_count}</span>
