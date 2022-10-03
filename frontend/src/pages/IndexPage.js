@@ -14,6 +14,13 @@ import {
   ContentSubTitle,
   WorldCupWrapper,
 } from '../styles/index/IndexStyle.js';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchPopularPlant,
+  fetchPetSafetyPlants,
+  fetchKeywordRecommend,
+} from '../features/recommend/recommendActions';
+import { useEffect } from 'react';
 
 const arr = [
   '물을 자주 주는',
@@ -23,7 +30,7 @@ const arr = [
   '공기 정화용',
   '초보자가 키우기 쉬운',
   '건조한 곳에서도 잘 자라는',
-  '책상 위에 두기 좋은',
+  // '책상 위에 두기 좋은',
 ];
 
 const dummyPlants = [
@@ -63,6 +70,10 @@ const dummyPlants = [
 
 const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { popularPlants, petsafePlants, keywordPlants } = useSelector(
+    (state) => state.recommend,
+  );
 
   const openModal = () => {
     setModalOpen(true);
@@ -71,6 +82,12 @@ const IndexPage = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    dispatch(fetchPopularPlant());
+    dispatch(fetchPetSafetyPlants());
+    dispatch(fetchKeywordRecommend(1));
+  }, [dispatch]);
 
   return (
     <>
@@ -112,12 +129,12 @@ const IndexPage = () => {
         <div>
           <ContentTitle>지금 유저들이 많이 키우는 식물</ContentTitle>
           <ContentSubTitle>풀리 유저들이 많이 키워요!</ContentSubTitle>
-          <HorizontalScroll data={dummyPlants} />
+          <HorizontalScroll data={popularPlants} />
         </div>
         <div style={{ marginBottom: '10%' }}>
           <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
           <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
-          <HorizontalScroll data={dummyPlants} />
+          <HorizontalScroll data={petsafePlants} />
         </div>
       </Container>
     </>

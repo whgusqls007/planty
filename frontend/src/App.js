@@ -53,6 +53,7 @@ const App = () => {
         </Route>
 
         <Route path="/feed" element={<FeedListPage />} />
+        <Route path="/feed/:feedId" element={<FeedListPage />} />
         <Route path="/worldcup" element={<WorldCup />} />
 
         <Route path="/intro" element={<IntroPage />} />

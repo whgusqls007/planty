@@ -1,6 +1,5 @@
-import React, { useEffetct } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/esm/Container';
-import styled from 'styled-components';
 import PlantDescription from '../../components/dictionary/PlantDescription';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';

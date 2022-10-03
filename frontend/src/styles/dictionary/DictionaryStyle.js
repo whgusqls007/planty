@@ -1,5 +1,30 @@
 import styled from 'styled-components';
 
+export const DictionaryPageWrapper = styled.div`
+  /* border: 1px solid black; */
+  @media (max-width: 576px) {
+    width: calc(100vw - 40px);
+    /* margin-left: 18px; */
+  }
+  @media (min-width: 576px) {
+    width: calc(100vw - 120px);
+    /* margin-left: 18px; */
+  }
+  @media (min-width: 768px) {
+    /* max-width: 720px; */
+  }
+  @media (min-width: 992px) {
+    width: calc(100vw - 120px);
+    /* max-width: 960px; */
+  }
+  @media (min-width: 1200px) {
+    /* max-width: 1140px; */
+  }
+  @media (min-width: 1400px) {
+    width: 1280px;
+  }
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,7 +35,7 @@ export const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1440px;
+    /* max-width: 1440px; */
     margin-top: 60px;
     margin-bottom: 20px;
   }
@@ -49,7 +74,7 @@ export const Wrapper = styled.div`
     grid-template-columns: repeat(4, 1fr); */
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     /* grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); */
     /* grid-gap: 30px; */
   }
@@ -82,6 +107,7 @@ export const PlantSearchForm = styled.form`
   }
 
   & input {
+    width: 80%;
     height: 100%;
     background-color: transparent;
     color: white;

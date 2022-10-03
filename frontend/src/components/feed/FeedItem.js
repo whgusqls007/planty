@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useDispatch } from 'react-redux';
-import { fetchFeed } from '../../features/feed/feedAction';
 
 const FeedItem = ({ feed, onClick }) => {
   const {
@@ -15,14 +14,8 @@ const FeedItem = ({ feed, onClick }) => {
     comments_count,
     likes_count,
   } = feed ? feed : {};
-  const dispatch = useDispatch();
   return (
-    <Wrapper
-      onClick={() => {
-        dispatch(fetchFeed(id));
-        onClick();
-      }}
-    >
+    <Wrapper onClick={onClick}>
       <img src={img_url} alt="" className="feed-img" />
       <div className="feed-info">
         <div className="feed-like">
@@ -72,6 +65,15 @@ const Wrapper = styled.div`
   position: relative;
   overflow: hidden;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 20%);
+  }
   & .feed-img {
     width: 100%;
     height: 100%;

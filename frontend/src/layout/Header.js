@@ -118,7 +118,7 @@ function Header() {
                     <div className="user-name">{userInfo.username}</div>
                     <img
                       className="profile-img"
-                      src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
+                      src={userInfo.profile_img}
                       alt=""
                     />
                   </div>

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Feed, FeedComment
 from rest_framework import viewsets, status
-from .serializers import FeedSerializer, FeedCommentSerializer
+from .serializers import FeedSerializer, FeedCommentSerializer, FeedDetailSerializer
 from core.utils import s3_upload_image
 from drf_yasg.utils import swagger_auto_schema
 
@@ -24,7 +24,8 @@ class FeedViewSet(viewsets.ModelViewSet):
     # get에 매칭, 상세페이지
     def retrieve(self, request, pk):
         feed = get_object_or_404(Feed, pk=pk)
-        serializer = self.get_serializer(instance=feed)
+        feed.is_liked = (request.user in feed.likes.all())
+        serializer = FeedDetailSerializer(feed)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -122,9 +123,11 @@ class FeedCommentViewSet(viewsets.ModelViewSet):
     def update(self, request, feed_pk, comment_pk):
         feed = get_object_or_404(Feed, pk=feed_pk)
         comment = get_object_or_404(FeedComment, pk=comment_pk)
+        if request.user != comment.user:
+            Response({'data': '권한이 없습니다!'}, status=status.HTTP_403_FORBIDDEN)
 
-        if request.user == comment.user:
-            serializer = FeedCommentSerializer(instance=comment, data=request.data)
+        serializer = FeedCommentSerializer(instance=comment, data=request.data)
+        if serializer.is_valid():
             serializer.save()
 
             comments = feed.feed_comments.all()
