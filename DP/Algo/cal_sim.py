@@ -4,11 +4,12 @@ from recommand import connection_db
 import schedule as schedule
 import time
 
+
 def update_processing():
 
     sim, farm, connection = connection_db()
 
-    #업데이트 된 사람들 추가해주기
+    # 업데이트 된 사람들 추가해주기
     SQL = 'SELECT * FROM update_table;'
     update_table = pd.read_sql(SQL, connection)
 
@@ -40,11 +41,12 @@ def update_processing():
     sim.to_csv('sim.csv')
 
 
-# 배치작업
-# 매일 10시마다 update_processing() 동작
-schedule.every().day.at("10:00").do(update_processing())
+if __name__ == "__main__":
+    # 배치작업
+    # 매일 10시마다 update_processing() 동작
+    schedule.every().day.at("10:00").do(update_processing())
 
-# 무한 루프를 돌면서 스케쥴을 유지한다.
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+    # 무한 루프를 돌면서 스케쥴을 유지한다.
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
