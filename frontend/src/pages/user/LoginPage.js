@@ -6,6 +6,13 @@ import { userLogin } from '../../features/user/userActions';
 import { confirmError } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import {
+  Wrapper,
+  UserWrapper,
+  UserForm,
+  SubmitButton,
+  LabelContainer,
+} from '../../styles/user/UserStyle';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -13,7 +20,7 @@ const LoginPage = () => {
   const { loading, userInfo, error } = useSelector((state) => state.user);
   useEffect(() => {
     if (userInfo) {
-      navigate(-1, { replace: true });
+      navigate('/', { replace: true });
     }
   }, [navigate, userInfo]);
   useEffect(() => {
@@ -42,121 +49,34 @@ const LoginPage = () => {
         src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1602174804-bloomscape_money-tree_stone.jpg"
         alt="login-img"
       />
-      <LoginWrapper>
+      <UserWrapper>
         <div className="logo">
           <img src="/assets/img/plant.png" alt="logo-img" />
           Planty
         </div>
-        <LoginForm onSubmit={submitHandler}>
-          <label htmlFor="email">EMAIL</label>
+        <UserForm onSubmit={submitHandler}>
+          <LabelContainer>
+            <label htmlFor="email">EMAIL</label>
+          </LabelContainer>
           <input type="text" id="email" onChange={inputChangeHandler} />
-          <label htmlFor="password">PASSWORD</label>
+          <LabelContainer>
+            <label htmlFor="password">PASSWORD</label>
+          </LabelContainer>
           <input type="password" id="password" onChange={inputChangeHandler} />
-          <div>
+          <div className="checkbox-div">
             <input type="checkbox" id="remember" />
             <label htmlFor="remember">REMEMBER ME</label>
           </div>
-          <button disabled={loading}>LOG IN</button>
-          {/* <button>LOG IN</button> */}
-          <div className="login-option-div">
+          <SubmitButton disabled={loading}>LOG IN</SubmitButton>
+          <div className="option-div">
             <Link to="">Lost your password?</Link>
             <Link to="/register">Join Us</Link>
             <Link to={-1}>Back to My Website</Link>
           </div>
-        </LoginForm>
-      </LoginWrapper>
+        </UserForm>
+      </UserWrapper>
     </Wrapper>
   );
 };
-
-const Wrapper = styled.div`
-  display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  height: 100vh;
-  width: 100vw;
-  background-color: #ffffff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  @media (min-width: 993px) {
-    z-index: -1;
-  }
-  & > img {
-    display: inline;
-    height: 100%;
-    opacity: 0.8;
-    /* width: 30%; */
-    max-width: calc(775px);
-    width: calc(100vw - 600px);
-    object-fit: cover;
-    object-position: center;
-
-    /* @media (max-width:) */
-    @media (max-width: 992px) {
-      display: none;
-    }
-  }
-`;
-const LoginWrapper = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  /* padding: 0px 50px; */
-  & .logo {
-    font-size: 54px;
-    margin-bottom: 44px;
-    & img {
-      width: 70px;
-      height: 70px;
-      margin-right: 4px;
-    }
-  }
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  width: 90vw;
-  & label {
-    margin-top: 16px;
-    color: #787878;
-  }
-  & input {
-    padding: 8px 0;
-    border-width: 0 0 1px 0;
-    &:focus {
-      outline: none;
-    }
-  }
-  & > div > label {
-    margin-left: 6px;
-  }
-  & button {
-    border: none;
-    margin-top: 10px;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    height: 44px;
-    color: #ffffff;
-    border-radius: 8px;
-  }
-  & .login-option-div {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-
-    & > a {
-      margin-top: 10px;
-      text-decoration: none;
-      color: #787878;
-    }
-  }
-`;
 
 export default LoginPage;

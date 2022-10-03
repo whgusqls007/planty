@@ -2,23 +2,29 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { useDispatch } from 'react-redux';
 
-const FeedItem = ({ onClick }) => {
+const FeedItem = ({ feed, onClick }) => {
+  const {
+    id,
+    user,
+    content,
+    date_created,
+    img_url,
+    comments_count,
+    likes_count,
+  } = feed ? feed : {};
   return (
     <Wrapper onClick={onClick}>
-      <img
-        src="https://homidu.s3.ap-northeast-2.amazonaws.com/feed/2022_09_19_23_57_51_IMG_3063.jpeg"
-        alt=""
-        className="feed-img"
-      />
+      <img src={img_url} alt="" className="feed-img" />
       <div className="feed-info">
         <div className="feed-like">
           <FavoriteBorderIcon />
-          <span>99</span>
+          <span>{likes_count}</span>
         </div>
         <div className="feed-comment">
           <ChatBubbleOutlineIcon />
-          <span>99</span>
+          <span>{comments_count}</span>
         </div>
       </div>
     </Wrapper>
@@ -55,10 +61,19 @@ const Wrapper = styled.div`
   height: calc(50vw - 20px); */
   /* margin-top: 16px; */
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   position: relative;
   overflow: hidden;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 20%);
+  }
   & .feed-img {
     width: 100%;
     height: 100%;
@@ -88,4 +103,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default FeedItem;
+export default React.memo(FeedItem);

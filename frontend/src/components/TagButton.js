@@ -12,13 +12,11 @@ const Tag = styled.button`
   background-color: #fefee3;
   padding: 5px 10px 5px 10px;
   margin: 8px;
-  text-decoration: none;
 
   &:hover {
     transition: transform 0.3s;
     transform: scale3d(1.03, 1.03, 1.03);
     color: ${({ theme }) => theme.themeColor[5]};
-    text-decoration: none;
   }
 
   @media (max-width: 768px) {
@@ -33,7 +31,7 @@ const Tag = styled.button`
 `;
 
 // onclick 만들어야함
-const TagButton = props => {
+const TagButton = (props) => {
   return <Tag>{props.text}</Tag>;
 };
 

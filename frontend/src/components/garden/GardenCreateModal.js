@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import axios from 'axios';
+import { GardenForm } from '../../styles/garden/GardenComponentStyle';
 
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const [imgFile, setImgFile] = useState(null); // img 전송용
@@ -11,6 +11,9 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     date_grow: null,
     watering_schedule: null,
     recent_water: null,
+    memo: null,
+    preference: 4,
+    present: false,
   });
 
   const onImageChange = (e) => {
@@ -33,6 +36,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       ...gardenInputs,
       [e.target.id]: e.target.value,
     });
+    console.log(gardenInputs);
   };
 
   const onSubmitHandler = (e) => {
@@ -56,15 +60,18 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         <GardenForm onSubmit={onSubmitHandler}>
-          <label htmlFor="plantname">식물 이름</label>
+          <label htmlFor="plantname">식물 종류</label>
           <input type="text" id="plantname" onChange={onChangeHandler} />
+          <label htmlFor="plantname">한줄 메모</label>
+          <input type="text" id="plantmemo" onChange={onChangeHandler} />
           <label htmlFor="date_grow">키운 날짜</label>
           <input type="date" id="date_grow" onChange={onChangeHandler} />
-          <label htmlFor="watering_schedule">물주기 주기</label>
+          <label htmlFor="watering_schedule">물주는 주기 (일)</label>
           <input
             type="text"
             id="watering_schedule"
             onChange={onChangeHandler}
+            placeholder="숫자만 입력해 주세요. ex. 1일: 1, 7일: 7"
           />
           <label htmlFor="recent_water">최근 물 준 날짜</label>
           <input type="date" id="recent_water" onChange={onChangeHandler} />
@@ -84,6 +91,25 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               imgSrc !== null ? null : { display: 'none', marginBottom: '3%' }
             }
           />
+          <label htmlFor="preference">추천 점수(선호 점수)</label>
+          <select
+            name="plant-preference"
+            id="preference"
+            onChange={onChangeHandler}
+          >
+            <option value="4">4점</option>
+            <option value="3">3점</option>
+            <option value="2">2점</option>
+            <option value="1">1점</option>
+            <option value="0">0점</option>
+          </select>
+          <input
+            type="checkbox"
+            id="present"
+            value={true}
+            onChange={onChangeHandler}
+          />
+          선물 받은 식물
           <button>작성</button>
         </GardenForm>
       </div>
@@ -160,83 +186,6 @@ const Wrapper = styled.div`
     }
     to {
       opacity: 1;
-    }
-  }
-`;
-
-const GardenForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  @media (max-width: 400px) {
-    font-size: 14px;
-  }
-  */ & label {
-    margin-top: 16px;
-    color: #787878;
-
-    @media (max-width: 576px) {
-      margin-top: 8px;
-    }
-  }
-  & input {
-    padding: 8px 0;
-    border-width: 0 0 1px 0;
-    &:focus {
-      outline: none;
-    }
-  }
-  & #date_grow {
-    margin-top: 1rem;
-  }
-
-  & #recent_water {
-    margin-top: 1rem;
-  }
-
-  & > div > label {
-    margin-left: 6px;
-  }
-
-  & button {
-    border: none;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: #ffffff;
-    border-radius: 8px;
-    margin-bottom: 0px;
-    margin-top: 5%;
-    padding: 0.5% 0 0.5% 0;
-  }
-
-  & .plant-img-input {
-    height: 100%;
-    padding-bottom: 50px;
-
-    @media (max-width: 576px) {
-      padding-bottom: 10px;
-      height: 20%;
-    }
-
-    @media (max-width: 400px) {
-      padding-bottom: 10px;
-      height: 10%;
-    }
-  }
-
-  & .plant-img {
-    border: 2px dashed black;
-    width: 300px;
-    height: 300px;
-
-    @media (max-width: 576px) {
-      width: 200px;
-      height: 200px;
-    }
-    @media (max-width: 400px) {
-      width: 150px;
-      height: 100px;
     }
   }
 `;

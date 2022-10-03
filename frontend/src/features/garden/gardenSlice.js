@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserInfo } from './gardenActions';
+import {
+  fetchUserInfo,
+  followUser,
+  updateDescription,
+  fetchUserPlant,
+  fetchUserFeed,
+} from './gardenActions';
 
 const initialState = {
   loading: false,
   garden: null,
-  userInfo: {},
-  gardenList: null,
+  gardenUserInfo: {},
+  gardenPlantList: [],
+  gardenFeedList: [],
   error: null,
   success: false,
 };
@@ -21,9 +28,57 @@ const gardenSlice = createSlice({
     },
     [fetchUserInfo.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.userInfo = payload;
+      state.gardenUserInfo = payload;
     },
     [fetchUserInfo.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [followUser.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [followUser.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenUserInfo = payload;
+    },
+    [followUser.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [updateDescription.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateDescription.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenUserInfo = { ...state.gardenUserInfo, ...payload };
+    },
+    [updateDescription.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [fetchUserPlant.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserPlant.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenPlantList = payload;
+    },
+    [fetchUserPlant.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [fetchUserFeed.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserFeed.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenFeedList = payload;
+    },
+    [fetchUserFeed.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
