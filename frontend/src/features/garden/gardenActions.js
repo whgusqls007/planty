@@ -5,11 +5,12 @@ import {
   userFeed,
   userPlant,
   myGarden,
+  gardenCreate,
 } from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
 export const fetchUserInfo = createAsyncThunk(
-  'mygarden/fetchUserInfo',
+  'garden/fetchUserInfo',
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await gardenUser(userName);
@@ -26,7 +27,7 @@ export const fetchUserInfo = createAsyncThunk(
 );
 
 export const followUser = createAsyncThunk(
-  'mygarden/followUser',
+  'garden/followUser',
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await postFollowUser(userName);
@@ -43,7 +44,7 @@ export const followUser = createAsyncThunk(
 );
 
 export const updateDescription = createAsyncThunk(
-  'mygarden/updateDescription',
+  'garden/updateDescription',
   async (description, { rejectWithValue }) => {
     try {
       const { data } = await patchDescription(description);
@@ -60,7 +61,7 @@ export const updateDescription = createAsyncThunk(
 );
 
 export const fetchUserPlant = createAsyncThunk(
-  'mygarden/fetchUserPlant',
+  'garden/fetchUserPlant',
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await userPlant(userName);
@@ -77,7 +78,7 @@ export const fetchUserPlant = createAsyncThunk(
 );
 
 export const fetchUserFeed = createAsyncThunk(
-  'mygarden/fetchUserFeed',
+  'garden/fetchUserFeed',
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await userFeed(userName);
@@ -94,10 +95,27 @@ export const fetchUserFeed = createAsyncThunk(
 );
 
 export const fetchMyGarden = createAsyncThunk(
-  'mygarden/fetchMyGarden',
+  'garden/fetchMyGarden',
   async (mygardenId, { rejectWithValue }) => {
     try {
       const { data } = await myGarden(mygardenId);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const createGarden = createAsyncThunk(
+  'garden/createGarden',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await gardenCreate(params);
 
       return data;
     } catch (error) {

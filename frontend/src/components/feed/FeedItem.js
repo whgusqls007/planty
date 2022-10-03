@@ -55,7 +55,8 @@ const Wrapper = styled.div`
     height: calc(((100vw - 24px) / 2 - 5px) * 1.32);
   } */
   @media (max-width: 575px) {
-    height: calc((100vw - 24px) * 1.32);
+    width: calc(100vw - 48px);
+    height: calc((100vw - 48px) * 1.32);
   }
 
   /* width: calc(50vw - 80px);

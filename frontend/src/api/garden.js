@@ -12,6 +12,15 @@ export const gardenUser = async (userName) => {
   return response;
 };
 
+export const gardenCreate = async (params) => {
+  const configs = {
+    'Content-Type': 'multipart/form-data',
+  };
+  const response = client.post('mygardens/', params, configs);
+
+  return response;
+};
+
 export const postFollowUser = async (username) => {
   const response = client.post(`accounts/follow/${username}/`);
 
