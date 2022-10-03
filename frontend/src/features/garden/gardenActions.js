@@ -4,6 +4,7 @@ import {
   postFollowUser,
   userFeed,
   userPlant,
+  myGarden,
 } from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
@@ -80,6 +81,23 @@ export const fetchUserFeed = createAsyncThunk(
   async (userName, { rejectWithValue }) => {
     try {
       const { data } = await userFeed(userName);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchMyGarden = createAsyncThunk(
+  'mygarden/fetchMyGarden',
+  async (mygardenId, { rejectWithValue }) => {
+    try {
+      const { data } = await myGarden(mygardenId);
 
       return data;
     } catch (error) {

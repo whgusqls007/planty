@@ -51,7 +51,6 @@ const GardenUserInfo = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(updateDescription({ description: inputDescription }));
-    console.log(inputDescription);
     setIsEditting(false);
   };
 

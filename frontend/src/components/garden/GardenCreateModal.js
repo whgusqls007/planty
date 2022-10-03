@@ -37,7 +37,6 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
       ...gardenInputs,
       [e.target.id]: e.target.value,
     });
-    console.log(gardenInputs);
   };
 
   const onCheckHandler = (e) => {

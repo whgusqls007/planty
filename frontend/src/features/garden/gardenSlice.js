@@ -5,6 +5,7 @@ import {
   updateDescription,
   fetchUserPlant,
   fetchUserFeed,
+  fetchMyGarden,
 } from './gardenActions';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   gardenUserInfo: {},
   gardenPlantList: [],
   gardenFeedList: [],
+  gardenPlant: {},
   error: null,
   success: false,
 };
@@ -79,6 +81,18 @@ const gardenSlice = createSlice({
       state.gardenFeedList = payload;
     },
     [fetchUserFeed.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [fetchMyGarden.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchMyGarden.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenPlant = payload;
+    },
+    [fetchMyGarden.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

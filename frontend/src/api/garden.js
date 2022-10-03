@@ -29,3 +29,9 @@ export const userFeed = async (username) => {
 
   return response;
 };
+
+export const myGarden = async (mygardenId) => {
+  const response = client.get(`mygardens/${mygardenId}/`);
+
+  return response;
+};
