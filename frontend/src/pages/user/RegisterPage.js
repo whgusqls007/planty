@@ -151,7 +151,7 @@ const RegisterPage = () => {
         </div>
         <UserForm onSubmit={submitHandler}>
           <LabelContainer>
-            <label htmlFor="username">USERNAME</label>
+            <label htmlFor="username">NICKNAME</label>
             {registerInputs.username && (
               <RegisterMessage username={inputErrors.usernameError} />
             )}
