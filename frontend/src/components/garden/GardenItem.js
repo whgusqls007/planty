@@ -11,9 +11,13 @@ const GardenItem = ({ gardenPlant }) => {
   const { userName } = useParams();
 
   return (
-    <GardenItemWrapper>
-      <GardenImg onClick={() => navigate(`/garden/${userName}/${id}`)} />
-      <div className="garden-header">
+    <GardenItemWrapper
+      onClick={() => {
+        navigate(`/garden/${userName}/${id}`);
+      }}
+    >
+      <GardenImg />
+      <div className="garden-header" onClick={() => navigate('/')}>
         <div className="garden-title">{plant?.plant_name}</div>
         <div className="garden-date-grow">{date_grow}</div>
       </div>

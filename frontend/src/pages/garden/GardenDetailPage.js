@@ -14,7 +14,6 @@ import {
   GardenDiaryWrapper,
   GardenDetailInfo,
 } from '../../styles/garden/GardenDetailStyle';
-import _default from 'react-redux/es/components/connect';
 import { useParams } from 'react-router-dom';
 
 const GardenDetailPage = () => {
@@ -26,6 +25,7 @@ const GardenDetailPage = () => {
   const [getDate, setGetDate] = useState(false);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
     dispatch(fetchMyGarden(gardenId));
   }, []);
 
