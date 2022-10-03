@@ -12,13 +12,21 @@ import {
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Wrapper, GardenWrapper } from '../../styles/garden/GardenStyle';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const GardenPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userName } = useParams();
   const [changeFeeds, setChangeFeeds] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [tabNum, setTabNum] = useState(1);
+  useEffect(() => {
+    const query = parseInt(searchParams.get('tab'))
+      ? parseInt(searchParams.get('tab'))
+      : 1;
+    setTabNum(query);
+  }, [searchParams]);
 
   useEffect(() => {
     dispatch(fetchUserInfo(userName));
@@ -38,14 +46,6 @@ const GardenPage = () => {
     setModalOpen(false);
   };
 
-  const onClickHandler = () => {
-    if (!changeFeeds) {
-      setChangeFeeds(true);
-    } else {
-      setChangeFeeds(false);
-    }
-  };
-
   return (
     <>
       <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
@@ -53,22 +53,32 @@ const GardenPage = () => {
         <GardenUserInfo />
         <div className="toggle-div">
           <span>|</span>
-          <div className="toggle-btn1" onClick={onClickHandler}>
+          <div
+            className="toggle-btn1"
+            onClick={() => {
+              navigate(`/garden/${userName}?tab=${1}`, { replace: true });
+            }}
+          >
             반려식물
           </div>
-          <div className="toggle-btn2" onClick={onClickHandler}>
+          <div
+            className="toggle-btn2"
+            onClick={() => {
+              navigate(`/garden/${userName}?tab=${2}`, { replace: true });
+            }}
+          >
             피드
           </div>
         </div>
         <GardenWrapper>
           <button onClick={openModal}>식물 등록</button>
-          {!changeFeeds &&
+          {tabNum === 1 &&
             (gardenPlantList !== null
               ? gardenPlantList.map((plant, idx) => (
                   <GardenItem gardenPlant={plant} key={idx} />
                 ))
               : null)}
-          {changeFeeds &&
+          {tabNum === 2 &&
             (gardenFeedList !== null
               ? gardenFeedList.map((feed, idx) => (
                   <FeedItem

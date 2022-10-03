@@ -441,4 +441,29 @@ export const GardenForm = styled.form`
     margin-left: 2px;
     margin-top: 20px;
   }
+  & .plant-input-div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+`;
+
+export const GardenSearchResult = styled.div`
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  max-height: 150px;
+  overflow-y: scroll;
+  flex-direction: column;
+  font-size: 1rem;
+  /* border: 1px solid black; */
+  box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  z-index: 99;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+
+  & div:hover {
+    background-color: #dbdbdb;
+  }
 `;

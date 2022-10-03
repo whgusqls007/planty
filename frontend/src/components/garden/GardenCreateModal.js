@@ -1,11 +1,17 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import { GardenForm } from '../../styles/garden/GardenComponentStyle';
+import {
+  GardenForm,
+  GardenSearchResult,
+} from '../../styles/garden/GardenComponentStyle';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchPlant } from '../../features/dictionary/dictionaryAction';
 
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
+  const dispatch = useDispatch();
+
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [isDragging, setIsDragging] = useState(false);
@@ -15,12 +21,11 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const [presentCheck, setPresentCheck] = useState(false);
   const [gardenInputs, setGardenInputs] = useState({
     plantname: '',
-    date_grow: null,
+    date_grow: '',
     watering_schedule: '',
-    recent_water: null,
+    recent_water: '',
     memo: '',
     preference: 4,
-    present: false,
   });
   const { searchResult } = useSelector((state) => state.dictionary);
 
@@ -29,9 +34,6 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   };
 
   const searchInputChangeHandler = (e) => {
-    if (e.target.value) {
-      // dispatch(searchPlant(e.target.value));
-    }
     setSearchKeyword(e.target.value);
   };
 
@@ -41,14 +43,14 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     setImgFile(null);
     setImgSrc(null);
     setGardenInputs({
-      plantname: '',
-      date_grow: null,
-      watering_schedule: null,
-      recent_water: null,
-      memo: null,
+      date_grow: '',
+      watering_schedule: '',
+      recent_water: '',
+      memo: '',
       preference: 4,
-      present: false,
     });
+    setPresentCheck(false);
+    setSearchKeyword('');
     closeModal();
   };
 
@@ -68,6 +70,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   };
 
   const onChangeHandler = (e) => {
+    console.log(e.target.checked);
     setGardenInputs({
       ...gardenInputs,
       [e.target.id]: e.target.value,
@@ -75,12 +78,19 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     console.log(gardenInputs);
   };
 
-  const onCheckHandler = (e) => {
-    if (presentCheck) {
-      setPresentCheck(false);
-    } else {
-      setPresentCheck(true);
+  useEffect(() => {
+    if (searchKeyword) {
+      dispatch(searchPlant(searchKeyword));
     }
+  }, [searchKeyword]);
+
+  const onCheckHandler = (e) => {
+    setPresentCheck(e.target.checked);
+    // if (presentCheck) {
+    //   setPresentCheck(false);
+    // } else {
+    //   setPresentCheck(true);
+    // }
   };
 
   const onSubmitHandler = (e) => {
@@ -208,24 +218,31 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {/* <div> */}
-            <label htmlFor="plantname">🌱 식물 종류</label>
-            <input
-              type="text"
-              id="plantname"
-              onChange={onChangeHandler}
-              onFocus={searchResultOpen}
-              ref={searchRef}
-            />
-            <div
-              className="garden-search-result"
-              visible={focused && searchKeyword && searchResult.length !== 0}
-            >
-              {searchResult.map((plant, idx) => (
-                <div plant={plant} key={idx} />
-              ))}
+            <div className="plant-input-div">
+              <label htmlFor="plantname">🌱 식물 종류</label>
+              <input
+                type="text"
+                id="plantname"
+                onChange={searchInputChangeHandler}
+                onFocus={searchResultOpen}
+                value={searchKeyword}
+                ref={searchRef}
+              />
+              <GardenSearchResult
+                visible={focused && searchKeyword && searchResult.length !== 0}
+              >
+                {searchResult.map((plant, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      setSearchKeyword(plant.plant_name);
+                    }}
+                  >
+                    {plant.plant_name}
+                  </div>
+                ))}
+              </GardenSearchResult>
             </div>
-            {/* </div> */}
             <label htmlFor="plantname">💬 한줄 메모</label>
             <input
               type="text"
@@ -235,7 +252,12 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               value={gardenInputs.memo}
             />
             <label htmlFor="date_grow">📆 키운 날짜</label>
-            <input type="date" id="date_grow" onChange={onChangeHandler} />
+            <input
+              type="date"
+              id="date_grow"
+              onChange={onChangeHandler}
+              value={gardenInputs.date_grow}
+            />
             <label htmlFor="watering_schedule">💧 물주는 주기 (일)</label>
             <input
               type="text"
@@ -245,12 +267,18 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               value={gardenInputs.watering_schedule}
             />
             <label htmlFor="recent_water">🚿 최근 물 준 날짜</label>
-            <input type="date" id="recent_water" onChange={onChangeHandler} />
+            <input
+              type="date"
+              id="recent_water"
+              onChange={onChangeHandler}
+              value={gardenInputs.recent_water}
+            />
             <label htmlFor="preference">💚 추천 점수(선호 점수)</label>
             <select
               name="plant-preference"
               id="preference"
               onChange={onChangeHandler}
+              value={gardenInputs.preference}
             >
               <option value="4">4점</option>
               <option value="3">3점</option>
@@ -260,13 +288,11 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
             </select>
             <span>
               <span>🎁 선물 받은 식물&nbsp;&nbsp;</span>
-
               <input
                 type="checkbox"
                 id="present"
-                value={true}
-                onClick={setPresentCheck}
-                onChange={onChangeHandler}
+                onChange={onCheckHandler}
+                checked={presentCheck}
               />
             </span>
             <button type="submit">작성</button>
