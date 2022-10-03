@@ -23,7 +23,7 @@ client.interceptors.request.use(
       ? sessionStorage.getItem('Token')
       : null;
     if (token) {
-      client.defaults.headers.common['Authorization'] = `Token ${token}`;
+      config.headers.Authorization = `Token ${token}`;
     }
     return config;
   },
