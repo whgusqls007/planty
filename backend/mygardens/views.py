@@ -260,8 +260,14 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
 # 식물일기
 class DiaryViewSet(viewsets.ModelViewSet):
-    queryset = MyGarden.objects.all()
+    queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+
+    def retrive(self, request, my_garden_pk, diary_pk):
+        diary = get_object_or_404(Diary, pk=diary_pk)
+        serializer = self.get_serializer(diary)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # post에 매칭, 일기 작성
     def create(self, request, my_garden_pk):
