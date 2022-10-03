@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const FeedItem = ({ feed, onClick }) => {
+  const navigate = useNavigate();
   const {
     id,
     user,

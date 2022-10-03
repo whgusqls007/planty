@@ -3,13 +3,12 @@ import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
 import FeedItem from '../../components/feed/FeedItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchUserInfo,
   fetchUserPlant,
   fetchUserFeed,
 } from '../../features/garden/gardenActions';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Wrapper, GardenWrapper } from '../../styles/garden/GardenStyle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -32,11 +31,14 @@ const GardenPage = () => {
     dispatch(fetchUserInfo(userName));
     dispatch(fetchUserPlant(userName));
     dispatch(fetchUserFeed(userName));
-  }, [dispatch]);
+  }, [dispatch, userName]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const { gardenPlantList } = useSelector((state) => state.garden);
   const { gardenFeedList } = useSelector((state) => state.garden);
+  const { userInfo } = useSelector((state) => state.user);
+  const { gardenUserInfo } = useSelector((state) => state.garden);
+  console.log('render');
 
   const openModal = () => {
     setModalOpen(true);
@@ -71,7 +73,11 @@ const GardenPage = () => {
           </div>
         </div>
         <GardenWrapper>
-          <button onClick={openModal}>식물 등록</button>
+          {tabNum === 1 &&
+            userInfo !== undefined &&
+            userInfo?.username === gardenUserInfo?.username && (
+              <button onClick={openModal}>식물 등록</button>
+            )}
           {tabNum === 1 &&
             (gardenPlantList !== null
               ? gardenPlantList.map((plant, idx) => (
@@ -84,7 +90,7 @@ const GardenPage = () => {
                   <FeedItem
                     feed={feed}
                     key={idx}
-                    onClick={() => navigate(`/feed/${feed.id}`)}
+                    onClick={() => navigate(`?tab=${tabNum}&feed=${feed.id}`)}
                   />
                 ))
               : null)}
