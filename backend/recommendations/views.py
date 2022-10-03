@@ -5,12 +5,11 @@ from rest_framework.response import Response
 from plants.models import Plant, PlantKeyword
 from plants.serializers import PlantListSerializer
 from mygardens.models import MyGarden
-from mygardens.serializers import MyGardenSerializer
 from recommendations.models import UserKeywordCount
-from .serializers import UserKeywordCountSerializer
 from django.forms.models import model_to_dict
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 import random
-
 
 '''
 [RecommendViewSet 로직]
@@ -29,56 +28,9 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request):
         # 유저 정보
-        User = get_user_model()
-        user = User.objects.get(pk=1)
-        # 식물 키워드 카운트 등록 (Table UserKeywordCount)
-        try:
-            # 이미 UserKeywordCount가 있다면
-            keyword_count = UserKeywordCount.objects.get(user_id=user.pk)
-        except:
-            # UserKeywordCount가 없다면 새로 생성
-            keyword_count = UserKeywordCount(user_id=user.pk)
-            keyword_count.save()
-        # plant_id = serializer.data.plant.id
-        plant_id = 2 # 테스트용
-        plant_data = Plant.objects.get(pk=plant_id)
-        plant_keyword = PlantKeyword.objects.get(pk=plant_id)
-        # 식물 키워드 정보 확인
-        if plant_keyword.pet_safe == 1:
-            keyword_count.pet_safe += 1
-            keyword_count.save()
-        if plant_keyword.humidify == 1:
-            keyword_count.humidify += 1
-            keyword_count.save()
-        if plant_keyword.pm_cleaning:
-            keyword_count.pm_cleaning += 1
-            keyword_count.save()
-        if plant_keyword.air_cleaning:
-            keyword_count.air_cleaning += 1
-            keyword_count.save()
-        if plant_data.manage_level == '초보자':
-            keyword_count.beginner += 1
-            keyword_count.save()
-        # 식물 기본 정보 확인
-        if plant_data.smell == '거의 없음':
-            keyword_count.unscented += 1
-            keyword_count.save()
-        if '낮음' in plant_data.manage_demand:
-            keyword_count.low_growth_demand += 1
-            keyword_count.save()
-        if '낮은' in plant_data.light_demand:
-            keyword_count.low_light_demand += 1
-            keyword_count.save()
-        if '수경형' in plant_data.ecology_code:
-            keyword_count.hydroponics += 1
-            keyword_count.save()
-        if '16' in plant_data.growth_temp:
-            keyword_count.low_temp += 1
-            keyword_count.save()
-
+        user = request.user
         # 해당 유저의 선호 키워드 데이터 가져오기
         user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
-        # user_keywords = UserKeywordCount.objects.get(user=user)
         # 정렬, 순회하기 좋게 딕셔너리로 변환
         dic_user_keywords = model_to_dict(user_keywords)
         # 선호도 높은 순으로 키워드 정렬
@@ -102,11 +54,11 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
             if len(plants_to_recommend) >= 16:
                 break
             # 컬럼이 user/id가 아니라면
-            if keyword[0] != 'user' and keyword[0] != 'id':
+            if keyword[0] != 'user_id' and keyword[0] != 'id':
                 # Plant 테이블 순회
                 try:
-                    column_name = plant_columns[keyword[0]]
-                    value = plant_columns[keyword[1]]
+                    column_name = plant_columns[keyword[0]][0]
+                    value = plant_columns[keyword[0]][1]
                     candinates = Plant.objects.filter(**{column_name: value})
                 # PlantKeyword 테이블 순회
                 except:
@@ -128,15 +80,57 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
     
-    # 선택한 키워드에 해당하는 식물 정보만 보여주기
-    def retrieve(self, request, keyword=None):
-        plants_list = Plant.objects.all()
-        # 키워드 번호별로 확인해야하는 column 정보 + 값
-        # index == 키워드 번호 / [column명, 값]
-        keywords = []
-        column_name = keywords[keyword][0]
-        value = keywords[keyword][1]
-        plants_list = Plant.objects.filter(**{column_name: value})
-        serializer = PlantListSerializer(plants_list, many=True)
+    
+
+class KeywordViewSet(viewsets.ViewSet):
+
+    @swagger_auto_schema(
+        operation_summary='선택한 키워드에 해당하는 식물 정보만 보여주기',
+        operation_description='선택한 키워드에 해당하는 식물 중 랜덤한 12개의 정보를 반환합니다.',
+        manual_parameters=[
+            openapi.Parameter(
+                'keyword',
+                openapi.IN_QUERY,
+                description="""1: 물을 자주 주는
+                2: 물을 가끔 주는
+                3: 습한 곳에서도 잘 자라는
+                4: 선물하기 좋은
+                5: 공기 정화용
+                6: 초보자가 키우기 쉬운
+                7: 가습 효과가 있는
+                """,
+                type=openapi.TYPE_INTEGER
+            )
+        ])
+    def list(self, request):
+        keyword = int(request.query_params.get('keyword', 0))
+        # 물을 자주 주는
+        if keyword == 1:
+            plants = [plant for plant in Plant.objects.all() if plant.watering >= 2]
+            plants = random.sample(plants, 12)
+        # 물을 가끔 주는
+        elif keyword == 2:
+            plants = [plant for plant in Plant.objects.all() if plant.watering <= -2]
+            plants = random.sample(plants, 12)
+        # 습한 곳에서도 잘 자라는
+        elif keyword == 3:
+            plants = Plant.objects.filter(humidity="70% 이상").order_by("?")[:12]
+        # 선물하기 좋은
+        elif keyword == 4:
+            plants = PlantKeyword.objects.filter(present_adequacy__gte=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
+        # 공기 정화용
+        elif keyword == 5:
+            plants = PlantKeyword.objects.filter(air_cleaning=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
+        # 초보자가 키우기 쉬운
+        elif keyword == 6:
+            plants = Plant.objects.filter(manage_level="초보자").order_by("?")[:12]
+        # 가습 효과가 있는
+        elif keyword == 7:
+            plants = PlantKeyword.objects.filter(humidify=1).order_by("?")[:12]
+            plants = [plant_keyword.id for plant_keyword in plants]
         
+        
+        serializer = PlantListSerializer(plants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
