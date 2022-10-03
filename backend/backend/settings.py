@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# 테스트용 sqlite3 데이터베이스
+# 테스트용 데이터베이스
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -111,6 +111,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
+# 테스트용 서버 데이터베이스
 DATABASES = {
    'default': {
        'ENGINE': "django.db.backends.mysql",
