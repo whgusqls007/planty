@@ -1,5 +1,4 @@
-import styled, { css } from 'styled-components';
-import tomato from '../../../image/tomatoes.jpg';
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   margin: 0 0 0 0;
