@@ -13,7 +13,13 @@ import {
 } from '../../features/magazine/magazineActions';
 import CommentLine from '../../components/magazine/CommentLine';
 import CommentInput from '../../components/magazine/CommentInput';
-import { Wrapper, Title, Date, Writer, Content } from './css/MagazineDetailPageCss';
+import {
+  Wrapper,
+  Title,
+  Date,
+  Writer,
+  Content,
+} from '../../styles/magazine/MagazineDetailPageCss';
 
 const MagazineDetailPage = (props) => {
   const dispatch = useDispatch();

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Wrapper } from './css/IntroPageCss';
+import { Wrapper } from '../../styles/intro/IntroPageCss';
 import Aos from 'aos';
 import { FullPage, Slide } from 'react-full-page';
 import 'aos/dist/aos.css';
-import './css/IntroPageCss.css';
+import '../../styles/intro/IntroPageCss.css';
 import IntroFirstPage from './intropages/IntroFirstPage';
 import IntroSecondPage from './intropages/IntroSecondPage';
 import IntroThirdPage from './intropages/IntroThirdPage';
@@ -103,80 +103,6 @@ const IntroPage = () => {
             />
           </Slide>
         </FullPage>
-        {/* <div className="side-nav">
-          <ul>
-            <li
-              className={
-                section === 0
-                  ? isMoving
-                    ? 'nav-moving'
-                    : 'nav-active'
-                  : 'nav-deactive'
-              }
-            >
-              식물 추천
-            </li>
-            <li
-              className={
-                section === 1
-                  ? isMoving
-                    ? 'nav-moving'
-                    : 'nav-active'
-                  : 'nav-deactive'
-              }
-            >
-              식물 검색
-            </li>
-            <li
-              className={
-                section === 2
-                  ? isMoving
-                    ? 'nav-moving'
-                    : 'nav-active'
-                  : 'nav-deactive'
-              }
-            >
-              매거진
-            </li>
-          </ul>
-        </div>
-        <div className="contents">
-          <FullPage
-            controls
-            duration="500"
-            controlsProps={{ className: 'full-page-class' }}
-            beforeChange={scrollMoveHandler}
-            afterChange={() => {
-              setIsMoving(false);
-            }}
-          >
-            <Slide>
-              <div className={section === 0 ? 'fade-in' : 'fade-out'}>
-                <h1>어떤 글씨 1</h1>
-                <h1>sdafdfassdfa</h1>
-                <h1>fsaasdfdfas</h1>
-              </div>
-            </Slide>
-            <Slide>
-              <div className={section === 1 ? 'fade-in' : 'fade-out'}>
-                <h1>어떤 글씨 2</h1>
-                <h1>sdafdfassdfa</h1>
-                <h1>fsaasdfdfas</h1>
-              </div>
-            </Slide>
-            <Slide>
-              <div className={section === 2 ? 'fade-in' : 'fade-out'}>
-                <h1>어떤 글씨 3</h1>
-                <h1>sdafdfassdfa</h1>
-                <h1>fsaasdfdfas</h1>
-              </div>
-            </Slide>
-            <Slide>
-              <div className="blue"></div>
-            </Slide>
-            <Slide className="red"></Slide>
-          </FullPage>
-        </div> */}
       </div>
     </Wrapper>
   );
