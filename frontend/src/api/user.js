@@ -11,7 +11,8 @@ export const register = async (params) => {
 };
 
 export const getUserInfo = async () => {
-  const response = await client.get('accounts/user/');
+  // const response = await client.get('accounts/user/');
+  const response = await client.get('accounts/mypageuserinfo/');
   return response;
 };
 
@@ -22,5 +23,10 @@ export const emailCheck = async (params) => {
 
 export const usernameCheck = async (params) => {
   const response = await client.post('accounts/usernamecheck/', params);
+  return response;
+};
+
+export const patchDescription = async (params) => {
+  const response = await client.patch('accounts/description/', params);
   return response;
 };

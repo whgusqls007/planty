@@ -47,9 +47,18 @@ class MyGarden(models.Model):
         default=False,
         verbose_name="선물용 여부"
     )
+    preference = models.IntegerField(
+        verbose_name="선호도",
+        default=0
+    )
+    keep = models.BooleanField(
+        verbose_name="식물 보관 여부",
+        default=False
+    )
+    
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 # 식물일기

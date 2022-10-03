@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { feedItem, feedList, feedCreate } from '../../api/feed';
+import {
+  feedItem,
+  feedList,
+  feedCreate,
+  feedCommentCreate,
+} from '../../api/feed';
 
 export const fetchFeed = createAsyncThunk(
   'feed/fetchFeed',
@@ -36,7 +41,7 @@ export const fetchFeedList = createAsyncThunk(
 );
 
 export const createFeed = createAsyncThunk(
-  'feed/fetchFeedList',
+  'feed/createFeed',
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await feedCreate(params);
@@ -49,5 +54,16 @@ export const createFeed = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
+  },
+);
+
+export const createFeedComment = createAsyncThunk(
+  'feed/createFeedComment',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await feedCommentCreate(params);
+
+      return data;
+    } catch (error) {}
   },
 );

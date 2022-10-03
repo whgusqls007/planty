@@ -1,5 +1,8 @@
 from django.db import models
+from django.conf import settings
 
+
+# 식물
 class Plant(models.Model):
     plant_no = models.CharField(
         db_column='cntntsNo', 
@@ -288,66 +291,86 @@ class Plant(models.Model):
         null=True,
         verbose_name='식물 사진'
     )
+    popular = models.IntegerField(
+        verbose_name = '인기도'
+    )
 
     class Meta:
         managed = False
         db_table = 'plant'
 
+    @property
+    def watering(self):
+        watering_dict = {
+            '화분 흙 대부분 말랐을때 충분히 관수함' : -1,
+            '토양 표면이 말랐을때 충분히 관수함' : 0,
+            '흙을 촉촉하게 유지함(물에 잠기지 않도록 주의)' : 1,
+        }
+        total = 0
+        total += watering_dict.get(self.water_cycle_spring, 0)
+        total += watering_dict.get(self.water_cycle_summer, 0)
+        total += watering_dict.get(self.water_cycle_autumn, 0)
+        total += watering_dict.get(self.water_cycle_winter, 0)
 
+        return total
+
+
+# 식물 키워드
 class PlantKeyword(models.Model):
+    id = models.OneToOneField(
+        Plant,
+        models.DO_NOTHING,
+        db_column='id',
+        primary_key=True
+    )
     plant_no = models.CharField(
-        db_column='cntntsNo', 
-        max_length=255, 
-        blank=True, 
+        db_column='cntntsNo',
+        max_length=255,
+        blank=True,
         null=True,
         verbose_name='식물 번호'
     )
-    plant_name = models.CharField(
-        db_column='cntntsSj', 
-        max_length=255, 
-        blank=True, 
+    plant_name = models.CharField(db_column='cntntsSj',
+        max_length=255,
+        blank=True,
         null=True,
         verbose_name='식물 이름'
-    )    
+    )
     present_adequacy = models.IntegerField(
-        db_column='presentAdequacy', 
+        db_column='presentAdequacy',
         blank=True,
         null=True,
         verbose_name='선물 적합성'
-    )  
-    air_cleaning = models.CharField(
-        db_column='airCleaning', 
-        max_length=3, 
-        blank=True, 
+    )
+    air_cleaning = models.IntegerField(
+        db_column='airCleaning',
+        blank=True,
         null=True,
         verbose_name='공기 정화 기능'
-    )  
-    pm_cleaning = models.CharField(
-        db_column='particulateMatter', 
-        max_length=3, 
-        blank=True, 
+    )
+    pm_cleaning = models.IntegerField(
+        db_column='particulateMatter',
+        blank=True,
         null=True,
         verbose_name='미세먼지 정화 기능'
     )
-    pet_safe = models.IntegerField(
-        db_column='petSafety', 
-        blank=True, 
+    pet_safe = models.IntegerField(db_column='petSafety',
+        blank=True,
         null=True,
         verbose_name='반려동물 안전성'
     )
-    humidify = models.IntegerField(
-        db_column='humidify',
-        blank=True, 
+    humidify = models.IntegerField(db_column='humidify',
+        blank=True,
         null=True,
         verbose_name='가습 효과'
     )
     toxicity = models.IntegerField(
         db_column='toxcty',
-        blank=True, 
+        blank=True,
         null=True,
         verbose_name='독성'
     )
 
     class Meta:
         managed = False
-        db_table = 'plantKeyword'
+        db_table = 'plants_plantkeyword'

@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
-
-  const profileNav = ['나의 글', '나의 댓글', '좋아요한 글'];
-
+  const profileNav = ['나의 댓글', '좋아요한 글'];
   const [searchParams] = useSearchParams();
-
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.user);
+  const {
+    profile_img,
+    username,
+    exp,
+    articles_count,
+    comments_count,
+    likes_count,
+  } = userInfo;
   useEffect(() => {
     const query = parseInt(searchParams.get('tab'))
       ? parseInt(searchParams.get('tab'))
@@ -21,29 +30,40 @@ const ProfilePage = () => {
     <Container>
       <Wrapper>
         <div className="profile-user-info">
-          <img src="" alt="" className="profile-user-img" />
+          <img src={profile_img} alt="" className="profile-user-img" />
           <div className="profile-user-detail">
-            <div className="profile-user-name">드루이두</div>
+            <div className="profile-user-name">{username}</div>
             <div className="profile-user-score">
-              <span>레벨 99</span>
-              <span>나의 글 99</span>
-              <span>나의 댓글 99</span>
-              <span>좋아요한 글 99</span>
+              <span>레벨 {exp}</span>
+              <span>나의 글 {articles_count}</span>
+              <span>나의 댓글 {comments_count}</span>
+              <span>좋아요한 글 {likes_count}</span>
             </div>
           </div>
         </div>
         <div className="profile-nav">
-          {profileNav.map((e, i) => (
-            <div
-              className="profile-nav-item"
-              key={i}
-              onClick={() => setProfileNum(i + 1)}
-            >
-              <Link to={`?tab=${i + 1}`} replace>
-                {e}
-              </Link>
-            </div>
-          ))}
+          <div className="profile-nav-tab">
+            {profileNav.map((e, i) => (
+              <div
+                className="profile-nav-item"
+                key={i}
+                onClick={() => setProfileNum(i + 1)}
+              >
+                <Link to={`?tab=${i + 1}`} replace>
+                  {e}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div
+            className="profile-setting"
+            onClick={() => {
+              navigate('/profile/update');
+            }}
+          >
+            <span>정보 수정</span>
+            <SettingsIcon />
+          </div>
         </div>
         <ProfileWrapper>
           {profileNum === 1 && <div className="profile1">profile1</div>}
@@ -84,17 +104,31 @@ const Wrapper = styled.div`
   & .profile-nav {
     display: flex;
     border-bottom: 2px solid #565656;
+    padding-bottom: 8px;
+    justify-content: space-between;
+  }
+  & .profile-nav-tab {
+    display: flex;
+  }
+  & .profile-setting {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    & > span {
+      margin-right: 2px;
+    }
   }
   & .profile-nav-item {
     width: 130px;
-    height: 40px;
+    /* height: 40px; */
     display: flex;
     justify-content: center;
     font-size: 1.2rem;
     cursor: pointer;
-    & a {
-      text-decoration: none;
-      color: inherit;
+
+    @media (max-width: 576px) {
+      width: 80px;
+      font-size: 1rem;
     }
   }
 `;
