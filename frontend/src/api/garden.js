@@ -17,3 +17,27 @@ export const postFollowUser = async (username) => {
 
   return response;
 };
+
+export const userPlant = async (username) => {
+  const response = client.get(`mygardens/user/${username}/`);
+
+  return response;
+};
+
+export const userFeed = async (username) => {
+  const response = client.get(`feeds/user/${username}/`);
+
+  return response;
+};
+
+export const myGarden = async (mygardenId) => {
+  const response = client.get(`mygardens/${mygardenId}/`);
+
+  return response;
+};
+
+export const Diary = async (mygardenId) => {
+  const response = client.get(`mygardens/${mygardenId}/`);
+
+  return response;
+};

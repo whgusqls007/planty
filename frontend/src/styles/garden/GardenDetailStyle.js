@@ -49,6 +49,13 @@ export const Wrapper = styled.div`
       }
     }
   }
+
+  & .garden-detail-recent_water {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 `;
 
 export const GardenDetailImage = styled.img`
@@ -115,6 +122,10 @@ export const GardenDetailDescription = styled.div`
     height: 34px;
     border-radius: 5px;
   }
+  & .garden-detail-info {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const GardenDiaryWrapper = styled.div`
@@ -153,5 +164,39 @@ export const GardenDiaryWrapper = styled.div`
         margin-bottom: 2%;
       }
     }
+  }
+`;
+
+export const GardenDetailInfo = styled.div`
+  width: 30%;
+  height: 80px;
+  background-color: white;
+  /* border: 3px solid rgb(217, 217, 217); */
+  border: 2px solid rgb(217, 217, 217);
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+
+  @media (min-width: 576px) {
+    height: 30px;
+    font-size: 8px;
+  }
+
+  @media (min-width: 768px) {
+    height: 50px;
+    font-size: 10px;
+  }
+
+  @media (min-width: 992px) {
+    height: 70px;
+    font-size: 13px;
+  }
+  @media (min-width: 1200px) {
+    height: 80px;
+    font-size: 16px;
   }
 `;

@@ -10,6 +10,7 @@ const initialState = {
   loading: false,
   feed: {},
   feedList: [],
+  feedModalState: false,
   // commentList: [],
   error: null,
   success: false,
@@ -23,6 +24,12 @@ const feedSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.error = null;
+    },
+    feedModalOpen: (state) => {
+      state.feedModalState = true;
+    },
+    feedModalClose: (state) => {
+      state.feedModalState = false;
     },
   },
   extraReducers: {
@@ -56,7 +63,7 @@ const feedSlice = createSlice({
       state.error = false;
     },
     [createFeed.fulfilled]: (state, { payload }) => {
-      state.feedList = [...state.feedList, payload];
+      state.feedList = [payload, ...state.feedList];
       state.success = true;
     },
     [createFeed.rejected]: (state, { payload }) => {

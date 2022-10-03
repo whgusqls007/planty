@@ -13,8 +13,8 @@ const Card = (props) => {
       <div>
         <Title>{title}</Title>
         <CtnInfo>
-          <span>글쓴이 | {user.username}</span>
-          <span>{date_created.split('T')[0]}</span>
+          <span>에디터 | {user.username}</span>
+          <span>{date_created?.split('T')[0]}</span>
         </CtnInfo>
       </div>
       <SubTitle>{sub_title}</SubTitle>

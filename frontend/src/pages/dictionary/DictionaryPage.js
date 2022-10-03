@@ -16,14 +16,16 @@ import {
   PlantSearchForm,
   SearchResult,
   SearchItemWrapper,
+  DictionaryPageWrapper,
 } from '../../styles/dictionary/DictionaryStyle';
+import DictionaryTag from '../../components/dictionary/DictionaryTag';
 
 const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(null);
   const [focused, setFocused] = useState(false);
   const [keyword, setKeyword] = useState(null);
   const [limit, setLimit] = useState(12);
@@ -32,27 +34,35 @@ const DictionaryPage = () => {
     (state) => state.dictionary,
   );
 
+  const tagList = [
+    '물을 자주 주는',
+    '물을 가끔 주는',
+    '습한 곳에서도 잘 자라는',
+    '선물하기 좋은',
+    '공기 정화용',
+    '초보자가 키우기 쉬운',
+    '가습 효과가 있는',
+    // '책상 위에 두기 좋은',
+  ];
+
   useEffect(() => {
     dispatch(clearSearchResult());
   }, []);
 
-  useEffect(() => {
-    const offset = (pageNum - 1) * 12;
-    dispatch(fetchPlantListPagination({ limit, offset }));
-  }, [dispatch, pageNum]);
+  // useEffect(() => {}, [dispatch, pageNum]);
 
   useEffect(() => {
     const query = parseInt(searchParams.get('pageNum'))
       ? parseInt(searchParams.get('pageNum'))
       : 1;
     setPageNum(query);
-  }, [searchParams]);
+    const offset = (query - 1) * 12;
+    dispatch(fetchPlantListPagination({ limit, offset }));
+  }, [searchParams, dispatch, pageNum]);
 
   const searchResultOpen = () => {
     setFocused(true);
   };
-
-  // memo
 
   const searchInputChangeHandler = (e) => {
     if (e.target.value) {
@@ -68,8 +78,9 @@ const DictionaryPage = () => {
           setFocused(false);
         }
       }}
+      style={{ display: 'flex', justifyContent: 'center' }}
     >
-      <Container>
+      <DictionaryPageWrapper>
         <Wrapper>
           <div className="content">
             <div className="dict-header">
@@ -99,6 +110,7 @@ const DictionaryPage = () => {
                   ))}
                 </SearchResult>
               </PlantSearchForm>
+              <DictionaryTag tagList={tagList} />
             </div>
             {plantList && !loading && (
               <div className="plantList">
@@ -108,16 +120,19 @@ const DictionaryPage = () => {
               </div>
             )}
           </div>
-          <Pagination
-            count={Math.ceil(plantTotalCount / limit)}
-            shape="rounded"
-            onChange={(e, page) => {
-              window.scrollTo({ top: 0, behavior: 'instant' });
-              navigate(`/dictionary?pageNum=${page}`, { replace: true });
-            }}
-          />
+          {pageNum && (
+            <Pagination
+              count={Math.ceil(plantTotalCount / limit)}
+              shape="rounded"
+              page={pageNum}
+              onChange={(e, page) => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                navigate(`/dictionary?pageNum=${page}`, { replace: true });
+              }}
+            />
+          )}
         </Wrapper>
-      </Container>
+      </DictionaryPageWrapper>
     </div>
   );
 };

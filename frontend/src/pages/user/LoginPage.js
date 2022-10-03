@@ -58,11 +58,21 @@ const LoginPage = () => {
           <LabelContainer>
             <label htmlFor="email">EMAIL</label>
           </LabelContainer>
-          <input type="text" id="email" onChange={inputChangeHandler} />
+          <input
+            type="text"
+            id="email"
+            onChange={inputChangeHandler}
+            placeholder="ex) user@example.com"
+          />
           <LabelContainer>
             <label htmlFor="password">PASSWORD</label>
           </LabelContainer>
-          <input type="password" id="password" onChange={inputChangeHandler} />
+          <input
+            type="password"
+            id="password"
+            onChange={inputChangeHandler}
+            placeholder="비밀번호를 입력해주세요. (8자 이상 문자+숫자)"
+          />
           <div className="checkbox-div">
             <input type="checkbox" id="remember" />
             <label htmlFor="remember">REMEMBER ME</label>

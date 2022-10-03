@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
-
-  const profileNav = ['나의 글', '나의 댓글', '좋아요한 글'];
-
+  const profileNav = ['나의 댓글', '좋아요한 글'];
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
+  const { userInfo } = useSelector((state) => state.user);
+  const {
+    profile_img,
+    username,
+    exp,
+    articles_count,
+    comments_count,
+    likes_count,
+    grade,
+  } = userInfo;
   useEffect(() => {
     const query = parseInt(searchParams.get('tab'))
       ? parseInt(searchParams.get('tab'))
@@ -23,14 +31,14 @@ const ProfilePage = () => {
     <Container>
       <Wrapper>
         <div className="profile-user-info">
-          <img src="" alt="" className="profile-user-img" />
+          <img src={profile_img} alt="" className="profile-user-img" />
           <div className="profile-user-detail">
-            <div className="profile-user-name">드루이두</div>
+            <div className="profile-user-name">{username}</div>
             <div className="profile-user-score">
-              <span>레벨 99</span>
-              <span>나의 글 99</span>
-              <span>나의 댓글 99</span>
-              <span>좋아요한 글 99</span>
+              <span>레벨 {grade}</span>
+              <span>나의 글 {articles_count}</span>
+              <span>나의 댓글 {comments_count}</span>
+              <span>좋아요한 글 {likes_count}</span>
             </div>
           </div>
         </div>

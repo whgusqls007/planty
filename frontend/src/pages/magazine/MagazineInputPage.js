@@ -5,7 +5,10 @@ import Ckeditor5 from '../../components/CKEditor5';
 import { createMagazine } from '../../features/magazine/magazineActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ButtonWrapper, FormBox } from './css/MagazineInputPageCss';
+import {
+  ButtonWrapper,
+  FormBox,
+} from '../../styles/magazine/MagazineInputPageCss';
 
 const MagazineInputPage = () => {
   const dispatch = useDispatch();

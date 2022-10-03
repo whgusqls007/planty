@@ -4,6 +4,7 @@ import dictionaryReducer from '../features/dictionary/dictionarySlice';
 import feedReducer from '../features/feed/feedSlice';
 import gardenReducer from '../features/garden/gardenSlice';
 import magazineReducer from '../features/magazine/magazineSlice';
+import recommendReducer from '../features/recommend/recommendSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     feed: feedReducer,
     garden: gardenReducer,
     magazine: magazineReducer,
+    recommend: recommendReducer,
   },
 });
 

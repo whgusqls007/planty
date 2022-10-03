@@ -151,7 +151,7 @@ const RegisterPage = () => {
         </div>
         <UserForm onSubmit={submitHandler}>
           <LabelContainer>
-            <label htmlFor="username">USERNAME</label>
+            <label htmlFor="username">NICKNAME</label>
             {registerInputs.username && (
               <RegisterMessage username={inputErrors.usernameError} />
             )}
@@ -167,14 +167,24 @@ const RegisterPage = () => {
           <LabelContainer>
             <label htmlFor="password1">PASSWORD</label>
           </LabelContainer>
-          <input type="password" id="password1" onChange={inputChangeHandler} />
+          <input
+            type="password"
+            id="password1"
+            onChange={inputChangeHandler}
+            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+          />
           <LabelContainer>
             <label htmlFor="password2">PASSWORD CONFIRM</label>
             {registerInputs.password1 && registerInputs.password2 && (
               <RegisterMessage password2={inputErrors.passwordConfirmError} />
             )}
           </LabelContainer>
-          <input type="password" id="password2" onChange={inputChangeHandler} />
+          <input
+            type="password"
+            id="password2"
+            onChange={inputChangeHandler}
+            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+          />
           <LabelContainer>
             <label htmlFor="date_of_birth">BIRTH DATE</label>
           </LabelContainer>
