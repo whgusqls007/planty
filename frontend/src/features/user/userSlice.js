@@ -5,6 +5,9 @@ import {
   updateUsername,
   updatePassword,
   updateUsernamePassword,
+  fetchUserInfo,
+  fetchUserComments,
+  fetchUserLikes,
 } from './userActions';
 
 const userInfo = sessionStorage.getItem('userInfo')
@@ -17,6 +20,8 @@ const initialState = {
   error: null,
   success: false,
   registerState: false,
+  userCommentList: [],
+  userLikeList: [],
 };
 
 const userSlice = createSlice({
@@ -76,6 +81,23 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    // 유저 정보 가져오기
+    [fetchUserInfo.pending]: (state) => {
+      // 액션 디스패치
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserInfo.fulfilled]: (state, { payload }) => {
+      // 요청 성공
+      state.loading = false;
+      state.userInfo = payload;
+    },
+    [fetchUserInfo.rejected]: (state, { payload }) => {
+      // 요청 실패
+      state.loading = false;
+      state.error = payload;
+    },
+    // 유저 이름 변경
     [updateUsername.pending]: (state) => {
       state.loading = true;
       state.error = null;
@@ -123,6 +145,38 @@ const userSlice = createSlice({
       state.userInfo = { ...state.userInfo, ...payload };
     },
     [updateUsernamePassword.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    // 댓글 목록 가져오기
+    [fetchUserComments.pending]: (state) => {
+      // 액션 디스패치
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserComments.fulfilled]: (state, { payload }) => {
+      // 요청 성공
+      state.loading = false;
+      state.userCommentList = payload;
+    },
+    [fetchUserComments.rejected]: (state, { payload }) => {
+      // 요청 실패
+      state.loading = false;
+      state.error = payload;
+    },
+    // 좋아요 목록 가져오기
+    [fetchUserLikes.pending]: (state) => {
+      // 액션 디스패치
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUserLikes.fulfilled]: (state, { payload }) => {
+      // 요청 성공
+      state.loading = false;
+      state.userLikeList = payload;
+    },
+    [fetchUserLikes.rejected]: (state, { payload }) => {
+      // 요청 실패
       state.loading = false;
       state.error = payload;
     },
