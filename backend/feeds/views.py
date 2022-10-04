@@ -60,18 +60,18 @@ class FeedViewSet(viewsets.ModelViewSet):
 
     # post에 매칭, 게시글 쓰기
     def create(self, request):
-        # data = eval(request.data['data'])
-        # serializer = FeedSerializer(data=data)
-        serializer = FeedSerializer(data=request.data)
+        data = eval(request.data['data'])
+        serializer = FeedSerializer(data=data)
+        # serializer = FeedSerializer(data=request.data)
         user = request.user
         if serializer.is_valid(raise_exception=True):
-            # try:
-            #     file=request.FILES['files']
-            # except:
-            #     file=''
-            # file_path = s3_upload_image(file, 'feed/')
-            # serializer.save(user=user, img_url=file_path)
-            serializer.save(user=user)
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'feed/')
+            serializer.save(user=user, img_url=file_path)
+            # serializer.save(user=user)
             user.exp = user.exp + 10
             user.articles_count = user.articles_count + 1
             user.save()
@@ -103,6 +103,7 @@ class FeedLikeViewSet(viewsets.ViewSet):
         feed = get_object_or_404(Feed, pk=feed_pk)
         user = request.user
 
+        # 좋아요 취소
         if feed.likes.filter(pk=user.pk).exists():
             feed.likes.remove(user)
             feed.likes_count = feed.likes_count - 1
@@ -110,9 +111,11 @@ class FeedLikeViewSet(viewsets.ViewSet):
 
             user.likes_count = user.likes_count - 1
             user.save()
+            feed.is_liked = False
 
-            return Response({'data' : 'Unlike_Feed OK'}, status=status.HTTP_200_OK)
+            # return Response({'is_liked' : False}, status=status.HTTP_200_OK)
 
+        # 좋아요
         else:
             feed.likes.add(user)
             feed.likes_count = feed.likes_count + 1
@@ -120,8 +123,11 @@ class FeedLikeViewSet(viewsets.ViewSet):
 
             user.likes_count = user.likes_count + 1
             user.save()
+            feed.is_liked = True
 
-            return Response({'data' : 'Like_Feed OK'}, status=status.HTTP_200_OK)
+            # return Response({'is_liked' : True}, status=status.HTTP_200_OK)
+        serializer = FeedDetailSerializer(feed)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # 남의 정원 댓글 CRUD

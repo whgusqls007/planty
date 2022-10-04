@@ -1,10 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-const IntroLastPage = ({
-  screenWidth,
-  screenHeight,
-  currentPage,
-}) => {
+const IntroLastPage = ({ screenWidth, screenHeight, currentPage }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -30,6 +26,7 @@ const IntroLastPage = ({
       <div
         className="check-box-form"
         onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
           localStorage.setItem('skip', true);
           navigate('/index', { replace: true });
         }}

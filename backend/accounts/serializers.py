@@ -23,7 +23,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('profile_img', 'username', 'description', 'exp', 'is_private', 'plants_count', 'followers_count', 'follows_count', 'description', 'is_follow', 'grade')
+        fields = ('id', 'profile_img', 'username', 'description', 'exp', 'is_private', 'plants_count', 'followers_count', 'follows_count', 'description', 'is_follow', 'grade')
         read_only_fields = ('profile_img', 'username', 'is_private', 'exp', 'plants_count', 'followers_count', 'follows_count', 'description', 'grade')
 
 
@@ -42,4 +42,4 @@ class MyPageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'likes_count', 'is_editor', 'grade')
+        fields = ('id', 'profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'likes_count', 'is_editor', 'grade')
