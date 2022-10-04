@@ -77,7 +77,7 @@ function Header() {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
-    navigate('/');
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -86,7 +86,7 @@ function Header() {
 
   return (
     <Wrapper>
-      <Navbar bg="white" expand="lg" className="mb-3">
+      <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
           <Navbar.Brand href="/" className="me-5">
             <img

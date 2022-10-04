@@ -57,7 +57,7 @@ const App = () => {
         <Route path="" element={<Layout />}>
           <Route path="" element={<IntroPage />} />
           <Route path="index" element={<IndexPage />} />
-          <Route path="profile/:userId" element={<ProfilePage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
           <Route path="profile/update" element={<ProfileUpdatePage />} />
 
           <Route path="/dictionary" element={<Outlet />}>

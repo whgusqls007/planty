@@ -88,7 +88,7 @@ const IndexPage = () => {
 
   useEffect(() => {
     Aos.init({
-      once: false,
+      once: true,
     });
     window.scrollTo({ top: 0, behavior: 'instant' });
     dispatch(fetchPopularPlant());

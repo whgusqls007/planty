@@ -20,7 +20,7 @@ const LoginPage = () => {
   const { loading, userInfo, error } = useSelector((state) => state.user);
   useEffect(() => {
     if (userInfo) {
-      navigate('/', { replace: true });
+      navigate('/index', { replace: true });
     }
   }, [navigate, userInfo]);
   useEffect(() => {
