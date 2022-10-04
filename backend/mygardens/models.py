@@ -80,6 +80,3 @@ class Diary(models.Model):
         verbose_name="식물일기 사진",
         null=True # default로 바꾸기
     )
-
-    def __str__(self):
-        return self.my_garden
