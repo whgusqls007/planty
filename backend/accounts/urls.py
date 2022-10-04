@@ -10,7 +10,7 @@ urlpatterns = [
     path('follow/<username>/', FollowViewSet.as_view({'post': 'follow'})),
     path('mypageuserinfo/', MyPageViewSet.as_view({'get': 'userinfo'})),
     path('user/comments/', UserCommentViewSet.as_view({'get': 'user_comments'})),
-    path('user/like/', UserLikeViewSet.as_view({'get': 'user_likes'})),
+    path('user/likes/', UserLikeViewSet.as_view({'get': 'user_likes'})),
     # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
     # path('mypageuserinfo/<int:pk>/', MyPageViewSet.as_view({'get': 'userinfo'})),
 ]

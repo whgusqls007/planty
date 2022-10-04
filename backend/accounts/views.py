@@ -6,8 +6,8 @@ from .models import User
 from .serializers import DescriptionSerializer, ProfileSerializer, MyPageSerializer
 from drf_yasg.utils import swagger_auto_schema
 from collections import OrderedDict
-from feeds.serializers import FeedCommentUserSerializer
-from magazines.serializers import MagazineCommentUserSerializer
+from feeds.serializers import FeedCommentUserSerializer, FeedSerializer
+from magazines.serializers import MagazineCommentUserSerializer, MagazineSerializer
 from datetime import datetime
 
 # 나의 정원 유저 프로필
@@ -70,11 +70,18 @@ class UserCommentViewSet(viewsets.ViewSet):
         
         return Response(data, status=status.HTTP_200_OK)
 
+
 class UserLikeViewSet(viewsets.ViewSet):
 
-    # get에 매칭, 유저가 쓴 댓글 조회
+    # get에 매칭, 유저가 좋아요한 글 조회
     def user_likes(self, request):
-        pass
+        user = request.user
+        feed_serializers = FeedSerializer(user.like_feeds.all(), many=True)
+        magazine_serializers = MagazineSerializer(user.like_magazines.all(), many=True)
+        data = feed_serializers.data + magazine_serializers.data
+        data = sorted(data, key=lambda x: datetime.strptime(x['date_created'][:19], "%Y-%m-%dT%H:%M:%S"))[::-1]
+        
+        return Response(data, status=status.HTTP_200_OK)
 
 
 # post에 매칭, 팔로우
