@@ -15,7 +15,7 @@ const IntroLastPage = ({ screenWidth, screenHeight, currentPage }) => {
         <p className={currentPage === 6 ? 'last-page-ani-2' : ''}>기</p>
         <p className={currentPage === 6 ? 'last-page-ani-3' : ''}>,</p>
         <p className={currentPage === 6 ? 'last-page-ani-4' : ''}>&nbsp;</p>
-        <Link to="/">
+        <Link to="/index">
           <p className={currentPage === 6 ? 'last-page-ani-5' : ''}>플</p>
           <p className={currentPage === 6 ? 'last-page-ani-6' : ''}>랜</p>
           <p className={currentPage === 6 ? 'last-page-ani-7' : ''}>티</p>
