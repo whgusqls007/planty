@@ -21,11 +21,23 @@ export const Wrapper = styled.div`
       & th {
         min-width: 50px;
       }
-      & .modify_delete {
-        width: 10%;
-        text-align: end;
-        padding-right: 2%;
+      & .comment-edit-icon {
+        font-size: 18px;
+        margin-left: 10px;
         cursor: pointer;
+      }
+      & .comment-delte-icon {
+        font-size: 20px;
+        margin-left: 4px;
+        cursor: pointer;
+      }
+      & .modify_delete {
+        font-size: 13px;
+        width: 20%;
+        text-align: end;
+        padding-bottom: 0;
+        /* padding-right: 2%; */
+        /* cursor: pointer; */
 
         @media (max-width: 768px) {
           width: 70px;

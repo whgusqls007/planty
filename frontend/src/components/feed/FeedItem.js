@@ -18,6 +18,7 @@ const FeedItem = ({ feed, onClick }) => {
   return (
     <Wrapper onClick={onClick}>
       <img src={img_url} alt="" className="feed-img" />
+      <span className="feed-user">{user.username}</span>
       <div className="feed-info">
         <div className="feed-like">
           <FavoriteBorderIcon />
@@ -81,6 +82,13 @@ const Wrapper = styled.div`
     height: 100%;
     object-fit: cover;
   }
+  & .feed-user {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    color: white;
+  }
+
   & .feed-info {
     position: absolute;
     right: 10px;

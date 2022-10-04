@@ -164,9 +164,13 @@ const MagazinePage = () => {
               댓글순
             </div>
           </SortingButton>
-          {userInfo && (
+          {userInfo.is_editor ? (
             <Link to="/magazine/magazineinput">
               <div className="tag">글쓰기</div>
+            </Link>
+          ) : (
+            <Link to="/magazine/magazineinput">
+              <div className="tag"></div>
             </Link>
           )}
         </SubInputBox>
