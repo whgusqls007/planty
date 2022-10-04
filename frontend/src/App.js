@@ -55,8 +55,8 @@ const App = () => {
       {/* <Header /> */}
       <Routes>
         <Route path="" element={<Layout />}>
-          <Route path="" element={<IndexPage />} />
-          <Route path="login" element={<LoginPage />} />
+          <Route path="" element={<IntroPage />} />
+          <Route path="index" element={<IndexPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile/:userId" element={<ProfilePage />} />
           <Route path="profile/update" element={<ProfileUpdatePage />} />
