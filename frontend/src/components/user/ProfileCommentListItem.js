@@ -19,7 +19,7 @@ const ProfileCommentListItem = () => {
           key={userCommentList?.idx}
           className="table-content"
           onClick={() => {
-            navigate(`/feed?feed=${idx.feed.id}`);
+            navigate(`?feed=${idx.feed.id}`);
           }}
         >
           <td className="list-page">피드</td>

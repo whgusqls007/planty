@@ -14,7 +14,7 @@ const ProfileLikeListItem = () => {
           key={userLikeList?.idx}
           className="table-content"
           onClick={() => {
-            navigate(`/feed?feed=${idx.id}`);
+            navigate(`?feed=${idx.id}`);
           }}
         >
           <td className="list-page">피드</td>
