@@ -42,7 +42,9 @@ export const commentDelete = async (magazineId, commentId) => {
   return response;
 };
 
-export const commentModify = async (magazineId, commentId) => {
-  const response = client.put(`magazines/${magazineId}/comment/${commentId}/`);
+export const commentModify = async ({ magazineId, commentId, content }) => {
+  const response = client.put(`magazines/${magazineId}/comment/${commentId}/`, {
+    content,
+  });
   return response;
 };

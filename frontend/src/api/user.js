@@ -30,3 +30,13 @@ export const patchDescription = async (params) => {
   const response = await client.patch('accounts/description/', params);
   return response;
 };
+
+export const patchUsername = async (params) => {
+  const response = await client.patch('accounts/user/', params);
+  return response;
+};
+
+export const postNewPassword = async (params) => {
+  const response = await client.post('accounts/password/change/', params);
+  return response;
+};

@@ -168,7 +168,7 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
         serializer = MagazineCommentSerializer(data=request.data)
         user = request.user
 
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             serializer.save(magazine=magazine, user=user)
 
             user.comments_count = user.comments_count + 1
@@ -192,6 +192,8 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
             Response({'data': '권한이 없습니다!'}, status=status.HTTP_403_FORBIDDEN)
 
         serializer = MagazineCommentSerializer(instance=comment, data=request.data)
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
 

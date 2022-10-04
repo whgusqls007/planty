@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const FeedItem = ({ feed, onClick }) => {
+  const navigate = useNavigate();
   const {
     id,
     user,
@@ -17,6 +18,7 @@ const FeedItem = ({ feed, onClick }) => {
   return (
     <Wrapper onClick={onClick}>
       <img src={img_url} alt="" className="feed-img" />
+      <span className="feed-user">{user.username}</span>
       <div className="feed-info">
         <div className="feed-like">
           <FavoriteBorderIcon />
@@ -54,7 +56,8 @@ const Wrapper = styled.div`
     height: calc(((100vw - 24px) / 2 - 5px) * 1.32);
   } */
   @media (max-width: 575px) {
-    height: calc((100vw - 24px) * 1.32);
+    width: calc(100vw - 48px);
+    height: calc((100vw - 48px) * 1.32);
   }
 
   /* width: calc(50vw - 80px);
@@ -79,6 +82,13 @@ const Wrapper = styled.div`
     height: 100%;
     object-fit: cover;
   }
+  & .feed-user {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    color: white;
+  }
+
   & .feed-info {
     position: absolute;
     right: 10px;

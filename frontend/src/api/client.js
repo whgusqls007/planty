@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'http://49.173.95.241:14242/api',
+  // baseURL: 'http://49.173.95.241:14242/api',
   // baseURL: 'http://127.0.0.1:8000/api',
-  // baseURL: 'https://j7e103.p.ssafy.io/api',
+  baseURL: 'https://j7e103.p.ssafy.io/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,7 +23,7 @@ client.interceptors.request.use(
       ? sessionStorage.getItem('Token')
       : null;
     if (token) {
-      client.defaults.headers.common['Authorization'] = `Token ${token}`;
+      config.headers.Authorization = `Token ${token}`;
     }
     return config;
   },

@@ -4,12 +4,14 @@ import {
   fetchFeed,
   createFeed,
   createFeedComment,
+  likeFeed,
 } from './feedAction';
 
 const initialState = {
   loading: false,
   feed: {},
   feedList: [],
+  feedModalState: false,
   // commentList: [],
   error: null,
   success: false,
@@ -23,6 +25,12 @@ const feedSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.error = null;
+    },
+    feedModalOpen: (state) => {
+      state.feedModalState = true;
+    },
+    feedModalClose: (state) => {
+      state.feedModalState = false;
     },
   },
   extraReducers: {
@@ -71,6 +79,11 @@ const feedSlice = createSlice({
       };
     },
     [createFeedComment.rejected]: (state, { payload }) => {},
+    [likeFeed.pending]: (state) => {},
+    [likeFeed.fulfilled]: (state, { payload }) => {
+      state.feed = payload;
+    },
+    [likeFeed.rejected]: (state, { payload }) => {},
   },
 });
 

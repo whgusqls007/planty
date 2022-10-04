@@ -202,8 +202,10 @@ export const GardenItemWrapper = styled.div`
   }
 `;
 
-export const GardenImg = styled.div`
+export const GardenImg = styled.img`
   height: 436px;
+  width: 100%;
+  object-fit: cover;
 
   @media (max-width: 576px) {
     height: 350px;
@@ -215,7 +217,7 @@ export const GardenImg = styled.div`
 
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-color: ${({ theme }) => theme.themeColor[5]};
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   cursor: pointer;
   &:hover {
     transition: transform 0.3s;
@@ -440,5 +442,30 @@ export const GardenForm = styled.form`
     transform: scale(1.5);
     margin-left: 2px;
     margin-top: 20px;
+  }
+  & .plant-input-div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+`;
+
+export const GardenSearchResult = styled.div`
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  max-height: 150px;
+  overflow-y: scroll;
+  flex-direction: column;
+  font-size: 1rem;
+  /* border: 1px solid black; */
+  box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  z-index: 99;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+
+  & div:hover {
+    background-color: #dbdbdb;
   }
 `;
