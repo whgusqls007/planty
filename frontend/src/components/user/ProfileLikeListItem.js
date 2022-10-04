@@ -79,6 +79,7 @@ const Wrapper = styled.div`
     font-size: 18px;
     background-color: ${({ theme }) => theme.themeColor[5]};
     border: 1px solid ${({ theme }) => theme.themeColor[5]};
+    cursor: default;
   }
 
   & .table-content {
@@ -86,22 +87,6 @@ const Wrapper = styled.div`
     border-bottom: 1px solid rgb(191, 191, 191);
     cursor: pointer;
   }
-  /* 
-  & .list-page {
-    cursor: default;
-  }
-
-  & .list-content {
-    cursor: pointer;
-  }
-
-  & .list-comment {
-    cursor: pointer;
-  }
-
-  & .list-date {
-    cursor: default;
-  } */
 `;
 
 export default ProfileLikeListItem;
