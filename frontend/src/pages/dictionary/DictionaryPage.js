@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import PlantItem from '../../components/dictionary/PlantItem';
-import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPlantListPagination,
   searchPlant,
+  fetchKeywordRecommendPlant,
 } from '../../features/dictionary/dictionaryAction';
 import { clearSearchResult } from '../../features/dictionary/dictionarySlice';
 import { Pagination } from '@mui/material';
@@ -54,17 +53,18 @@ const DictionaryPage = () => {
     const query = parseInt(searchParams.get('pageNum'))
       ? parseInt(searchParams.get('pageNum'))
       : 1;
-    setPageNum(query);
     const offset = (query - 1) * 12;
-    const filter = parseInt(searchParams.get('filter'))
+    const keyword = parseInt(searchParams.get('filter'))
       ? parseInt(searchParams.get('filter'))
       : 0;
-    if (!filter) {
+    if (!keyword) {
+      setPageNum(query);
       dispatch(fetchPlantListPagination({ limit, offset }));
     } else {
-      dispatch(fetchPlantListPagination({ limit, offset }));
+      setPageNum(null);
+      dispatch(fetchKeywordRecommendPlant(keyword));
     }
-  }, [searchParams, dispatch, pageNum]);
+  }, [searchParams, dispatch]);
 
   // useEffect(() => {
   //   const filter = parseInt(searchParams.get('filter'))
