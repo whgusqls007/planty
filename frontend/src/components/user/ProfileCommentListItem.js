@@ -94,6 +94,7 @@ const Wrapper = styled.div`
     width: 100%;
     text-align: center;
   }
+
   & .table-head {
     height: 45px;
     font-size: 18px;
@@ -106,6 +107,19 @@ const Wrapper = styled.div`
     height: 45px;
     border-bottom: 1px solid rgb(191, 191, 191);
     cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: rgba(143, 185, 159, 0.5);
+      transition: 0.3s;
+    }
+
+    &:hover td {
+      border: 2px solid rgba(143, 185, 159, 0.8);
+      border-left: 0px;
+      border-right: 0px;
+      transition: 0.3;
+    }
   }
 `;
 
