@@ -1,45 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import MailIcon from '@mui/icons-material/Mail';
-import ForumIcon from '@mui/icons-material/Forum';
-// // 카카오 SDK
-// import { useScript } from '../../hooks';
+import Kakao from './KakaoShare';
 
 function Footer() {
   return (
     <div className="footer-container">
       <Row xs="1" sm="1" md="3" className="footer-main">
         <Col className="footer-theme">
-          <h1>식물로 가득한 공간</h1>
+          <h2>식물이 가득한 공간</h2>
           <img
             src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22E103/uploads/10e3c1b071947facaacbbe9fd0c694b1/main_logo.png"
             alt="플랜티 로고"
           />
         </Col>
         <Col className="footer-contact">
-          <a href="mailto:homido.planty@gmail.com" className="contact-button">
+          <a href="mailto:homido.planty@gmail.com" className="mail-button">
             <MailIcon className="contact-icon" />
           </a>
           <a
             href="https://twitter.com/plantyhomi"
             rel="noreferrer"
             target="_blank"
-            className="contact-button"
+            className="twitter-button"
           >
             <TwitterIcon className="contact-icon" />
           </a>
-          <a
-            href="/"
-            rel="noreferrer"
-            target="_blank"
-            className="contact-button"
-          >
-            <ForumIcon className="contact-icon" />
-          </a>
+          <Kakao />
         </Col>
         <Col className="footer-links">
           <a
@@ -81,19 +72,16 @@ function Footer() {
         </Col>
       </Row>
       <div className="footer-bottom">
-        <div>
-          <span className="contract-info">
-            Copyright 2022. Homido. All rights reserved.
-          </span>
-        </div>
-        <div className="contract-docs">
+        <p className="contract-info">
+          © 2022 Homido{'  '}·{'  '}
           <a href="/" rel="noreferrer" target="_blank">
-            <span className="contract-info">이용약관</span>
+            이용약관
           </a>
+          {'  '}·{'  '}
           <a href="/" rel="noreferrer" target="_blank">
-            <span className="contract-info">개인정보보호</span>
+            개인정보보호
           </a>
-        </div>
+        </p>
       </div>
     </div>
   );
