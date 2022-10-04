@@ -31,6 +31,7 @@ const HorizontalScroll = (props) => {
               key={idx}
               marginLeft={idx === 0 ? 0 : null}
               marginRight={idx === plants.length - 1 ? 0 : null}
+              index={idx}
             />
           );
         })}

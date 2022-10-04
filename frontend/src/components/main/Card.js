@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,10 +51,21 @@ const PlantImg = styled.img`
   }
 `;
 
-const Card = ({ data, marginLeft, marginRight }) => {
+const Card = ({ data, marginLeft, marginRight, index }) => {
   const { id, plant_no, plant_name, img_url, manage_level } = data;
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   return (
-    <Wrapper style={{ marginLeft: marginLeft, marginRight: marginRight }}>
+    <Wrapper
+      data-aos="zoom-in"
+      data-aos-delay={index * 200}
+      style={{ marginLeft: marginLeft, marginRight: marginRight }}
+    >
       <Link to={`/dictionary/${id}`}>
         <PlantImg src={img_url} />
         <div className="plant-discription">

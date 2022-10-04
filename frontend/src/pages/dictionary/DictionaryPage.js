@@ -18,6 +18,8 @@ import {
   DictionaryPageWrapper,
 } from '../../styles/dictionary/DictionaryStyle';
 import DictionaryTag from '../../components/dictionary/DictionaryTag';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
@@ -44,6 +46,9 @@ const DictionaryPage = () => {
   ];
 
   useEffect(() => {
+    Aos.init({
+      once: true,
+    });
     dispatch(clearSearchResult());
   }, []);
 
@@ -98,7 +103,9 @@ const DictionaryPage = () => {
             <div className="dict-header">
               <div className="title">
                 {dictionaryTitle.map((e, idx) => (
-                  <span key={idx}>{e}</span>
+                  <span key={idx} data-aos="zoom-in" data-aos-delay={idx * 50}>
+                    {e}
+                  </span>
                 ))}
               </div>
               <PlantSearchForm ref={searchRef}>

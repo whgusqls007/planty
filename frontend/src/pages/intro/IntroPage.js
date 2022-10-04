@@ -27,7 +27,6 @@ const IntroPage = () => {
 
   useEffect(() => {
     let skip = localStorage.getItem('skip');
-    console.log(skip);
     if (skip) {
       navigate('./index', { replace: true });
     }

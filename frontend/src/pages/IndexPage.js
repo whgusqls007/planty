@@ -21,7 +21,8 @@ import {
   fetchKeywordRecommend,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../layout/Footer';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const arr = [
   '물을 자주 주는',
@@ -86,6 +87,10 @@ const IndexPage = () => {
   };
 
   useEffect(() => {
+    Aos.init({
+      once: false,
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
