@@ -52,7 +52,8 @@ const App = () => {
       />
       <Header />
       <Routes>
-        <Route path="" element={<IndexPage />} />
+        <Route path="" element={<IntroPage />} />
+        <Route path="index" element={<IndexPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />

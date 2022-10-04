@@ -150,7 +150,6 @@ export const InputBox = styled.div`
 
 export const InputButton = styled.div`
   background-color: white;
-
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -175,6 +174,8 @@ export const SubInputBox = styled.div`
     text-decoration: none;
   }
   & .tag {
+    margin-top: 7%;
+    margin-bottom: 15%;
     width: 100px;
     text-align: center;
     margin-left: 3%;

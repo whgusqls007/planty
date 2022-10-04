@@ -48,6 +48,7 @@ export const updateUsername = createAsyncThunk(
   async (username, { rejectWithValue }) => {
     try {
       const { data } = await patchUsername(username);
+      console.log(data);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -64,6 +65,23 @@ export const updatePassword = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await postNewPassword(params);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const updateUsernamePassword = createAsyncThunk(
+  'user/updateUsernamePassword',
+  async (params, { rejectWithValue }) => {
+    try {
+      await postNewPassword(params);
+      const { data } = await patchUsername(params);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
