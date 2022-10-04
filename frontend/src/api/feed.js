@@ -32,3 +32,17 @@ export const feedLike = async (feedId) => {
 
   return response;
 };
+
+export const editComment = async ({ feedId, commentId, content }) => {
+  const response = client.put(`feeds/${feedId}/comment/${commentId}`, {
+    content,
+  });
+
+  return response;
+};
+
+export const deleteComment = async ({ feedId, commentId }) => {
+  const response = client.delete(`feeds/${feedId}/comment/${commentId}`);
+
+  return response;
+};
