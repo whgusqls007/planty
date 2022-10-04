@@ -339,8 +339,8 @@ export const Wrapper = styled.div`
       & .image-box {
         width: 50%;
         height: 500px;
-        margin-right: 10%;
         background-color: ${({ theme }) => theme.themeColor[5]};
+        margin-left: 10%;
 
         @media (max-width: 992px) {
           margin-right: 5%;
