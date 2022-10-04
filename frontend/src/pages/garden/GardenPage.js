@@ -37,7 +37,6 @@ const GardenPage = () => {
   const { gardenFeedList } = useSelector((state) => state.garden);
   const { userInfo } = useSelector((state) => state.user);
   const { gardenUserInfo } = useSelector((state) => state.garden);
-  console.log('render');
 
   const openModal = useCallback(() => {
     setModalOpen(true);

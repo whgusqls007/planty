@@ -208,7 +208,6 @@ const CommentItem = ({ comment }) => {
     } else {
       setIsEditting(false);
     }
-    console.log(isEditting);
   };
 
   const onClickDelete = (e) => {
