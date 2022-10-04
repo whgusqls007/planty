@@ -45,8 +45,14 @@ export const myGarden = async (mygardenId) => {
   return response;
 };
 
-export const Diary = async (mygardenId) => {
-  const response = client.get(`mygardens/${mygardenId}/`);
+export const diaryCreate = async ({ mygardenId, params }) => {
+  const response = client.post(`mygardens/${mygardenId}/diary/`, params);
+
+  return response;
+};
+
+export const gardenDiary = async ({ gardenId, diaryId }) => {
+  const response = client.get(`mygardens/${gardenId}/diary/${diaryId}`);
 
   return response;
 };
