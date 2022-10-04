@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
 
   & .contents {
     width: 100%;
-    margin: -72px 0 0 0;
+    margin: -82px 0 0 0;
 
     & .full-height {
       width: 100%;
@@ -478,6 +478,7 @@ export const Wrapper = styled.div`
       justify-content: center;
       align-items: center;
       z-index: 2;
+      position: relative;
 
       & a {
         display: flex;
@@ -570,6 +571,23 @@ export const Wrapper = styled.div`
       }
       & .last-page-ani-9-out {
         animation: fadeOut 0.2s ease-in 1.3s both;
+      }
+
+      & .content-wrapper {
+        display: flex;
+        justify-content: center;
+      }
+
+      & .check-box-form {
+        color: white;
+        position: absolute;
+        right: 5%;
+        bottom: 5%;
+        cursor: pointer;
+
+        &:hover {
+          color: ${({ theme }) => theme.themeColor[3]};
+        }
       }
     }
 
