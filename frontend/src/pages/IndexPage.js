@@ -20,15 +20,10 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
 } from '../features/recommend/recommendActions';
-<<<<<<< HEAD
 import { useEffect } from 'react';
 import Footer from '../layout/footer/Footer';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
-=======
-import { useNavigate } from 'react-router-dom';
-import Footer from '../layout/Footer';
->>>>>>> 9447ba9755e6c190637e96f7c3265397e2c28faf
 
 const arr = [
   '물을 자주 주는',
