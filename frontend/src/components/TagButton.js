@@ -31,8 +31,8 @@ const Tag = styled.button`
 `;
 
 // onclick 만들어야함
-const TagButton = (props) => {
-  return <Tag>{props.text}</Tag>;
+const TagButton = ({ text, onClick }) => {
+  return <Tag onClick={onClick}>{text}</Tag>;
 };
 
 export default TagButton;
