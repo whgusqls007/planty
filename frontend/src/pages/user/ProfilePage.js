@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/esm/Container';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ProfileListIem from '../../components/user/ProfileListItem';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
@@ -67,9 +68,10 @@ const ProfilePage = () => {
           </div>
         </div>
         <ProfileWrapper>
-          {profileNum === 1 && <div className="profile1">profile1</div>}
+          {/* {profileNum === 1 && <div className="profile1">profile1</div>}
           {profileNum === 2 && <div className="profile2">profile2</div>}
-          {profileNum === 3 && <div className="profile3">profile3</div>}
+          {profileNum === 3 && <div className="profile3">profile3</div>} */}
+          <ProfileListIem />
         </ProfileWrapper>
       </Wrapper>
     </Container>
