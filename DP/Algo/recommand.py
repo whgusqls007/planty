@@ -68,7 +68,7 @@ def get_recommendation_top_percent(
         ret.append([score_dic[key], key])
 
     if not ret:  # 모든 식물을 키워서 추천된 식물이 하나도 없을 때
-        return []  # 빈배열로 넘기는게 맞을지 0을 넘기는게 맞을지 ???
+        return []  # 빈배열로 넘기는게 맞을지 0을 넘기는게 맞을지
 
     ret_cnt = min(len(ret), ret_cnt)  # ret_cnt 개 만큼 return 해 주겠다!
 

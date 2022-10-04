@@ -7,7 +7,7 @@ connection = pymysql.connect(
     user="j7e103",
     passwd="000000",
     host="j7e103.p.ssafy.io",
-    port=3306,
+    port=3337,
     db="homidu",
     charset="utf8",
 )
