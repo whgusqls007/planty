@@ -9,15 +9,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentLine = ({ articleId, data }) => {
   const { userInfo } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
 
   const [modify, setModify] = useState(false);
   const [comment, setComment] = useState(data.content);
 
   useEffect(() => {}, [dispatch]);
-  console.log('유저정보', userInfo);
-  console.log(data.user);
   const deleteCommentHandler = () => {
     dispatch(deleteComment({ articleId: articleId, commentId: data.id }));
   };
@@ -30,18 +27,7 @@ const CommentLine = ({ articleId, data }) => {
         content: comment,
       }),
     );
-  };
-
-  const activeLabel = {
-    position: 'absolute',
-    left: '0%',
-    top: '-25px',
-    fontSize: '15px',
-    transition: '0.4s',
-    border: '1px solid green',
-    borderTop: '0px',
-    borderLeft: '0px',
-    borderRight: '0px',
+    setModify(false);
   };
 
   const activeSpan = {

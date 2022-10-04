@@ -13,6 +13,7 @@ import {
 import {
   updateUsername,
   updatePassword,
+  updateUsernamePassword,
 } from '../../features/user/userActions';
 import {
   usernameUpdateDone,
@@ -55,6 +56,7 @@ const ProfileUpdatePage = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    console.log(updateInputs);
 
     if (changeUsername && !changePassword) {
       dispatch(updateUsername({ username: updateInputs.username }));
@@ -66,9 +68,9 @@ const ProfileUpdatePage = () => {
         }),
       );
     } else if (changeUsername && changePassword) {
-      dispatch(updateUsername({ username: updateInputs.username }));
       dispatch(
-        updatePassword({
+        updateUsernamePassword({
+          username: updateInputs.username,
           new_password1: updateInputs.new_password1,
           new_password2: updateInputs.new_password2,
         }),
@@ -178,7 +180,16 @@ const ProfileUpdatePage = () => {
             onChange={inputChangeHandler}
             placeholder="8자 이상의 문자+숫자를 입력해주세요."
           />
-          <SubmitButton>UPDATE</SubmitButton>
+          <SubmitButton
+            onClick={onSubmitHandler}
+            disabled={
+              inputErrors.passwordConfirmError ||
+              inputErrors.passwordError ||
+              inputErrors.usernameError
+            }
+          >
+            UPDATE
+          </SubmitButton>
           <div className="option-div">
             <Link to={-1}>Back</Link>
           </div>

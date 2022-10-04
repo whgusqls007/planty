@@ -4,6 +4,7 @@ import {
   userRegister,
   updateUsername,
   updatePassword,
+  updateUsernamePassword,
 } from './userActions';
 
 const userInfo = sessionStorage.getItem('userInfo')
@@ -103,6 +104,25 @@ const userSlice = createSlice({
       state.success = true;
     },
     [updatePassword.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
+    [updateUsernamePassword.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateUsernamePassword.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      const userInfo = {
+        ...JSON.parse(sessionStorage.getItem('userInfo')),
+        username: payload.username,
+      };
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+    [updateUsernamePassword.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
