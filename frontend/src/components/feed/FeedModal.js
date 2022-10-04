@@ -78,7 +78,6 @@ const MobileModal = ({ closeModal }) => {
   const onClickLike = useCallback(() => {
     dispatch(likeFeed(id));
   }, [dispatch, likeFeed, id]);
-  console.log(feed_comments);
 
   return (
     <MobileModalWrapper>
