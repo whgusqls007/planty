@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SettingsIcon from '@mui/icons-material/Settings';
+import {
+  fetchUserComments,
+  fetchUserLikes,
+  fetchUserInfo,
+} from '../../features/user/userActions';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
   const profileNav = ['나의 댓글', '좋아요한 글'];
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const {
     profile_img,
@@ -26,6 +32,11 @@ const ProfilePage = () => {
       : 1;
     setProfileNum(query);
   }, [searchParams]);
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+    dispatch(fetchUserComments());
+    dispatch(fetchUserLikes());
+  }, []);
 
   return (
     <Container>
