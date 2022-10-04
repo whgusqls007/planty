@@ -56,7 +56,7 @@ const Card = ({ data, marginLeft, marginRight, index }) => {
 
   useEffect(() => {
     Aos.init({
-      once: false,
+      once: true,
     });
   }, []);
 

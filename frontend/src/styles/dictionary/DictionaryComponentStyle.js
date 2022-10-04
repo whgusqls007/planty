@@ -17,12 +17,19 @@ export const DictionaryTagButton = styled.button`
   font-size: 16px;
   letter-spacing: -1px;
   color: #6d6d6d;
+
+  &:hover {
+    color: #44855d;
+    border-color: #44855d;
+    font-weight: 550;
+  }
+
   ${({ active, theme }) =>
     active &&
     css`
       color: #44855d;
       border-color: #44855d;
-      border-width: 2px;
+      border-width: 3px;
       font-weight: 550;
     `}
 `;

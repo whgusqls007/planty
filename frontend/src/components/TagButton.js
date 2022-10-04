@@ -32,14 +32,12 @@ const Tag = styled.button`
   }
 `;
 
-// onclick 만들어야함
-const TagButton = (props) => {
-  useEffect(() => {
-    Aos.init({
-      once: false,
-    });
-  }, []);
-  return <Tag data-aos="flip-left">{props.text}</Tag>;
+const TagButton = ({ text, onClick }) => {
+  return (
+    <Tag data-aos="flip-left" onClick={onClick}>
+      {text}
+    </Tag>
+  );
 };
 
 export default TagButton;

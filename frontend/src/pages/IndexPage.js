@@ -20,8 +20,7 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
 } from '../features/recommend/recommendActions';
-import { useEffect } from 'react';
-import Footer from '../layout/footer/Footer';
+import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 
@@ -91,6 +90,7 @@ const IndexPage = () => {
     Aos.init({
       once: false,
     });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));

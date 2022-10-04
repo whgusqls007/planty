@@ -5,11 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
-import React from 'react';
-
-// css
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { logout } from '../features/user/userSlice';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -80,12 +80,17 @@ function Header() {
     navigate('/');
   };
 
+  useEffect(() => {
+    Aos.init({ once: false });
+  }, []);
+
   return (
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3">
         <Container>
           <Navbar.Brand href="/" className="me-5">
             <img
+              data-aos="fade-down"
               src="/assets/img/nav-logo.png"
               alt=""
               className="nav-logo-img"
@@ -112,11 +117,6 @@ function Header() {
               <Col lg={3} className="mb-2 mt-2">
                 <Link className="me-4" to="/feed">
                   남의 정원
-                </Link>
-              </Col>
-              <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/worldcup">
-                  식이월
                 </Link>
               </Col>
             </Nav>
