@@ -4,12 +4,13 @@ import ReactHtmlParser from 'react-html-parser';
 import FavoriteButton1 from '@mui/icons-material/ThumbUpAltOutlined';
 import FavoriteButton2 from '@mui/icons-material/ThumbUpAlt';
 import Table from 'react-bootstrap/Table';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchMagazine,
   fetchLike,
   fetchComment,
+  deleteMagazine,
 } from '../../features/magazine/magazineActions';
 import CommentLine from '../../components/magazine/CommentLine';
 import CommentInput from '../../components/magazine/CommentInput';
@@ -20,6 +21,8 @@ import {
   Writer,
   Content,
 } from '../../styles/magazine/MagazineDetailPageCss';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const MagazineDetailPage = (props) => {
   const dispatch = useDispatch();
@@ -27,8 +30,10 @@ const MagazineDetailPage = (props) => {
   const { magazine, comments } = useSelector((state) => state.magazine);
   const { userInfo } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
+    setUserId(sessionStorage.getItem('userInfo').id);
     dispatch(fetchMagazine(articleId));
   }, [dispatch, articleId]);
 
@@ -45,6 +50,10 @@ const MagazineDetailPage = (props) => {
     setComment('');
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteMagazine({ id: articleId }));
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -58,6 +67,24 @@ const MagazineDetailPage = (props) => {
             : null}{' '}
           작성
         </Date>
+        {userInfo &&
+        magazine &&
+        magazine.user &&
+        userInfo.is_editor &&
+        userInfo.id === magazine.user.id ? (
+          <div className="modify-delete">
+            <Link
+              to="/magazine/magazinemodify"
+              state={{
+                magazine: magazine,
+                articleId: articleId,
+              }}
+            >
+              <BorderColorIcon className="modify" />
+            </Link>
+            <DeleteIcon className="delete" onClick={deleteHandler} />
+          </div>
+        ) : null}
         <Content>{ReactHtmlParser(magazine.content)}</Content>
         <div className="favorite">
           <span>좋아용</span>
