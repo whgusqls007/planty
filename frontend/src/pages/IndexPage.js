@@ -21,6 +21,8 @@ import {
   fetchKeywordRecommend,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import Footer from '../layout/footer/Footer';
 
 const arr = [
   '물을 자주 주는',
@@ -144,6 +146,7 @@ const IndexPage = () => {
           <HorizontalScroll data={petsafePlants} />
         </div>
       </Container>
+      <Footer></Footer>
     </>
   );
 };

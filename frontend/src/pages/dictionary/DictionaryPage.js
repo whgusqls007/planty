@@ -56,14 +56,21 @@ const DictionaryPage = () => {
       : 1;
     setPageNum(query);
     const offset = (query - 1) * 12;
-    dispatch(fetchPlantListPagination({ limit, offset }));
-  }, [searchParams, dispatch, pageNum]);
-
-  useEffect(() => {
     const filter = parseInt(searchParams.get('filter'))
       ? parseInt(searchParams.get('filter'))
       : 0;
-  }, [searchParams]);
+    if (!filter) {
+      dispatch(fetchPlantListPagination({ limit, offset }));
+    } else {
+      dispatch(fetchPlantListPagination({ limit, offset }));
+    }
+  }, [searchParams, dispatch, pageNum]);
+
+  // useEffect(() => {
+  //   const filter = parseInt(searchParams.get('filter'))
+  //     ? parseInt(searchParams.get('filter'))
+  //     : 0;
+  // }, [searchParams]);
 
   const searchResultOpen = () => {
     setFocused(true);
