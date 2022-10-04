@@ -1,33 +1,33 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import { createFeed } from '../../features/feed/feedAction';
+import {
+  GardenDiaryCreateModalWrapper,
+  GardenDiaryForm,
+} from '../../styles/garden/GardenComponentStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { createConfirm } from '../../features/feed/feedSlice';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 
-const FeedCreateModal = ({ modalOpen, closeModal }) => {
+const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [content, setContent] = useState('');
   const [isDragging, setIsDragging] = useState(false);
-  const { success } = useSelector((state) => state.feed);
   const dragRef = useRef(null);
 
-  const closeFeedCreateModal = () => {
+  const closeDiaryCreateModal = (e) => {
     setImgFile(null);
     setImgSrc(null);
     setContent('');
     closeModal();
   };
 
-  useEffect(() => {
-    if (success) {
-      dispatch(createConfirm());
-      closeFeedCreateModal();
-    }
-  }, [success, dispatch, createConfirm]);
+  // useEffect(() => {
+  //   if (success) {
+  //     dispatch(createConfirm());
+  //     closeFeedCreateModal();
+  //   }
+  // }, [success, dispatch, createConfirm]);
 
   const onImageChange = (e) => {
     e.preventDefault();
@@ -43,7 +43,6 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
       setImgSrc(null);
     }
   };
-
   const onChangeHandler = (e) => {
     setContent(e.target.value);
   };
@@ -56,7 +55,7 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
       formData.append('data', data);
       formData.append('files', imgFile);
       formData.append('enctype', 'multipart/form-data');
-      dispatch(createFeed(formData));
+      // dispatch(createFeed(formData));
     } else if (!imgFile) {
       alert('사진을 추가해주세요!');
     } else if (!content) {
@@ -142,11 +141,11 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
   }, [initDragEvents, resetDragEvents]);
 
   return (
-    <Wrapper modalOpen={modalOpen}>
-      <div className="close-modal" onClick={closeFeedCreateModal} />
+    <GardenDiaryCreateModalWrapper modalOpen={modalOpen}>
+      <div className="close-modal" onClick={closeDiaryCreateModal} />
       <div className="modal-div">
-        <CloseIcon className="close-btn" onClick={closeFeedCreateModal} />
-        <FeedForm onSubmit={onSubmitHandler}>
+        <CloseIcon className="close-btn" onClick={closeDiaryCreateModal} />
+        <GardenDiaryForm onSubmit={onSubmitHandler}>
           <div
             className={isDragging ? 'img-div dragging' : 'img-div'}
             ref={dragRef}
@@ -182,181 +181,11 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
             onChange={onChangeHandler}
             value={content}
           />
-          {/* <input
-            type="text"
-            id="content"
-            onChange={onChangeHandler}
-            value={content}
-          /> */}
           <button>작성</button>
-        </FeedForm>
+        </GardenDiaryForm>
       </div>
-    </Wrapper>
+    </GardenDiaryCreateModalWrapper>
   );
 };
 
-const Wrapper = styled.div`
-  display: none;
-  ${({ modalOpen }) =>
-    modalOpen &&
-    css`
-      display: flex;
-      align-items: center;
-      animation: modal-bg-show 0.4s;
-    `}
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.65);
-
-  & .close-modal {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  & .modal-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    padding: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    /* animation: modal-show 0.4s; */
-    background-color: #ffffff;
-    box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    width: 90vw;
-    max-width: 850px;
-    height: 800px;
-    & .close-btn {
-      position: absolute;
-      right: 30px;
-      top: 30px;
-      opacity: 0.5;
-      &:hover {
-        opacity: 1;
-        cursor: pointer;
-      }
-    }
-    @media (max-width: 1199px) {
-      margin-top: 5vh;
-      height: 90vh;
-    }
-  }
-
-  /* @keyframes modal-show {
-    from {
-      margin-top: -50px;
-    }
-    to {
-      margin-top: 0;
-    }
-  } */
-  @keyframes modal-bg-show {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`;
-
-const FeedForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  & label {
-    margin-top: 16px;
-    color: #787878;
-  }
-  & input {
-    padding: 8px 0;
-    border-width: 0 0 1px 0;
-    &:focus {
-      outline: none;
-    }
-  }
-  & > div > label {
-    margin-left: 6px;
-  }
-  & button {
-    border: none;
-    margin-top: 10px;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    height: 44px;
-    color: #ffffff;
-    border-radius: 8px;
-  }
-
-  & .img-div {
-    position: relative;
-    border: 2px dashed black;
-    border-radius: 20px;
-    height: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    & img {
-      /* width: 100%; */
-    }
-  }
-
-  & .dragging {
-    background-color: #dbdbdb;
-  }
-
-  & .plant-img {
-    height: 100%;
-  }
-  & .plant-img-label {
-    cursor: pointer;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    left: 0;
-    top: 0;
-    background-color: none;
-    width: 100%;
-    height: 100%;
-    & .label-div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      & span {
-        font-size: 1.3rem;
-        display: flex;
-        justify-content: center;
-      }
-    }
-    & .upload-icon {
-      width: 10vw;
-      height: 10vw;
-    }
-    & .plant-img-hide {
-      display: none;
-    }
-  }
-  & .plant-img-hide {
-    display: none;
-  }
-  & .content-area {
-    flex-grow: 1;
-    padding: 6px;
-    font-size: 1.1rem;
-  }
-`;
-
-export default FeedCreateModal;
+export default GardenDiaryCreateModal;

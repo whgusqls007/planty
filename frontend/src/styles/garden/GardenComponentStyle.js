@@ -261,7 +261,7 @@ export const GardenDiaryItemWrapper = styled.div`
   }
 `;
 
-export const GardenDiaryModalWrapper = styled.div`
+export const GardenDiaryCreateModalWrapper = styled.div`
   display: none;
   ${({ modalOpen }) =>
     modalOpen &&
@@ -271,7 +271,7 @@ export const GardenDiaryModalWrapper = styled.div`
       animation: modal-bg-show 0.4s;
     `}
   position: fixed;
-  z-index: 99;
+  z-index: 9999;
   top: 0;
   right: 0;
   bottom: 0;
@@ -294,18 +294,13 @@ export const GardenDiaryModalWrapper = styled.div`
     padding: 50px;
     left: 50%;
     transform: translateX(-50%);
-    animation: modal-show 0.4s;
+    /* animation: modal-show 0.4s; */
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    @media (min-width: 1200px) {
-      width: 850px;
-      height: 800px;
-    }
-    @media (max-width: 1199px) {
-      width: 850px;
-      height: 800px;
-    }
+    width: 90vw;
+    max-width: 850px;
+    height: 800px;
     & .close-btn {
       position: absolute;
       right: 30px;
@@ -316,16 +311,20 @@ export const GardenDiaryModalWrapper = styled.div`
         cursor: pointer;
       }
     }
+    @media (max-width: 1199px) {
+      margin-top: 5vh;
+      height: 90vh;
+    }
   }
 
-  @keyframes modal-show {
+  /* @keyframes modal-show {
     from {
       margin-top: -50px;
     }
     to {
       margin-top: 0;
     }
-  }
+  } */
   @keyframes modal-bg-show {
     from {
       opacity: 0;
@@ -459,7 +458,7 @@ export const GardenSearchResult = styled.div`
   /* border: 1px solid black; */
   box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
-  z-index: 99;
+  z-index: 9999;
   position: absolute;
   top: 100%;
   left: 0;
@@ -467,5 +466,95 @@ export const GardenSearchResult = styled.div`
 
   & div:hover {
     background-color: #dbdbdb;
+  }
+`;
+
+export const GardenDiaryForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  & label {
+    margin-top: 16px;
+    color: #787878;
+  }
+  & input {
+    padding: 8px 0;
+    border-width: 0 0 1px 0;
+    &:focus {
+      outline: none;
+    }
+  }
+  & > div > label {
+    margin-left: 6px;
+  }
+  & button {
+    border: none;
+    margin-top: 10px;
+    background-color: ${({ theme }) => theme.themeColor[1]};
+    height: 44px;
+    color: #ffffff;
+    border-radius: 8px;
+  }
+
+  & .img-div {
+    position: relative;
+    border: 2px dashed black;
+    border-radius: 20px;
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    & img {
+      /* width: 100%; */
+    }
+  }
+
+  & .dragging {
+    background-color: #dbdbdb;
+  }
+
+  & .plant-img {
+    height: 100%;
+  }
+  & .plant-img-label {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    & .label-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & span {
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    & .upload-icon {
+      width: 10vw;
+      height: 10vw;
+    }
+    & .plant-img-hide {
+      display: none;
+    }
+  }
+  & .plant-img-hide {
+    display: none;
+  }
+  & .content-area {
+    flex-grow: 1;
+    padding: 6px;
+    font-size: 1.1rem;
   }
 `;

@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/esm/Container';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import GardenDiaryItem from '../../components/garden/GardenDiaryItem';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
-import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
+import GardenDiaryCreateModal from '../../components/garden/GardenDiaryCreateModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchMyGarden } from '../../features/garden/gardenActions';
@@ -60,7 +60,7 @@ const GardenDetailPage = () => {
   return (
     <>
       <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
-      <GardenDiaryModal modalOpen={diaryOpen} closeModal={closeDiary} />
+      <GardenDiaryCreateModal modalOpen={diaryOpen} closeModal={closeDiary} />
       <Container>
         {!loading && (
           <>
