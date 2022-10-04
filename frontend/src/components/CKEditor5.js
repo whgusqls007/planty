@@ -12,10 +12,10 @@ const Wrapper = styled.div`
 `;
 
 const Ckeditor5 = (props) => {
-  const { onChangeHandler } = props;
+  const { onChangeHandler, data } = props;
   return (
     <Wrapper>
-      <CKEditor editor={ClassicEditor} onChange={onChangeHandler} />
+      <CKEditor data={data} editor={ClassicEditor} onChange={onChangeHandler} />
     </Wrapper>
   );
 };

@@ -25,6 +25,16 @@ export const magazine = async (id) => {
   return response;
 };
 
+export const magazineUpdate = async (params) => {
+  const response = client.put(`magazines/${params.id}/`, params);
+  return response;
+};
+
+export const magazineDelete = async (params) => {
+  const response = client.delete(`magazines/${params.id}/`);
+  return response;
+};
+
 export const like = async (id) => {
   const response = client.post(`magazines/${id}/like/`);
   return response;

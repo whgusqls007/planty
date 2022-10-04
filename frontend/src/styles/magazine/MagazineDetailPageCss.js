@@ -4,6 +4,21 @@ export const Wrapper = styled.div`
   margin-top: 5%;
   margin-bottom: 5%;
 
+  & .modify-delete {
+    display: flex;
+    justify-content: end;
+    margin-right: 15%;
+
+    & .modify {
+      cursor: pointer;
+    }
+    & .delete {
+      cursor: pointer;
+      margin-left: 2%;
+      color: red;
+    }
+  }
+
   & .favorite {
     display: flex;
     justify-content: end;
@@ -278,4 +293,9 @@ export const Writer = styled.div`
 export const Content = styled.div`
   margin: 5% 15% 0 15%;
   width: 70%;
+
+  & img {
+    max-width: 100%;
+    max-height: 600px;
+  }
 `;

@@ -8,6 +8,7 @@ import {
   fetchComment,
   deleteComment,
   modifyComment,
+  updateMagazine,
 } from './magazineActions';
 
 const initialState = {
@@ -99,6 +100,21 @@ const magazineSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+
+    // update magazine
+    // [updateMagazine.pending]: (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // },
+    // [updateMagazine.fulfilled]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.magazine = payload;
+    //   state.comments = payload.comments;
+    // },
+    // [updateMagazine.rejected]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.error = payload;
+    // },
 
     //like
     [fetchLike.pending]: (state) => {
