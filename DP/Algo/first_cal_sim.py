@@ -14,7 +14,7 @@ connection = pymysql.connect(
 cursor = connection.cursor(pymysql.cursors.DictCursor)
 # ------------------------------------------------------------------------------------------------------
 
-SQL = "SELECT * FROM plant_like"
+SQL = "SELECT * FROM plantlike"
 plant_like = pd.read_sql(SQL, connection)
 
 # 문자열로 인코딩 된 선호도 파싱 후 테이블 생성
