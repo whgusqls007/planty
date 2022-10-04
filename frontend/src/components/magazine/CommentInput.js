@@ -29,7 +29,7 @@ const CommentInput = ({ comment, setComment, submitHandler, username }) => {
     <>
       {userInfo && (
         <tr>
-          <td>'작성'</td>
+          <td>{userInfo.username}</td>
           <td colSpan={5}>
             <div className="commentInput">
               <input
