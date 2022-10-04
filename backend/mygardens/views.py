@@ -62,26 +62,30 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         request_body=createMyGarden_params)
     # post에 매칭, 나의 정원 식물 등록
     def create(self, request):
-        # data = eval(request.data['data'])
-        # serializer = MyGardenSerializer(data=data)
-        serializer = MyGardenSerializer(data=request.data)
+        false = False
+        true = True
+        data = eval(request.data['data'])
+        print(data)
+        serializer = MyGardenSerializer(data=data)
+        # serializer = MyGardenSerializer(data=request.data)
         user = request.user
         plant_num = int(request.data['plant'])
         plant = Plant.objects.get(pk=plant_num)
-
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            # try:
-            #     file=request.FILES['files']
-            # except:
-            #     file=''
-            # file_path = s3_upload_image(file, 'mygardens/')
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'mygardens/')
             
             try:
                 # 선호도 테이블에 user정보가 있을 때
                 plant_like = Plantlike.objects.get(user=user)
                 score = plant_like.score
                 tmp = list(score)
-                tmp[plant_num - 1] = str(request.data['preference'])
+                tmp[plant_num - 1] = str(data['preference'])
                 update_score = ''.join(tmp)
                 plant_like.score = update_score
                 plant_like.save()
@@ -97,7 +101,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
                 plant_like = Plantlike()
                 plant_like.user = user
                 tmp = ['0' for _ in range(216)]
-                tmp[plant_num - 1] = str(request.data['preference'])
+                tmp[plant_num - 1] = str(data['preference'])
                 score = ''.join(tmp)
                 plant_like.score = score
                 plant_like.save()
@@ -106,13 +110,13 @@ class MyGardenViewSet(viewsets.ModelViewSet):
                 update_user.user_id = user.pk
                 update_user.save()
 
-            if request.data.get('present'):
-                get_plant = PlantKeyword.objects.get(pk=request.data['plant'])
+            if data.get('present'):
+                get_plant = PlantKeyword.objects.get(pk=plant_num)
                 get_plant.present_adequacy = get_plant.present_adequacy + 1
                 get_plant.save()
 
-            # serializer.save(user=user, img_url=file_path)
-            serializer.save(user=user, plant=plant)
+            serializer.save(user=user, plant=plant, img_url=file_path)
+            # serializer.save(user=user, plant=plant)
             
             plant.popular = plant.popular + 1
             user.plants_count = user.plants_count + 1
@@ -300,8 +304,14 @@ class MyGardenViewSet(viewsets.ModelViewSet):
 
 # 식물일기
 class DiaryViewSet(viewsets.ModelViewSet):
-    queryset = MyGarden.objects.all()
+    queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+
+    def retrive(self, request, my_garden_pk, diary_pk):
+        diary = get_object_or_404(Diary, pk=diary_pk)
+        serializer = self.get_serializer(diary)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # post에 매칭, 일기 작성
     def create(self, request, my_garden_pk):

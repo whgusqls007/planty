@@ -5,6 +5,8 @@ import {
   updateDescription,
   fetchUserPlant,
   fetchUserFeed,
+  fetchMyGarden,
+  createGarden,
 } from './gardenActions';
 
 const initialState = {
@@ -13,6 +15,7 @@ const initialState = {
   gardenUserInfo: {},
   gardenPlantList: [],
   gardenFeedList: [],
+  gardenPlant: {},
   error: null,
   success: false,
 };
@@ -20,7 +23,13 @@ const initialState = {
 const gardenSlice = createSlice({
   name: 'garden',
   initialState,
-  reducers: {},
+  reducers: {
+    gardenCreateConfirm: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+    },
+  },
   extraReducers: {
     [fetchUserInfo.pending]: (state) => {
       state.loading = true;
@@ -82,7 +91,32 @@ const gardenSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    [fetchMyGarden.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchMyGarden.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.gardenPlant = payload;
+    },
+    [fetchMyGarden.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [createGarden.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [createGarden.fulfilled]: (state, { payload }) => {
+      state.gardenPlantList = [...state.gardenPlantList, payload];
+      state.success = true;
+    },
+    [createGarden.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
   },
 });
 
+export const { gardenCreateConfirm } = gardenSlice.actions;
 export default gardenSlice.reducer;

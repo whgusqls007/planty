@@ -4,7 +4,7 @@ const IntroFirstPage = ({ screenWidth, screenHeight, currentPage }) => {
       className="full-height first-page"
       style={{
         background: 'url(' + require('../css/First.gif') + ') no-repeat',
-        backgroundSize: `${screenWidth * 1.02}px ${screenHeight * 1.02}px`,
+        backgroundSize: `${screenWidth}px ${screenHeight}px`,
       }}
     >
       <div className="first-line">

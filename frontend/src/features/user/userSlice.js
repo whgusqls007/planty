@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userLogin, userRegister } from './userActions';
+import {
+  userLogin,
+  userRegister,
+  updateUsername,
+  updatePassword,
+  updateUsernamePassword,
+} from './userActions';
 
 const userInfo = sessionStorage.getItem('userInfo')
   ? JSON.parse(sessionStorage.getItem('userInfo'))
@@ -21,12 +27,20 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.error = null;
       state.loading = false;
+      sessionStorage.removeItem('userInfo');
+      sessionStorage.removeItem('Token');
     },
     registerDone: (state) => {
       state.registerState = false;
     },
     confirmError: (state) => {
       state.error = null;
+    },
+    usernameUpdateDone: (state) => {
+      state.success = false;
+    },
+    passwordUpdateDone: (state) => {
+      state.success = false;
     },
   },
   extraReducers: {
@@ -62,8 +76,64 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    [updateUsername.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateUsername.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      const userInfo = {
+        ...JSON.parse(sessionStorage.getItem('userInfo')),
+        username: payload.username,
+      };
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+    [updateUsername.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [updatePassword.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    // 비밀번호 변경 완료 시 로그아웃
+    [updatePassword.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+    },
+    [updatePassword.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
+    [updateUsernamePassword.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateUsernamePassword.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      const userInfo = {
+        ...JSON.parse(sessionStorage.getItem('userInfo')),
+        username: payload.username,
+      };
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+    [updateUsernamePassword.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
   },
 });
 
-export const { logout, registerDone, confirmError } = userSlice.actions;
+export const {
+  logout,
+  registerDone,
+  confirmError,
+  usernameUpdateDone,
+  passwordUpdateDone,
+} = userSlice.actions;
 export default userSlice.reducer;

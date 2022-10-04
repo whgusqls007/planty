@@ -202,8 +202,10 @@ export const GardenItemWrapper = styled.div`
   }
 `;
 
-export const GardenImg = styled.div`
+export const GardenImg = styled.img`
   height: 436px;
+  width: 100%;
+  object-fit: cover;
 
   @media (max-width: 576px) {
     height: 350px;
@@ -215,7 +217,7 @@ export const GardenImg = styled.div`
 
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-color: ${({ theme }) => theme.themeColor[5]};
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   cursor: pointer;
   &:hover {
     transition: transform 0.3s;
@@ -335,8 +337,8 @@ export const GardenDiaryModalWrapper = styled.div`
 `;
 
 export const GardenForm = styled.form`
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -380,33 +382,90 @@ export const GardenForm = styled.form`
     padding: 0.5% 0 0.5% 0;
   }
 
-  & .plant-img-input {
-    height: 100%;
-    padding-bottom: 50px;
-
-    @media (max-width: 576px) {
-      padding-bottom: 10px;
-      height: 20%;
-    }
-
-    @media (max-width: 400px) {
-      padding-bottom: 10px;
-      height: 10%;
+  & .img-div {
+    position: relative;
+    border: 2px dashed black;
+    border-radius: 20px;
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    & img {
+      /* width: 100%; */
     }
   }
 
-  & .plant-img {
-    border: 2px dashed black;
-    width: 300px;
-    height: 300px;
+  & .dragging {
+    background-color: #dbdbdb;
+  }
 
-    @media (max-width: 576px) {
-      width: 200px;
-      height: 200px;
+  & .plant-img {
+    height: 100%;
+  }
+  & .plant-img-label {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    & .label-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & span {
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+      }
     }
-    @media (max-width: 400px) {
-      width: 150px;
-      height: 100px;
+    & .upload-icon {
+      width: 10vw;
+      height: 10vw;
     }
+    & .plant-img-hide {
+      display: none;
+    }
+  }
+  & .plant-img-hide {
+    display: none;
+  }
+
+  & span > input {
+    transform: scale(1.5);
+    margin-left: 2px;
+    margin-top: 20px;
+  }
+  & .plant-input-div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+`;
+
+export const GardenSearchResult = styled.div`
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  max-height: 150px;
+  overflow-y: scroll;
+  flex-direction: column;
+  font-size: 1rem;
+  /* border: 1px solid black; */
+  box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  z-index: 99;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+
+  & div:hover {
+    background-color: #dbdbdb;
   }
 `;

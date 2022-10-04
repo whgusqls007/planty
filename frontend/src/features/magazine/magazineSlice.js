@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { magazine } from '../../api/magazine';
 import {
   fetchMagazineList,
   fetchMagazine,
@@ -177,6 +178,7 @@ const magazineSlice = createSlice({
     },
     [modifyComment.fulfilled]: (state, { payload }) => {
       state.loading = false;
+      state.magazine = payload;
       state.comments = payload.comments;
     },
     [modifyComment.rejected]: (state, { payload }) => {

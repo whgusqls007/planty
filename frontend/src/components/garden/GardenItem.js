@@ -1,19 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   GardenItemWrapper,
   GardenImg,
 } from '../../styles/garden/GardenComponentStyle';
 
 const GardenItem = ({ gardenPlant }) => {
-  const { plant, date_grow } = gardenPlant;
+  const navigate = useNavigate();
+  const { id, plant, date_grow, img_url } = gardenPlant;
+  const { userName } = useParams();
 
   return (
-    <GardenItemWrapper>
-      <Link to="1">
-        <GardenImg />
-      </Link>
-      <div className="garden-header">
+    <GardenItemWrapper
+      onClick={() => {
+        navigate(`/garden/${userName}/${id}`);
+      }}
+    >
+      <GardenImg src={img_url} />
+      <div className="garden-header" onClick={() => navigate('/')}>
         <div className="garden-title">{plant?.plant_name}</div>
         <div className="garden-date-grow">{date_grow}</div>
       </div>

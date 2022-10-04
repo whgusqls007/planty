@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelector, useDispatch } from 'react-redux';
 import { GardenUserInfoWrapper } from '../../styles/garden/GardenComponentStyle';
@@ -11,15 +11,13 @@ const GardenUserInfo = () => {
   const dispatch = useDispatch();
   const [isEditting, setIsEditting] = useState(false);
   const [inputDescription, setInputDescription] = useState('');
-  const { gardenUserInfo, loading } = useSelector((state) => state.garden);
+  const { gardenUserInfo } = useSelector((state) => state.garden);
   const { userInfo } = useSelector((state) => state.user);
-  const editInput = useRef();
   const {
     profile_img,
     username,
     description,
     exp,
-    is_private,
     plants_count,
     followers_count,
     follows_count,
@@ -51,7 +49,6 @@ const GardenUserInfo = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(updateDescription({ description: inputDescription }));
-    console.log(inputDescription);
     setIsEditting(false);
   };
 
@@ -117,4 +114,4 @@ const GardenUserInfo = () => {
   );
 };
 
-export default GardenUserInfo;
+export default React.memo(GardenUserInfo);

@@ -27,7 +27,9 @@ farm = pd.DataFrame(
 
 for uid, score in zip(plant_like["user_id"], plant_like["score"]):
     for i, val in enumerate(score):
-        farm[i + 1].loc[uid] = val
+        farm[i + 1].loc[uid] = int(val)
+
+print(farm.astype(int))
 
 
 # 최초 유사도 테이블 생성
