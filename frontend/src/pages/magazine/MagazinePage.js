@@ -30,7 +30,7 @@ const MagazinePage = () => {
   const dispatch = useDispatch();
   const [searchWord, setSearchWord] = useState('');
   const [searchBy, setSearchBy] = useState(0);
-  const { magazineList, pageCount, current, offset, limit, array, sorting } =
+  const { magazineList, pageCount, current, offset, array, sorting } =
     useSelector((state) => state.magazine);
   const { userInfo } = useSelector((state) => state.user);
 
@@ -164,15 +164,11 @@ const MagazinePage = () => {
               댓글순
             </div>
           </SortingButton>
-          {userInfo.is_editor ? (
+          {userInfo !== null && userInfo !== undefined && userInfo.is_editor ? (
             <Link to="/magazine/magazineinput">
               <div className="tag">글쓰기</div>
             </Link>
-          ) : (
-            <Link to="/magazine/magazineinput">
-              <div className="tag"></div>
-            </Link>
-          )}
+          ) : null}
         </SubInputBox>
         <Wrapper>
           {magazineList !== null || magazineList !== undefined

@@ -16,6 +16,9 @@ const DictionaryDetailPage = () => {
   const { plantId } = useParams();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+  useEffect(() => {
     dispatch(fetchPlant(plantId));
   }, [dispatch]);
 

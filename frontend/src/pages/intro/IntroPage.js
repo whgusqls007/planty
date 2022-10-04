@@ -11,12 +11,14 @@ import IntroFourthPage from './intropages/IntroFourthPage';
 import IntroFifthPage from './intropages/IntroFifthPage';
 import IntroSixthPage from './intropages/IntroSixthPage';
 import IntroLastPage from './intropages/IntroLastPage';
+import { useNavigate } from 'react-router-dom';
 
 const IntroPage = () => {
   const [section, setSection] = useState(1);
   const [isMoving, setIsMoving] = useState(false);
   const [screenWidth, setScreenWidht] = useState(1920);
   const [screenHeight, setScreenHeight] = useState(1080);
+  const navigate = useNavigate();
 
   const handleResize = () => {
     setScreenWidht(window.innerWidth);
@@ -24,6 +26,10 @@ const IntroPage = () => {
   };
 
   useEffect(() => {
+    let skip = localStorage.getItem('skip');
+    if (skip) {
+      navigate('./index', { replace: true });
+    }
     Aos.init({
       once: true,
     });
@@ -52,7 +58,7 @@ const IntroPage = () => {
             backgroundSize: `${screenWidth}px ${screenHeight}px`,
           }}
         ></div>
-        <FullPage duration={50} afterChange={scrollMoveHandler}>
+        <FullPage duration={200} afterChange={scrollMoveHandler}>
           <Slide>
             <IntroFirstPage
               screenHeight={screenHeight}

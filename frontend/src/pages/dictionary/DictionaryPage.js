@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import PlantItem from '../../components/dictionary/PlantItem';
-import Container from 'react-bootstrap/esm/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPlantListPagination,
   searchPlant,
+  fetchKeywordRecommendPlant,
 } from '../../features/dictionary/dictionaryAction';
 import { clearSearchResult } from '../../features/dictionary/dictionarySlice';
 import { Pagination } from '@mui/material';
@@ -19,6 +18,8 @@ import {
   DictionaryPageWrapper,
 } from '../../styles/dictionary/DictionaryStyle';
 import DictionaryTag from '../../components/dictionary/DictionaryTag';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const DictionaryPage = () => {
   const dictionaryTitle = '우리가아는모든식물'.split('');
@@ -45,6 +46,9 @@ const DictionaryPage = () => {
   ];
 
   useEffect(() => {
+    Aos.init({
+      once: true,
+    });
     dispatch(clearSearchResult());
   }, []);
 
@@ -54,16 +58,24 @@ const DictionaryPage = () => {
     const query = parseInt(searchParams.get('pageNum'))
       ? parseInt(searchParams.get('pageNum'))
       : 1;
-    setPageNum(query);
     const offset = (query - 1) * 12;
-    dispatch(fetchPlantListPagination({ limit, offset }));
-  }, [searchParams, dispatch, pageNum]);
-
-  useEffect(() => {
-    const filter = parseInt(searchParams.get('filter'))
+    const keyword = parseInt(searchParams.get('filter'))
       ? parseInt(searchParams.get('filter'))
       : 0;
-  }, [searchParams]);
+    if (!keyword) {
+      setPageNum(query);
+      dispatch(fetchPlantListPagination({ limit, offset }));
+    } else {
+      setPageNum(null);
+      dispatch(fetchKeywordRecommendPlant(keyword));
+    }
+  }, [searchParams, dispatch]);
+
+  // useEffect(() => {
+  //   const filter = parseInt(searchParams.get('filter'))
+  //     ? parseInt(searchParams.get('filter'))
+  //     : 0;
+  // }, [searchParams]);
 
   const searchResultOpen = () => {
     setFocused(true);
@@ -91,7 +103,9 @@ const DictionaryPage = () => {
             <div className="dict-header">
               <div className="title">
                 {dictionaryTitle.map((e, idx) => (
-                  <span key={idx}>{e}</span>
+                  <span key={idx} data-aos="zoom-in" data-aos-delay={idx * 50}>
+                    {e}
+                  </span>
                 ))}
               </div>
               <PlantSearchForm ref={searchRef}>

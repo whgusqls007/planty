@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
@@ -20,7 +20,9 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
 } from '../features/recommend/recommendActions';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const arr = [
   '물을 자주 주는',
@@ -71,6 +73,7 @@ const dummyPlants = [
 const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { popularPlants, petsafePlants, keywordPlants } = useSelector(
     (state) => state.recommend,
   );
@@ -84,6 +87,10 @@ const IndexPage = () => {
   };
 
   useEffect(() => {
+    Aos.init({
+      once: false,
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
@@ -97,7 +104,13 @@ const IndexPage = () => {
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
           <ButtonWrapper>
             {arr.map((e, i) => {
-              return <TagButton text={e} key={i} />;
+              return (
+                <TagButton
+                  text={e}
+                  key={i}
+                  onClick={() => navigate(`/dictionary?filter=${i + 1}`)}
+                />
+              );
             })}
           </ButtonWrapper>
         </Container>

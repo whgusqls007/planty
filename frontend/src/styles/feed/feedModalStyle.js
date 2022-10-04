@@ -188,6 +188,97 @@ export const CommentItemWrapper = styled.div`
     margin: 0px 4px;
   }
   margin-bottom: 4px;
+
+  & .comment-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & .comment-content-left {
+      display: flex;
+      align-items: center;
+      /* justify-content: center; */
+    }
+    & .comment-date {
+      font-size: 13px;
+    }
+
+    & .comment-edit-icon {
+      font-size: 18px;
+      margin-left: 10px;
+      cursor: pointer;
+
+      & :hover {
+        opacity: 0.4;
+      }
+    }
+
+    & .comment-delte-icon {
+      font-size: 20px;
+      margin-left: 4px;
+      cursor: pointer;
+
+      & :hover {
+        opacity: 0.4;
+      }
+    }
+    & form {
+      align-items: center;
+      display: flex;
+
+      & .edit-btn {
+        height: 26px;
+        margin-right: 5px;
+        border-radius: 5px;
+        font-size: 15px;
+        text-align: center;
+        background-color: ${({ theme }) => theme.themeColor[1]};
+        color: white;
+
+        @media (max-width: 576px) {
+          height: 22px;
+          font-size: 11px;
+        }
+        @media (max-width: 380px) {
+          height: 18px;
+          font-size: 7px;
+        }
+      }
+
+      & .cancel-btn {
+        height: 26px;
+        margin-right: 5px;
+        border-radius: 5px;
+        font-size: 15px;
+        text-align: center;
+        background-color: gray;
+        color: white;
+        opacity: 0.5;
+
+        @media (max-width: 576px) {
+          height: 22px;
+          font-size: 11px;
+        }
+        @media (max-width: 380px) {
+          height: 18px;
+          font-size: 7px;
+        }
+      }
+    }
+    & input {
+      height: 26px;
+      margin-right: 5px;
+      border-radius: 5px;
+
+      @media (max-width: 576px) {
+        height: 22px;
+      }
+      @media (max-width: 380px) {
+        height: 18px;
+      }
+    }
+  }
 `;
 
 // MobileModal

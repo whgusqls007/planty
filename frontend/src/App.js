@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Header from './layout/Header';
 import IndexPage from './pages/IndexPage';
 // 식물 사전
 import DictionaryPage from './pages/dictionary/DictionaryPage';
@@ -28,6 +27,7 @@ import IntroPage from './pages/intro/IntroPage';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import FeedModal from './components/feed/FeedModal';
 import { fetchFeed } from './features/feed/feedAction';
+import Layout from './layout/Layout';
 
 const App = () => {
   const [searchParams] = useSearchParams();
@@ -50,36 +50,40 @@ const App = () => {
           navigate(-1);
         }}
       />
-      <Header />
+      {/* <Header /> */}
       <Routes>
-        <Route path="" element={<IndexPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="profile/:userId" element={<ProfilePage />} />
-        <Route path="profile/update" element={<ProfileUpdatePage />} />
+        <Route path="" element={<Layout />}>
+          <Route path="" element={<IntroPage />} />
+          <Route path="index" element={<IndexPage />} />
+          <Route path="profile/:userId" element={<ProfilePage />} />
+          <Route path="profile/update" element={<ProfileUpdatePage />} />
 
-        <Route path="/dictionary" element={<Outlet />}>
-          <Route path="" element={<DictionaryPage />} />
-          <Route path=":plantId" element={<DictionaryDetailPage />} />
+          <Route path="/dictionary" element={<Outlet />}>
+            <Route path="" element={<DictionaryPage />} />
+            <Route path=":plantId" element={<DictionaryDetailPage />} />
+          </Route>
+
+          <Route path="/magazine" element={<Outlet />}>
+            <Route path="" element={<MagazinePage />} />
+            <Route path="magazineinput" element={<MagazineInputPage />} />
+            <Route path=":articleId" element={<MagazineDetailPage />} />
+          </Route>
+
+          <Route path="/garden" element={<Outlet />}>
+            <Route path=":userName" element={<GardenPage />} />
+            <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
+          </Route>
+
+          <Route path="/feed" element={<FeedListPage />} />
+          <Route path="/feed/:feedId" element={<FeedListPage />} />
+          <Route path="/worldcup" element={<WorldCup />} />
+
+          <Route path="/intro" element={<IntroPage />} />
         </Route>
-
-        <Route path="/magazine" element={<Outlet />}>
-          <Route path="" element={<MagazinePage />} />
-          <Route path="magazineinput" element={<MagazineInputPage />} />
-          <Route path=":articleId" element={<MagazineDetailPage />} />
-        </Route>
-
-        <Route path="/garden" element={<Outlet />}>
-          <Route path=":userName" element={<GardenPage />} />
-          <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
-        </Route>
-
-        <Route path="/feed" element={<FeedListPage />} />
-        <Route path="/feed/:feedId" element={<FeedListPage />} />
-        <Route path="/worldcup" element={<WorldCup />} />
-
-        <Route path="/intro" element={<IntroPage />} />
       </Routes>
+      {/* <Footer /> */}
     </>
   );
 };

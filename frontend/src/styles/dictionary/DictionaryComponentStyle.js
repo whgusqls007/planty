@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const DictionaryTagWrapper = styled.div`
   margin-top: 50px;
@@ -17,4 +17,19 @@ export const DictionaryTagButton = styled.button`
   font-size: 16px;
   letter-spacing: -1px;
   color: #6d6d6d;
+
+  &:hover {
+    color: #44855d;
+    border-color: #44855d;
+    font-weight: 550;
+  }
+
+  ${({ active, theme }) =>
+    active &&
+    css`
+      color: #44855d;
+      border-color: #44855d;
+      border-width: 3px;
+      font-weight: 550;
+    `}
 `;
