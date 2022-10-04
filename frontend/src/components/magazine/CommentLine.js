@@ -40,6 +40,8 @@ const CommentLine = ({ articleId, data }) => {
     borderBottom: '2px solid green',
   };
 
+  console.log(articleId, data);
+
   return (
     <>
       <tr>
