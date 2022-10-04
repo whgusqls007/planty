@@ -8,6 +8,8 @@ import {
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchPlant } from '../../features/dictionary/dictionaryAction';
+import { createGarden } from '../../features/garden/gardenActions';
+import { gardenCreateConfirm } from '../../features/garden/gardenSlice';
 
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
@@ -16,24 +18,33 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [isDragging, setIsDragging] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [gardenPlantId, setGardenPlantId] = useState(null);
   const [focused, setFocused] = useState(false);
   const searchRef = useRef(null);
   const [presentCheck, setPresentCheck] = useState(false);
   const [gardenInputs, setGardenInputs] = useState({
-    plantname: '',
     date_grow: '',
-    watering_schedule: '',
+    watering_schedule: 0,
     recent_water: '',
     memo: '',
     preference: 4,
   });
   const { searchResult } = useSelector((state) => state.dictionary);
+  const { success } = useSelector((state) => state.garden);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(gardenCreateConfirm());
+      closeGardenCreateModal();
+    }
+  }, [success, dispatch, gardenCreateConfirm]);
 
   const searchResultOpen = () => {
     setFocused(true);
   };
 
   const searchInputChangeHandler = (e) => {
+    setGardenPlantId(null);
     setSearchKeyword(e.target.value);
   };
 
@@ -44,7 +55,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
     setImgSrc(null);
     setGardenInputs({
       date_grow: '',
-      watering_schedule: '',
+      watering_schedule: 0,
       recent_water: '',
       memo: '',
       preference: 4,
@@ -70,10 +81,16 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   };
 
   const onChangeHandler = (e) => {
-    console.log(e.target.checked);
+    const id = e.target.id;
+    let value;
+    if (id == 'watering_schedule') {
+      value = parseInt(e.target.value);
+    } else {
+      value = e.target.value;
+    }
     setGardenInputs({
       ...gardenInputs,
-      [e.target.id]: e.target.value,
+      [id]: value,
     });
   };
 
@@ -85,19 +102,23 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
 
   const onCheckHandler = (e) => {
     setPresentCheck(e.target.checked);
-    // if (presentCheck) {
-    //   setPresentCheck(false);
-    // } else {
-    //   setPresentCheck(true);
-    // }
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('inputs', gardenInputs);
-    formData.append('files', imgFile);
-    formData.append('enctype', 'multipart/form-data');
+    if (!imgFile) {
+      alert('사진을 추가해주세요!');
+    } else if (!gardenPlantId) {
+      alert('식물을 추가해주세요!');
+    } else {
+      const formData = new FormData();
+      const data = JSON.stringify({ ...gardenInputs, presentCheck });
+      formData.append('data', data);
+      formData.append('plant', gardenPlantId);
+      formData.append('files', imgFile);
+      formData.append('enctype', 'multipart/form-data');
+      dispatch(createGarden(formData));
+    }
   };
 
   const handleDragIn = useCallback((e) => {
@@ -234,6 +255,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
                   <div
                     key={idx}
                     onClick={() => {
+                      setGardenPlantId(plant.id);
                       setSearchKeyword(plant.plant_name);
                     }}
                   >
@@ -242,13 +264,14 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
                 ))}
               </GardenSearchResult>
             </div>
-            <label htmlFor="plantname">💬 한줄 메모</label>
+            <label htmlFor="memo">💬 한줄 메모</label>
             <input
               type="text"
-              id="plantmemo"
+              id="memo"
               onChange={onChangeHandler}
               placeholder="반려식물을 소개해주세요."
               value={gardenInputs.memo}
+              required
             />
             <label htmlFor="date_grow">📆 키운 날짜</label>
             <input
@@ -256,14 +279,16 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               id="date_grow"
               onChange={onChangeHandler}
               value={gardenInputs.date_grow}
+              required
             />
             <label htmlFor="watering_schedule">💧 물주는 주기 (일)</label>
             <input
-              type="text"
+              type="number"
               id="watering_schedule"
               onChange={onChangeHandler}
               placeholder="숫자만 입력해 주세요. ex. 1일: 1, 7일: 7"
               value={gardenInputs.watering_schedule}
+              required
             />
             <label htmlFor="recent_water">🚿 최근 물 준 날짜</label>
             <input
@@ -271,6 +296,7 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
               id="recent_water"
               onChange={onChangeHandler}
               value={gardenInputs.recent_water}
+              required
             />
             <label htmlFor="preference">💚 추천 점수(선호 점수)</label>
             <select

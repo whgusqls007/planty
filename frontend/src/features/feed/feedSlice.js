@@ -4,6 +4,7 @@ import {
   fetchFeed,
   createFeed,
   createFeedComment,
+  likeFeed,
 } from './feedAction';
 
 const initialState = {
@@ -78,6 +79,11 @@ const feedSlice = createSlice({
       };
     },
     [createFeedComment.rejected]: (state, { payload }) => {},
+    [likeFeed.pending]: (state) => {},
+    [likeFeed.fulfilled]: (state, { payload }) => {
+      state.feed = payload;
+    },
+    [likeFeed.rejected]: (state, { payload }) => {},
   },
 });
 

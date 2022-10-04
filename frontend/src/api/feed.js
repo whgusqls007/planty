@@ -26,3 +26,9 @@ export const feedCommentCreate = async ({ feedId, content }) => {
 
   return response;
 };
+
+export const feedLike = async (feedId) => {
+  const response = client.post(`feeds/${feedId}/like/`);
+
+  return response;
+};

@@ -4,9 +4,12 @@ import {
   deleteComment,
   modifyComment,
 } from '../../features/magazine/magazineActions';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentLine = ({ articleId, data }) => {
   const { userInfo } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
 
   const [modify, setModify] = useState(false);
@@ -19,7 +22,13 @@ const CommentLine = ({ articleId, data }) => {
   };
 
   const modifyHandler = () => {
-    dispatch(modifyComment({ articleId: articleId, commentId: data.id }));
+    dispatch(
+      modifyComment({
+        magazineId: articleId,
+        commentId: data.id,
+        content: comment,
+      }),
+    );
   };
 
   const activeLabel = {
@@ -48,21 +57,27 @@ const CommentLine = ({ articleId, data }) => {
         <td>{data.user.username}</td>
         {userInfo !== null &&
         userInfo !== undefined &&
-        data.user.id === userInfo.pk ? (
+        data.user.id === userInfo.id ? (
           !modify ? (
             <>
-              <td colSpan={4}>{data.content}</td>
-              <td className="modify_delete">
-                <div
-                  className="modify"
+              <td colSpan={4}>
+                {data.content}
+                <BorderColorIcon
                   onClick={() => {
                     setModify(true);
                   }}
-                >
-                  수정
-                </div>
-                <div className="delete" onClick={deleteCommentHandler}>
-                  삭제
+                  className="comment-edit-icon"
+                />
+                <DeleteIcon
+                  onClick={deleteCommentHandler}
+                  className="comment-delte-icon"
+                />
+              </td>
+
+              <td className="modify_delete">
+                <div>
+                  {data.date_created?.substr(0, 10)}&nbsp;&nbsp;
+                  {data.date_created?.substr(11, 5)}
                 </div>
               </td>
             </>
@@ -102,7 +117,15 @@ const CommentLine = ({ articleId, data }) => {
             </td>
           )
         ) : (
-          <td colSpan={5}>{data.content}</td>
+          <>
+            <td colSpan={4}>{data.content}</td>
+            <td className="modify_delete">
+              <div>
+                {data.date_created?.substr(0, 10)}&nbsp;&nbsp;
+                {data.date_created?.substr(11, 5)}
+              </div>
+            </td>
+          </>
         )}
       </tr>
     </>

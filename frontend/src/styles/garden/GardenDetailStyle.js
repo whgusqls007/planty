@@ -64,6 +64,7 @@ export const GardenDetailImage = styled.img`
   background-color: ${({ theme }) => theme.themeColor[5]};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
+  object-fit: cover;
 
   @media (max-width: 992px) {
     height: 250px;
@@ -77,6 +78,8 @@ export const GardenDetailImage = styled.img`
 export const GardenDetailDescription = styled.div`
   width: 100%;
   height: 365px;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 992px) {
     height: 250px;
@@ -111,6 +114,9 @@ export const GardenDetailDescription = styled.div`
   & .garden-title {
     font-size: 30px;
     font-weight: 400;
+  }
+  & .garden-content {
+    flex-grow: 1;
   }
 
   & .detail-btn {

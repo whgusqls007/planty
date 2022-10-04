@@ -24,6 +24,7 @@ const PlantItem = ({ plant }) => {
 const Wrapper = styled.div`
   /* overflow: hidden; */
   /* border: 3px solid black; */
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   /* margin: 0 10px 20px 10px; */
@@ -31,10 +32,10 @@ const Wrapper = styled.div`
     padding-left: 4px;
     & .plant-name {
       margin-top: 4px;
-      font-size: 24px;
+      font-size: 20px;
     }
     & .plant-level {
-      font-size: 22px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       & span {
