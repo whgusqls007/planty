@@ -3,7 +3,6 @@ import { DictionaryTagWrapper } from '../../styles/dictionary/DictionaryComponen
 import DictionaryTagButton from './DictionaryTagButton';
 
 const DictionaryTag = ({ tagList }) => {
-  console.log('tag', tagList);
   return (
     <DictionaryTagWrapper>
       {tagList.map((tag, i) => (

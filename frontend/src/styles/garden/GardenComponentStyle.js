@@ -202,8 +202,10 @@ export const GardenItemWrapper = styled.div`
   }
 `;
 
-export const GardenImg = styled.div`
+export const GardenImg = styled.img`
   height: 436px;
+  width: 100%;
+  object-fit: cover;
 
   @media (max-width: 576px) {
     height: 350px;
@@ -215,7 +217,7 @@ export const GardenImg = styled.div`
 
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-color: ${({ theme }) => theme.themeColor[5]};
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   cursor: pointer;
   &:hover {
     transition: transform 0.3s;

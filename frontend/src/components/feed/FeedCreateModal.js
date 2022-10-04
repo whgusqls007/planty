@@ -12,7 +12,7 @@ const FeedCreateModal = ({ modalOpen, closeModal }) => {
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [content, setContent] = useState('');
   const [isDragging, setIsDragging] = useState(false);
-  const { success, loading, error } = useSelector((state) => state.feed);
+  const { success } = useSelector((state) => state.feed);
 
   const dragRef = useRef(null);
 

@@ -51,6 +51,7 @@ export const Wrapper = styled.div`
   @media (max-width: 575px) {
     padding: 0 10px;
     grid-template-columns: repeat(1, calc((100vw - 44px)));
+    justify-items: center;
   }
   & .feed-create-btn {
     position: absolute;
