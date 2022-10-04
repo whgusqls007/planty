@@ -77,7 +77,7 @@ function Header() {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
-    navigate('/');
+    navigate('/login');
   };
 
   useEffect(() => {
