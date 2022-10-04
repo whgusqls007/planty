@@ -139,6 +139,9 @@ export const GardenDiaryWrapper = styled.div`
   font-size: 30px;
   font-weight: 400;
   padding-bottom: 200px;
+  & .garden-diary-title {
+    margin-bottom: 12px;
+  }
 
   & .garden-diary-container {
     display: grid;

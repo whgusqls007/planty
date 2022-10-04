@@ -6,6 +6,9 @@ import {
 } from '../../styles/garden/GardenComponentStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { createDiary } from '../../features/garden/gardenActions';
+import { useParams } from 'react-router-dom';
+import { gardenCreateConfirm } from '../../features/garden/gardenSlice';
 
 const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
@@ -14,6 +17,8 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
   const [content, setContent] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef(null);
+  const { gardenId } = useParams();
+  const { success } = useSelector((state) => state.garden);
 
   const closeDiaryCreateModal = (e) => {
     setImgFile(null);
@@ -21,6 +26,12 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
     setContent('');
     closeModal();
   };
+  useEffect(() => {
+    if (success) {
+      dispatch(gardenCreateConfirm());
+      closeDiaryCreateModal();
+    }
+  }, [dispatch, success]);
 
   // useEffect(() => {
   //   if (success) {
@@ -33,6 +44,7 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
     e.preventDefault();
     const imgTarget = e.target.files[0];
     setImgFile(imgTarget);
+    console.log(imgTarget);
     if (imgTarget) {
       const reader = new FileReader();
       reader.readAsDataURL(imgTarget);
@@ -55,7 +67,8 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
       formData.append('data', data);
       formData.append('files', imgFile);
       formData.append('enctype', 'multipart/form-data');
-      // dispatch(createFeed(formData));
+      console.log(gardenId);
+      dispatch(createDiary({ mygardenId: gardenId, params: formData }));
     } else if (!imgFile) {
       alert('사진을 추가해주세요!');
     } else if (!content) {
@@ -150,7 +163,7 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
             className={isDragging ? 'img-div dragging' : 'img-div'}
             ref={dragRef}
           >
-            <label htmlFor="plant-img" className="plant-img-label">
+            <label htmlFor="diary-plant-img" className="plant-img-label">
               <div
                 className={!imgSrc ? 'label-div' : 'label-div plant-img-hide'}
               >
@@ -161,7 +174,7 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
 
             <input
               type="file"
-              id="plant-img"
+              id="diary-plant-img"
               className="plant-img-hide"
               accept="image/*"
               onChange={onImageChange}
@@ -173,11 +186,11 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
             />
           </div>
 
-          <label htmlFor="content">내용</label>
+          <label htmlFor="diary-content">내용</label>
           <textarea
             className="content-area"
             type="text"
-            id="content"
+            id="diary-content"
             onChange={onChangeHandler}
             value={content}
           />

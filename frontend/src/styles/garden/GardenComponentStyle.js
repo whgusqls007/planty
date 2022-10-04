@@ -227,10 +227,12 @@ export const GardenImg = styled.img`
 
 export const GardenDiaryItemWrapper = styled.div`
   width: 100%;
-  height: 320px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
+
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   margin-bottom: 4%;
   transition: 0.4s;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transform: scale3d(1, 1, 1);
 
   &:hover {
@@ -258,6 +260,11 @@ export const GardenDiaryItemWrapper = styled.div`
   }
 
   @media (max-width: 400px) {
+  }
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -469,7 +476,7 @@ export const GardenSearchResult = styled.div`
   }
 `;
 
-export const GardenDiaryForm = styled.div`
+export const GardenDiaryForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -556,5 +563,69 @@ export const GardenDiaryForm = styled.div`
     flex-grow: 1;
     padding: 6px;
     font-size: 1.1rem;
+  }
+`;
+
+export const GardenDiaryModalWrapper = styled.div`
+  display: none;
+  ${({ modalOpen }) =>
+    modalOpen &&
+    css`
+      display: flex;
+      align-items: center;
+      animation: modal-bg-show 0.4s;
+    `}
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+
+  & .close-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  & .modal-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    padding: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 90vw;
+    max-width: 850px;
+    height: 800px;
+    & .close-btn {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+    @media (max-width: 1199px) {
+      margin-top: 5vh;
+      height: 90vh;
+    }
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;

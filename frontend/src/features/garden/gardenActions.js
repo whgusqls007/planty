@@ -6,6 +6,8 @@ import {
   userPlant,
   myGarden,
   gardenCreate,
+  diaryCreate,
+  gardenDiary,
 } from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
@@ -116,6 +118,40 @@ export const createGarden = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await gardenCreate(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const createDiary = createAsyncThunk(
+  'garden/createDiary',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await diaryCreate(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchDiary = createAsyncThunk(
+  'garden/fetchDiary',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await gardenDiary(params);
 
       return data;
     } catch (error) {
