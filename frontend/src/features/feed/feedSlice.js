@@ -5,6 +5,8 @@ import {
   createFeed,
   createFeedComment,
   likeFeed,
+  modifyFeedComment,
+  deleteFeedComment,
 } from './feedAction';
 
 const initialState = {
@@ -84,6 +86,29 @@ const feedSlice = createSlice({
       state.feed = payload;
     },
     [likeFeed.rejected]: (state, { payload }) => {},
+    [modifyFeedComment.pending]: (state) => {},
+    [modifyFeedComment.fulfilled]: (state, { payload }) => {
+      state.feed = {
+        ...state.feed,
+        feed_comments: payload,
+      };
+    },
+    [modifyFeedComment.rejected]: (state, { payload }) => {},
+    [deleteFeedComment.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [deleteFeedComment.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.feed = {
+        ...state.feed,
+        feed_comments: payload,
+      };
+    },
+    [deleteFeedComment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
   },
 });
 
