@@ -34,7 +34,7 @@ const PlantImg = styled.div`
 
 const BigCard = () => {
   return (
-    <Wrapper>
+    <Wrapper data-aos="zoom-in">
       <PlantImg className="plant-img" />
     </Wrapper>
   );

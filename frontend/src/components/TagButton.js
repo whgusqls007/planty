@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect } from 'react';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const Tag = styled.button`
   border: 1px solid ${({ theme }) => theme.themeColor[1]};
@@ -30,9 +32,12 @@ const Tag = styled.button`
   }
 `;
 
-// onclick 만들어야함
 const TagButton = ({ text, onClick }) => {
-  return <Tag onClick={onClick}>{text}</Tag>;
+  return (
+    <Tag data-aos="flip-left" onClick={onClick}>
+      {text}
+    </Tag>
+  );
 };
 
 export default TagButton;

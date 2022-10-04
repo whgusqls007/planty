@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import LevelStar from '../LevelStar';
 import { Link } from 'react-router-dom';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const PlantItem = ({ plant }) => {
+  useEffect(() => {
+    Aos.init({ once: true });
+  }, []);
   const { id, plant_name, img_url, manage_level } = plant;
   return (
-    <Wrapper>
+    <Wrapper data-aos="fade-up">
       <Link to={`/dictionary/${id}`}>
         <PlantImg className="plant-img" src={img_url} alt="" />
         <div className="plant-discription">
