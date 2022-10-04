@@ -316,10 +316,18 @@ class DiaryViewSet(viewsets.ModelViewSet):
     # post에 매칭, 일기 작성
     def create(self, request, my_garden_pk):
         my_garden = get_object_or_404(MyGarden, pk=my_garden_pk)
-        serializer = DiarySerializer(data=request.data)
+        data = eval(request.data['data'])
+        serializer = DiarySerializer(data=data)
         user = request.user
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(my_garden=my_garden)
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'feed/')
+            serializer.save(my_garden=my_garden, diary_img=file_path)
 
             my_garden.diaries_count = my_garden.diaries_count + 1
             my_garden.save()

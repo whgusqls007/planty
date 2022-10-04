@@ -38,3 +38,4 @@ class DiarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
         fields = ('id', 'my_garden', 'content', 'date_created', 'diary_img')
+        read_only_fields = ('my_garden', 'diary_img')
