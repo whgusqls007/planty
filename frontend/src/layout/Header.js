@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,10 +17,10 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 
-  & a {
-    color: inherit;
-    text-decoration: none;
+  & .nav-logo-img {
+    height: 40px;
   }
+
   & .nav-user-btn {
     & a {
       margin-left: 16px;
@@ -70,12 +70,14 @@ const UserInfoWrapper = styled.div`
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
+    navigate('/');
   };
 
   return (
@@ -83,7 +85,11 @@ function Header() {
       <Navbar bg="white" expand="lg" className="mb-3">
         <Container>
           <Navbar.Brand href="/" className="me-5">
-            호미두
+            <img
+              src="/assets/img/nav-logo.png"
+              alt=""
+              className="nav-logo-img"
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
@@ -122,7 +128,7 @@ function Header() {
                     <div className="user-name">{userInfo.username}</div>
                     <img
                       className="profile-img"
-                      src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
+                      src={userInfo.profile_img}
                       alt=""
                     />
                   </div>
@@ -141,4 +147,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);

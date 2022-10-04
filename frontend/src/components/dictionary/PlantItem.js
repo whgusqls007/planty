@@ -22,17 +22,20 @@ const PlantItem = ({ plant }) => {
 };
 
 const Wrapper = styled.div`
+  /* overflow: hidden; */
+  /* border: 3px solid black; */
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-  margin: 0 10px 20px 10px;
+  /* margin: 0 10px 20px 10px; */
   & .plant-discription {
     padding-left: 4px;
     & .plant-name {
       margin-top: 4px;
-      font-size: 24px;
+      font-size: 20px;
     }
     & .plant-level {
-      font-size: 22px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       & span {
@@ -43,10 +46,7 @@ const Wrapper = styled.div`
       }
     }
   }
-  & a {
-    text-decoration: none;
-    color: black;
-  }
+
   &:hover {
     & .plant-img {
       transition: transform 0.3s;
@@ -56,8 +56,32 @@ const Wrapper = styled.div`
 `;
 
 const PlantImg = styled.img`
-  width: 300px;
-  height: 300px;
+  /* width: 300px;
+  height: 300px; */
+  /* width: 100%;
+  height: 100%; */
+  @media (max-width: 576px) {
+    width: calc(100vw - 40px);
+    height: calc(100vw - 40px);
+  }
+  @media (min-width: 576px) {
+    width: calc(((100vw - 120px) / 2) - 20px);
+    height: calc(((100vw - 120px) / 2) - 20px);
+  }
+  @media (min-width: 768px) {
+  }
+  @media (min-width: 992px) {
+    width: calc(((100vw - 120px) / 3) - 20px);
+    height: calc(((100vw - 120px) / 3) - 20px);
+  }
+  @media (min-width: 1200px) {
+    width: calc(((100vw - 120px) / 4) - 20px);
+    height: calc(((100vw - 120px) / 4) - 20px);
+  }
+  @media (min-width: 1400px) {
+    width: calc((1280px / 4) - 20px);
+    height: calc((1280px / 4) - 20px);
+  }
   border-radius: 10px;
   object-fit: cover;
   /* background-color: ${({ theme }) => theme.themeColor[5]}; */

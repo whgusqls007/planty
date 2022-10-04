@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchUserInfo } from './features/user/userActions';
 import Header from './layout/Header';
 import IndexPage from './pages/IndexPage';
 // 식물 사전
@@ -20,18 +19,44 @@ import FeedListPage from './pages/feed/FeedListPage';
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
 import ProfilePage from './pages/user/ProfilePage';
+import ProfileUpdatePage from './pages/user/ProfileUpdatePage';
 // 식이월
 import WorldCup from './pages/worldcup/Worldcup';
+import IntroPage from './pages/intro/IntroPage';
+
+// 피드 모달
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import FeedModal from './components/feed/FeedModal';
+import { fetchFeed } from './features/feed/feedAction';
 
 const App = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [feedId, setFeedId] = useState(false);
+  useEffect(() => {
+    const feed = parseInt(searchParams.get('feed'))
+      ? parseInt(searchParams.get('feed'))
+      : false;
+    if (feed) dispatch(fetchFeed(feed));
+    setFeedId(feed);
+  }, [searchParams]);
+
   return (
     <>
+      <FeedModal
+        modalOpen={feedId}
+        closeModal={() => {
+          navigate(-1);
+        }}
+      />
       <Header />
       <Routes>
         <Route path="" element={<IndexPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />
+        <Route path="profile/update" element={<ProfileUpdatePage />} />
 
         <Route path="/dictionary" element={<Outlet />}>
           <Route path="" element={<DictionaryPage />} />
@@ -50,7 +75,10 @@ const App = () => {
         </Route>
 
         <Route path="/feed" element={<FeedListPage />} />
+        <Route path="/feed/:feedId" element={<FeedListPage />} />
         <Route path="/worldcup" element={<WorldCup />} />
+
+        <Route path="/intro" element={<IntroPage />} />
       </Routes>
     </>
   );

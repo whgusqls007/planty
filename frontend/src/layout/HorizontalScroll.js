@@ -19,18 +19,18 @@ const ScrollContainer = styled.div`
   }
 `;
 
-const HorizontalScroll = props => {
-  const dummyPlants = props.data;
+const HorizontalScroll = (props) => {
+  const plants = props.data;
   return (
     <ScrollContainer>
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {dummyPlants.map((plant, idx) => {
+        {plants.map((plant, idx) => {
           return (
             <Card
               data={plant}
               key={idx}
               marginLeft={idx === 0 ? 0 : null}
-              marginRight={idx === dummyPlants.length - 1 ? 0 : null}
+              marginRight={idx === plants.length - 1 ? 0 : null}
             />
           );
         })}

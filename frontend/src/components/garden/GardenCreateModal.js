@@ -1,17 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import axios from 'axios';
+import {
+  GardenForm,
+  GardenSearchResult,
+} from '../../styles/garden/GardenComponentStyle';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchPlant } from '../../features/dictionary/dictionaryAction';
+import { createGarden } from '../../features/garden/gardenActions';
+import { gardenCreateConfirm } from '../../features/garden/gardenSlice';
 
 const GardenCreateModal = ({ modalOpen, closeModal }) => {
+  const dispatch = useDispatch();
+
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
+  const [isDragging, setIsDragging] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [gardenPlantId, setGardenPlantId] = useState(null);
+  const [focused, setFocused] = useState(false);
+  const searchRef = useRef(null);
+  const [presentCheck, setPresentCheck] = useState(false);
   const [gardenInputs, setGardenInputs] = useState({
-    plantname: '',
-    date_grow: null,
-    watering_schedule: null,
-    recent_water: null,
+    date_grow: '',
+    watering_schedule: 0,
+    recent_water: '',
+    memo: '',
+    preference: 4,
   });
+  const { searchResult } = useSelector((state) => state.dictionary);
+  const { success } = useSelector((state) => state.garden);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(gardenCreateConfirm());
+      closeGardenCreateModal();
+    }
+  }, [success, dispatch, gardenCreateConfirm]);
+
+  const searchResultOpen = () => {
+    setFocused(true);
+  };
+
+  const searchInputChangeHandler = (e) => {
+    setGardenPlantId(null);
+    setSearchKeyword(e.target.value);
+  };
+
+  const dragRef = useRef(null);
+
+  const closeGardenCreateModal = () => {
+    setImgFile(null);
+    setImgSrc(null);
+    setGardenInputs({
+      date_grow: '',
+      watering_schedule: 0,
+      recent_water: '',
+      memo: '',
+      preference: 4,
+    });
+    setPresentCheck(false);
+    setSearchKeyword('');
+    closeModal();
+  };
 
   const onImageChange = (e) => {
     e.preventDefault();
@@ -29,62 +81,247 @@ const GardenCreateModal = ({ modalOpen, closeModal }) => {
   };
 
   const onChangeHandler = (e) => {
+    const id = e.target.id;
+    let value;
+    if (id == 'watering_schedule') {
+      value = parseInt(e.target.value);
+    } else {
+      value = e.target.value;
+    }
     setGardenInputs({
       ...gardenInputs,
-      [e.target.id]: e.target.value,
+      [id]: value,
     });
+  };
+
+  useEffect(() => {
+    if (searchKeyword) {
+      dispatch(searchPlant(searchKeyword));
+    }
+  }, [searchKeyword]);
+
+  const onCheckHandler = (e) => {
+    setPresentCheck(e.target.checked);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('inputs', gardenInputs);
-    formData.append('files', imgFile);
-    formData.append('enctype', 'multipart/form-data');
-    // const URL = 'http://127.0.0.1:8000/api/mygardens/';
-    // const configs = {
-    //   'Content-Type': 'multipart/form-data',
-    // };
-    // axios.post(URL, formData, configs).then((res) => {
-    //   console.log(res);
-    // });
+    if (!imgFile) {
+      alert('사진을 추가해주세요!');
+    } else if (!gardenPlantId) {
+      alert('식물을 추가해주세요!');
+    } else {
+      const formData = new FormData();
+      const data = JSON.stringify({ ...gardenInputs, presentCheck });
+      formData.append('data', data);
+      formData.append('plant', gardenPlantId);
+      formData.append('files', imgFile);
+      formData.append('enctype', 'multipart/form-data');
+      dispatch(createGarden(formData));
+    }
   };
 
+  const handleDragIn = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDragOut = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(false);
+  }, []);
+
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const onChangeFiles = useCallback((e) => {
+    let selectFiles = [];
+    if (e.type === 'drop') {
+      selectFiles = e.dataTransfer.files;
+    } else {
+      selectFiles = e.target.files;
+    }
+
+    const imgTarget = selectFiles[0];
+    setImgFile(imgTarget);
+    if (imgTarget) {
+      const reader = new FileReader();
+      reader.readAsDataURL(imgTarget);
+      reader.onload = (e) => {
+        setImgSrc(e.target.result);
+      };
+    } else {
+      setImgSrc(null);
+    }
+  }, []);
+
+  const handleDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      onChangeFiles(e);
+      setIsDragging(false);
+    },
+    [onChangeFiles],
+  );
+
+  const initDragEvents = useCallback(() => {
+    if (dragRef.current !== null) {
+      dragRef.current.addEventListener('dragenter', handleDragIn);
+      dragRef.current.addEventListener('dragleave', handleDragOut);
+      dragRef.current.addEventListener('dragover', handleDragOver);
+      dragRef.current.addEventListener('drop', handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  const resetDragEvents = useCallback(() => {
+    if (dragRef.current !== null) {
+      dragRef.current.removeEventListener('dragenter', handleDragIn);
+      dragRef.current.removeEventListener('dragleave', handleDragOut);
+      dragRef.current.removeEventListener('dragover', handleDragOver);
+      dragRef.current.removeEventListener('drop', handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  useEffect(() => {
+    initDragEvents();
+
+    return () => resetDragEvents();
+  }, [initDragEvents, resetDragEvents]);
+
   return (
-    <Wrapper modalOpen={modalOpen}>
-      <div className="close-modal" onClick={closeModal} />
+    <Wrapper
+      modalOpen={modalOpen}
+      onClick={(e) => {
+        if (!searchRef.current.contains(e.target)) {
+          setFocused(false);
+        }
+      }}
+    >
+      <div className="close-modal" onClick={closeGardenCreateModal} />
       <div className="modal-div">
-        <CloseIcon className="close-btn" onClick={closeModal} />
+        <CloseIcon className="close-btn" onClick={closeGardenCreateModal} />
         <GardenForm onSubmit={onSubmitHandler}>
-          <label htmlFor="plantname">식물 이름</label>
-          <input type="text" id="plantname" onChange={onChangeHandler} />
-          <label htmlFor="date_grow">키운 날짜</label>
-          <input type="date" id="date_grow" onChange={onChangeHandler} />
-          <label htmlFor="watering_schedule">물주기 주기</label>
-          <input
-            type="text"
-            id="watering_schedule"
-            onChange={onChangeHandler}
-          />
-          <label htmlFor="recent_water">최근 물 준 날짜</label>
-          <input type="date" id="recent_water" onChange={onChangeHandler} />
-          <label htmlFor="plant_img">식물 사진</label>
-          <input
-            type="file"
-            id="plant_img"
-            className="plant-img-input"
-            accept="image/*"
-            onChange={onImageChange}
-          />
-          <img
-            src={imgSrc}
-            alt=""
-            className="plant-img"
-            style={
-              imgSrc !== null ? null : { display: 'none', marginBottom: '3%' }
-            }
-          />
-          <button>작성</button>
+          <div
+            className={isDragging ? 'img-div dragging' : 'img-div'}
+            ref={dragRef}
+          >
+            <label htmlFor="plant-img" className="plant-img-label">
+              <div
+                className={!imgSrc ? 'label-div' : 'label-div plant-img-hide'}
+              >
+                <FileUploadIcon className="upload-icon" />
+                <span>Drag & Drop images or Click to Upload</span>
+              </div>
+            </label>
+
+            <input
+              type="file"
+              id="plant-img"
+              className="plant-img-hide"
+              accept="image/*"
+              onChange={onImageChange}
+            />
+            <img
+              src={imgSrc}
+              alt="피드 이미지"
+              className={imgSrc ? 'plant-img' : 'plant-img-hide'}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="plant-input-div">
+              <label htmlFor="plantname">🌱 식물 종류</label>
+              <input
+                type="text"
+                id="plantname"
+                onChange={searchInputChangeHandler}
+                onFocus={searchResultOpen}
+                value={searchKeyword}
+                ref={searchRef}
+              />
+              <GardenSearchResult
+                visible={focused && searchKeyword && searchResult.length !== 0}
+              >
+                {searchResult.map((plant, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      setGardenPlantId(plant.id);
+                      setSearchKeyword(plant.plant_name);
+                    }}
+                  >
+                    {plant.plant_name}
+                  </div>
+                ))}
+              </GardenSearchResult>
+            </div>
+            <label htmlFor="memo">💬 한줄 메모</label>
+            <input
+              type="text"
+              id="memo"
+              onChange={onChangeHandler}
+              placeholder="반려식물을 소개해주세요."
+              value={gardenInputs.memo}
+              required
+            />
+            <label htmlFor="date_grow">📆 키운 날짜</label>
+            <input
+              type="date"
+              id="date_grow"
+              onChange={onChangeHandler}
+              value={gardenInputs.date_grow}
+              required
+            />
+            <label htmlFor="watering_schedule">💧 물주는 주기 (일)</label>
+            <input
+              type="number"
+              id="watering_schedule"
+              onChange={onChangeHandler}
+              placeholder="숫자만 입력해 주세요. ex. 1일: 1, 7일: 7"
+              value={gardenInputs.watering_schedule}
+              required
+            />
+            <label htmlFor="recent_water">🚿 최근 물 준 날짜</label>
+            <input
+              type="date"
+              id="recent_water"
+              onChange={onChangeHandler}
+              value={gardenInputs.recent_water}
+              required
+            />
+            <label htmlFor="preference">💚 추천 점수(선호 점수)</label>
+            <select
+              name="plant-preference"
+              id="preference"
+              onChange={onChangeHandler}
+              value={gardenInputs.preference}
+            >
+              <option value="4">4점</option>
+              <option value="3">3점</option>
+              <option value="2">2점</option>
+              <option value="1">1점</option>
+              <option value="0">0점</option>
+            </select>
+            <span>
+              <span>🎁 선물 받은 식물&nbsp;&nbsp;</span>
+              <input
+                type="checkbox"
+                id="present"
+                onChange={onCheckHandler}
+                checked={presentCheck}
+              />
+            </span>
+            <button type="submit">작성</button>
+          </div>
         </GardenForm>
       </div>
     </Wrapper>
@@ -131,8 +368,9 @@ const Wrapper = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    height: 600px;
-    width: 80%;
+    width: 90vw;
+    max-width: 850px;
+    height: 800px;
 
     & .close-btn {
       position: absolute;
@@ -144,99 +382,18 @@ const Wrapper = styled.div`
         cursor: pointer;
       }
     }
+    @media (max-width: 1199px) {
+      margin-top: 5vh;
+      height: 90vh;
+    }
   }
 
-  @keyframes modal-show {
-    from {
-      margin-top: -50px;
-    }
-    to {
-      margin-top: 0;
-    }
-  }
   @keyframes modal-bg-show {
     from {
       opacity: 0;
     }
     to {
       opacity: 1;
-    }
-  }
-`;
-
-const GardenForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  @media (max-width: 400px) {
-    font-size: 14px;
-  }
-  & label {
-    margin-top: 16px;
-    color: #787878;
-
-    @media (max-width: 576px) {
-      margin-top: 8px;
-    }
-  }
-  & input {
-    padding: 8px 0;
-    border-width: 0 0 1px 0;
-    &:focus {
-      outline: none;
-    }
-  }
-  & #date_grow {
-    margin-top: 1rem;
-  }
-
-  & #recent_water {
-    margin-top: 1rem;
-  }
-
-  & > div > label {
-    margin-left: 6px;
-  }
-
-  & button {
-    border: none;
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: #ffffff;
-    border-radius: 8px;
-    margin-bottom: 0px;
-    margin-top: 5%;
-    padding: 0.5% 0 0.5% 0;
-  }
-
-  & .plant-img-input {
-    height: 100%;
-    padding-bottom: 50px;
-
-    @media (max-width: 576px) {
-      padding-bottom: 10px;
-      height: 20%;
-    }
-
-    @media (max-width: 400px) {
-      padding-bottom: 10px;
-      height: 10%;
-    }
-  }
-
-  & .plant-img {
-    border: 2px dashed black;
-    width: 300px;
-    height: 300px;
-
-    @media (max-width: 576px) {
-      width: 200px;
-      height: 200px;
-    }
-    @media (max-width: 400px) {
-      width: 150px;
-      height: 100px;
     }
   }
 `;
