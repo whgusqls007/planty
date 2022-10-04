@@ -7,6 +7,8 @@ import {
   comment,
   commentDelete,
   commentModify,
+  magazineUpdate,
+  magazineDelete,
 } from '../../api/magazine';
 
 export const fetchMagazineList = createAsyncThunk(
@@ -74,6 +76,38 @@ export const fetchMagazine = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await magazine(params);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const updateMagazine = createAsyncThunk(
+  'magazine/updateMagazine',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await magazineUpdate(params);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const deleteMagazine = createAsyncThunk(
+  'magazine/deleteMagazine',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await magazineDelete(params);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

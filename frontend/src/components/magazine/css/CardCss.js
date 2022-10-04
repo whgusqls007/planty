@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -16,9 +16,10 @@ export const Wrapper = styled.div`
     transform: scale3d(1.03, 1.03, 1.03);
   }
 
-  & .img {
+  & img {
     width: 100%;
     min-height: 250px;
+    max-height: 250px;
     height: auto;
     border-radius: 10px;
   }
