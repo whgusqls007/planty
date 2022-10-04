@@ -9,6 +9,7 @@ import DictionaryDetailPage from './pages/dictionary/DictionaryDetailPage';
 import MagazinePage from './pages/magazine/MagazinePage';
 import MagazineDetailPage from './pages/magazine/MagazineDetailPage';
 import MagazineInputPage from './pages/magazine/MagazineInputPage';
+import MagazineModifyPage from './pages/magazine/MagazineModifyPage';
 // 나의 정원
 import GardenPage from './pages/garden/GardenPage';
 import GardenDetailPage from './pages/garden/GardenDetailPage';
@@ -69,6 +70,7 @@ const App = () => {
             <Route path="" element={<MagazinePage />} />
             <Route path="magazineinput" element={<MagazineInputPage />} />
             <Route path=":articleId" element={<MagazineDetailPage />} />
+            <Route path="magazinemodify" element={<MagazineModifyPage />} />
           </Route>
 
           <Route path="/garden" element={<Outlet />}>
