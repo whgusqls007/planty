@@ -12,6 +12,6 @@ router.register(r"", MyGardenViewSet, basename="")
 urlpatterns = [
     path('user/<username>/', MygardenListViewSet.as_view({'get': 'list'})),
     path('<int:my_garden_pk>/diary/', DiaryViewSet.as_view({'post': 'create'})),
-    path('<int:my_garden_pk>/diary/<int:diary_pk>/', DiaryViewSet.as_view({'put': 'update', 'delete':'destroy'})),
+    path('<int:my_garden_pk>/diary/<int:diary_pk>/', DiaryViewSet.as_view({'get':'retrive', 'put': 'update', 'delete':'destroy'})),
     path('', include(router.urls)),
 ]

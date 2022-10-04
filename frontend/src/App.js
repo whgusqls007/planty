@@ -19,8 +19,9 @@ import FeedListPage from './pages/feed/FeedListPage';
 // 계정 관련
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
-import WorldCup from './pages/worldcup/Worldcup';
 import ProfilePage from './pages/user/ProfilePage';
+// 식이월
+import WorldCup from './pages/worldcup/Worldcup';
 
 const App = () => {
   return (
@@ -39,13 +40,13 @@ const App = () => {
 
         <Route path="/magazine" element={<Outlet />}>
           <Route path="" element={<MagazinePage />} />
-          <Route path=":articleId" element={<MagazineDetailPage />} />
           <Route path="magazineinput" element={<MagazineInputPage />} />
+          <Route path=":articleId" element={<MagazineDetailPage />} />
         </Route>
 
         <Route path="/garden" element={<Outlet />}>
-          <Route path="" element={<GardenPage />} />
-          <Route path=":gardenId" element={<GardenDetailPage />} />
+          <Route path=":userName" element={<GardenPage />} />
+          <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
         </Route>
 
         <Route path="/feed" element={<FeedListPage />} />
