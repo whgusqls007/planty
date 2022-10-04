@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
 // import Carousel from 'react-bootstrap/Carousel';
 import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';

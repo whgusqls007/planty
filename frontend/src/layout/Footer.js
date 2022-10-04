@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './Footer.css';
+import './footer/Footer.css';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import MailIcon from '@mui/icons-material/Mail';
-import Kakao from './KakaoShare';
+// import Kakao from './footer/KakaoShare';
 
 function Footer() {
   return (
@@ -30,7 +30,7 @@ function Footer() {
           >
             <TwitterIcon className="contact-icon" />
           </a>
-          <Kakao />
+          {/* <Kakao /> */}
         </Col>
         <Col className="footer-links">
           <a
