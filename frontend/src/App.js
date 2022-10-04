@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Header from './layout/Header';
-import Footer from './layout/Footer';
 import IndexPage from './pages/IndexPage';
 // 식물 사전
 import DictionaryPage from './pages/dictionary/DictionaryPage';
@@ -54,10 +52,11 @@ const App = () => {
       />
       {/* <Header /> */}
       <Routes>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
         <Route path="" element={<Layout />}>
           <Route path="" element={<IntroPage />} />
           <Route path="index" element={<IndexPage />} />
-          <Route path="register" element={<RegisterPage />} />
           <Route path="profile/:userId" element={<ProfilePage />} />
           <Route path="profile/update" element={<ProfileUpdatePage />} />
 
