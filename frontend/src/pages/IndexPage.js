@@ -22,6 +22,8 @@ import {
 } from '../features/recommend/recommendActions';
 import { useEffect } from 'react';
 import Footer from '../layout/footer/Footer';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const arr = [
   '물을 자주 주는',
@@ -85,6 +87,9 @@ const IndexPage = () => {
   };
 
   useEffect(() => {
+    Aos.init({
+      once: false,
+    });
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
