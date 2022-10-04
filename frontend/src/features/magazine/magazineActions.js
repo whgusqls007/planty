@@ -140,8 +140,8 @@ export const modifyComment = createAsyncThunk(
   'magazine/modifyComment',
   async (params, { rejectWithValue }) => {
     try {
-      await commentModify(params.articleId, params.commentId);
-      const { data } = await magazine(params.articleId);
+      await commentModify(params);
+      const { data } = await magazine(params.magazineId);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
