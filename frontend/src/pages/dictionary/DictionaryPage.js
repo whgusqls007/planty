@@ -42,7 +42,6 @@ const DictionaryPage = () => {
     '공기 정화용',
     '초보자가 키우기 쉬운',
     '가습 효과가 있는',
-    // '책상 위에 두기 좋은',
   ];
 
   useEffect(() => {
@@ -59,6 +58,12 @@ const DictionaryPage = () => {
     const offset = (query - 1) * 12;
     dispatch(fetchPlantListPagination({ limit, offset }));
   }, [searchParams, dispatch, pageNum]);
+
+  useEffect(() => {
+    const filter = parseInt(searchParams.get('filter'))
+      ? parseInt(searchParams.get('filter'))
+      : 0;
+  }, [searchParams]);
 
   const searchResultOpen = () => {
     setFocused(true);

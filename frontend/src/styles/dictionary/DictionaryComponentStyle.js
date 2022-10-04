@@ -7,7 +7,7 @@ export const DictionaryTagWrapper = styled.div`
   } */
 `;
 
-export const DictionaryTagButtonWrapper = styled.button`
+export const DictionaryTagButton = styled.button`
   background-color: transparent;
   padding: 6px 16px;
   margin-bottom: 4px;

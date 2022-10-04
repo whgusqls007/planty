@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   GardenDiaryModalWrapper,
@@ -53,39 +52,5 @@ const GardenDiaryModal = ({ modalOpen, closeModal }) => {
     </GardenDiaryModalWrapper>
   );
 };
-
-// const GardenForm = styled.form`
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-//   height: 100%;
-//   & label {
-//     margin-top: 16px;
-//     color: #787878;
-//   }
-//   & input {
-//     padding: 8px 0;
-//     border-width: 0 0 1px 0;
-//     &:focus {
-//       outline: none;
-//     }
-//   }
-//   & > div > label {
-//     margin-left: 6px;
-//   }
-//   & button {
-//     border: none;
-//     margin-top: 10px;
-//     background-color: ${({ theme }) => theme.themeColor[1]};
-//     height: 44px;
-//     color: #ffffff;
-//     border-radius: 8px;
-//   }
-//   & .plant-img {
-//     border: 2px dashed black;
-//     width: 300px;
-//     height: 300px;
-//   }
-// `;
 
 export default GardenDiaryModal;

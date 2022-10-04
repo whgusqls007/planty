@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import GardenItem from '../../components/garden/GardenItem';
 import GardenUserInfo from '../../components/garden/GardenUserInfo';
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
@@ -17,7 +17,6 @@ const GardenPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userName } = useParams();
-  const [changeFeeds, setChangeFeeds] = useState(false);
   const [searchParams] = useSearchParams();
   const [tabNum, setTabNum] = useState(1);
   useEffect(() => {
@@ -40,13 +39,13 @@ const GardenPage = () => {
   const { gardenUserInfo } = useSelector((state) => state.garden);
   console.log('render');
 
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setModalOpen(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalOpen(false);
-  };
+  }, []);
 
   return (
     <>
