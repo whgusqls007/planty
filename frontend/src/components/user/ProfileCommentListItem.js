@@ -7,11 +7,6 @@ const ProfileCommentListItem = () => {
   const { userCommentList } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(userCommentList);
-    console.log(userCommentList[0]);
-  }, []);
-
   const listCommentItem = userCommentList.map((idx) => {
     if (idx?.feed) {
       return (

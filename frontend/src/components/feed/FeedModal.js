@@ -11,7 +11,7 @@ import {
 } from '../../features/feed/feedAction';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FeedModalWrapper,
   MobileModalWrapper,
@@ -65,7 +65,9 @@ const FeedModal = ({ modalOpen, closeModal }) => {
 // MobileModal
 const MobileModal = ({ closeModal }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, feed } = useSelector((state) => state.feed);
+  const { userInfo } = useSelector((state) => state.user);
   const {
     id,
     content,
@@ -75,9 +77,14 @@ const MobileModal = ({ closeModal }) => {
     likes_count,
     is_liked,
   } = feed;
-  const onClickLike = useCallback(() => {
-    dispatch(likeFeed(id));
-  }, [dispatch, likeFeed, id]);
+
+  const onClickLike = () => {
+    if (userInfo) {
+      dispatch(likeFeed(id));
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <MobileModalWrapper>
@@ -117,7 +124,7 @@ const ModalImgCarousel = () => {
   const { feed } = useSelector((state) => state.feed);
   return (
     <ModalImgCarouselWrapper>
-      <img src={feed.img_url} alt="Feed Image" />
+      <img src={feed?.img_url} alt="Feed Image" />
     </ModalImgCarouselWrapper>
   );
 };
@@ -132,6 +139,9 @@ const ModalImg = () => {
 
 // feed 오른쪽 게시글
 const ModalDescription = ({ closeModal }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.user);
   const { loading, feed } = useSelector((state) => state.feed);
   const {
     id,
@@ -142,10 +152,14 @@ const ModalDescription = ({ closeModal }) => {
     likes_count,
     is_liked,
   } = feed;
-  const dispatch = useDispatch();
-  const onClickLike = useCallback(() => {
-    dispatch(likeFeed(id));
-  }, [dispatch, likeFeed, id]);
+
+  const onClickLike = () => {
+    if (userInfo) {
+      dispatch(likeFeed(id));
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <ModalDescriptionWrapper>
@@ -182,10 +196,9 @@ const ModalDescription = ({ closeModal }) => {
 const CommentList = ({ comments }) => {
   return (
     <CommentListWrapper>
-      {comments &&
-        comments.map((comment, idx) => (
-          <CommentItem comment={comment} key={idx}></CommentItem>
-        ))}
+      {comments?.map((comment, idx) => (
+        <CommentItem comment={comment} key={idx}></CommentItem>
+      ))}
     </CommentListWrapper>
   );
 };
@@ -238,7 +251,7 @@ const CommentItem = ({ comment }) => {
     <CommentItemWrapper>
       <div className="comment-content">
         <div className="comment-content-left">
-          <div>{user.username}</div>
+          <div>{user?.username}</div>
           <span>::</span>
           {isEditting ? (
             <form onSubmit={onSubmitHandler}>
@@ -252,7 +265,7 @@ const CommentItem = ({ comment }) => {
             </form>
           ) : (
             <div>
-              {user.username === userInfo.username ? (
+              {user?.username === userInfo?.username ? (
                 <div>
                   {content}{' '}
                   <BorderColorIcon
@@ -281,21 +294,25 @@ const CommentItem = ({ comment }) => {
 
 // 댓글 입력 Form
 const CommentInputForm = () => {
-  const { feed } = useSelector((state) => state.feed);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { feed } = useSelector((state) => state.feed);
+  const { userInfo } = useSelector((state) => state.user);
   const [commentInput, setCommentInput] = useState('');
+  const FormSubmitHandler = (e) => {
+    e.preventDefault();
+
+    if (userInfo) {
+      dispatch(createFeedComment({ feedId: feed.id, content: commentInput }));
+      setCommentInput('');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <CommentInputFormWrapper>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          dispatch(
-            createFeedComment({ feedId: feed.id, content: commentInput }),
-          );
-          setCommentInput('');
-        }}
-      >
+      <form onSubmit={FormSubmitHandler}>
         <input
           type="text"
           className="comment-input"

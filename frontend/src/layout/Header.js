@@ -125,15 +125,9 @@ function Header() {
                 )}
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                {userInfo ? (
-                  <Link className="me-4" to="/feed">
-                    남의 정원
-                  </Link>
-                ) : (
-                  <Link className="me-4" to="/login/">
-                    남의 정원
-                  </Link>
-                )}
+                <Link className="me-4" to="/feed">
+                  남의 정원
+                </Link>
               </Col>
             </Nav>
             {userInfo ? (
