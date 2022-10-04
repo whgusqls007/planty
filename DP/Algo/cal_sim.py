@@ -10,15 +10,14 @@ def update_processing():
     sim, farm, connection = connection_db()
 
     # 업데이트 된 사람들 추가해주기
-    SQL = 'SELECT * FROM update_table;'
+    SQL = "SELECT * FROM update_table;"
     update_table = pd.read_sql(SQL, connection)
 
     # truncate table
     cur = connection.cursor()
-    cur.execute('TRUNCATE TABLE update_table;')
+    cur.execute("TRUNCATE TABLE update_table;")
 
-
-    update_arr = list(update_table['user_id'])
+    update_arr = list(update_table["user_id"])
 
     for update_uid in update_arr:
 
@@ -33,12 +32,14 @@ def update_processing():
         # update_uid와 i의 피어슨 유사도 계산
         for i in sim.index:
             # 피어슨 유사도가 2번 계산 되던걸 한번으로 줄임
-            pearson = round(pearsonr(list(farm.loc[update_uid]), list(farm.loc[i]))[0], 4)
+            pearson = round(
+                pearsonr(list(farm.loc[update_uid]), list(farm.loc[i]))[0], 4
+            )
             sim[update_uid].loc[i] = pearson
             sim[i].loc[update_uid] = pearson
 
     # 업데이트된 사람들만 유사도행렬을 새로 계산해줌
-    sim.to_csv('sim.csv')
+    sim.to_csv("sim.csv")
 
 
 if __name__ == "__main__":
