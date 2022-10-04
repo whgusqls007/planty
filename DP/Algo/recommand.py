@@ -20,7 +20,7 @@ def connection_db():
     sim.columns = sim.index
 
     # 선호도 테이블 불러오기
-    SQL = "SELECT * FROM plantLike"
+    SQL = "SELECT * FROM plantlike"
     plant_like = pd.read_sql(SQL, connection)
 
     # 문자열로 인코딩 된 선호도 파싱 후 테이블 생성
