@@ -16,7 +16,8 @@ const CommentLine = ({ articleId, data }) => {
   const [comment, setComment] = useState(data.content);
 
   useEffect(() => {}, [dispatch]);
-
+  console.log('유저정보', userInfo);
+  console.log(data.user);
   const deleteCommentHandler = () => {
     dispatch(deleteComment({ articleId: articleId, commentId: data.id }));
   };
