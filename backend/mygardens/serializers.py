@@ -12,8 +12,8 @@ class MyGardenSerializer(serializers.ModelSerializer):
             fields = ('id', 'content', 'date_created', 'diary_img')
 
     user = get_user_model()
-    plant = PlantListSerializer()
-    diaries = DiaryForMyGardenSerializer(many=True)
+    plant = PlantListSerializer(read_only=True)
+    diaries = DiaryForMyGardenSerializer(many=True, read_only=True)
 
     class Meta:
         model = MyGarden
