@@ -211,4 +211,5 @@ export const SubInputBox = styled.div`
 export const SortingButton = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;

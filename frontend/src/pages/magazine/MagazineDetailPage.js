@@ -54,7 +54,7 @@ const MagazineDetailPage = (props) => {
         </Writer>
         <Date>
           {magazine.date_created !== undefined
-            ? magazine.date_created.split('T')[0]
+            ? magazine?.date_created.split('T')[0]
             : null}{' '}
           작성
         </Date>
