@@ -92,7 +92,7 @@ function Header() {
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
-          <Navbar.Brand href="/" className="me-5">
+          <Navbar.Brand href="/index" className="me-5">
             <img
               data-aos="fade-down"
               src="/assets/img/nav-logo.png"

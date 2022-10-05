@@ -20,6 +20,7 @@ import {
   fetchPopularPlant,
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
+  fetchPlantWordcup,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
@@ -75,13 +76,12 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { popularPlants, petsafePlants, keywordPlants } = useSelector(
-    (state) => state.recommend,
-  );
+  const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
+    useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
-  console.log(popolarMagazines);
   const openModal = () => {
     setModalOpen(true);
+    dispatch(fetchPlantWordcup());
   };
 
   const closeModal = () => {
