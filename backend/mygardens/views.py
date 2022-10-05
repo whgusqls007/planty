@@ -232,7 +232,6 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk):
         my_garden = get_object_or_404(MyGarden, pk=pk)
         user = request.user
-        plant_num = int(request.data['plant'])
 
         if user == my_garden.user:
             my_garden.delete()
@@ -240,7 +239,7 @@ class MyGardenViewSet(viewsets.ModelViewSet):
             plant_like = Plantlike.objects.get(user=user)
             score = plant_like.score
             tmp = list(score)
-            tmp[plant_num - 1] = '0'
+            tmp[my_garden.plant.pk - 1] = '0'
             update_score = ''.join(tmp)
             plant_like.score = update_score
             plant_like.save()
