@@ -2,9 +2,11 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 import pymysql
+import time
 
 
 def connection_db():
+    start = time.time()
     connection = pymysql.connect(
         user="j7e103",
         passwd="000000",
@@ -16,7 +18,7 @@ def connection_db():
     # cursor = connection.cursor(pymysql.cursors.DictCursor)
 
     # 유사도 csv 파일 읽어오기
-    sim = pd.read_csv("sim.csv", index_col=0)
+    sim = pd.read_csv("D:\S07P22E103\DP\Algo\sim.csv", index_col=0)
     sim.columns = sim.index
 
     # 선호도 테이블 불러오기
@@ -27,15 +29,23 @@ def connection_db():
     zeros = np.zeros(
         (len(set(plant_like["user_id"])), len(plant_like["score"].iloc[0]))
     )
+    
     farm = pd.DataFrame(
         zeros,
         index=list(set(plant_like["user_id"])),
         columns=range(1, len(plant_like["score"].iloc[0]) + 1),
     )
 
+    print("time :", time.time() - start)
+
+    start = time.time()
+
     for uid, score in zip(plant_like["user_id"], plant_like["score"]):
         for i, val in enumerate(score):
-            farm[i + 1].loc[uid] = val
+            farm[i + 1].loc[uid] = float(val)
+
+    print("time :", time.time() - start)
+
     return sim, farm, connection
 
 
@@ -76,3 +86,6 @@ def get_recommendation_top_percent(
 
 
 # get_recommendation_top_percent(2, 50)
+
+if __name__ == "__main__":
+    connection_db()

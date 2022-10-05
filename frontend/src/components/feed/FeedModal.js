@@ -172,7 +172,7 @@ const ModalDescription = ({ closeModal }) => {
     <ModalDescriptionWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="description-header">
-        <div className="description-title">제목</div>
+        {/* <div className="description-title"></div> */}
         <div className="description-writer">
           <Link to={`/garden/${user?.username}`}>
             <CloudIcon />

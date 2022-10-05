@@ -59,11 +59,13 @@ export const Wrapper = styled.div`
     top: -52px;
     width: 130px;
     height: 42px;
-
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: white;
-    border: none;
     border-radius: 10px;
     font-size: 20px;
+    color: black;
+    background-color: white;
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
   }
 `;
