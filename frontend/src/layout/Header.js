@@ -21,6 +21,14 @@ const Wrapper = styled.div`
     position: absolute;
     margin-left: 40px;
     margin-top: -5px;
+    z-index: -9;
+  }
+
+  & .btn2 {
+    position: absolute;
+    margin-left: 25px;
+    margin-top: -20px;
+    z-index: -10;
   }
 
   & .nav-logo-img {
@@ -32,6 +40,7 @@ const Wrapper = styled.div`
       position: relative;
       margin-left: 16px;
       background-image: 'url( ${require('../image/2.png')} )';
+
       @media (max-width: 992px) {
         margin-left: 0px;
         margin-right: 16px;
@@ -86,6 +95,7 @@ function Header() {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
   const [curIndex, setCurIndex] = useState(0);
+  const [curIndex2, setCurIndex2] = useState(0);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
@@ -122,19 +132,39 @@ function Header() {
                     setCurIndex(1);
                     sessionStorage.setItem('curIndex', 1);
                   }}
+                  onMouseEnter={() => {
+                    setCurIndex2(1);
+                  }}
+                  onMouseLeave={() => {
+                    setCurIndex2(0);
+                  }}
                 >
-                  {curIndex === 1 && (
-                    <img
-                      width="30px"
-                      height="40px"
-                      src={require('../image/2.png')}
-                      className="btn1"
-                    />
-                  )}
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/2.png')}
+                    className="btn1"
+                    style={
+                      curIndex === 1
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/4.png')}
+                    className="btn2"
+                    style={
+                      curIndex2 === 1
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
                   식물 사전
                 </Link>
               </Col>
-              <Col lg={3} className="mb-2 mt-2 btn2">
+              <Col lg={3} className="mb-2 mt-2">
                 <Link
                   className="me-4"
                   to="/magazine"
@@ -142,15 +172,35 @@ function Header() {
                     setCurIndex(2);
                     sessionStorage.setItem('curIndex', 2);
                   }}
+                  onMouseEnter={() => {
+                    setCurIndex2(2);
+                  }}
+                  onMouseLeave={() => {
+                    setCurIndex2(0);
+                  }}
                 >
-                  {curIndex === 2 && (
-                    <img
-                      width="30px"
-                      height="40px"
-                      src={require('../image/3.png')}
-                      className="btn1"
-                    />
-                  )}
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/3.png')}
+                    className="btn1"
+                    style={
+                      curIndex === 2
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/4.png')}
+                    className="btn2"
+                    style={
+                      curIndex2 === 2
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
                   읽을 거리
                 </Link>
               </Col>
@@ -163,15 +213,35 @@ function Header() {
                       setCurIndex(3);
                       sessionStorage.setItem('curIndex', 3);
                     }}
+                    onMouseEnter={() => {
+                      setCurIndex2(3);
+                    }}
+                    onMouseLeave={() => {
+                      setCurIndex2(0);
+                    }}
                   >
-                    {curIndex === 3 && (
-                      <img
-                        width="30px"
-                        height="40px"
-                        src={require('../image/3.png')}
-                        className="btn1"
-                      />
-                    )}
+                    <img
+                      width="30px"
+                      height="40px"
+                      src={require('../image/3.png')}
+                      className="btn1"
+                      style={
+                        curIndex === 3
+                          ? { opacity: '1', transition: 'all 0.4s' }
+                          : { opacity: '0', transition: 'all 0.4' }
+                      }
+                    />
+                    <img
+                      width="30px"
+                      height="40px"
+                      src={require('../image/4.png')}
+                      className="btn2"
+                      style={
+                        curIndex2 === 3
+                          ? { opacity: '1', transition: 'all 0.4s' }
+                          : { opacity: '0', transition: 'all 0.4' }
+                      }
+                    />
                     나의 정원
                   </Link>
                 ) : (
@@ -188,15 +258,35 @@ function Header() {
                     setCurIndex(4);
                     sessionStorage.setItem('curIndex', 4);
                   }}
+                  onMouseEnter={() => {
+                    setCurIndex2(4);
+                  }}
+                  onMouseLeave={() => {
+                    setCurIndex2(0);
+                  }}
                 >
-                  {curIndex === 4 && (
-                    <img
-                      width="30px"
-                      height="40px"
-                      src={require('../image/3.png')}
-                      className="btn1"
-                    />
-                  )}
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/3.png')}
+                    className="btn1"
+                    style={
+                      curIndex === 4
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
+                  <img
+                    width="30px"
+                    height="40px"
+                    src={require('../image/4.png')}
+                    className="btn2"
+                    style={
+                      curIndex2 === 4
+                        ? { opacity: '1', transition: 'all 0.4s' }
+                        : { opacity: '0', transition: 'all 0.4' }
+                    }
+                  />
                   남의 정원
                 </Link>
               </Col>
