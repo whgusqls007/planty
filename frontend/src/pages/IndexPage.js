@@ -79,7 +79,6 @@ const IndexPage = () => {
     (state) => state.recommend,
   );
   const { popolarMagazines } = useSelector((state) => state.magazine);
-  console.log(popolarMagazines);
   const openModal = () => {
     setModalOpen(true);
   };

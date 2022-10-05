@@ -301,13 +301,13 @@ export const GardenDiaryCreateModalWrapper = styled.div`
     padding: 50px;
     left: 50%;
     transform: translateX(-50%);
-    /* animation: modal-show 0.4s; */
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     width: 90vw;
     max-width: 850px;
-    height: 800px;
+    height: 90vh;
+
     & .close-btn {
       position: absolute;
       right: 30px;
@@ -604,7 +604,7 @@ export const GardenDiaryModalWrapper = styled.div`
     border-radius: 20px;
     width: 90vw;
     max-width: 850px;
-    height: 800px;
+    height: 90vh;
     & .close-btn {
       position: absolute;
       right: 30px;
