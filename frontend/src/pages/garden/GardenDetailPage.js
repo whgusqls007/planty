@@ -100,12 +100,11 @@ const GardenDetailPage = () => {
                     <GardenDetailInfo>
                       <div className="garden-detail-recent_water">
                         <span>
-                          🐳 {recent_water?.substr(0, 4)}년{' '}
+                          🐳
                           {recent_water?.substr(5, 2)}월{' '}
                           {recent_water?.substr(8, 2)}
-                          일에
+                          일에 물을 줬어요
                         </span>
-                        <span>물을 줬어요</span>
                       </div>
                     </GardenDetailInfo>
                     <GardenDetailInfo>
