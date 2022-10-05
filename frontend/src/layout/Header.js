@@ -119,6 +119,11 @@ function Header() {
               src="/assets/img/nav-logo.png"
               alt=""
               className="nav-logo-img"
+              onClick={() => {
+                setCurIndex(0);
+                setCurIndex2(0);
+                sessionStorage.setItem('curIndex', 0);
+              }}
             />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

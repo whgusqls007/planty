@@ -80,7 +80,6 @@ const IndexPage = () => {
   const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
     useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
-  const [propsData, setPropsData] = useState(0);
   const [items, setItems] = useState([]);
 
   const clearItems = () => {
@@ -96,6 +95,7 @@ const IndexPage = () => {
     setModalOpen(false);
   };
 
+  console.log(keywordPlants);
   useEffect(() => {
     Aos.init({
       once: true,
@@ -111,7 +111,7 @@ const IndexPage = () => {
     <>
       <WorldCup2
         modalOpen={modalOpen}
-      closeModal={closeModal}
+        closeModal={closeModal}
         items={items}
         clearItems={clearItems}
       />
@@ -134,9 +134,13 @@ const IndexPage = () => {
       <Container>
         <div>
           <ContentTitle>당신을 위한 맞춤 추천</ContentTitle>
+          <ContentSubTitle>
+            당신과 비슷한 정원을 가진 사람들이 키우는 식물이에요!
+          </ContentSubTitle>
+          <HorizontalScroll data={dummyPlants} />
           <WorldCupWrapper>
-            <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
-            <button onClick={openModal}>이상형 월드컵</button>
+            <ContentSubTitle>당신의 취향에 맞는 식물이에요!</ContentSubTitle>
+            <button onClick={() => {}}>이상형 월드컵</button>
           </WorldCupWrapper>
           <HorizontalScroll data={dummyPlants} />
         </div>
