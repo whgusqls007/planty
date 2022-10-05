@@ -136,7 +136,9 @@ const IndexPage = () => {
         <div>
           <ContentTitle
             style={
-              userInfo && userInfo?.plants_count > 0
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              (userRecommend?.length > 0 || WorldcupList?.length > 0)
                 ? { display: 'block' }
                 : { display: 'none' }
             }
@@ -145,7 +147,9 @@ const IndexPage = () => {
           </ContentTitle>
           <div
             style={
-              userInfo && userInfo?.plants_count > 0 && userRecommend.length > 0
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              userRecommend?.length > 0
                 ? { display: 'block' }
                 : { display: 'none' }
             }
@@ -157,7 +161,7 @@ const IndexPage = () => {
           </div>
           <div
             style={
-              userInfo && userInfo?.plants_count > 0
+              userInfo && userInfo?.plants_count > 0 && WorldcupList?.length > 0
                 ? { display: 'block' }
                 : { display: 'none' }
             }
