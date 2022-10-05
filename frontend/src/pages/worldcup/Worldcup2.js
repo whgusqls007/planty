@@ -136,14 +136,13 @@ const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
                     style={
                       displays.length === 1
                         ? {
-                            width: '80%',
-                            height: '400px',
-                            display: 'flex',
-                            justifyContent: 'center',
+                            backgroundImage: `url(${e?.img_url})`,
+                            backgroundRepeat: 'no-repeat',
+                            width: '70%',
                           }
                         : {
-                            width: '80%',
-                            height: '400px',
+                            backgroundImage: `url(${e?.img_url})`,
+                            backgroundRepeat: 'no-repeat',
                           }
                     }
                     key={i}
@@ -152,19 +151,8 @@ const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
                     data-aos-easing="linear"
                     data-aos-duration="200"
                   >
-                    <div
-                      className="name"
-                      style={{
-                        backgroundImage: `url(${e?.img_url})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: '100% 400px',
-                        height: '400px',
-                        width: '100%',
-                        fontSize: '30px',
-                        fontWeight: '550',
-                      }}
-                    >
-                      {e?.plant_name}
+                    <div className="name">
+                      <p>{e?.plant_name}</p>
                     </div>
                   </div>
                 );
