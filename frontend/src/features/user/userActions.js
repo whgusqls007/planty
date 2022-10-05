@@ -7,6 +7,7 @@ import {
   postNewPassword,
   userComments,
   userLikes,
+  patchProfile,
 } from '../../api/user';
 
 export const userLogin = createAsyncThunk(
@@ -138,6 +139,23 @@ export const fetchUserLikes = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await userLikes(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const updateProfileImg = createAsyncThunk(
+  'user/updateProfileImg',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await patchProfile();
 
       return data;
     } catch (error) {

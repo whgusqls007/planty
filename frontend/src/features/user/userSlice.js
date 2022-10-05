@@ -8,6 +8,7 @@ import {
   fetchUserInfo,
   fetchUserComments,
   fetchUserLikes,
+  updateProfileImg,
 } from './userActions';
 
 const userInfo = sessionStorage.getItem('userInfo')
@@ -177,6 +178,25 @@ const userSlice = createSlice({
     },
     [fetchUserLikes.rejected]: (state, { payload }) => {
       // 요청 실패
+      state.loading = false;
+      state.error = payload;
+    },
+    // 프로필 사진 변경
+    [updateProfileImg.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateProfileImg.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      const userInfo = {
+        ...JSON.parse(sessionStorage.getItem('userInfo')),
+        profile_img: payload,
+      };
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+      state.userInfo = { ...state.userInfo, ...payload };
+    },
+    [updateProfileImg.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
