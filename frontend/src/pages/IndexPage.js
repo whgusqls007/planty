@@ -21,10 +21,12 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
   fetchPlantWordcup,
+  fetchUserRecommend,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { petSafetyPlants } from '../api/recommend';
 
 const arr = [
   '물을 자주 주는',
@@ -34,7 +36,6 @@ const arr = [
   '공기 정화용',
   '초보자가 키우기 쉬운',
   '가습 효과가 있는',
-  // '책상 위에 두기 좋은',
 ];
 
 const dummyPlants = [
@@ -76,12 +77,19 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
+  const { popularPlants, petsafePlants, WorldcupList, userRecommend } =
     useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
-  const openModal = () => {
+  const { userInfo } = useSelector((state) => state.user);
+  const [items, setItems] = useState([]);
+
+  const clearItems = () => {
+    setItems([]);
+  };
+
+  const openModal = (index) => {
     setModalOpen(true);
-    dispatch(fetchPlantWordcup());
+    // dispatch(fetchPlantWordcup());
   };
 
   const closeModal = () => {
@@ -93,15 +101,21 @@ const IndexPage = () => {
       once: true,
     });
     window.scrollTo({ top: 0, behavior: 'instant' });
+    dispatch(fetchUserRecommend());
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
-    dispatch(fetchKeywordRecommend(1));
     dispatch(fetchMainMagazines());
+    dispatch(fetchPlantWordcup());
   }, [dispatch]);
 
   return (
     <>
-      <WorldCup2 modalOpen={modalOpen} closeModal={closeModal} />
+      <WorldCup2
+        modalOpen={modalOpen}
+        closeModal={closeModal}
+        items={items}
+        clearItems={clearItems}
+      />
       <Wrapper>
         <Container>
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
@@ -120,12 +134,51 @@ const IndexPage = () => {
       </Wrapper>
       <Container>
         <div>
-          <ContentTitle>당신을 위한 맞춤 추천</ContentTitle>
-          <WorldCupWrapper>
-            <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
-            <button onClick={openModal}>이상형 월드컵</button>
-          </WorldCupWrapper>
-          <HorizontalScroll data={dummyPlants} />
+          <ContentTitle
+            style={
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              (userRecommend?.length > 0 || WorldcupList?.length > 0)
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            당신을 위한 맞춤 추천
+          </ContentTitle>
+          <div
+            style={
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              userRecommend?.length > 0
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            <ContentSubTitle>
+              당신과 비슷한 정원을 가진 사람들이 키우는 식물이에요!
+            </ContentSubTitle>
+            <HorizontalScroll data={userRecommend} />
+          </div>
+          <div
+            style={
+              userInfo && userInfo?.plants_count > 0 && WorldcupList?.length > 0
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            <WorldCupWrapper>
+              <ContentSubTitle>당신의 취향에 맞는 식물이에요!</ContentSubTitle>
+              <button
+                onClick={() => {
+                  setItems(WorldcupList);
+                  openModal();
+                }}
+              >
+                이상형 월드컵
+              </button>
+            </WorldCupWrapper>
+            <HorizontalScroll data={WorldcupList} />
+          </div>
         </div>
         <div>
           <ContentTitle>반려식물 이야기</ContentTitle>
@@ -144,12 +197,32 @@ const IndexPage = () => {
         </div>
         <div>
           <ContentTitle>지금 유저들이 많이 키우는 식물</ContentTitle>
-          <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(popularPlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={popularPlants} />
         </div>
         <div style={{ marginBottom: '10%' }}>
           <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
-          <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(petsafePlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={petsafePlants} />
         </div>
       </Container>

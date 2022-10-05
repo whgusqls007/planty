@@ -30,6 +30,12 @@ export const usernameCheck = async (params) => {
   return response;
 };
 
+export const passwordCheck = async (params) => {
+  const response = await client.post('accounts/passwordcheck/', params);
+
+  return response;
+};
+
 export const patchDescription = async (params) => {
   const response = await client.patch('accounts/description/', params);
 

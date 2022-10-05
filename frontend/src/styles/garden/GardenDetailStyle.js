@@ -32,7 +32,7 @@ export const Wrapper = styled.div`
     position: absolute;
     right: 0;
     transform: translateY(-140%);
-    & > button {
+    & button {
       background-color: rgba(0, 0, 0, 0);
       border: 1px solid ${({ theme }) => theme.themeColor[5]};
       color: black;
@@ -44,7 +44,7 @@ export const Wrapper = styled.div`
       transition: 0.4s;
 
       &:hover {
-        background-color: ${({ theme }) => theme.themeColor[5]};
+        background-color: ${({ theme }) => theme.themeColor[1]};
         transition: 0.2s;
       }
     }
@@ -59,36 +59,42 @@ export const Wrapper = styled.div`
 `;
 
 export const GardenDetailImage = styled.img`
-  width: 60%;
+  width: 40%;
   height: 365px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  border: 2px solid ${({ theme }) => theme.themeColor[5]};
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  border-radius: 15px 0 0 15px;
   object-fit: cover;
 
   @media (max-width: 992px) {
-    height: 250px;
+    height: 330px;
+    width: 40%;
   }
 
   @media (max-width: 768px) {
+    border-radius: 15px 15px 0 0;
     width: 100%;
   }
 `;
 
 export const GardenDetailDescription = styled.div`
   width: 100%;
-  height: 365px;
+  min-height: 365px;
   display: flex;
   flex-direction: column;
+  padding: 50px;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  border-radius: 0 15px 15px 0;
+  border: 2px solid ${({ theme }) => theme.themeColor[5]};
 
   @media (max-width: 992px) {
-    height: 250px;
+    min-height: 330px;
   }
 
-  padding: 50px;
-  background: ${({ theme }) => theme.themeColor[2]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  @media (max-width: 768px) {
+    min-height: 350px;
+    border-radius: 0 0 15px 15px;
+  }
 
   & .garden-header {
     display: flex;
@@ -120,13 +126,17 @@ export const GardenDetailDescription = styled.div`
   }
 
   & .detail-btn {
-    background-color: ${({ theme }) => theme.themeColor[5]};
     position: absolute;
     right: 40px;
-    border: 0;
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
     width: 120px;
     height: 34px;
     border-radius: 5px;
+    background-color: white;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
   }
   & .garden-detail-info {
     display: flex;
@@ -178,10 +188,9 @@ export const GardenDiaryWrapper = styled.div`
 
 export const GardenDetailInfo = styled.div`
   width: 30%;
-  height: 80px;
+  min-height: 80px;
   background-color: white;
-  /* border: 3px solid rgb(217, 217, 217); */
-  border: 2px solid rgb(217, 217, 217);
+  border: 2px solid ${({ theme }) => theme.themeColor[5]};
   border-radius: 5px;
   font-weight: bold;
   display: flex;
@@ -190,22 +199,19 @@ export const GardenDetailInfo = styled.div`
   justify-content: center;
   font-size: 16px;
 
-  @media (min-width: 576px) {
-    height: 30px;
-    font-size: 8px;
+  @media (max-width: 1200px) {
+    font-size: 14px;
   }
 
-  @media (min-width: 768px) {
-    height: 50px;
-    font-size: 10px;
+  @media (max-width: 992px) {
+    font-size: 12px;
   }
 
-  @media (min-width: 992px) {
-    height: 70px;
-    font-size: 13px;
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
-  @media (min-width: 1200px) {
-    height: 80px;
-    font-size: 16px;
+
+  @media (max-width: 576px) {
+    font-size: 12px;
   }
 `;
