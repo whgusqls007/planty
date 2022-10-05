@@ -4,6 +4,7 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
   fetchPlantWordcup,
+  fetchUserRecommend,
 } from './recommendActions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   petsafePlants: [],
   keywordPlants: [],
   WorldcupList: [],
+  userRecommend: [],
 };
 
 const recommendSlice = createSlice({
@@ -71,6 +73,10 @@ const recommendSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.WorldcupList = payload;
+    },
+    // 유저 추천
+    [fetchUserRecommend.fulfilled]: (state, { payload }) => {
+      state.userRecommend = payload;
     },
   },
 });
