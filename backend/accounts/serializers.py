@@ -43,3 +43,12 @@ class MyPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('id', 'profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'plants_count', 'likes_count', 'is_editor', 'grade')
+
+
+# 유저 프로필 수정
+class profileImageSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = get_user_model()
+        fields = ('profile_img',)
