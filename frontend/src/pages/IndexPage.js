@@ -15,14 +15,18 @@ import {
   WorldCupWrapper,
 } from '../styles/index/IndexStyle.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchMainMagazines } from '../features/magazine/magazineActions';
 import {
   fetchPopularPlant,
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
+  fetchPlantWordcup,
+  fetchUserRecommend,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { petSafetyPlants } from '../api/recommend';
 
 const arr = [
   '물을 자주 주는',
@@ -74,12 +78,24 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { popularPlants, petsafePlants, keywordPlants } = useSelector(
-    (state) => state.recommend,
-  );
+  const {
+    popularPlants,
+    petsafePlants,
+    keywordPlants,
+    WorldcupList,
+    userRecommend,
+  } = useSelector((state) => state.recommend);
+  const { popolarMagazines } = useSelector((state) => state.magazine);
+  const [propsData, setPropsData] = useState(0);
+  const [items, setItems] = useState([]);
 
-  const openModal = () => {
+  const clearItems = () => {
+    setItems([]);
+  };
+
+  const openModal = (index) => {
     setModalOpen(true);
+    // dispatch(fetchPlantWordcup());
   };
 
   const closeModal = () => {
@@ -91,14 +107,21 @@ const IndexPage = () => {
       once: true,
     });
     window.scrollTo({ top: 0, behavior: 'instant' });
+    dispatch(fetchUserRecommend());
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
+    dispatch(fetchMainMagazines());
   }, [dispatch]);
 
   return (
     <>
-      <WorldCup2 modalOpen={modalOpen} closeModal={closeModal} />
+      <WorldCup2
+        modalOpen={modalOpen}
+      closeModal={closeModal}
+        items={items}
+        clearItems={clearItems}
+      />
       <Wrapper>
         <Container>
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
@@ -122,17 +145,17 @@ const IndexPage = () => {
             <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
             <button onClick={openModal}>이상형 월드컵</button>
           </WorldCupWrapper>
-          <HorizontalScroll data={dummyPlants} />
+          <HorizontalScroll data={userRecommend} />
         </div>
         <div>
           <ContentTitle>반려식물 이야기</ContentTitle>
           <ContentSubTitle>한번 읽어 보실래요?</ContentSubTitle>
           <div style={{ marginTop: '0.5rem' }}>
             <Row>
-              {[1, 2, 3].map((e, i) => {
+              {popolarMagazines.map((magazine, i) => {
                 return (
                   <Col md="4" key={i}>
-                    <BigCard key={i} />
+                    <BigCard key={i} magazine={magazine} />
                   </Col>
                 );
               })}
@@ -141,12 +164,32 @@ const IndexPage = () => {
         </div>
         <div>
           <ContentTitle>지금 유저들이 많이 키우는 식물</ContentTitle>
-          <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(popularPlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={popularPlants} />
         </div>
         <div style={{ marginBottom: '10%' }}>
           <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
-          <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(petsafePlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={petsafePlants} />
         </div>
       </Container>

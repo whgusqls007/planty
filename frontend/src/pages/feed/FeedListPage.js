@@ -42,7 +42,6 @@ const FeedListPage = () => {
               key={feed.id}
               feed={feed}
               onClick={() => {
-                // navigate(`/feed/${feed.id}`, { replace: true });
                 navigate(`?feed=${feed.id}`);
               }}
             />

@@ -19,3 +19,15 @@ export const keywordRecommend = async (keyword) => {
 
   return response;
 };
+
+export const plantWorldcup = async () => {
+  const response = await client.get('recommendations');
+
+  return response;
+};
+
+export const userRecommend = async () => {
+  const response = await client.get('recommendations/user');
+
+  return response;
+};

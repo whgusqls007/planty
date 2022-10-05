@@ -2,83 +2,87 @@ import React, { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useSelector } from 'react-redux';
 import { display } from '@mui/system';
 import {
   Wrapper,
   Content,
   ImageContainer,
 } from '../../styles/worldCup/WorldCupStyle.js';
+import { useNavigate } from 'react-router-dom';
 
-const items = [
-  {
-    name: 'yellow',
-  },
-  {
-    name: 'black',
-  },
-  {
-    name: 'green',
-  },
-  {
-    name: 'red',
-  },
-  {
-    name: 'brown',
-  },
-  {
-    name: 'blue',
-  },
-  {
-    name: 'blueviolet',
-  },
-  {
-    name: 'orange',
-  },
-  {
-    name: 'antiquewhite',
-  },
-  {
-    name: 'burlywood',
-  },
-  {
-    name: 'crimson',
-  },
-  {
-    name: 'cyan',
-  },
-  {
-    name: 'darkcyan',
-  },
-  {
-    name: 'darkorchid',
-  },
-  {
-    name: 'forestgreen',
-  },
-  {
-    name: 'greenyellow',
-  },
-];
+// const items = [
+//   {
+//     name: 'yellow',
+//   },
+//   {
+//     name: 'black',
+//   },
+//   {
+//     name: 'green',
+//   },
+//   {
+//     name: 'red',
+//   },
+//   {
+//     name: 'brown',
+//   },
+//   {
+//     name: 'blue',
+//   },
+//   {
+//     name: 'blueviolet',
+//   },
+//   {
+//     name: 'orange',
+//   },
+//   {
+//     name: 'antiquewhite',
+//   },
+//   {
+//     name: 'burlywood',
+//   },
+//   {
+//     name: 'crimson',
+//   },
+//   {
+//     name: 'cyan',
+//   },
+//   {
+//     name: 'darkcyan',
+//   },
+//   {
+//     name: 'darkorchid',
+//   },
+//   {
+//     name: 'forestgreen',
+//   },
+//   {
+//     name: 'greenyellow',
+//   },
+// ];
 
-const WorldCup2 = ({ modalOpen, closeModal }) => {
+const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
   const [plants, setPlants] = useState([]);
   const [displays, setDisplays] = useState([]);
   const [winners, setWinners] = useState([]);
   const [count, setCount] = useState(0);
   const [stage, setStage] = useState('8강');
+  const { WorldcupList } = useSelector((state) => state.recommend);
+  const navigate = useNavigate();
 
+  console.log(items);
   useEffect(() => {
     AOS.init();
-    items.sort(() => Math.random() - 0.5);
     setPlants(items);
     setDisplays([items[0], items[1]]);
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     if (count < 8) {
-      setStage('8강');
+      setStage('16강');
     } else if (8 <= count && count < 12) {
-      setStage('4강');
+      setStage('8강');
     } else if (12 <= count && count < 14) {
       setStage('준결승');
     } else {
@@ -108,9 +112,9 @@ const WorldCup2 = ({ modalOpen, closeModal }) => {
     closeModal();
     setCount(0);
     setStage('8강');
-    setWinners([]);
-    setPlants(items);
-    setDisplays([items[0], items[1]]);
+    setPlants([]);
+    setDisplays([]);
+    clearItems();
   };
 
   return (
@@ -123,35 +127,56 @@ const WorldCup2 = ({ modalOpen, closeModal }) => {
             <h1>Favorite Worldcup {stage}</h1>
           </div>
           <div className="images-wrapper">
-            {displays.map((e, i) => {
-              return (
-                <div
-                  className={(i + 1) % 2 === 0 ? 'second' : 'first'}
-                  style={
-                    displays.length === 1
-                      ? {
-                          backgroundColor: e.name,
-                          width: '80%',
-                          height: '400px',
-                        }
-                      : { backgroundColor: e.name }
-                  }
-                  key={e.name}
-                  onClick={clickHandler(e)}
-                  data-aos="flip-up"
-                  data-aos-easing="linear"
-                  data-aos-duration="200"
-                >
-                  <img className="image"></img>
-                  <div className="name">{e.name}</div>
-                </div>
-              );
-            })}
+            {items &&
+              displays &&
+              displays.map((e, i) => {
+                return (
+                  <div
+                    className={(i + 1) % 2 === 0 ? 'second' : 'first'}
+                    style={
+                      displays.length === 1
+                        ? {
+                            width: '80%',
+                            height: '400px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }
+                        : {
+                            width: '80%',
+                            height: '400px',
+                          }
+                    }
+                    key={i}
+                    onClick={clickHandler(e)}
+                    data-aos="flip-up"
+                    data-aos-easing="linear"
+                    data-aos-duration="200"
+                  >
+                    <div
+                      className="name"
+                      style={{
+                        backgroundImage: `url(${e?.img_url})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: '100% 400px',
+                        height: '400px',
+                        width: '100%',
+                        fontSize: '30px',
+                        fontWeight: '550',
+                      }}
+                    >
+                      {e?.plant_name}
+                    </div>
+                  </div>
+                );
+              })}
           </div>
           <button
             style={
               displays.length === 1 ? { display: 'flex' } : { display: 'none' }
             }
+            onClick={() => {
+              navigate(`/dictionary/${displays[0].id}`, { replace: true });
+            }}
           >
             <span>식물 보러 가기</span>
           </button>

@@ -355,7 +355,6 @@ const Wrapper = styled.div`
   }
 
   & .modal-div {
-    max-width: 700px;
     overflow-y: initial !important;
     display: flex;
     align-items: center;
@@ -370,7 +369,7 @@ const Wrapper = styled.div`
     border-radius: 20px;
     width: 90vw;
     max-width: 850px;
-    height: 800px;
+    height: 90vh;
 
     & .close-btn {
       position: absolute;

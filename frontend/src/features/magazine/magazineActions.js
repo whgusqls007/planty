@@ -9,6 +9,7 @@ import {
   commentModify,
   magazineUpdate,
   magazineDelete,
+  mainMagazine,
 } from '../../api/magazine';
 
 export const fetchMagazineList = createAsyncThunk(
@@ -176,6 +177,22 @@ export const modifyComment = createAsyncThunk(
     try {
       await commentModify(params);
       const { data } = await magazine(params.magazineId);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchMainMagazines = createAsyncThunk(
+  'magazine/mainMagazine',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await mainMagazine();
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
