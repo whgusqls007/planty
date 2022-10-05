@@ -32,10 +32,10 @@ export const Wrapper = styled.div`
     position: absolute;
     right: 0;
     transform: translateY(-140%);
+
     & button {
       background-color: rgba(0, 0, 0, 0);
       border: 1px solid ${({ theme }) => theme.themeColor[5]};
-      color: black;
       border-radius: 10px;
       width: 130px;
       height: 42px;
@@ -46,6 +46,18 @@ export const Wrapper = styled.div`
       &:hover {
         background-color: ${({ theme }) => theme.themeColor[1]};
         transition: 0.2s;
+      }
+
+      @media (max-width: 992px) {
+        width: 100px;
+        height: 38px;
+        font-size: 20px;
+      }
+
+      @media (max-width: 576px) {
+        width: 80px;
+        height: 34px;
+        font-size: 16px;
       }
     }
   }

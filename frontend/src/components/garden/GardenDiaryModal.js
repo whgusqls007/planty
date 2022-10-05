@@ -3,7 +3,11 @@ import { GardenDiaryModalWrapper } from '../../styles/garden/GardenComponentStyl
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDiary } from '../../features/garden/gardenActions';
+import {
+  deleteDiary,
+  fetchDiary,
+  fetchMyGarden,
+} from '../../features/garden/gardenActions';
 
 const GardenDiaryModal = () => {
   const navigate = useNavigate();
@@ -23,11 +27,19 @@ const GardenDiaryModal = () => {
     navigate(-1);
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteDiary({ gardenId, diaryId })).then(() => {
+      closeModal();
+      dispatch(fetchMyGarden(gardenId));
+    });
+  };
+
   return (
     <GardenDiaryModalWrapper modalOpen={diaryId} onClick={closeModal}>
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         {JSON.stringify(diary)}
+        <button onClick={deleteHandler}>삭제</button>
       </div>
     </GardenDiaryModalWrapper>
   );
