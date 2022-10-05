@@ -30,7 +30,7 @@ function Footer() {
           >
             <TwitterIcon className="contact-icon" />
           </a>
-          <Kakao />
+          {/* <Kakao /> */}
         </Col>
         <Col className="footer-links">
           <a
