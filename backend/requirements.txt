@@ -45,6 +45,7 @@ requests-oauthlib==1.3.1
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6
 s3transfer==0.6.0
+schedule==1.1.0
 scikit-learn==1.1.1
 scipy==1.8.1
 simplejson==3.17.6
@@ -56,3 +57,4 @@ tomli==2.0.1
 typing_extensions==4.3.0
 uritemplate==4.1.1
 urllib3==1.26.9
+pymysql==1.0.2
