@@ -19,7 +19,13 @@ const IntroThirdPage = ({ screenWidth, screenHeight, currentPage }) => {
             <h3>당신만을 위해 준비한</h3>
             <p>식물 추천</p>
           </div>
-          <div className="image-box"></div>
+          <div className="image-box">
+            <img
+              src={require('../css/recommand.gif')}
+              width="100%"
+              height="100%"
+            ></img>
+          </div>
         </div>
         <ListIndex currentPage={currentPage} />
       </div>

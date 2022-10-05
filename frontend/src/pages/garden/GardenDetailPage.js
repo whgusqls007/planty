@@ -30,6 +30,7 @@ const GardenDetailPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
   useEffect(() => {
     dispatch(fetchMyGarden(gardenId));
   }, [dispatch, gardenId]);
@@ -44,7 +45,6 @@ const GardenDetailPage = () => {
     watering_schedule,
     img_url,
   } = gardenPlant;
-  console.log(gardenPlant);
 
   const openModal = () => {
     setModalOpen(true);
@@ -63,12 +63,19 @@ const GardenDetailPage = () => {
   };
 
   const deleteHandler = () => {
-    dispatch(deleteGarden(gardenPlant?.id));
+    dispatch(deleteGarden(gardenPlant?.id)).then(() => {
+      navigate(-1);
+      dispatch(fetchMyGarden(gardenId));
+    });
   };
 
   return (
     <>
-      <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
+      <GardenCreateModal
+        modalOpen={modalOpen}
+        closeModal={closeModal}
+        data={gardenPlant}
+      />
       <GardenDiaryCreateModal
         modalOpen={diaryCreateOpen}
         closeModal={closeCreateDiary}
