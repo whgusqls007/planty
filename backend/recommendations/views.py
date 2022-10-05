@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -32,7 +32,8 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         # 유저 정보
         user = request.user
         # 해당 유저의 선호 키워드 데이터 가져오기
-        user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
+        # user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
+        user_keywords = get_object_or_404(UserKeywordCount, user_id=user.pk)
         # 정렬, 순회하기 좋게 딕셔너리로 변환
         dic_user_keywords = model_to_dict(user_keywords)
         # 선호도 높은 순으로 키워드 정렬
