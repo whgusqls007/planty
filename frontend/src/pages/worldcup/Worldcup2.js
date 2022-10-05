@@ -67,11 +67,9 @@ const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
   const [displays, setDisplays] = useState([]);
   const [winners, setWinners] = useState([]);
   const [count, setCount] = useState(0);
-  const [stage, setStage] = useState('8강');
-  const { WorldcupList } = useSelector((state) => state.recommend);
+  const [stage, setStage] = useState('16강');
   const navigate = useNavigate();
 
-  console.log(items);
   useEffect(() => {
     AOS.init();
     setPlants(items);
@@ -109,12 +107,13 @@ const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
   };
 
   const closeModal2 = () => {
-    closeModal();
     setCount(0);
     setStage('8강');
     setPlants([]);
     setDisplays([]);
+    setWinners([]);
     clearItems();
+    closeModal();
   };
 
   return (

@@ -36,7 +36,6 @@ const arr = [
   '공기 정화용',
   '초보자가 키우기 쉬운',
   '가습 효과가 있는',
-  // '책상 위에 두기 좋은',
 ];
 
 const dummyPlants = [
@@ -78,14 +77,10 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    popularPlants,
-    petsafePlants,
-    keywordPlants,
-    WorldcupList,
-    userRecommend,
-  } = useSelector((state) => state.recommend);
+  const { popularPlants, petsafePlants, WorldcupList, userRecommend } =
+    useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
+  const { userInfo } = useSelector((state) => state.user);
   const [items, setItems] = useState([]);
 
   const clearItems = () => {
@@ -101,7 +96,6 @@ const IndexPage = () => {
     setModalOpen(false);
   };
 
-  console.log(keywordPlants);
   useEffect(() => {
     Aos.init({
       once: true,
@@ -110,8 +104,8 @@ const IndexPage = () => {
     dispatch(fetchUserRecommend());
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
-    dispatch(fetchKeywordRecommend(1));
     dispatch(fetchMainMagazines());
+    dispatch(fetchPlantWordcup());
   }, [dispatch]);
 
   return (
@@ -140,16 +134,51 @@ const IndexPage = () => {
       </Wrapper>
       <Container>
         <div>
-          <ContentTitle>당신을 위한 맞춤 추천</ContentTitle>
-          <ContentSubTitle>
-            당신과 비슷한 정원을 가진 사람들이 키우는 식물이에요!
-          </ContentSubTitle>
-          <HorizontalScroll data={dummyPlants} />
-          <WorldCupWrapper>
-            <ContentSubTitle>당신의 취향에 맞는 식물이에요!</ContentSubTitle>
-            <button onClick={() => {}}>이상형 월드컵</button>
-          </WorldCupWrapper>
-          <HorizontalScroll data={userRecommend} />
+          <ContentTitle
+            style={
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              (userRecommend?.length > 0 || WorldcupList?.length > 0)
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            당신을 위한 맞춤 추천
+          </ContentTitle>
+          <div
+            style={
+              userInfo &&
+              userInfo?.plants_count > 0 &&
+              userRecommend?.length > 0
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            <ContentSubTitle>
+              당신과 비슷한 정원을 가진 사람들이 키우는 식물이에요!
+            </ContentSubTitle>
+            <HorizontalScroll data={userRecommend} />
+          </div>
+          <div
+            style={
+              userInfo && userInfo?.plants_count > 0 && WorldcupList?.length > 0
+                ? { display: 'block' }
+                : { display: 'none' }
+            }
+          >
+            <WorldCupWrapper>
+              <ContentSubTitle>당신의 취향에 맞는 식물이에요!</ContentSubTitle>
+              <button
+                onClick={() => {
+                  setItems(WorldcupList);
+                  openModal();
+                }}
+              >
+                이상형 월드컵
+              </button>
+            </WorldCupWrapper>
+            <HorizontalScroll data={WorldcupList} />
+          </div>
         </div>
         <div>
           <ContentTitle>반려식물 이야기</ContentTitle>
