@@ -42,4 +42,4 @@ class MyPageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'likes_count', 'is_editor', 'grade')
+        fields = ('id', 'profile_img', 'username', 'exp', 'articles_count', 'comments_count', 'plants_count', 'likes_count', 'is_editor', 'grade')

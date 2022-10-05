@@ -8,5 +8,6 @@ router = DefaultRouter()
 router.register(r'', views.RecommendViewSet, basename='')
 urlpatterns = [
     path('keyword/', views.KeywordViewSet.as_view({'get': 'list'})),
+    path('user/', views.UserRecommendViewSet.as_view({'get': 'list'})),
     path('', include(router.urls)),
 ]
