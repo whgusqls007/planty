@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import MailIcon from '@mui/icons-material/Mail';
-// import Kakao from './footer/KakaoShare';
+import Kakao from './footer/KakaoShare';
 
 function Footer() {
   return (

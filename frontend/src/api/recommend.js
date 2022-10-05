@@ -25,3 +25,9 @@ export const plantWorldcup = async () => {
 
   return response;
 };
+
+export const userRecommend = async () => {
+  const response = await client.get('recommendations/user');
+
+  return response;
+};

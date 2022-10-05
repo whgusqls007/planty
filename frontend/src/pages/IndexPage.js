@@ -21,6 +21,7 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
   fetchPlantWordcup,
+  fetchUserRecommend,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
@@ -77,8 +78,13 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
-    useSelector((state) => state.recommend);
+  const {
+    popularPlants,
+    petsafePlants,
+    keywordPlants,
+    WorldcupList,
+    userRecommend,
+  } = useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
   const [propsData, setPropsData] = useState(0);
   const [items, setItems] = useState([]);
@@ -101,6 +107,7 @@ const IndexPage = () => {
       once: true,
     });
     window.scrollTo({ top: 0, behavior: 'instant' });
+    dispatch(fetchUserRecommend());
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
@@ -138,7 +145,7 @@ const IndexPage = () => {
             <ContentSubTitle>이런 식물은 어떠세요?</ContentSubTitle>
             <button onClick={openModal}>이상형 월드컵</button>
           </WorldCupWrapper>
-          <HorizontalScroll data={dummyPlants} />
+          <HorizontalScroll data={userRecommend} />
         </div>
         <div>
           <ContentTitle>반려식물 이야기</ContentTitle>
