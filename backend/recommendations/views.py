@@ -11,6 +11,8 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 import random
 
+from core.utils import get_recommendation_top_percent
+
 '''
 [RecommendViewSet 로직]
 1. User 정보를 활용하여 UserKeywordCount에 접근한다
@@ -80,10 +82,9 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
 
         return Response(serializer.data)
 
-    
-    
 
 class KeywordViewSet(viewsets.ViewSet):
+
 
     @swagger_auto_schema(
         operation_summary='선택한 키워드에 해당하는 식물 정보만 보여주기',
@@ -135,3 +136,19 @@ class KeywordViewSet(viewsets.ViewSet):
         
         serializer = PlantListSerializer(plants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserRecommendViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if user.pk:
+            recommends = get_recommendation_top_percent(user.pk)
+            recommends = [data[1] for data in recommends]
+            
+            plants = Plant.objects.filter(pk__in=recommends)
+
+            serializers = PlantListSerializer(plants, many=True)
+
+            return Response(serializers.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'data': 'Please Login'}, status=status.HTTP_401_UNAUTHORIZED)
+
