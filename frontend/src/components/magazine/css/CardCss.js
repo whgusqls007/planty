@@ -22,6 +22,7 @@ export const Wrapper = styled.div`
     max-height: 250px;
     height: auto;
     border-radius: 10px;
+    object-fit: scale-down;
   }
 `;
 
