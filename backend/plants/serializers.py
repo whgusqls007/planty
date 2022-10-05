@@ -41,6 +41,7 @@ class PlantDetailSerializer(serializers.ModelSerializer):
             'growth_height',
             'growth_temp',
             'growth_speed',
+            'winter_lowest_temp',
             'humidity',
             'blooming_season',
             'light_demand',

@@ -34,7 +34,7 @@ const PlantDescription = ({ plant }) => {
         <div className="plant-title">{plant_name}</div>
         <div className="plant-level">
           <span>난이도 </span>
-          <LevelStar level={manage_level} />
+          <LevelStar manage_level={manage_level} />
         </div>
       </div>
       <div className="plant-category">{family_code}</div>

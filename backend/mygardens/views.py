@@ -64,8 +64,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     def create(self, request):
         false = False
         true = True
-        data = eval(request.data['data'])
-        print(data)
+        # data = eval(request.data['data'])
+        data = request.data
         serializer = MyGardenSerializer(data=data)
         # serializer = MyGardenSerializer(data=request.data)
         user = request.user
@@ -74,135 +74,139 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         serializer.is_valid()
         print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            try:
-                file=request.FILES['files']
-            except:
-                file=''
-            file_path = s3_upload_image(file, 'mygardens/')
+            # try:
+            #     file=request.FILES['files']
+            # except:
+            #     file=''
+            # file_path = s3_upload_image(file, 'mygardens/')
             
-            try:
-                # 선호도 테이블에 user정보가 있을 때
-                plant_like = Plantlike.objects.get(user=user)
-                score = plant_like.score
-                tmp = list(score)
-                tmp[plant_num - 1] = str(data['preference'])
-                update_score = ''.join(tmp)
-                plant_like.score = update_score
-                plant_like.save()
+            # try:
+            #     # 선호도 테이블에 user정보가 있을 때
+            #     plant_like = Plantlike.objects.get(user=user)
+            #     score = plant_like.score
+            #     tmp = list(score)
+            #     tmp[plant_num - 1] = str(data['preference'])
+            #     update_score = ''.join(tmp)
+            #     plant_like.score = update_score
+            #     plant_like.save()
 
-                # update_table에 유저가 없을 때만 추가
-                if not UpdateTable.objects.filter(user_id=user.pk).exists():
-                    update_user = UpdateTable()
-                    update_user.user_id = user.pk
-                    update_user.save()
+            #     # update_table에 유저가 없을 때만 추가
+            #     if not UpdateTable.objects.filter(user_id=user.pk).exists():
+            #         update_user = UpdateTable()
+            #         update_user.user_id = user.pk
+            #         update_user.save()
 
-            except:
-                # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
-                plant_like = Plantlike()
-                plant_like.user = user
-                tmp = ['0' for _ in range(216)]
-                tmp[plant_num - 1] = str(data['preference'])
-                score = ''.join(tmp)
-                plant_like.score = score
-                plant_like.save()
+            # except:
+            #     # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
+            #     plant_like = Plantlike()
+            #     plant_like.user = user
+            #     tmp = ['0' for _ in range(216)]
+            #     tmp[plant_num - 1] = str(data['preference'])
+            #     score = ''.join(tmp)
+            #     plant_like.score = score
+            #     plant_like.save()
                 
-                update_user = UpdateTable()
-                update_user.user_id = user.pk
-                update_user.save()
+            #     update_user = UpdateTable()
+            #     update_user.user_id = user.pk
+            #     update_user.save()
 
-            if data.get('present'):
-                get_plant = PlantKeyword.objects.get(pk=plant_num)
-                get_plant.present_adequacy = get_plant.present_adequacy + 1
-                get_plant.save()
+            # if data.get('present'):
+            #     get_plant = PlantKeyword.objects.get(pk=plant_num)
+            #     get_plant.present_adequacy = get_plant.present_adequacy + 1
+            #     get_plant.save()
 
-            serializer.save(user=user, plant=plant, img_url=file_path)
+            # # serializer.save(user=user, plant=plant, img_url=file_path)
             # serializer.save(user=user, plant=plant)
             
-            plant.popular = plant.popular + 1
-            user.plants_count = user.plants_count + 1
-            user.exp = user.exp + 10
-            user.save()
+            # plant.popular = plant.popular + 1
+            # user.plants_count = user.plants_count + 1
+            # user.exp = user.exp + 10
+            # user.save()
 
             # 식물 키워드 카운트 등록 (Table UserKeywordCount)
-            # try:
-            #     # 이미 UserKeywordCount가 있다면
-            #     keyword_count = UserKeywordCount.objects.get(user=user)
-            #     pass
-            # except:
-            #     # UserKeywordCount가 없다면 새로 생성
-            #     keyword_count = UserKeywordCount(user=user)
-            #     keyword_count.save()
-            # plant_id = serializer.data.plant.id
-            # plant_id = 1 # 테스트용
-            # plant_data = Plant.objects.get(pk=plant_id)
-            # plant_keyword = PlantKeyword.objects.get(pk=plant_id)
-            # if plant_keyword.pet_safe == 1:
-            #     keyword_count.pet_safe += 1
-            #     keyword_count.save()
-            # if plant_keyword.humidify == 1:
-            #     keyword_count.humidify += 1
-            #     keyword_count.save()
-            # if plant_keyword.pm_cleaning:
-            #     keyword_count.pm_cleaning += 1
-            #     keyword_count.save()
-            # if plant_keyword.air_cleaning:
-            #     keyword_count.air_cleaning += 1
-            #     keyword_count.save()
-            # if plant_data.manage_level == '초보자':
-            #     keyword_count.beginner += 1
-            #     keyword_count.save()
-            # if plant_data.smell == '거의 없음':
-            #     keyword_count.unscented += 1
-            #     keyword_count.save()
-            # if '낮음' in plant_data.manage_demand:
-            #     keyword_count.low_growth_demand += 1
-            #     keyword_count.save()
-            # if '낮은' in plant_data.light_demand:
-            #     keyword_count.low_light_demand += 1
-            #     keyword_count.save()
-            # if '수경형' in plant_data.ecology_code:
-            #     keyword_count.hydroponics += 1
-            #     keyword_count.save()
-            # if '16' in plant_data.growth_temp:
-            #     keyword_count.low_temp += 1
-            #     keyword_count.save()
+            try:
+                # 이미 UserKeywordCount가 있다면
+                keyword_count = UserKeywordCount.objects.get(user_id=user.pk)
+            except:
+                # UserKeywordCount가 없다면 새로 생성
+                keyword_count = UserKeywordCount(user_id=user.pk)
+                keyword_count.save()
+            # 오류 나는 부분!
+            '''
+            serializer 내부에 plant가 없음
+            프린트 값
+            {'date_grow': '2022-10-02', 'watering_schedule': 7, 'recent_water': '2022-10-02', 'img_url': None, 'memo': None, 'present': False, 'preference': 0, 'keep': False}
+            '''
+            plant_id = serializer.data.plant.id
+            plant_data = Plant.objects.get(pk=plant_id)
+            plant_keyword = PlantKeyword.objects.get(pk=plant_id)
+            if plant_keyword.pet_safe == 1:
+                keyword_count.pet_safe += 1
+                keyword_count.save()
+            if plant_keyword.humidify == 1:
+                keyword_count.humidify += 1
+                keyword_count.save()
+            if plant_keyword.pm_cleaning:
+                keyword_count.pm_cleaning += 1
+                keyword_count.save()
+            if plant_keyword.air_cleaning:
+                keyword_count.air_cleaning += 1
+                keyword_count.save()
+            if plant_data.manage_level == '초보자':
+                keyword_count.beginner += 1
+                keyword_count.save()
+            if plant_data.smell == '거의 없음':
+                keyword_count.unscented += 1
+                keyword_count.save()
+            if '낮음' in plant_data.manage_demand:
+                keyword_count.low_growth_demand += 1
+                keyword_count.save()
+            if '낮은' in plant_data.light_demand:
+                keyword_count.low_light_demand += 1
+                keyword_count.save()
+            if '수경형' in plant_data.ecology_code:
+                keyword_count.hydroponics += 1
+                keyword_count.save()
+            if '16' in plant_data.growth_temp:
+                keyword_count.low_temp += 1
+                keyword_count.save()
             
-            # plant_count = {
-            #     'pet_safe': 0,
-            #     'humidify': 0,
-            #     'pm_cleaning': 0,
-            #     'air_cleanging': 0,
-            #     'beginner': 0,
-            #     'unscented': 0,
-            #     'hydroponics': 0,
-            #     'low_growth_demand': 0,
-            #     'low_light_demand': 0,
-            #     'low_temp': 0,
-            # }
-            # if plant_keyword.pet_safe == 1:
-            #     plant_count['pet_safe'] += 1
-            # if plant_keyword.humidify == 1:
-            #     plant_count['humidify'] += 1
-            # if plant_keyword.pm_cleaning:
-            #     plant_count['pm_cleaning'] += 1
-            # if plant_keyword.air_cleaning:
-            #     plant_count['air_cleaning'] += 1
-            # if plant_data.manage_level == '초보자':
-            #     plant_count['beginner'] += 1
-            # if plant_data.smell == '거의 없음':
-            #     plant_count['unscented'] += 1
-            # if '낮음' in plant_data.manage_demand:
-            #     plant_count['low_growth_demand'] += 1
-            # if '낮은' in plant_data.light_demand:
-            #     plant_count['low_light_demand'] += 1
-            # if '수경형' in plant_data.ecology_code:
-            #     plant_count['hydroponics'] += 1
-            # if '16' in plant_data.growth_temp:
-            #     plant_count['low_temp'] += 1
+            plant_count = {
+                'pet_safe': 0,
+                'humidify': 0,
+                'pm_cleaning': 0,
+                'air_cleanging': 0,
+                'beginner': 0,
+                'unscented': 0,
+                'hydroponics': 0,
+                'low_growth_demand': 0,
+                'low_light_demand': 0,
+                'low_temp': 0,
+            }
+            if plant_keyword.pet_safe == 1:
+                plant_count['pet_safe'] += 1
+            if plant_keyword.humidify == 1:
+                plant_count['humidify'] += 1
+            if plant_keyword.pm_cleaning:
+                plant_count['pm_cleaning'] += 1
+            if plant_keyword.air_cleaning:
+                plant_count['air_cleaning'] += 1
+            if plant_data.manage_level == '초보자':
+                plant_count['beginner'] += 1
+            if plant_data.smell == '거의 없음':
+                plant_count['unscented'] += 1
+            if '낮음' in plant_data.manage_demand:
+                plant_count['low_growth_demand'] += 1
+            if '낮은' in plant_data.light_demand:
+                plant_count['low_light_demand'] += 1
+            if '수경형' in plant_data.ecology_code:
+                plant_count['hydroponics'] += 1
+            if '16' in plant_data.growth_temp:
+                plant_count['low_temp'] += 1
             
-            # for key in plant_count:
-            #     keyword_count.key += plant_count[key]
-            # keyword_count.save()
+            for key in plant_count:
+                keyword_count.key += plant_count[key]
+            keyword_count.save()
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 

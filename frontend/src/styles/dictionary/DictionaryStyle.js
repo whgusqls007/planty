@@ -81,8 +81,9 @@ export const Wrapper = styled.div`
 `;
 
 export const PlantSearchForm = styled.form`
-  margin-top: 2rem;
+  margin-top: 3%;
   margin-left: 10%;
+  margin-bottom: 7%;
   width: 80%;
   height: 100%;
   background: ${({ theme }) => theme.themeColor[5]};
