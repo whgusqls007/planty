@@ -248,3 +248,21 @@ class MagazineCommentViewSet(viewsets.ModelViewSet):
             serializer = MagazineCommentSerializer(instance=comments, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# get에 매칭, 메인 페이지에 띄울 읽을거리
+class MainMagazineViewSet(viewsets.ViewSet):
+    
+    queryset = Magazine.objects.all()
+    serializer_class = MagazineSerializer
+
+    @swagger_auto_schema(
+        operation_summary='메인 페이지에 띄울 리스트',
+        operation_description='좋아요순 정렬 3개',
+        )
+    # get에 매칭, 리스트
+    def list(self, request):
+        magazines = Magazine.objects.order_by('-likes_count')[:3]
+        serializers = MagazineSerializer(magazines, many=True)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)
