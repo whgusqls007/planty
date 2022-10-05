@@ -9,6 +9,7 @@ import {
   deleteComment,
   modifyComment,
   updateMagazine,
+  fetchMainMagazines,
 } from './magazineActions';
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   pageCount: 0,
   comments: [],
   magazine: {},
+  popolarMagazines: [],
   current: 0,
   prevCurrent: -1,
   limit: 9,
@@ -198,6 +200,19 @@ const magazineSlice = createSlice({
       state.comments = payload.comments;
     },
     [modifyComment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    // main magazines list
+    [fetchMainMagazines.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchMainMagazines.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.popolarMagazines = payload;
+    },
+    [fetchMainMagazines.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

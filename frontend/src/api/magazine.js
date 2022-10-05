@@ -58,3 +58,8 @@ export const commentModify = async ({ magazineId, commentId, content }) => {
   });
   return response;
 };
+
+export const mainMagazine = async () => {
+  const response = client.get(`magazines/main/`);
+  return response;
+};
