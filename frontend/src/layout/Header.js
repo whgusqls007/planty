@@ -85,7 +85,7 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
-  const [curIndex, setCurindex] = useState(0);
+  const [curIndex, setCurIndex] = useState(0);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
@@ -96,6 +96,7 @@ function Header() {
 
   useEffect(() => {
     Aos.init({ once: false });
+    setCurIndex(sessionStorage.getItem('curIndex') - 0);
   }, []);
 
   return (
@@ -118,7 +119,8 @@ function Header() {
                   className="me-4 link"
                   to="/dictionary"
                   onClick={() => {
-                    setCurindex(1);
+                    setCurIndex(1);
+                    sessionStorage.setItem('curIndex', 1);
                   }}
                 >
                   {curIndex === 1 && (
@@ -137,7 +139,8 @@ function Header() {
                   className="me-4"
                   to="/magazine"
                   onClick={() => {
-                    setCurindex(2);
+                    setCurIndex(2);
+                    sessionStorage.setItem('curIndex', 2);
                   }}
                 >
                   {curIndex === 2 && (
@@ -157,7 +160,8 @@ function Header() {
                     className="me-4 btn3"
                     to={`/garden/${userInfo?.username}`}
                     onClick={() => {
-                      setCurindex(3);
+                      setCurIndex(3);
+                      sessionStorage.setItem('curIndex', 3);
                     }}
                   >
                     {curIndex === 3 && (
@@ -181,7 +185,8 @@ function Header() {
                   className="me-4"
                   to="/feed"
                   onClick={() => {
-                    setCurindex(4);
+                    setCurIndex(4);
+                    sessionStorage.setItem('curIndex', 4);
                   }}
                 >
                   {curIndex === 4 && (

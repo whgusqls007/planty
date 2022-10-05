@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useNavigate } from 'react-router-dom';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const FeedItem = ({ feed, onClick }) => {
   const navigate = useNavigate();
@@ -15,8 +17,15 @@ const FeedItem = ({ feed, onClick }) => {
     comments_count,
     likes_count,
   } = feed ? feed : {};
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  });
+
   return (
-    <Wrapper onClick={onClick}>
+    <Wrapper onClick={onClick} data-aos="flip-left">
       <img src={img_url} alt="" className="feed-img" />
       <span className="feed-user">{user.username}</span>
       <div className="feed-info">
