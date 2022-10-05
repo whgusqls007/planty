@@ -46,7 +46,6 @@ export const fetchKeywordRecommend = createAsyncThunk(
   async (keyword, { rejectWithValue }) => {
     try {
       const { data } = await keywordRecommend(keyword);
-
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
