@@ -1,9 +1,24 @@
 import React, { useEffect } from 'react';
-import { GardenDiaryModalWrapper } from '../../styles/garden/GardenComponentStyle';
+import {
+  GardenDiaryModalWrapper,
+  ModalContentWrapper,
+} from '../../styles/garden/GardenComponentStyle';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDiary } from '../../features/garden/gardenActions';
+
+// 날짜 생성 함수
+const makeCreateDate = (dateCreated) => {
+  const feedDateCreated =
+    dateCreated?.substr(0, 4) +
+    '년 ' +
+    dateCreated?.substr(4, 3).replace('-', '') +
+    '월 ' +
+    dateCreated?.substr(7, 3).replace('-', '') +
+    '일';
+  return feedDateCreated;
+};
 
 const GardenDiaryModal = () => {
   const navigate = useNavigate();
@@ -22,12 +37,17 @@ const GardenDiaryModal = () => {
   const closeModal = () => {
     navigate(-1);
   };
+  console.log(diary);
 
   return (
     <GardenDiaryModalWrapper modalOpen={diaryId} onClick={closeModal}>
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
-        {JSON.stringify(diary)}
+        <ModalContentWrapper>
+          <p className="date">{makeCreateDate(diary.date_created)}</p>
+          <img src={diary.diary_img} />
+          <p className="content">{diary.content}</p>
+        </ModalContentWrapper>
       </div>
     </GardenDiaryModalWrapper>
   );
