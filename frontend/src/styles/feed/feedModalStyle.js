@@ -117,6 +117,13 @@ export const ModalDescriptionWrapper = styled.div`
   }
   & .description-date-created {
     margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+
+    & button {
+      border: 0;
+      background-color: rgba(0, 0, 0, 0);
+    }
   }
   & .description-writer {
     font-size: 20px;
@@ -356,6 +363,13 @@ export const MobileModalWrapper = styled.div`
     & .mobile-feed-date-created {
       font-size: 0.8rem;
       color: #797979;
+      display: flex;
+      justify-content: space-between;
+
+      & button {
+        border: 0;
+        background-color: rgba(0, 0, 0, 0);
+      }
     }
   }
   & .mobile-feed-body {
