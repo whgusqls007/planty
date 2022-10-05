@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
-import React from 'react';
-
-// css
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { logout } from '../features/user/userSlice';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -17,10 +17,10 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 
-  & a {
-    color: inherit;
-    text-decoration: none;
+  & .nav-logo-img {
+    height: 40px;
   }
+
   & .nav-user-btn {
     & a {
       margin-left: 16px;
@@ -42,6 +42,10 @@ const Wrapper = styled.div`
     overflow: hidden;
     background-color: ${({ theme }) => theme.themeColor[5]};
     margin-left: 8px;
+  }
+
+  & .mygarden-disabled {
+    cursor: default;
   }
 `;
 
@@ -70,20 +74,31 @@ const UserInfoWrapper = styled.div`
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
+    navigate('/login');
   };
+
+  useEffect(() => {
+    Aos.init({ once: false });
+  }, []);
 
   return (
     <Wrapper>
-      <Navbar bg="white" expand="lg" className="mb-3">
+      <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
           <Navbar.Brand href="/" className="me-5">
-            호미두
+            <img
+              data-aos="fade-down"
+              src="/assets/img/nav-logo.png"
+              alt=""
+              className="nav-logo-img"
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
@@ -99,18 +114,19 @@ function Header() {
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to={`/garden/${userInfo?.username}`}>
-                  나의 정원
-                </Link>
+                {userInfo ? (
+                  <Link className="me-4" to={`/garden/${userInfo?.username}`}>
+                    나의 정원
+                  </Link>
+                ) : (
+                  <Link className="me-4" to={'/login/'}>
+                    나의 정원
+                  </Link>
+                )}
               </Col>
               <Col lg={3} className="mb-2 mt-2">
                 <Link className="me-4" to="/feed">
                   남의 정원
-                </Link>
-              </Col>
-              <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/worldcup">
-                  식이월
                 </Link>
               </Col>
             </Nav>
@@ -122,7 +138,7 @@ function Header() {
                     <div className="user-name">{userInfo.username}</div>
                     <img
                       className="profile-img"
-                      src="https://homidu.s3.ap-northeast-2.amazonaws.com/user/default-user-img.png"
+                      src={userInfo.profile_img}
                       alt=""
                     />
                   </div>
@@ -141,4 +157,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);

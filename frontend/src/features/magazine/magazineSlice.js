@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { magazine } from '../../api/magazine';
 import {
   fetchMagazineList,
   fetchMagazine,
@@ -7,6 +8,7 @@ import {
   fetchComment,
   deleteComment,
   modifyComment,
+  updateMagazine,
 } from './magazineActions';
 
 const initialState = {
@@ -99,6 +101,21 @@ const magazineSlice = createSlice({
       state.error = payload;
     },
 
+    // update magazine
+    // [updateMagazine.pending]: (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // },
+    // [updateMagazine.fulfilled]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.magazine = payload;
+    //   state.comments = payload.comments;
+    // },
+    // [updateMagazine.rejected]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.error = payload;
+    // },
+
     //like
     [fetchLike.pending]: (state) => {
       state.loading = true;
@@ -177,6 +194,7 @@ const magazineSlice = createSlice({
     },
     [modifyComment.fulfilled]: (state, { payload }) => {
       state.loading = false;
+      state.magazine = payload;
       state.comments = payload.comments;
     },
     [modifyComment.rejected]: (state, { payload }) => {
