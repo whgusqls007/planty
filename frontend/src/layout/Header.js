@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { logout } from '../features/user/userSlice';
 import Aos from 'aos';
@@ -17,24 +17,33 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 
+  & .btn1 {
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -5px;
+  }
+
   & .nav-logo-img {
     height: 40px;
   }
 
   & .nav-user-btn {
     & a {
+      position: relative;
       margin-left: 16px;
-
+      background-image: 'url( ${require('../image/2.png')} )';
       @media (max-width: 992px) {
         margin-left: 0px;
         margin-right: 16px;
       }
     }
   }
+
   & .user-info {
     display: flex;
     align-items: center;
   }
+
   & .profile-img {
     width: 40px;
     height: 40px;
@@ -76,6 +85,7 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
+  const [curIndex, setCurindex] = useState(0);
 
   const LogOutHandler = () => {
     sessionStorage.removeItem('userInfo');
@@ -92,7 +102,7 @@ function Header() {
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
-          <Navbar.Brand href="/" className="me-5">
+          <Navbar.Brand href="/index" className="me-5">
             <img
               data-aos="fade-down"
               src="/assets/img/nav-logo.png"
@@ -104,28 +114,84 @@ function Header() {
           <Navbar.Collapse className="justify-content-between">
             <Nav>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4 link" to="/dictionary">
+                <Link
+                  className="me-4 link"
+                  to="/dictionary"
+                  onClick={() => {
+                    setCurindex(1);
+                  }}
+                >
+                  {curIndex === 1 && (
+                    <img
+                      width="30px"
+                      height="40px"
+                      src={require('../image/2.png')}
+                      className="btn1"
+                    />
+                  )}
                   식물 사전
                 </Link>
               </Col>
-              <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/magazine">
+              <Col lg={3} className="mb-2 mt-2 btn2">
+                <Link
+                  className="me-4"
+                  to="/magazine"
+                  onClick={() => {
+                    setCurindex(2);
+                  }}
+                >
+                  {curIndex === 2 && (
+                    <img
+                      width="30px"
+                      height="40px"
+                      src={require('../image/3.png')}
+                      className="btn1"
+                    />
+                  )}
                   읽을 거리
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
                 {userInfo ? (
-                  <Link className="me-4" to={`/garden/${userInfo?.username}`}>
+                  <Link
+                    className="me-4 btn3"
+                    to={`/garden/${userInfo?.username}`}
+                    onClick={() => {
+                      setCurindex(3);
+                    }}
+                  >
+                    {curIndex === 3 && (
+                      <img
+                        width="30px"
+                        height="40px"
+                        src={require('../image/3.png')}
+                        className="btn1"
+                      />
+                    )}
                     나의 정원
                   </Link>
                 ) : (
-                  <Link className="me-4" to={'/login/'}>
+                  <Link className="me-4 btn3" to={'/login/'}>
                     나의 정원
                   </Link>
                 )}
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/feed">
+                <Link
+                  className="me-4"
+                  to="/feed"
+                  onClick={() => {
+                    setCurindex(4);
+                  }}
+                >
+                  {curIndex === 4 && (
+                    <img
+                      width="30px"
+                      height="40px"
+                      src={require('../image/3.png')}
+                      className="btn1"
+                    />
+                  )}
                   남의 정원
                 </Link>
               </Col>
