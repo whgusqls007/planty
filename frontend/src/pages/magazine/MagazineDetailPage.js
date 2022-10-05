@@ -54,7 +54,9 @@ const MagazineDetailPage = (props) => {
   };
 
   const deleteHandler = () => {
-    dispatch(deleteMagazine({ id: articleId }));
+    dispatch(deleteMagazine({ id: articleId })).then(() => {
+      navigate('/magazine', { replace: true });
+    });
   };
 
   return (

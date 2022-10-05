@@ -117,6 +117,10 @@ export const Content = styled.div`
       @media (max-width: 470px) {
         font-size: 15px;
       }
+
+      @media (max-width: 430px) {
+        font-size: 0px;
+      }
     }
   }
 
@@ -132,8 +136,8 @@ export const Content = styled.div`
   }
 
   & .first {
-    width: 50%;
-    height: 450px;
+    width: 100%;
+    height: 300px;
     border-radius: 10px;
     margin-top: 20px;
 
@@ -158,8 +162,8 @@ export const Content = styled.div`
   }
 
   & .second {
-    width: 50%;
-    height: 450px;
+    width: 100%;
+    height: 300px;
     border-radius: 10px;
     margin-top: 20px;
 
