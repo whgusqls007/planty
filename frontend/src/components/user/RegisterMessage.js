@@ -11,7 +11,7 @@ const errorMessage = {
 const correctMessage = {
   username: '사용 가능한 닉네임입니다 :)',
   email: '사용 가능한 이메일입니다 :)',
-  password1: '',
+  password1: '사용 가능한 비밀번호입니다 :)',
   password2: '비밀번호가 일치합니다 :)',
 };
 
@@ -37,6 +37,12 @@ const RegisterMessage = (props) => {
       )}
       {password2 === false && (
         <CorrectMessage>{correctMessage.password2}</CorrectMessage>
+      )}
+      {/* 비밀번호 */}
+      {password1 !== false ? (
+        <ErrorMessage>{password1}</ErrorMessage>
+      ) : (
+        <CorrectMessage>{correctMessage.password1}</CorrectMessage>
       )}
     </Wrapper>
   );

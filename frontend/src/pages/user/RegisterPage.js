@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import RegisterMessage from '../../components/user/RegisterMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../../features/user/userActions';
-import { emailCheck, usernameCheck } from '../../api/user';
+import { emailCheck, usernameCheck, passwordCheck } from '../../api/user';
 import { registerDone } from '../../features/user/userSlice';
 import {
   Wrapper,
@@ -112,6 +112,29 @@ const RegisterPage = () => {
     });
   };
 
+  const passwordChangeHandler = (e) => {
+    const password1 = e.target.value;
+    setRegisterInputs({
+      ...registerInputs,
+      password1,
+    });
+    passwordCheck({ password: password1 }).then((res) => {
+      const { data } = res.data;
+      console.log(data);
+      if (data === true) {
+        setInputErrors({
+          ...inputErrors,
+          passwordError: false,
+        });
+      } else {
+        setInputErrors({
+          ...inputErrors,
+          passwordError: data[0],
+        });
+      }
+    });
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(userRegister(registerInputs));
@@ -166,11 +189,14 @@ const RegisterPage = () => {
           <input type="text" id="email" onChange={emailChangeHandler} />
           <LabelContainer>
             <label htmlFor="password1">PASSWORD</label>
+            {registerInputs.password1 && (
+              <RegisterMessage password1={inputErrors.passwordError} />
+            )}
           </LabelContainer>
           <input
             type="password"
             id="password1"
-            onChange={inputChangeHandler}
+            onChange={passwordChangeHandler}
             placeholder="8자 이상의 문자+숫자를 입력해주세요."
           />
           <LabelContainer>
