@@ -64,8 +64,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
     def create(self, request):
         false = False
         true = True
-        data = eval(request.data['data'])
-        print(data)
+        # data = eval(request.data['data'])
+        data = request.data
         serializer = MyGardenSerializer(data=data)
         # serializer = MyGardenSerializer(data=request.data)
         user = request.user
@@ -74,66 +74,70 @@ class MyGardenViewSet(viewsets.ModelViewSet):
         serializer.is_valid()
         print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            try:
-                file=request.FILES['files']
-            except:
-                file=''
-            file_path = s3_upload_image(file, 'mygardens/')
+            # try:
+            #     file=request.FILES['files']
+            # except:
+            #     file=''
+            # file_path = s3_upload_image(file, 'mygardens/')
             
-            try:
-                # 선호도 테이블에 user정보가 있을 때
-                plant_like = Plantlike.objects.get(user=user)
-                score = plant_like.score
-                tmp = list(score)
-                tmp[plant_num - 1] = str(data['preference'])
-                update_score = ''.join(tmp)
-                plant_like.score = update_score
-                plant_like.save()
+            # try:
+            #     # 선호도 테이블에 user정보가 있을 때
+            #     plant_like = Plantlike.objects.get(user=user)
+            #     score = plant_like.score
+            #     tmp = list(score)
+            #     tmp[plant_num - 1] = str(data['preference'])
+            #     update_score = ''.join(tmp)
+            #     plant_like.score = update_score
+            #     plant_like.save()
 
-                # update_table에 유저가 없을 때만 추가
-                if not UpdateTable.objects.filter(user_id=user.pk).exists():
-                    update_user = UpdateTable()
-                    update_user.user_id = user.pk
-                    update_user.save()
+            #     # update_table에 유저가 없을 때만 추가
+            #     if not UpdateTable.objects.filter(user_id=user.pk).exists():
+            #         update_user = UpdateTable()
+            #         update_user.user_id = user.pk
+            #         update_user.save()
 
-            except:
-                # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
-                plant_like = Plantlike()
-                plant_like.user = user
-                tmp = ['0' for _ in range(216)]
-                tmp[plant_num - 1] = str(data['preference'])
-                score = ''.join(tmp)
-                plant_like.score = score
-                plant_like.save()
+            # except:
+            #     # 선호도 테이블에 user 정보가 없을 때 - 선호도 테이블 생성
+            #     plant_like = Plantlike()
+            #     plant_like.user = user
+            #     tmp = ['0' for _ in range(216)]
+            #     tmp[plant_num - 1] = str(data['preference'])
+            #     score = ''.join(tmp)
+            #     plant_like.score = score
+            #     plant_like.save()
                 
-                update_user = UpdateTable()
-                update_user.user_id = user.pk
-                update_user.save()
+            #     update_user = UpdateTable()
+            #     update_user.user_id = user.pk
+            #     update_user.save()
 
-            if data.get('present'):
-                get_plant = PlantKeyword.objects.get(pk=plant_num)
-                get_plant.present_adequacy = get_plant.present_adequacy + 1
-                get_plant.save()
+            # if data.get('present'):
+            #     get_plant = PlantKeyword.objects.get(pk=plant_num)
+            #     get_plant.present_adequacy = get_plant.present_adequacy + 1
+            #     get_plant.save()
 
-            serializer.save(user=user, plant=plant, img_url=file_path)
+            # # serializer.save(user=user, plant=plant, img_url=file_path)
             # serializer.save(user=user, plant=plant)
             
-            plant.popular = plant.popular + 1
-            user.plants_count = user.plants_count + 1
-            user.exp = user.exp + 10
-            user.save()
+            # plant.popular = plant.popular + 1
+            # user.plants_count = user.plants_count + 1
+            # user.exp = user.exp + 10
+            # user.save()
 
             # 식물 키워드 카운트 등록 (Table UserKeywordCount)
             try:
                 # 이미 UserKeywordCount가 있다면
-                keyword_count = UserKeywordCount.objects.get(user=user)
-                pass
+                keyword_count = UserKeywordCount.objects.get(user_id=user.pk)
             except:
                 # UserKeywordCount가 없다면 새로 생성
-                keyword_count = UserKeywordCount(user=user)
+                keyword_count = UserKeywordCount(user_id=user.pk)
                 keyword_count.save()
+            # 오류 나는 부분!
+            '''
+            serializer 내부에 plant가 없음
+            프린트 값
+            {'date_grow': '2022-10-02', 'watering_schedule': 7, 'recent_water': '2022-10-02', 'img_url': None, 'memo': None, 'present': False, 'preference': 0, 'keep': False}
+            '''
             plant_id = serializer.data.plant.id
-            plant_id = 1 # 테스트용
             plant_data = Plant.objects.get(pk=plant_id)
             plant_keyword = PlantKeyword.objects.get(pk=plant_id)
             if plant_keyword.pet_safe == 1:
