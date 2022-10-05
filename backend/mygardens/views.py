@@ -115,8 +115,8 @@ class MyGardenViewSet(viewsets.ModelViewSet):
                 get_plant.present_adequacy = get_plant.present_adequacy + 1
                 get_plant.save()
 
-            # serializer.save(user=user, plant=plant, img_url=file_path)
-            serializer.save(user=user, plant=plant)
+            serializer.save(user=user, plant=plant, img_url=file_path)
+            # serializer.save(user=user, plant=plant)
             
             plant.popular = plant.popular + 1
             user.plants_count = user.plants_count + 1
