@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPlant, fetchPlantList, searchPlant } from './dictionaryAction';
+import {
+  fetchPlant,
+  fetchPlantListPagination,
+  searchPlant,
+  fetchKeywordRecommendPlant,
+} from './dictionaryAction';
 
 const initialState = {
   loading: false,
   plant: {},
   plantList: [],
+  plantTotalCount: 0,
   searchResult: [],
   error: null,
   success: false,
@@ -31,20 +37,33 @@ const dictionarySlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
-    [fetchPlantList.pending]: (state) => {
+    [searchPlant.fulfilled]: (state, { payload }) => {
+      state.searchResult = payload;
+    },
+    [fetchPlantListPagination.pending]: (state) => {
       state.loading = true;
       state.error = null;
     },
-    [fetchPlantList.fulfilled]: (state, { payload }) => {
+    [fetchPlantListPagination.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.plantList = payload;
+      state.plantList = payload.results;
+      state.plantTotalCount = payload.count;
     },
-    [fetchPlantList.rejected]: (state, { payload }) => {
+    [fetchPlantListPagination.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
-    [searchPlant.fulfilled]: (state, { payload }) => {
-      state.searchResult = payload;
+    [fetchKeywordRecommendPlant.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchKeywordRecommendPlant.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.plantList = payload;
+    },
+    [fetchKeywordRecommendPlant.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
   },
 });

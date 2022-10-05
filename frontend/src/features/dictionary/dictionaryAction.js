@@ -1,5 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { plantList, plantItem, plantSearch } from '../../api/dictionary';
+import {
+  plantList,
+  plantItem,
+  plantSearch,
+  plantListPagination,
+  keywordRecommendPlant,
+} from '../../api/dictionary';
 
 export const fetchPlant = createAsyncThunk(
   'dictionary/fetchPlant',
@@ -18,11 +24,22 @@ export const fetchPlant = createAsyncThunk(
   },
 );
 
-export const fetchPlantList = createAsyncThunk(
-  'dictionary/fetchPlantList',
+export const searchPlant = createAsyncThunk(
+  'dictionary/searchPlant',
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const { data } = await plantSearch(keyword);
+      return data;
+    } catch (error) {}
+  },
+);
+
+export const fetchPlantListPagination = createAsyncThunk(
+  'dictionary/fetchPlantListPagination',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await plantList();
+      const { data } = await plantListPagination(params);
+
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -34,13 +51,19 @@ export const fetchPlantList = createAsyncThunk(
   },
 );
 
-export const searchPlant = createAsyncThunk(
-  'dictionary/searchPlant',
+export const fetchKeywordRecommendPlant = createAsyncThunk(
+  'dictionary/fetchKeywordRecommendPlant',
   async (keyword, { rejectWithValue }) => {
     try {
-      const { data } = await plantSearch(keyword);
-      console.log(data);
+      const { data } = await keywordRecommendPlant(keyword);
+
       return data;
-    } catch (error) {}
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
   },
 );

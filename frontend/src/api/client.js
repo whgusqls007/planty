@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  // baseURL: 'http://49.173.95.241:14242/api',
+  // baseURL: 'http://127.0.0.1:8000/api',
   // baseURL: 'https://j7e103.p.ssafy.io/api',
+  // baseURL: 'http://49.173.95.241:14242/api',
+  // baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: 'https://j7e103.p.ssafy.io/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,7 +22,12 @@ if (token) {
 // 요청 인터셉터 추가하기
 client.interceptors.request.use(
   function (config) {
-    // 요청이 전달되기 전에 작업 수행
+    const token = sessionStorage.getItem('Token')
+      ? sessionStorage.getItem('Token')
+      : null;
+    if (token) {
+      config.headers.Authorization = `Token ${token}`;
+    }
     return config;
   },
   function (error) {
@@ -37,15 +46,15 @@ client.interceptors.response.use(
   function (error) {
     // 2xx 외의 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
     // 응답 오류가 있는 작업 수행
-    if (error.response && error.response.status === 401) {
-      const token = sessionStorage.getItem('Token')
-        ? sessionStorage.getItem('Token')
-        : null;
-      if (token) {
-        client.defaults.headers.common['Authorization'] = `Token ${token}`;
-        return client.request(error.config);
-      }
-    }
+    // if (error.response && error.response.status === 401) {
+    //   const token = sessionStorage.getItem('Token')
+    //     ? sessionStorage.getItem('Token')
+    //     : null;
+    //   if (token) {
+    //     client.defaults.headers.common['Authorization'] = `Token ${token}`;
+    //     return client.request(error.config);
+    //   }
+    // }
     return Promise.reject(error);
   },
 );

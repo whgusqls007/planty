@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchUserInfo } from './features/user/userActions';
-import Header from './layout/Header';
 import IndexPage from './pages/IndexPage';
 // 식물 사전
 import DictionaryPage from './pages/dictionary/DictionaryPage';
@@ -11,6 +9,7 @@ import DictionaryDetailPage from './pages/dictionary/DictionaryDetailPage';
 import MagazinePage from './pages/magazine/MagazinePage';
 import MagazineDetailPage from './pages/magazine/MagazineDetailPage';
 import MagazineInputPage from './pages/magazine/MagazineInputPage';
+import MagazineModifyPage from './pages/magazine/MagazineModifyPage';
 // 나의 정원
 import GardenPage from './pages/garden/GardenPage';
 import GardenDetailPage from './pages/garden/GardenDetailPage';
@@ -20,38 +19,73 @@ import FeedListPage from './pages/feed/FeedListPage';
 import LoginPage from './pages/user/LoginPage';
 import RegisterPage from './pages/user/RegisterPage';
 import ProfilePage from './pages/user/ProfilePage';
+import ProfileUpdatePage from './pages/user/ProfileUpdatePage';
 // 식이월
 import WorldCup from './pages/worldcup/Worldcup';
+import IntroPage from './pages/intro/IntroPage';
+
+// 피드 모달
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import FeedModal from './components/feed/FeedModal';
+import { fetchFeed } from './features/feed/feedAction';
+import Layout from './layout/Layout';
 
 const App = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [feedId, setFeedId] = useState(false);
+  useEffect(() => {
+    const feed = parseInt(searchParams.get('feed'))
+      ? parseInt(searchParams.get('feed'))
+      : false;
+    if (feed) dispatch(fetchFeed(feed));
+    setFeedId(feed);
+  }, [searchParams]);
+
   return (
     <>
-      <Header />
+      <FeedModal
+        modalOpen={feedId}
+        closeModal={() => {
+          navigate(-1);
+        }}
+      />
+      {/* <Header /> */}
       <Routes>
-        <Route path="" element={<IndexPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="profile/:userId" element={<ProfilePage />} />
+        <Route path="" element={<Layout />}>
+          <Route path="" element={<IntroPage />} />
+          <Route path="index" element={<IndexPage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
+          <Route path="profile/update" element={<ProfileUpdatePage />} />
 
-        <Route path="/dictionary" element={<Outlet />}>
-          <Route path="" element={<DictionaryPage />} />
-          <Route path=":plantId" element={<DictionaryDetailPage />} />
+          <Route path="/dictionary" element={<Outlet />}>
+            <Route path="" element={<DictionaryPage />} />
+            <Route path=":plantId" element={<DictionaryDetailPage />} />
+          </Route>
+
+          <Route path="/magazine" element={<Outlet />}>
+            <Route path="" element={<MagazinePage />} />
+            <Route path="magazineinput" element={<MagazineInputPage />} />
+            <Route path=":articleId" element={<MagazineDetailPage />} />
+            <Route path="magazinemodify" element={<MagazineModifyPage />} />
+          </Route>
+
+          <Route path="/garden" element={<Outlet />}>
+            <Route path=":userName" element={<GardenPage />} />
+            <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
+          </Route>
+
+          <Route path="/feed" element={<FeedListPage />} />
+          <Route path="/feed/:feedId" element={<FeedListPage />} />
+          <Route path="/worldcup" element={<WorldCup />} />
+
+          <Route path="/intro" element={<IntroPage />} />
         </Route>
-
-        <Route path="/magazine" element={<Outlet />}>
-          <Route path="" element={<MagazinePage />} />
-          <Route path="magazineinput" element={<MagazineInputPage />} />
-          <Route path=":articleId" element={<MagazineDetailPage />} />
-        </Route>
-
-        <Route path="/garden" element={<Outlet />}>
-          <Route path=":userName" element={<GardenPage />} />
-          <Route path=":userName/:gardenId" element={<GardenDetailPage />} />
-        </Route>
-
-        <Route path="/feed" element={<FeedListPage />} />
-        <Route path="/worldcup" element={<WorldCup />} />
       </Routes>
+      {/* <Footer /> */}
     </>
   );
 };

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { useDispatch } from 'react-redux';
-import { fetchFeed } from '../../features/feed/feedAction';
+import { useNavigate } from 'react-router-dom';
 
 const FeedItem = ({ feed, onClick }) => {
+  const navigate = useNavigate();
   const {
     id,
     user,
@@ -15,15 +15,10 @@ const FeedItem = ({ feed, onClick }) => {
     comments_count,
     likes_count,
   } = feed ? feed : {};
-  const dispatch = useDispatch();
   return (
-    <Wrapper
-      onClick={() => {
-        dispatch(fetchFeed(id));
-        onClick();
-      }}
-    >
+    <Wrapper onClick={onClick}>
       <img src={img_url} alt="" className="feed-img" />
+      <span className="feed-user">{user.username}</span>
       <div className="feed-info">
         <div className="feed-like">
           <FavoriteBorderIcon />
@@ -61,7 +56,8 @@ const Wrapper = styled.div`
     height: calc(((100vw - 24px) / 2 - 5px) * 1.32);
   } */
   @media (max-width: 575px) {
-    height: calc((100vw - 24px) * 1.32);
+    width: calc(100vw - 48px);
+    height: calc((100vw - 48px) * 1.32);
   }
 
   /* width: calc(50vw - 80px);
@@ -72,11 +68,27 @@ const Wrapper = styled.div`
   position: relative;
   overflow: hidden;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 20%);
+  }
   & .feed-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+  & .feed-user {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    color: white;
+  }
+
   & .feed-info {
     position: absolute;
     right: 10px;
@@ -101,4 +113,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default FeedItem;
+export default React.memo(FeedItem);
