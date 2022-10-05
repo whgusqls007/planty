@@ -1,10 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-const IntroLastPage = ({
-  screenWidth,
-  screenHeight,
-  currentPage,
-}) => {
+const IntroLastPage = ({ screenWidth, screenHeight, currentPage }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -19,7 +15,7 @@ const IntroLastPage = ({
         <p className={currentPage === 6 ? 'last-page-ani-2' : ''}>기</p>
         <p className={currentPage === 6 ? 'last-page-ani-3' : ''}>,</p>
         <p className={currentPage === 6 ? 'last-page-ani-4' : ''}>&nbsp;</p>
-        <Link to="/">
+        <Link to="/index">
           <p className={currentPage === 6 ? 'last-page-ani-5' : ''}>플</p>
           <p className={currentPage === 6 ? 'last-page-ani-6' : ''}>랜</p>
           <p className={currentPage === 6 ? 'last-page-ani-7' : ''}>티</p>
@@ -30,6 +26,7 @@ const IntroLastPage = ({
       <div
         className="check-box-form"
         onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
           localStorage.setItem('skip', true);
           navigate('/index', { replace: true });
         }}

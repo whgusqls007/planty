@@ -134,7 +134,7 @@ export const SearchResult = styled.div`
   /* border: 1px solid black; */
   box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
-  z-index: 99;
+  z-index: 9999;
   position: absolute;
   top: 100%;
   left: 0;

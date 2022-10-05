@@ -8,6 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+import re
 
 # 읽을거리 CRUD
 class MagazineViewSet(viewsets.ModelViewSet):
@@ -100,18 +101,44 @@ class MagazineViewSet(viewsets.ModelViewSet):
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=user)
+
+            try:
+                p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
+                m = p.search(request.data['content'])
+                img_url = m.group()[1:-1]
+            except:
+                img_url = "https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png"
+            serializer.save(user=user, img_url=img_url)
 
             user.exp = user.exp + 20
             user.articles_count = user.articles_count + 1
             user.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def update(self, request, pk):
+        magazine = get_object_or_404(Magazine, pk=pk)
+        user = request.user
+
+        serializer = MagazineSerializer(magazine, data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            try:
+                p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
+                m = p.search(request.data['content'])
+                img_url = m.group()[1:-1]
+            except:
+                img_url = "https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png"
+            serializer.save(user=user, img_url=img_url)
+
+            user.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     
     # delete에 매칭, 게시글 삭제
-    def destroy(self, request, magazine_pk):
-        magazine = get_object_or_404(Magazine, pk=magazine_pk)
+    def destroy(self, request, pk):
+        magazine = get_object_or_404(Magazine, pk=pk)
         user = request.user
         if user == magazine.user:
             magazine.delete()
@@ -120,7 +147,7 @@ class MagazineViewSet(viewsets.ModelViewSet):
             user.save()
             
             data = {
-                'delete': f'{magazine_pk}번 데이터가 삭제되었습니다.'
+                'delete': f'{pk}번 데이터가 삭제되었습니다.'
             }
 
             return Response(data, status=status.HTTP_200_OK)

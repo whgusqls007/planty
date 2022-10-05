@@ -5,11 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
-import React from 'react';
-
-// css
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { logout } from '../features/user/userSlice';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const Wrapper = styled.div`
   -webkit-user-select: none;
@@ -42,6 +42,10 @@ const Wrapper = styled.div`
     overflow: hidden;
     background-color: ${({ theme }) => theme.themeColor[5]};
     margin-left: 8px;
+  }
+
+  & .mygarden-disabled {
+    cursor: default;
   }
 `;
 
@@ -77,15 +81,20 @@ function Header() {
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('Token');
     dispatch(logout());
-    navigate('/');
+    navigate('/login');
   };
+
+  useEffect(() => {
+    Aos.init({ once: false });
+  }, []);
 
   return (
     <Wrapper>
-      <Navbar bg="white" expand="lg" className="mb-3">
+      <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
           <Navbar.Brand href="/" className="me-5">
             <img
+              data-aos="fade-down"
               src="/assets/img/nav-logo.png"
               alt=""
               className="nav-logo-img"
@@ -105,18 +114,19 @@ function Header() {
                 </Link>
               </Col>
               <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to={`/garden/${userInfo?.username}`}>
-                  나의 정원
-                </Link>
+                {userInfo ? (
+                  <Link className="me-4" to={`/garden/${userInfo?.username}`}>
+                    나의 정원
+                  </Link>
+                ) : (
+                  <Link className="me-4" to={'/login/'}>
+                    나의 정원
+                  </Link>
+                )}
               </Col>
               <Col lg={3} className="mb-2 mt-2">
                 <Link className="me-4" to="/feed">
                   남의 정원
-                </Link>
-              </Col>
-              <Col lg={3} className="mb-2 mt-2">
-                <Link className="me-4" to="/worldcup">
-                  식이월
                 </Link>
               </Col>
             </Nav>

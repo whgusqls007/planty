@@ -7,17 +7,20 @@ import {
   fetchUserFeed,
   fetchMyGarden,
   createGarden,
+  createDiary,
+  fetchDiary,
 } from './gardenActions';
 
 const initialState = {
   loading: false,
+  error: null,
+  success: false,
   garden: null,
   gardenUserInfo: {},
   gardenPlantList: [],
   gardenFeedList: [],
   gardenPlant: {},
-  error: null,
-  success: false,
+  diary: {},
 };
 
 const gardenSlice = createSlice({
@@ -103,6 +106,7 @@ const gardenSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    // 정원 생성
     [createGarden.pending]: (state) => {
       state.loading = true;
       state.error = false;
@@ -114,6 +118,23 @@ const gardenSlice = createSlice({
     [createGarden.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+    },
+    // 다이어리 추가
+    [createDiary.pending]: (state) => {
+      // state.loading = true;
+      state.error = false;
+    },
+    [createDiary.fulfilled]: (state, { payload }) => {
+      state.gardenPlant = { ...state.gardenPlant, diaries: payload };
+      state.success = true;
+    },
+    [createDiary.rejected]: (state, { payload }) => {
+      // state.loading = false;
+      state.error = payload;
+    },
+    // 다이어리 정보 가져오기
+    [fetchDiary.fulfilled]: (state, { payload }) => {
+      state.diary = payload;
     },
   },
 });

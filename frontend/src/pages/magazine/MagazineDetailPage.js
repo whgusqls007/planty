@@ -4,12 +4,13 @@ import ReactHtmlParser from 'react-html-parser';
 import FavoriteButton1 from '@mui/icons-material/ThumbUpAltOutlined';
 import FavoriteButton2 from '@mui/icons-material/ThumbUpAlt';
 import Table from 'react-bootstrap/Table';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchMagazine,
   fetchLike,
   fetchComment,
+  deleteMagazine,
 } from '../../features/magazine/magazineActions';
 import CommentLine from '../../components/magazine/CommentLine';
 import CommentInput from '../../components/magazine/CommentInput';
@@ -20,29 +21,40 @@ import {
   Writer,
   Content,
 } from '../../styles/magazine/MagazineDetailPageCss';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const MagazineDetailPage = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { articleId } = useParams();
   const { magazine, comments } = useSelector((state) => state.magazine);
   const { userInfo } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
+    if (userInfo) {
+      setUserId(sessionStorage.getItem('userInfo').id);
+    }
     dispatch(fetchMagazine(articleId));
   }, [dispatch, articleId]);
 
   const likeButtonHandler = async () => {
-    if (userInfo !== null) {
+    if (userInfo) {
       dispatch(fetchLike(articleId));
     } else {
-      alert('로그인 ㄱㄱ');
+      navigate('/login');
     }
   };
 
   const submitHandler = () => {
     dispatch(fetchComment({ id: articleId, comment: { content: comment } }));
     setComment('');
+  };
+
+  const deleteHandler = () => {
+    dispatch(deleteMagazine({ id: articleId }));
   };
 
   return (
@@ -53,18 +65,32 @@ const MagazineDetailPage = (props) => {
           에디터 | {magazine.user !== undefined ? magazine.user.username : ''}
         </Writer>
         <Date>
-          {magazine.date_created !== undefined
-            ? magazine?.date_created.split('T')[0]
-            : null}{' '}
+          {magazine?.date_created ? magazine.date_created.split('T')[0] : null}{' '}
           작성
         </Date>
+        {magazine?.user &&
+        userInfo?.is_editor &&
+        userInfo.id === magazine.user.id ? (
+          <div className="modify-delete">
+            <Link
+              to="/magazine/magazinemodify"
+              state={{
+                magazine: magazine,
+                articleId: articleId,
+              }}
+            >
+              <BorderColorIcon className="modify" />
+            </Link>
+            <DeleteIcon className="delete" onClick={deleteHandler} />
+          </div>
+        ) : null}
         <Content>{ReactHtmlParser(magazine.content)}</Content>
         <div className="favorite">
           <span>좋아용</span>
           <FavoriteButton1
             onClick={likeButtonHandler}
             style={
-              !magazine.is_liked
+              !magazine?.is_liked
                 ? { display: 'block', opacity: '0.6', cursor: 'pointer' }
                 : { display: 'none' }
             }
@@ -72,7 +98,7 @@ const MagazineDetailPage = (props) => {
           <FavoriteButton2
             onClick={likeButtonHandler}
             style={
-              magazine.is_liked
+              magazine?.is_liked
                 ? { display: 'block', color: '#8FB99F', cursor: 'pointer' }
                 : { display: 'none' }
             }

@@ -6,7 +6,7 @@ export const plantList = async () => {
   return response;
 };
 
-export const plantListPagination = async (offset, limit) => {
+export const plantListPagination = async ({ offset, limit }) => {
   const response = client.get(`plants?offset=${offset}&limit=${limit}`);
 
   return response;
@@ -20,6 +20,12 @@ export const plantItem = async (plantId) => {
 
 export const plantSearch = async (plantKeyword) => {
   const response = client.get(`plants?search=${plantKeyword}`);
+
+  return response;
+};
+
+export const keywordRecommendPlant = async (keyword) => {
+  const response = client.get(`recommendations/keyword?keyword=${keyword}`);
 
   return response;
 };

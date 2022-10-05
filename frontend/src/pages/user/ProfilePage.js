@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/esm/Container';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ProfileCommentListItem from '../../components/user/ProfileCommentListItem';
+import ProfileLikeListItem from '../../components/user/ProfileLikeListItem';
+import {
+  fetchUserComments,
+  fetchUserLikes,
+  fetchUserInfo,
+} from '../../features/user/userActions';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
   const profileNav = ['나의 댓글', '좋아요한 글'];
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const {
     profile_img,
@@ -26,6 +34,11 @@ const ProfilePage = () => {
       : 1;
     setProfileNum(query);
   }, [searchParams]);
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+    dispatch(fetchUserComments());
+    dispatch(fetchUserLikes());
+  }, []);
 
   return (
     <Container>
@@ -46,7 +59,11 @@ const ProfilePage = () => {
           <div className="profile-nav-tab">
             {profileNav.map((e, i) => (
               <div
-                className="profile-nav-item"
+                className={
+                  profileNum === i + 1
+                    ? 'profile-nav-item active'
+                    : 'profile-nav-item'
+                }
                 key={i}
                 onClick={() => setProfileNum(i + 1)}
               >
@@ -67,9 +84,8 @@ const ProfilePage = () => {
           </div>
         </div>
         <ProfileWrapper>
-          {profileNum === 1 && <div className="profile1">profile1</div>}
-          {profileNum === 2 && <div className="profile2">profile2</div>}
-          {profileNum === 3 && <div className="profile3">profile3</div>}
+          {profileNum === 1 && <ProfileCommentListItem />}
+          {profileNum === 2 && <ProfileLikeListItem />}
         </ProfileWrapper>
       </Wrapper>
     </Container>
@@ -126,11 +142,15 @@ const Wrapper = styled.div`
     justify-content: center;
     font-size: 1.2rem;
     cursor: pointer;
+    color: rgb(191, 191, 191);
 
     @media (max-width: 576px) {
       width: 80px;
       font-size: 1rem;
     }
+  }
+  & .active {
+    color: black;
   }
 `;
 

@@ -5,6 +5,8 @@ import {
   register,
   patchUsername,
   postNewPassword,
+  userComments,
+  userLikes,
 } from '../../api/user';
 
 export const userLogin = createAsyncThunk(
@@ -16,6 +18,25 @@ export const userLogin = createAsyncThunk(
       sessionStorage.setItem('Token', loginData.data.key);
       const { data } = await getUserInfo();
       sessionStorage.setItem('userInfo', JSON.stringify(data));
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchUserInfo = createAsyncThunk(
+  'user/fetchUserInfo',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await getUserInfo();
+      sessionStorage.setItem('userInfo', JSON.stringify(data));
+
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -32,6 +53,7 @@ export const userRegister = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await register(params);
+
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -48,7 +70,7 @@ export const updateUsername = createAsyncThunk(
   async (username, { rejectWithValue }) => {
     try {
       const { data } = await patchUsername(username);
-      console.log(data);
+
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -65,6 +87,7 @@ export const updatePassword = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await postNewPassword(params);
+
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -82,6 +105,40 @@ export const updateUsernamePassword = createAsyncThunk(
     try {
       await postNewPassword(params);
       const { data } = await patchUsername(params);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchUserComments = createAsyncThunk(
+  'user/fetchUserComments',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await userComments(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchUserLikes = createAsyncThunk(
+  'user/fetchUserLikes',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await userLikes(params);
+
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

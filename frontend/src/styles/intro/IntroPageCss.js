@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
           float: none;
           @media (max-width: 768px) {
             float: left;
-            margin: 0 15px 0 15px;
+            margin: 0 15px 20% 15px;
           }
         }
       }
@@ -187,12 +187,10 @@ export const Wrapper = styled.div`
 
         @media (max-width: 768px) {
           margin: 0 0 0 0;
-          margin-top: 5%;
         }
 
         @media (max-width: 568px) {
           margin: 0 0 0 0;
-          margin-top: 5%;
         }
 
         & h3 {
@@ -341,22 +339,22 @@ export const Wrapper = styled.div`
       & .image-box {
         width: 50%;
         height: 500px;
-        margin-left: 10%;
         background-color: ${({ theme }) => theme.themeColor[5]};
+        margin-left: 10%;
 
         @media (max-width: 992px) {
-          margin-left: 5%;
+          margin-right: 5%;
         }
 
         @media (max-width: 768px) {
           width: 80%;
-          margin-left: 0;
+          margin-right: 0;
           margin-bottom: 5%;
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 568px) {
           width: 80%;
-          margin-left: 0;
+          margin-right: 0;
           margin-bottom: 0;
         }
       }

@@ -1,53 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { GardenDiaryModalWrapper } from '../../styles/garden/GardenComponentStyle';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import {
-  GardenDiaryModalWrapper,
-  GardenForm,
-} from '../../styles/garden/GardenComponentStyle';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDiary } from '../../features/garden/gardenActions';
 
-const GardenDiaryModal = ({ modalOpen, closeModal }) => {
-  const [imgFile, setImgFile] = useState(null); // img 전송용
-  const [imgSrc, setImgSrc] = useState(null); // img 표시용
+const GardenDiaryModal = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const diaryId = parseInt(searchParams.get('diary'));
+  const gardenId = parseInt(useParams().gardenId);
+  const { diary } = useSelector((state) => state.garden);
 
-  const onImageChange = (e) => {
-    e.preventDefault();
-    const imgTarget = e.target.files[0];
-    setImgFile(imgTarget);
-    if (imgTarget) {
-      const reader = new FileReader();
-      reader.readAsDataURL(imgTarget);
-      reader.onload = (e) => {
-        setImgSrc(e.target.result);
-      };
-    } else {
-      setImgSrc(null);
+  useEffect(() => {
+    if (diaryId && gardenId) {
+      dispatch(fetchDiary({ diaryId, gardenId }));
     }
-  };
-  const onChangeHandler = (e) => {};
+  }, [diaryId, gardenId]);
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
+  const closeModal = () => {
+    navigate(-1);
   };
 
   return (
-    <GardenDiaryModalWrapper modalOpen={modalOpen}>
-      <div className="close-modal" onClick={closeModal} />
+    <GardenDiaryModalWrapper modalOpen={diaryId} onClick={closeModal}>
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
-        <GardenForm onSubmit={onSubmitHandler}>
-          <label htmlFor="plantname">내용</label>
-          <input type="text" id="plantname" onChange={onChangeHandler} />
-          <label htmlFor="plant_img">식물 사진</label>
-          <input
-            type="file"
-            id="plant_img"
-            className="plant-img-input"
-            accept="image/*"
-            onChange={onImageChange}
-          />
-          <img src={imgSrc} alt="aabbb" className="plant-img" />
-          <button>작성</button>
-        </GardenForm>
+        {JSON.stringify(diary)}
       </div>
     </GardenDiaryModalWrapper>
   );

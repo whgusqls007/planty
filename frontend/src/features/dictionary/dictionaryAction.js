@@ -4,6 +4,7 @@ import {
   plantItem,
   plantSearch,
   plantListPagination,
+  keywordRecommendPlant,
 } from '../../api/dictionary';
 
 export const fetchPlant = createAsyncThunk(
@@ -12,22 +13,6 @@ export const fetchPlant = createAsyncThunk(
     try {
       const { data } = await plantItem(plantId);
 
-      return data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  },
-);
-
-export const fetchPlantList = createAsyncThunk(
-  'dictionary/fetchPlantList',
-  async (params, { rejectWithValue }) => {
-    try {
-      const { data } = await plantList();
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -53,8 +38,24 @@ export const fetchPlantListPagination = createAsyncThunk(
   'dictionary/fetchPlantListPagination',
   async (params, { rejectWithValue }) => {
     try {
-      const { offset, limit } = params;
-      const { data } = await plantListPagination(offset, limit);
+      const { data } = await plantListPagination(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const fetchKeywordRecommendPlant = createAsyncThunk(
+  'dictionary/fetchKeywordRecommendPlant',
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const { data } = await keywordRecommendPlant(keyword);
 
       return data;
     } catch (error) {

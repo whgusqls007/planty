@@ -56,7 +56,6 @@ const ProfileUpdatePage = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(updateInputs);
 
     if (changeUsername && !changePassword) {
       dispatch(updateUsername({ username: updateInputs.username }));

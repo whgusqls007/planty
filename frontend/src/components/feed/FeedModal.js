@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
 // import Carousel from 'react-bootstrap/Carousel';
 import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
-import { createFeedComment } from '../../features/feed/feedAction';
+import {
+  createFeedComment,
+  modifyFeedComment,
+  deleteFeedComment,
+  likeFeed,
+} from '../../features/feed/feedAction';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Link } from 'react-router-dom';
-import { likeFeed } from '../../features/feed/feedAction';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FeedModalWrapper,
   MobileModalWrapper,
@@ -19,6 +22,8 @@ import {
   ModalImgCarouselWrapper,
   ModalImgWrapper,
 } from '../../styles/feed/feedModalStyle';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useCallback } from 'react';
 
 // 날짜 생성 함수
@@ -60,7 +65,9 @@ const FeedModal = ({ modalOpen, closeModal }) => {
 // MobileModal
 const MobileModal = ({ closeModal }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, feed } = useSelector((state) => state.feed);
+  const { userInfo } = useSelector((state) => state.user);
   const {
     id,
     content,
@@ -70,9 +77,14 @@ const MobileModal = ({ closeModal }) => {
     likes_count,
     is_liked,
   } = feed;
-  const onClickLike = useCallback(() => {
-    dispatch(likeFeed(id));
-  }, [dispatch, likeFeed, id]);
+
+  const onClickLike = () => {
+    if (userInfo) {
+      dispatch(likeFeed(id));
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <MobileModalWrapper>
@@ -112,7 +124,7 @@ const ModalImgCarousel = () => {
   const { feed } = useSelector((state) => state.feed);
   return (
     <ModalImgCarouselWrapper>
-      <img src={feed.img_url} alt="Feed Image" />
+      <img src={feed?.img_url} alt="Feed Image" />
     </ModalImgCarouselWrapper>
   );
 };
@@ -127,6 +139,9 @@ const ModalImg = () => {
 
 // feed 오른쪽 게시글
 const ModalDescription = ({ closeModal }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.user);
   const { loading, feed } = useSelector((state) => state.feed);
   const {
     id,
@@ -137,10 +152,14 @@ const ModalDescription = ({ closeModal }) => {
     likes_count,
     is_liked,
   } = feed;
-  const dispatch = useDispatch();
-  const onClickLike = useCallback(() => {
-    dispatch(likeFeed(id));
-  }, [dispatch, likeFeed, id]);
+
+  const onClickLike = () => {
+    if (userInfo) {
+      dispatch(likeFeed(id));
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <ModalDescriptionWrapper>
@@ -177,43 +196,123 @@ const ModalDescription = ({ closeModal }) => {
 const CommentList = ({ comments }) => {
   return (
     <CommentListWrapper>
-      {comments &&
-        comments.map((comment, idx) => (
-          <CommentItem comment={comment} key={idx}></CommentItem>
-        ))}
+      {comments?.map((comment, idx) => (
+        <CommentItem comment={comment} key={idx}></CommentItem>
+      ))}
     </CommentListWrapper>
   );
 };
 
 // 댓글 요소
 const CommentItem = ({ comment }) => {
-  const { user, content } = comment;
+  const { user, content, id, feed } = comment;
+  const { userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [isEditting, setIsEditting] = useState(false);
+  const [inputComment, setInputComment] = useState('');
+
+  useEffect(() => {
+    setInputComment(content);
+  }, [content]);
+
+  const onClickEdit = () => {
+    if (!isEditting) {
+      setIsEditting(true);
+    } else {
+      setIsEditting(false);
+    }
+  };
+
+  const onClickDelete = (e) => {
+    dispatch(
+      deleteFeedComment({
+        feedId: feed,
+        commentId: id,
+      }),
+    );
+  };
+
+  const onChangeHandler = (e) => {
+    setInputComment(e.target.value);
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      modifyFeedComment({
+        feedId: id,
+        commentId: feed,
+        content: inputComment,
+      }),
+    );
+    setIsEditting(false);
+  };
   return (
     <CommentItemWrapper>
-      <div>{user.username}</div>
-      <span>::</span>
-      <div>{content}</div>
+      <div className="comment-content">
+        <div className="comment-content-left">
+          <div>{user?.username}</div>
+          <span>::</span>
+          {isEditting ? (
+            <form onSubmit={onSubmitHandler}>
+              <input onChange={onChangeHandler} value={inputComment} />
+              <button className="edit-btn" type="submit">
+                수정
+              </button>
+              <button className="cancel-btn" onClick={onClickEdit}>
+                취소
+              </button>
+            </form>
+          ) : (
+            <div>
+              {user?.username === userInfo?.username ? (
+                <div>
+                  {content}{' '}
+                  <BorderColorIcon
+                    className="comment-edit-icon"
+                    onClick={onClickEdit}
+                  />
+                  <DeleteIcon
+                    className="comment-delte-icon"
+                    onClick={onClickDelete}
+                  />
+                </div>
+              ) : (
+                <div>{content}</div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="comment-date">
+          {comment.date_created?.substr(0, 10)}&nbsp;&nbsp;
+          {comment.date_created?.substr(11, 5)}
+        </div>
+      </div>
     </CommentItemWrapper>
   );
 };
 
 // 댓글 입력 Form
 const CommentInputForm = () => {
-  const { feed } = useSelector((state) => state.feed);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { feed } = useSelector((state) => state.feed);
+  const { userInfo } = useSelector((state) => state.user);
   const [commentInput, setCommentInput] = useState('');
+  const FormSubmitHandler = (e) => {
+    e.preventDefault();
+
+    if (userInfo) {
+      dispatch(createFeedComment({ feedId: feed.id, content: commentInput }));
+      setCommentInput('');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <CommentInputFormWrapper>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          dispatch(
-            createFeedComment({ feedId: feed.id, content: commentInput }),
-          );
-          setCommentInput('');
-        }}
-      >
+      <form onSubmit={FormSubmitHandler}>
         <input
           type="text"
           className="comment-input"

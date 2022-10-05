@@ -58,6 +58,7 @@ export const InputBox = styled.div`
   box-sizing: border-box;
   letter-spacing: 1px;
   position: relative;
+  margin-top: 3%;
 
   -webkit-user-select: none;
   -moz-user-select: none;

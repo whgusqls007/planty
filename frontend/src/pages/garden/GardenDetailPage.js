@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
-import GardenDiaryItem from '../../components/garden/GardenDiaryItem';
+
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
+import GardenDiaryCreateModal from '../../components/garden/GardenDiaryCreateModal';
 import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,17 +12,17 @@ import {
   Wrapper,
   GardenDetailImage,
   GardenDetailDescription,
-  GardenDiaryWrapper,
   GardenDetailInfo,
 } from '../../styles/garden/GardenDetailStyle';
 import { useParams } from 'react-router-dom';
+import GardenDiaryList from '../../components/garden/GardenDiaryList';
 
 const GardenDetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { gardenId } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
-  const [diaryOpen, setDiaryOpen] = useState(false);
+  const [diaryCreateOpen, setDiaryCreateOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -49,24 +50,29 @@ const GardenDetailPage = () => {
     setModalOpen(false);
   };
 
-  const openDiary = () => {
-    setDiaryOpen(true);
+  const openCreateDiary = () => {
+    setDiaryCreateOpen(true);
   };
 
-  const closeDiary = () => {
-    setDiaryOpen(false);
+  const closeCreateDiary = () => {
+    setDiaryCreateOpen(false);
   };
 
   return (
     <>
       <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
-      <GardenDiaryModal modalOpen={diaryOpen} closeModal={closeDiary} />
+      <GardenDiaryCreateModal
+        modalOpen={diaryCreateOpen}
+        closeModal={closeCreateDiary}
+      />
+      <GardenDiaryModal />
+
       <Container>
         {!loading && (
           <>
             <Wrapper>
               <div className="button-div">
-                <button onClick={openDiary}>일기 추가</button>
+                <button onClick={openCreateDiary}>일기 추가</button>
                 <button onClick={openModal}>식물 수정</button>
               </div>
               <div className="header">
@@ -109,16 +115,7 @@ const GardenDetailPage = () => {
                 </GardenDetailDescription>
               </div>
             </Wrapper>
-
-            <GardenDiaryWrapper>
-              <div className="garden-diary-title">식물 일기</div>
-              <div className="garden-diary-container">
-                <GardenDiaryItem />
-                <GardenDiaryItem />
-                <GardenDiaryItem />
-                <GardenDiaryItem />
-              </div>
-            </GardenDiaryWrapper>
+            <GardenDiaryList />
           </>
         )}
       </Container>

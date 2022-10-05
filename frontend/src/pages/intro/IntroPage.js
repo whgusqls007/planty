@@ -12,6 +12,7 @@ import IntroFifthPage from './intropages/IntroFifthPage';
 import IntroSixthPage from './intropages/IntroSixthPage';
 import IntroLastPage from './intropages/IntroLastPage';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../layout/Header';
 
 const IntroPage = () => {
   const [section, setSection] = useState(1);
@@ -27,8 +28,7 @@ const IntroPage = () => {
 
   useEffect(() => {
     let skip = localStorage.getItem('skip');
-    console.log(skip);
-    if (skip) {
+    if (skip === true) {
       navigate('./index', { replace: true });
     }
     Aos.init({
