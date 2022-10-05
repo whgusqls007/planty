@@ -13,11 +13,35 @@ export const Wrapper = styled.div`
     }
   }
   & .dictionary-detail-body {
+    & .grow-info-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 3%;
+    }
+    & hr {
+      margin: 0;
+    }
     & .grow-info-div {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 10px;
-      padding: 10px 0px;
+      margin-top: 10px;
+    }
+    & .water-info-div {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 10px;
+      row-gap: 10px;
+      margin-top: 10px;
+      padding-right: 5px;
+    }
+    & .lightposi-info-div {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 10px;
+      row-gap: 10px;
+      margin-top: 10px;
+      white-space: pre-wrap;
     }
   }
 `;
@@ -40,9 +64,11 @@ export const PlantImg = styled.img`
 export const GrowInfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: #d9d9d9;
-  padding: 0.5rem 1rem;
-  height: 120px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 2px solid #8fb99f;
+  padding: 1rem 1rem;
+  min-height: 120px;
   @media (max-width: 767px) {
     font-size: 0.8rem;
     padding: 5px;
@@ -57,5 +83,19 @@ export const GrowInfoWrapper = styled.div`
       height: 40px;
       margin-right: 6px;
     }
+  }
+  & .title-style {
+    font-weight: bold;
+  }
+  & .growth-info-data > p {
+    margin: 0 10%;
+    width: 100%;
+  }
+  & .water-info-data {
+    width: 100%;
+  }
+  .water-info-data > p {
+    margin: 0 5%;
+    width: 90%;
   }
 `;
