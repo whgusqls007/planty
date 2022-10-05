@@ -24,12 +24,12 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-
   width: 50px;
   height: 50px;
   bottom: 40px;
   right: 10%;
   /* right: 50px; */
+  cursor: pointer;
 
   background-color: ${({ theme }) => theme.themeColor[5]};
   color: #fff;

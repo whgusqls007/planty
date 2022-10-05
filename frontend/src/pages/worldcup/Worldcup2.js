@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useSelector } from 'react-redux';
 import { display } from '@mui/system';
 import {
   Wrapper,
@@ -66,6 +67,7 @@ const WorldCup2 = ({ modalOpen, closeModal }) => {
   const [winners, setWinners] = useState([]);
   const [count, setCount] = useState(0);
   const [stage, setStage] = useState('8강');
+  const { WorldcupList } = useSelector((state) => state.recommend);
 
   useEffect(() => {
     AOS.init();
@@ -73,7 +75,7 @@ const WorldCup2 = ({ modalOpen, closeModal }) => {
     setPlants(items);
     setDisplays([items[0], items[1]]);
   }, []);
-
+  console.log(WorldcupList);
   useEffect(() => {
     if (count < 8) {
       setStage('8강');
