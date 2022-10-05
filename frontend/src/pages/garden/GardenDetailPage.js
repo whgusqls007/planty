@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/esm/Container';
-import BackupTableIcon from '@mui/icons-material/BackupTable';
-
 import GardenCreateModal from '../../components/garden/GardenCreateModal';
 import GardenDiaryCreateModal from '../../components/garden/GardenDiaryCreateModal';
 import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
@@ -87,9 +85,13 @@ const GardenDetailPage = () => {
           <>
             <Wrapper>
               <div className="button-div">
-                <button onClick={openCreateDiary}>일기 추가</button>
-                <button onClick={openModal}>식물 수정</button>
-                <button onClick={deleteHandler} className="delete-btn">
+                <button onClick={openCreateDiary} className="create-button">
+                  일기 추가
+                </button>
+                <button onClick={openModal} className="update-button">
+                  식물 수정
+                </button>
+                <button onClick={deleteHandler} className="delete-button">
                   식물 삭제
                 </button>
               </div>
@@ -102,8 +104,7 @@ const GardenDetailPage = () => {
                       className="detail-btn"
                       onClick={() => navigate(`/dictionary/${plant.id}`)}
                     >
-                      <BackupTableIcon />
-                      자세히 보기
+                      📖 사전 보기
                     </button>
                     <div className="grow-date">
                       {date_grow?.substr(0, 4)}년 {date_grow?.substr(5, 2)}월{' '}
@@ -113,20 +114,24 @@ const GardenDetailPage = () => {
                   <div className="garden-content">{memo}</div>
                   <div className="garden-detail-info">
                     <GardenDetailInfo>
-                      🌱 {watering_schedule}일 마다 물을 줘요
+                      <p>💦</p>
+                      <p className="info-title">물 주는 주기</p>
+                      <p>{watering_schedule}일</p>
                     </GardenDetailInfo>
                     <GardenDetailInfo>
                       <div className="garden-detail-recent_water">
-                        <span>
-                          🐳
+                        <p>🚿</p>
+                        <p className="info-title">최근 물 준 날</p>
+                        <p>
                           {recent_water?.substr(5, 2)}월{' '}
-                          {recent_water?.substr(8, 2)}
-                          일에 물을 줬어요
-                        </span>
+                          {recent_water?.substr(8, 2)}일
+                        </p>
                       </div>
                     </GardenDetailInfo>
                     <GardenDetailInfo>
-                      🌷 추천 점수는 {preference}점이에요
+                      <p>⭐</p>
+                      <p className="info-title">나의 점수</p>
+                      <p>{preference}점</p>
                     </GardenDetailInfo>
                   </div>
                 </GardenDetailDescription>
