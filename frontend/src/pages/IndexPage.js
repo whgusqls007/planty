@@ -25,6 +25,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { petSafetyPlants } from '../api/recommend';
 
 const arr = [
   '물을 자주 주는',
@@ -79,9 +80,16 @@ const IndexPage = () => {
   const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
     useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
-  const openModal = () => {
+  const [propsData, setPropsData] = useState(0);
+  const [items, setItems] = useState([]);
+
+  const clearItems = () => {
+    setItems([]);
+  };
+
+  const openModal = (index) => {
     setModalOpen(true);
-    dispatch(fetchPlantWordcup());
+    // dispatch(fetchPlantWordcup());
   };
 
   const closeModal = () => {
@@ -101,7 +109,12 @@ const IndexPage = () => {
 
   return (
     <>
-      <WorldCup2 modalOpen={modalOpen} closeModal={closeModal} />
+      <WorldCup2
+        modalOpen={modalOpen}
+      closeModal={closeModal}
+        items={items}
+        clearItems={clearItems}
+      />
       <Wrapper>
         <Container>
           <div className="mainTitle mt-3 pt-3">어떤 식물을 찾으시나요?</div>
@@ -144,12 +157,32 @@ const IndexPage = () => {
         </div>
         <div>
           <ContentTitle>지금 유저들이 많이 키우는 식물</ContentTitle>
-          <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>Planty 유저들이 많이 키워요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(popularPlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={popularPlants} />
         </div>
         <div style={{ marginBottom: '10%' }}>
           <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
-          <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+          <WorldCupWrapper>
+            <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+            <button
+              onClick={() => {
+                setItems(petsafePlants);
+                openModal();
+              }}
+            >
+              이상형 월드컵
+            </button>
+          </WorldCupWrapper>
           <HorizontalScroll data={petsafePlants} />
         </div>
       </Container>
