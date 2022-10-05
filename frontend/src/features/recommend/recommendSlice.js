@@ -3,6 +3,7 @@ import {
   fetchPopularPlant,
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
+  fetchPlantWordcup,
 } from './recommendActions';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   popularPlants: [],
   petsafePlants: [],
   keywordPlants: [],
+  WorldcupList: [],
 };
 
 const recommendSlice = createSlice({
@@ -63,6 +65,12 @@ const recommendSlice = createSlice({
     [fetchKeywordRecommend.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+    },
+    // 식물 이상형 월드컵
+    [fetchPlantWordcup.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.WorldcupList = payload;
     },
   },
 });

@@ -104,9 +104,16 @@ const MobileModal = ({ closeModal }) => {
       </div>
       <div className="mobile-feed-body">
         <div className="mobile-feed-content">{content}</div>
-        <div className="feed-like" onClick={onClickLike}>
-          {is_liked && <FavoriteIcon className="like-icon" />}
-          {!is_liked && <FavoriteBorderIcon className="like-icon" />}
+        <div className="feed-like">
+          {is_liked && (
+            <FavoriteIcon
+              className="like-icon is-liked"
+              onClick={onClickLike}
+            />
+          )}
+          {!is_liked && (
+            <FavoriteBorderIcon className="like-icon " onClick={onClickLike} />
+          )}
           <span>{likes_count}</span>
         </div>
         <div className="mobile-feed-comment">
@@ -165,7 +172,7 @@ const ModalDescription = ({ closeModal }) => {
     <ModalDescriptionWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
       <div className="description-header">
-        <div className="description-title">제목</div>
+        {/* <div className="description-title"></div> */}
         <div className="description-writer">
           <Link to={`/garden/${user?.username}`}>
             <CloudIcon />
@@ -178,9 +185,16 @@ const ModalDescription = ({ closeModal }) => {
       </div>
       <div className="description-body">
         <div className="description-content">{content}</div>
-        <div className="feed-like" onClick={onClickLike}>
-          {is_liked && <FavoriteIcon className="like-icon" />}
-          {!is_liked && <FavoriteBorderIcon className="like-icon" />}
+        <div className="feed-like">
+          {is_liked && (
+            <FavoriteIcon
+              className="like-icon is-liked"
+              onClick={onClickLike}
+            />
+          )}
+          {!is_liked && (
+            <FavoriteBorderIcon className="like-icon" onClick={onClickLike} />
+          )}
           <span>{likes_count}</span>
         </div>
         <div className="description-comment">
@@ -321,7 +335,16 @@ const CommentInputForm = () => {
             setCommentInput(e.target.value);
           }}
         />
-        <button className="comment-submit-btn">등록</button>
+        <button
+          className="comment-submit-btn"
+          disabled={
+            commentInput === '' &&
+            commentInput === undefined &&
+            commentInput === null
+          }
+        >
+          등록
+        </button>
       </form>
     </CommentInputFormWrapper>
   );

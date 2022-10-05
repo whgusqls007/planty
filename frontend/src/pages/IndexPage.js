@@ -15,10 +15,12 @@ import {
   WorldCupWrapper,
 } from '../styles/index/IndexStyle.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchMainMagazines } from '../features/magazine/magazineActions';
 import {
   fetchPopularPlant,
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
+  fetchPlantWordcup,
 } from '../features/recommend/recommendActions';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
@@ -74,12 +76,12 @@ const IndexPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { popularPlants, petsafePlants, keywordPlants } = useSelector(
-    (state) => state.recommend,
-  );
-
+  const { popularPlants, petsafePlants, keywordPlants, WorldcupList } =
+    useSelector((state) => state.recommend);
+  const { popolarMagazines } = useSelector((state) => state.magazine);
   const openModal = () => {
     setModalOpen(true);
+    dispatch(fetchPlantWordcup());
   };
 
   const closeModal = () => {
@@ -94,6 +96,7 @@ const IndexPage = () => {
     dispatch(fetchPopularPlant());
     dispatch(fetchPetSafetyPlants());
     dispatch(fetchKeywordRecommend(1));
+    dispatch(fetchMainMagazines());
   }, [dispatch]);
 
   return (
@@ -129,10 +132,10 @@ const IndexPage = () => {
           <ContentSubTitle>한번 읽어 보실래요?</ContentSubTitle>
           <div style={{ marginTop: '0.5rem' }}>
             <Row>
-              {[1, 2, 3].map((e, i) => {
+              {popolarMagazines.map((magazine, i) => {
                 return (
                   <Col md="4" key={i}>
-                    <BigCard key={i} />
+                    <BigCard key={i} magazine={magazine} />
                   </Col>
                 );
               })}

@@ -65,13 +65,15 @@ export const GardenWrapper = styled.div`
     position: absolute;
     right: 0;
     transform: translateY(-140%);
-    background-color: ${({ theme }) => theme.themeColor[1]};
-    color: white;
-    border: none;
     border-radius: 10px;
     width: 130px;
     height: 42px;
     font-size: 20px;
+    background-color: white;
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[5]};
+    }
 
     @media (max-width: 576px) {
       width: 100%;

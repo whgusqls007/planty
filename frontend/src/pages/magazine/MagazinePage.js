@@ -184,6 +184,7 @@ const MagazinePage = () => {
                             prevSorting: sorting,
                           }),
                         );
+                        window.scrollTo({ top: 0, behavior: 'instant' });
                       }}
                     >
                       <Card data={e} key={i} />
