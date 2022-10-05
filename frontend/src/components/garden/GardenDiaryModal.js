@@ -6,7 +6,11 @@ import {
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDiary } from '../../features/garden/gardenActions';
+import {
+  deleteDiary,
+  fetchDiary,
+  fetchMyGarden,
+} from '../../features/garden/gardenActions';
 
 // 날짜 생성 함수
 const makeCreateDate = (dateCreated) => {
@@ -39,12 +43,20 @@ const GardenDiaryModal = () => {
   };
   console.log(diary);
 
+  const deleteHandler = () => {
+    dispatch(deleteDiary({ gardenId, diaryId })).then(() => {
+      closeModal();
+      dispatch(fetchMyGarden(gardenId));
+    });
+  };
+
   return (
     <GardenDiaryModalWrapper modalOpen={diaryId} onClick={closeModal}>
       <div className="modal-div">
         <CloseIcon className="close-btn" onClick={closeModal} />
         <ModalContentWrapper>
           <p className="date">{makeCreateDate(diary.date_created)}</p>
+          <button onClick={deleteHandler}>삭제</button>
           <img src={diary.diary_img} />
           <p className="content">{diary.content}</p>
         </ModalContentWrapper>

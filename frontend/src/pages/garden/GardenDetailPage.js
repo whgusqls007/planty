@@ -7,7 +7,10 @@ import GardenDiaryCreateModal from '../../components/garden/GardenDiaryCreateMod
 import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchMyGarden } from '../../features/garden/gardenActions';
+import {
+  deleteGarden,
+  fetchMyGarden,
+} from '../../features/garden/gardenActions';
 import {
   Wrapper,
   GardenDetailImage,
@@ -27,6 +30,7 @@ const GardenDetailPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
   useEffect(() => {
     dispatch(fetchMyGarden(gardenId));
   }, [dispatch, gardenId]);
@@ -58,9 +62,20 @@ const GardenDetailPage = () => {
     setDiaryCreateOpen(false);
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteGarden(gardenPlant?.id)).then(() => {
+      navigate(-1);
+      dispatch(fetchMyGarden(gardenId));
+    });
+  };
+
   return (
     <>
-      <GardenCreateModal modalOpen={modalOpen} closeModal={closeModal} />
+      <GardenCreateModal
+        modalOpen={modalOpen}
+        closeModal={closeModal}
+        data={gardenPlant}
+      />
       <GardenDiaryCreateModal
         modalOpen={diaryCreateOpen}
         closeModal={closeCreateDiary}
@@ -74,6 +89,9 @@ const GardenDetailPage = () => {
               <div className="button-div">
                 <button onClick={openCreateDiary}>일기 추가</button>
                 <button onClick={openModal}>식물 수정</button>
+                <button onClick={deleteHandler} className="delete-btn">
+                  식물 삭제
+                </button>
               </div>
               <div className="header">
                 <GardenDetailImage src={img_url} />

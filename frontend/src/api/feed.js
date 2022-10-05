@@ -21,6 +21,12 @@ export const feedCreate = async (params) => {
   return response;
 };
 
+export const feedDelete = async (params) => {
+  const response = client.delete(`feeds/${params}`);
+
+  return response;
+};
+
 export const feedCommentCreate = async ({ feedId, content }) => {
   const response = client.post(`feeds/${feedId}/comment/`, { content });
 

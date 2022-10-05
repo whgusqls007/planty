@@ -7,6 +7,7 @@ import {
   feedLike,
   editComment,
   deleteComment,
+  feedDelete,
 } from '../../api/feed';
 
 export const fetchFeed = createAsyncThunk(
@@ -49,6 +50,22 @@ export const createFeed = createAsyncThunk(
     try {
       const { data } = await feedCreate(params);
 
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const deleteFeed = createAsyncThunk(
+  'feed/createFeed',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await feedDelete(params);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

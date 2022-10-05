@@ -10,6 +10,7 @@ import IntroThirdPage from './intropages/IntroThirdPage';
 import IntroFourthPage from './intropages/IntroFourthPage';
 import IntroFifthPage from './intropages/IntroFifthPage';
 import IntroSixthPage from './intropages/IntroSixthPage';
+import IntroSeventhPage from './intropages/IntroSeventhPage';
 import IntroLastPage from './intropages/IntroLastPage';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../layout/Header';
@@ -27,8 +28,7 @@ const IntroPage = () => {
   };
 
   useEffect(() => {
-    let skip = localStorage.getItem('skip');
-    if (skip === true) {
+    if (localStorage.getItem('skip')) {
       navigate('./index', { replace: true });
     }
     Aos.init({
@@ -97,6 +97,13 @@ const IntroPage = () => {
           </Slide>
           <Slide>
             <IntroSixthPage
+              screenHeight={screenHeight}
+              screenWidth={screenWidth}
+              currentPage={section.to}
+            />
+          </Slide>
+          <Slide>
+            <IntroSeventhPage
               screenHeight={screenHeight}
               screenWidth={screenWidth}
               currentPage={section.to}
