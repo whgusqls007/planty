@@ -109,7 +109,15 @@ const MagazineInputPage = () => {
         </div>
       </FormBox>
       <ButtonWrapper>
-        <button onClick={onSubmitHandler}>글 작성</button>
+        <button
+          onClick={onSubmitHandler}
+          disabled={
+            !(title !== null && title !== undefined && title !== '') ||
+            !(subTitle !== null && subTitle !== undefined && subTitle !== '')
+          }
+        >
+          글 작성
+        </button>
       </ButtonWrapper>
       <Ckeditor5
         onChangeHandler={onChangeHandler}

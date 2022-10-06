@@ -18,11 +18,24 @@ const MagazineModifyPage = () => {
   const [subTitle, setSubTitle] = useState('');
   const [contentData, setContentData] = useState('');
   const { magazine, articleId } = location.state;
+  const [img, setImg] = useState(null);
+  const [isImg, setIsImg] = useState(false);
 
   useEffect(() => {
-    setTitle(magazine.title);
-    setSubTitle(magazine.sub_title);
-    setContentData(magazine.content);
+    setTitle(magazine?.title);
+    setSubTitle(magazine?.sub_title);
+    setContentData(magazine?.content);
+    setImg(magazine?.img_url);
+    if (
+      magazine?.img_url ===
+      'https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png'
+    )
+      setIsImg(false);
+    else setImg(true);
+    return () => {
+      setImg(null);
+      setIsImg(false);
+    };
   }, []);
 
   const activeLabel = {
@@ -54,10 +67,13 @@ const MagazineModifyPage = () => {
         title: title,
         sub_title: subTitle,
         content: contentData,
-        img_url: 'aa',
+        img_url: img,
       }),
-    );
-    navigate(`/magazine/${articleId}`, { replace: true });
+    ).then(() => {
+      setImg(null);
+      setIsImg(false);
+      navigate(`/magazine/${articleId}`, { replace: true });
+    });
   };
 
   return (
@@ -108,7 +124,13 @@ const MagazineModifyPage = () => {
       <ButtonWrapper>
         <button onClick={onSubmitHandler}>글 작성</button>
       </ButtonWrapper>
-      <Ckeditor5 onChangeHandler={onChangeHandler} data={contentData} />
+      <Ckeditor5
+        onChangeHandler={onChangeHandler}
+        setImg={setImg}
+        setIsImg={setIsImg}
+        isImg={isImg}
+        data={contentData}
+      />
     </Container>
   );
 };
