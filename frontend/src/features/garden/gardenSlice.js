@@ -9,6 +9,7 @@ import {
   createGarden,
   createDiary,
   fetchDiary,
+  updateGarden,
 } from './gardenActions';
 
 const initialState = {
@@ -135,6 +136,11 @@ const gardenSlice = createSlice({
     // 다이어리 정보 가져오기
     [fetchDiary.fulfilled]: (state, { payload }) => {
       state.diary = payload;
+    },
+    // garden 수정
+    [updateGarden.fulfilled]: (state, { payload }) => {
+      state.gardenPlant = payload;
+      state.success = true;
     },
   },
 });

@@ -1,19 +1,16 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import {
-  GardenForm,
-  GardenSearchResult,
-} from '../../styles/garden/GardenComponentStyle';
+import { GardenForm } from '../../styles/garden/GardenComponentStyle';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useSelector, useDispatch } from 'react-redux';
-import { searchPlant } from '../../features/dictionary/dictionaryAction';
-import { createGarden } from '../../features/garden/gardenActions';
+import { updateGarden } from '../../features/garden/gardenActions';
 import { gardenCreateConfirm } from '../../features/garden/gardenSlice';
 
 const GardenUpdateModal = ({ modalOpen, closeModal, gardenPlant }) => {
   console.log(gardenPlant);
   const {
+    id,
     plant,
     img_url,
     date_grow,
@@ -23,6 +20,7 @@ const GardenUpdateModal = ({ modalOpen, closeModal, gardenPlant }) => {
     preference,
     present,
   } = gardenPlant;
+  console.log(memo);
 
   const dispatch = useDispatch();
   const initialState = {
@@ -33,10 +31,10 @@ const GardenUpdateModal = ({ modalOpen, closeModal, gardenPlant }) => {
     preference,
   };
   const [imgFile, setImgFile] = useState(null); // img 전송용
-  const [imgSrc, setImgSrc] = useState(img_url); // img 표시용
+  const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [isDragging, setIsDragging] = useState(false);
-  const [presentCheck, setPresentCheck] = useState(present);
-  const [gardenInputs, setGardenInputs] = useState(initialState);
+  const [presentCheck, setPresentCheck] = useState(null);
+  const [gardenInputs, setGardenInputs] = useState({});
   const { success } = useSelector((state) => state.garden);
 
   useEffect(() => {
@@ -45,6 +43,11 @@ const GardenUpdateModal = ({ modalOpen, closeModal, gardenPlant }) => {
       closeModal();
     }
   }, [success, dispatch, gardenCreateConfirm]);
+  useEffect(() => {
+    setGardenInputs(initialState);
+    setImgSrc(img_url);
+    setPresentCheck(present);
+  }, [gardenPlant]);
 
   const dragRef = useRef(null);
 
@@ -83,16 +86,21 @@ const GardenUpdateModal = ({ modalOpen, closeModal, gardenPlant }) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
+    const params = { ...gardenInputs, presentCheck };
     if (imgFile) {
       const formData = new FormData();
-      const data = JSON.stringify({ ...gardenInputs, presentCheck });
+      const data = JSON.stringify(params);
       formData.append('data', data);
       formData.append('files', imgFile);
       formData.append('enctype', 'multipart/form-data');
-      // dispatch(updateGarden(formData));
+      dispatch(updateGarden({ mygardenId: id, params: formData }));
     } else {
-      // dispatch(updateGarden(gardenInputs));
+      dispatch(
+        updateGarden({
+          mygardenId: id,
+          params: params,
+        }),
+      );
     }
   };
 
