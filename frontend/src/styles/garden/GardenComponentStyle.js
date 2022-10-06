@@ -307,13 +307,13 @@ export const GardenDiaryCreateModalWrapper = styled.div`
     padding: 50px;
     left: 50%;
     transform: translateX(-50%);
-    /* animation: modal-show 0.4s; */
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     width: 90vw;
     max-width: 850px;
-    height: 800px;
+    height: 90vh;
+
     & .close-btn {
       position: absolute;
       right: 30px;
@@ -601,16 +601,17 @@ export const GardenDiaryModalWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     position: absolute;
-    padding: 50px;
+    padding: 5%;
     left: 50%;
     transform: translateX(-50%);
     background-color: #ffffff;
     box-shadow: 0px 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     width: 90vw;
-    max-width: 850px;
-    height: 800px;
+    max-width: 500px;
+    height: 500px;
     & .close-btn {
       position: absolute;
       right: 30px;
@@ -621,10 +622,10 @@ export const GardenDiaryModalWrapper = styled.div`
         cursor: pointer;
       }
     }
-    @media (max-width: 1199px) {
+    /* @media (max-width: 1199px) {
       margin-top: 5vh;
       height: 90vh;
-    }
+    } */
   }
   @keyframes modal-bg-show {
     from {
@@ -635,3 +636,44 @@ export const GardenDiaryModalWrapper = styled.div`
     }
   }
 `;
+
+export const ModalContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  & img {
+    object-fit: fill;
+    height: 90%;
+    width: 90%;
+  }
+  & .date {
+    text-align: center;
+    background-color: #44855d;
+    color: #ffffff;
+    border-radius: 20px;
+    margin: 5% 0;
+    padding: 1% 4%;
+  }
+  & .content {
+    text-align: center;
+    margin: 2% 0;
+  }
+`;
+
+// export const ModalContentWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: start;
+//   align-items: center;
+//   height: 100%;
+//   max-width: 500px;
+//   padding: 0 10%;
+//   & .content {
+//     text-align: center;
+//     margin: 2% 0;
+//   }
+// `;

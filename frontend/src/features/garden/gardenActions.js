@@ -8,6 +8,8 @@ import {
   gardenCreate,
   diaryCreate,
   gardenDiary,
+  gardenDelete,
+  diaryDelete,
 } from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
@@ -130,11 +132,45 @@ export const createGarden = createAsyncThunk(
   },
 );
 
+export const deleteGarden = createAsyncThunk(
+  'garden/deleteGarden',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await gardenDelete(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
 export const createDiary = createAsyncThunk(
   'garden/createDiary',
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await diaryCreate(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const deleteDiary = createAsyncThunk(
+  'garden/createDiary',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await diaryDelete(params);
 
       return data;
     } catch (error) {

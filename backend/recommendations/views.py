@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -10,6 +10,8 @@ from django.forms.models import model_to_dict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 import random
+
+from core.utils import get_recommendation_top_percent
 
 '''
 [RecommendViewSet 로직]
@@ -30,7 +32,8 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
         # 유저 정보
         user = request.user
         # 해당 유저의 선호 키워드 데이터 가져오기
-        user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
+        # user_keywords = UserKeywordCount.objects.get(user_id=user.pk)
+        user_keywords = get_object_or_404(UserKeywordCount, user_id=user.pk)
         # 정렬, 순회하기 좋게 딕셔너리로 변환
         dic_user_keywords = model_to_dict(user_keywords)
         # 선호도 높은 순으로 키워드 정렬
@@ -80,10 +83,9 @@ class RecommendViewSet(viewsets.ReadOnlyModelViewSet):
 
         return Response(serializer.data)
 
-    
-    
 
 class KeywordViewSet(viewsets.ViewSet):
+
 
     @swagger_auto_schema(
         operation_summary='선택한 키워드에 해당하는 식물 정보만 보여주기',
@@ -135,3 +137,19 @@ class KeywordViewSet(viewsets.ViewSet):
         
         serializer = PlantListSerializer(plants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserRecommendViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if user.pk:
+            recommends = get_recommendation_top_percent(user.pk)
+            recommends = [data[1] for data in recommends]
+            
+            plants = Plant.objects.filter(pk__in=recommends)
+
+            serializers = PlantListSerializer(plants, many=True)
+
+            return Response(serializers.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'data': 'Please Login'}, status=status.HTTP_401_UNAUTHORIZED)
+

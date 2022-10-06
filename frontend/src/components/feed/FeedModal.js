@@ -4,10 +4,12 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  fetchFeedList,
   createFeedComment,
   modifyFeedComment,
   deleteFeedComment,
   likeFeed,
+  deleteFeed,
 } from '../../features/feed/feedAction';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -86,6 +88,15 @@ const MobileModal = ({ closeModal }) => {
     }
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteFeed(id)).then(() => {
+      closeModal();
+      dispatch(fetchFeedList()).then(() => {
+        navigate('/feed', { replace: true });
+      });
+    });
+  };
+
   return (
     <MobileModalWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
@@ -97,9 +108,16 @@ const MobileModal = ({ closeModal }) => {
       </div>
       <ModalImgCarousel />
       <div className="mobile-feed-header">
-        <div className="mobile-feed-title">title</div>
+        {/* <div className="mobile-feed-title">title</div> */}
         <div className="mobile-feed-date-created">
-          {makeCreateDate(date_created)}
+          <div>{makeCreateDate(date_created)}</div>
+          {user?.id === userInfo?.id && (
+            <div>
+              <button onClick={deleteHandler}>
+                <DeleteIcon />
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="mobile-feed-body">
@@ -168,6 +186,15 @@ const ModalDescription = ({ closeModal }) => {
     }
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteFeed(id)).then(() => {
+      closeModal();
+      dispatch(fetchFeedList()).then(() => {
+        navigate('/feed', { replace: true });
+      });
+    });
+  };
+
   return (
     <ModalDescriptionWrapper>
       <CloseIcon className="close-btn" onClick={closeModal} />
@@ -181,7 +208,14 @@ const ModalDescription = ({ closeModal }) => {
         </div>
       </div>
       <div className="description-date-created">
-        {makeCreateDate(date_created)}
+        <div>{makeCreateDate(date_created)}</div>
+        {user?.id === userInfo?.id && (
+          <div>
+            <button onClick={deleteHandler}>
+              <DeleteIcon />
+            </button>
+          </div>
+        )}
       </div>
       <div className="description-body">
         <div className="description-content">{content}</div>

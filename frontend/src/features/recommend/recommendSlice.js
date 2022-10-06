@@ -4,6 +4,7 @@ import {
   fetchPetSafetyPlants,
   fetchKeywordRecommend,
   fetchPlantWordcup,
+  fetchUserRecommend,
 } from './recommendActions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   petsafePlants: [],
   keywordPlants: [],
   WorldcupList: [],
+  userRecommend: [],
 };
 
 const recommendSlice = createSlice({
@@ -30,7 +32,7 @@ const recommendSlice = createSlice({
     [fetchPopularPlant.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.popularPlants = payload;
+      state.popularPlants = payload.slice(4).sort(() => Math.random() - 0.5);
     },
     [fetchPopularPlant.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -45,7 +47,7 @@ const recommendSlice = createSlice({
     [fetchPetSafetyPlants.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.petsafePlants = payload;
+      state.petsafePlants = payload.sort(() => Math.random() - 0.5);
     },
     [fetchPetSafetyPlants.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -71,6 +73,10 @@ const recommendSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.WorldcupList = payload;
+    },
+    // 유저 추천
+    [fetchUserRecommend.fulfilled]: (state, { payload }) => {
+      state.userRecommend = payload;
     },
   },
 });

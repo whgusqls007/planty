@@ -286,13 +286,11 @@ export const Wrapper = styled.div`
         }
 
         @media (max-width: 768px) {
-          margin: 0 0 0 0;
-          margin-top: 5%;
+          margin: 5% 0 0 0;
         }
 
-        @media (max-width: 568px) {
-          margin: 0 0 0 0;
-          margin-top: 5%;
+        @media (max-width: 576px) {
+          margin: 5% 0 0 0;
         }
 
         & h3 {
@@ -348,13 +346,13 @@ export const Wrapper = styled.div`
 
         @media (max-width: 768px) {
           width: 80%;
-          margin-right: 0;
-          margin-bottom: 5%;
+          margin-right: 10%;
+          margin-bottom: 0%;
         }
 
         @media (max-width: 568px) {
           width: 80%;
-          margin-right: 0;
+          margin-right: 10%;
           margin-bottom: 0;
         }
       }

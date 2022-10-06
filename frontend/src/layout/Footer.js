@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import MailIcon from '@mui/icons-material/Mail';
-// import Kakao from './footer/KakaoShare';
+import Kakao from './footer/KakaoShare';
 
 function Footer() {
   return (
@@ -34,7 +34,7 @@ function Footer() {
         </Col>
         <Col className="footer-links">
           <a
-            href="https://overjoyed-polonium-99e.notion.site/6554a9ce3694457f9374223aa69c2694"
+            href="https://overjoyed-polonium-99e.notion.site/Planty-b15f631c9b94485aaeb66c9651ee56b5"
             rel="noreferrer"
             target="_blank"
           >
@@ -74,11 +74,19 @@ function Footer() {
       <div className="footer-bottom">
         <p className="contract-info">
           © 2022 Homido{'  '}·{'  '}
-          <a href="/" rel="noreferrer" target="_blank">
+          <a
+            href="https://overjoyed-polonium-99e.notion.site/14178cdfccc24061a0841ab8d55e8c41"
+            rel="noreferrer"
+            target="_blank"
+          >
             이용약관
           </a>
           {'  '}·{'  '}
-          <a href="/" rel="noreferrer" target="_blank">
+          <a
+            href="https://overjoyed-polonium-99e.notion.site/7501ee37836b48f8a7944e6a305a9462"
+            rel="noreferrer"
+            target="_blank"
+          >
             개인정보보호
           </a>
         </p>

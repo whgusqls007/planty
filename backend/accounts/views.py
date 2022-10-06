@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from collections import OrderedDict
 from feeds.serializers import FeedCommentUserSerializer, FeedSerializer
 from magazines.serializers import MagazineCommentUserSerializer, MagazineSerializer
 from datetime import datetime
+from django.contrib.auth.password_validation import validate_password
 
 # 나의 정원 유저 프로필
 class ProfileViewSet(viewsets.ViewSet):
@@ -137,6 +139,15 @@ class EmailCheckViewSet(viewsets.ViewSet):
             return Response({'data' : False}, status=status.HTTP_200_OK)
 
         return Response({'data' : True}, status=status.HTTP_200_OK)
+
+class PasswordCheckViewSet(viewsets.ViewSet):
+
+    def check(self, request):
+        try:
+            validate_password(request.data["password"])
+            return Response({'data': True}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'data': e}, status=status.HTTP_200_OK)
 
 
 

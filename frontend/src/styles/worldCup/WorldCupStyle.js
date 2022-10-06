@@ -78,6 +78,13 @@ export const Content = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  height: 500px;
+
+  @media (max-width: 850px) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 
   & button {
     width: 30%;
@@ -117,6 +124,10 @@ export const Content = styled.div`
       @media (max-width: 470px) {
         font-size: 15px;
       }
+
+      @media (max-width: 430px) {
+        font-size: 0px;
+      }
     }
   }
 
@@ -126,16 +137,19 @@ export const Content = styled.div`
     justify-content: center;
 
     @media (max-width: 850px) {
+      display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
     }
   }
 
   & .first {
-    width: 50%;
-    height: 450px;
+    width: 100%;
+    height: 400px;
     border-radius: 10px;
     margin-top: 20px;
+    background-size: 100% 400px;
 
     &:hover {
       transition: transform 0.3s;
@@ -148,20 +162,27 @@ export const Content = styled.div`
       height: 200px;
       margin-bottom: 50px;
       margin-top: 0;
+      background-size: 100% 200px;
+      display: flex;
+      justify-content: center;
     }
 
     @media (max-width: 650px) {
       height: 230px;
       margin-bottom: 20px;
       margin-top: 0;
+      background-size: 100% 200px;
+      display: flex;
+      justify-content: center;
     }
   }
 
   & .second {
-    width: 50%;
-    height: 450px;
+    width: 100%;
+    height: 400px;
     border-radius: 10px;
     margin-top: 20px;
+    background-size: 100% 400px;
 
     &:hover {
       transition: transform 0.3s;
@@ -173,11 +194,38 @@ export const Content = styled.div`
       width: 90%;
       height: 200px;
       margin-top: 50px;
+      background-size: 100% 200px;
+      display: flex;
+      justify-content: center;
     }
 
     @media (max-width: 650px) {
       height: 230px;
       margin-top: 20px;
+      background-size: 100% 200px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  & .name {
+    font-size: 30px;
+    font-weight: 550;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      font-size: 30px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 20px;
+    }
+
+    & p {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      color: white;
     }
   }
 `;
@@ -204,6 +252,7 @@ export const ImageContainer = styled.div`
     color: white;
     bottom: 10%;
     font-size: 90px;
+    font-weight: 550;
     left: 50%;
     transform: translateX(-50%);
 

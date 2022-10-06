@@ -35,6 +35,7 @@ const userSlice = createSlice({
       state.loading = false;
       sessionStorage.removeItem('userInfo');
       sessionStorage.removeItem('Token');
+      sessionStorage.removeItem('curIndex');
     },
     registerDone: (state) => {
       state.registerState = false;
@@ -60,6 +61,7 @@ const userSlice = createSlice({
       // 요청 성공
       state.loading = false;
       state.userInfo = payload;
+      sessionStorage.removeItem('curIndex');
     },
     [userLogin.rejected]: (state, { payload }) => {
       // 요청 실패

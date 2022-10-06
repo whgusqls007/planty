@@ -31,21 +31,92 @@ export const Wrapper = styled.div`
   & .button-div {
     position: absolute;
     right: 0;
+    padding-right: 2%;
     transform: translateY(-140%);
-    & > button {
-      background-color: rgba(0, 0, 0, 0);
+
+    & .create-button {
+      background-color: ${({ theme }) => theme.themeColor[1]};
       border: 1px solid ${({ theme }) => theme.themeColor[5]};
-      color: black;
       border-radius: 10px;
-      width: 130px;
-      height: 42px;
-      font-size: 20px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
+      margin-left: 8px;
+      transition: 0.4s;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #ffffff;
+        transition: 0.2s;
+        color: #111111;
+      }
+      @media (max-width: 992px) {
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        width: 82px;
+        height: 34px;
+        font-size: 16px;
+      }
+    }
+
+    & .delete-button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid ${({ theme }) => theme.themeColor[6]};
+      border-radius: 10px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
       margin-left: 8px;
       transition: 0.4s;
 
       &:hover {
-        background-color: ${({ theme }) => theme.themeColor[5]};
+        background-color: ${({ theme }) => theme.themeColor[6]};
         transition: 0.2s;
+        color: #ffffff;
+      }
+      @media (max-width: 992px) {
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        width: 82px;
+        height: 34px;
+        font-size: 16px;
+      }
+    }
+
+    & .update-button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid ${({ theme }) => theme.themeColor[5]};
+      border-radius: 10px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
+      margin-left: 8px;
+      transition: 0.4s;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.themeColor[0]};
+        transition: 0.2s;
+        color: #ffffff;
+      }
+
+      @media (max-width: 992px) {
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        width: 82px;
+        height: 34px;
+        font-size: 16px;
       }
     }
   }
@@ -59,36 +130,42 @@ export const Wrapper = styled.div`
 `;
 
 export const GardenDetailImage = styled.img`
-  width: 60%;
+  width: 40%;
   height: 365px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  /* border: 2px solid ${({ theme }) => theme.themeColor[5]}; */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
   border-radius: 15px;
   object-fit: cover;
 
   @media (max-width: 992px) {
-    height: 250px;
+    height: 330px;
+    width: 40%;
   }
 
   @media (max-width: 768px) {
+    border-radius: 15px 15px 0 0;
     width: 100%;
   }
 `;
 
 export const GardenDetailDescription = styled.div`
   width: 100%;
-  height: 365px;
+  min-height: 365px;
   display: flex;
   flex-direction: column;
+  padding: 20px 30px 10px 30px;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  border-radius: 0 15px 15px 0;
+  /* border: 2px solid ${({ theme }) => theme.themeColor[5]}; */
 
   @media (max-width: 992px) {
-    height: 250px;
+    min-height: 330px;
   }
 
-  padding: 50px;
-  background: ${({ theme }) => theme.themeColor[2]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  @media (max-width: 768px) {
+    min-height: 350px;
+    border-radius: 0 0 15px 15px;
+  }
 
   & .garden-header {
     display: flex;
@@ -120,17 +197,25 @@ export const GardenDetailDescription = styled.div`
   }
 
   & .detail-btn {
-    background-color: ${({ theme }) => theme.themeColor[5]};
     position: absolute;
     right: 40px;
-    border: 0;
+    border: 1px solid ${({ theme }) => theme.themeColor[5]};
     width: 120px;
     height: 34px;
     border-radius: 5px;
+    background-color: white;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.themeColor[1]};
+      color: #ffffff;
+    }
   }
   & .garden-detail-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     display: flex;
-    justify-content: space-between;
+    column-gap: 10px;
+    margin-top: 10px;
   }
 `;
 
@@ -177,35 +262,41 @@ export const GardenDiaryWrapper = styled.div`
 `;
 
 export const GardenDetailInfo = styled.div`
-  width: 30%;
-  height: 80px;
-  background-color: white;
-  /* border: 3px solid rgb(217, 217, 217); */
-  border: 2px solid rgb(217, 217, 217);
-  border-radius: 5px;
-  font-weight: bold;
+  width: 100%;
+  min-height: 80px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: 16px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 2px solid ${({ theme }) => theme.themeColor[5]};
+  /* font-size: 16px; */
+  padding: 1%;
 
-  @media (min-width: 576px) {
-    height: 30px;
-    font-size: 8px;
+  @media (max-width: 1200px) {
+    font-size: 14px;
   }
 
-  @media (min-width: 768px) {
-    height: 50px;
-    font-size: 10px;
+  @media (max-width: 992px) {
+    font-size: 12px;
   }
 
-  @media (min-width: 992px) {
-    height: 70px;
-    font-size: 13px;
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
-  @media (min-width: 1200px) {
-    height: 80px;
-    font-size: 16px;
+
+  @media (max-width: 576px) {
+    font-size: 12px;
+  }
+  & p {
+    margin: 0;
+  }
+  & .info-title {
+    font-weight: bold;
+  }
+  & img {
+    width: 30%;
+    height: 100%;
   }
 `;
