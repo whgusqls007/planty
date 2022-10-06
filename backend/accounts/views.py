@@ -4,13 +4,15 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import User
-from .serializers import DescriptionSerializer, ProfileSerializer, MyPageSerializer
+from .serializers import DescriptionSerializer, ProfileSerializer, MyPageSerializer, profileImageSerializer
 from drf_yasg.utils import swagger_auto_schema
 from collections import OrderedDict
 from feeds.serializers import FeedCommentUserSerializer, FeedSerializer
 from magazines.serializers import MagazineCommentUserSerializer, MagazineSerializer
 from datetime import datetime
 from django.contrib.auth.password_validation import validate_password
+from core.utils import s3_upload_image
+
 
 # 나의 정원 유저 프로필
 class ProfileViewSet(viewsets.ViewSet):
@@ -39,11 +41,33 @@ class DescriptionViewSet(viewsets.ViewSet):
         profile = get_object_or_404(get_user_model(), pk=request.user.id)
         serializer = DescriptionSerializer(instance=profile, data=request.data)
         # serializer.data = request.data
-        print(request.data)
-        print("===========")
 
         if serializer.is_valid():
             serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 유저 프로필 사진 변경
+class ProfileImageViewSet(viewsets.ViewSet):
+
+    # swagger 설명
+    @swagger_auto_schema(
+    operation_summary='프로필 이미지 변경',
+    request_body=profileImageSerializer)
+
+    def update_profileimage(self, request):
+        profile = get_object_or_404(get_user_model(), pk=request.user.id)
+        serializer = profileImageSerializer(instance=profile, data=request.data)
+
+ 
+        if serializer.is_valid(raise_exception=True):
+            try:
+                file=request.FILES['files']
+            except:
+                file=''
+            file_path = s3_upload_image(file, 'user/')
+            serializer.save(user=request.user, profile_img=file_path)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
