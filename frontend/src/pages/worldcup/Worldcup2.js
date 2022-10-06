@@ -11,57 +11,6 @@ import {
 } from '../../styles/worldCup/WorldCupStyle.js';
 import { useNavigate } from 'react-router-dom';
 
-// const items = [
-//   {
-//     name: 'yellow',
-//   },
-//   {
-//     name: 'black',
-//   },
-//   {
-//     name: 'green',
-//   },
-//   {
-//     name: 'red',
-//   },
-//   {
-//     name: 'brown',
-//   },
-//   {
-//     name: 'blue',
-//   },
-//   {
-//     name: 'blueviolet',
-//   },
-//   {
-//     name: 'orange',
-//   },
-//   {
-//     name: 'antiquewhite',
-//   },
-//   {
-//     name: 'burlywood',
-//   },
-//   {
-//     name: 'crimson',
-//   },
-//   {
-//     name: 'cyan',
-//   },
-//   {
-//     name: 'darkcyan',
-//   },
-//   {
-//     name: 'darkorchid',
-//   },
-//   {
-//     name: 'forestgreen',
-//   },
-//   {
-//     name: 'greenyellow',
-//   },
-// ];
-
 const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
   const [plants, setPlants] = useState([]);
   const [displays, setDisplays] = useState([]);
@@ -123,7 +72,7 @@ const WorldCup2 = ({ modalOpen, closeModal, items, clearItems }) => {
         <CloseIcon className="close-btn" onClick={closeModal2} />
         <Content>
           <div className="title">
-            <h1>Favorite Worldcup {stage}</h1>
+            <h1>식물 이상형 월드컵 {stage}</h1>
           </div>
           <div className="images-wrapper">
             {items &&
