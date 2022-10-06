@@ -10,6 +10,7 @@ import {
   gardenDiary,
   gardenDelete,
   diaryDelete,
+  myGardenModify,
 } from '../../api/garden';
 import { patchDescription } from '../../api/user';
 
@@ -188,6 +189,23 @@ export const fetchDiary = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await gardenDiary(params);
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const updateGarden = createAsyncThunk(
+  'garden/updateGarden',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await myGardenModify(params);
 
       return data;
     } catch (error) {
