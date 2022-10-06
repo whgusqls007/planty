@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+css``;
 
 export const Wrapper = styled.div`
   margin: 0 0 0 0;
@@ -87,7 +88,22 @@ export const Wrapper = styled.div`
       justify-content: center;
       align-items: center;
 
+      & a {
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+
+        &:hover {
+          & p {
+            transition: 0.4s;
+            color: ${({ theme }) => theme.themeColor[5]};
+          }
+        }
+      }
+
       & p {
+        font-family: 'InkLipquid';
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -491,6 +507,7 @@ export const Wrapper = styled.div`
       }
 
       & p {
+        font-family: 'InkLipquid';
         transition: 0.4s;
         color: white;
         font-size: 140px;

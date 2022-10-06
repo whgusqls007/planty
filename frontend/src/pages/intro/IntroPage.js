@@ -50,7 +50,7 @@ const IntroPage = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="scroll">
       <div className="contents">
         <div
           className="back full-height"

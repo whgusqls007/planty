@@ -35,6 +35,10 @@ const Wrapper = styled.div`
     height: 40px;
   }
 
+  & a {
+    white-space: nowrap;
+  }
+
   & .nav-user-btn {
     & a {
       position: relative;
@@ -113,19 +117,24 @@ function Header() {
     <Wrapper>
       <Navbar bg="white" expand="lg" className="mb-3" style={{ zIndex: '999' }}>
         <Container>
-          <Navbar.Brand href="/index" className="me-5">
-            <img
-              data-aos="fade-down"
-              src="/assets/img/nav-logo.png"
-              alt=""
-              className="nav-logo-img"
-              onClick={() => {
-                setCurIndex(0);
-                setCurIndex2(0);
-                sessionStorage.setItem('curIndex', 0);
-              }}
-            />
-          </Navbar.Brand>
+          <Link to="/index">
+            <Navbar.Brand
+              // href="/index"
+              className="me-5"
+            >
+              <img
+                data-aos="fade-down"
+                src="/assets/img/nav-logo.png"
+                alt=""
+                className="nav-logo-img"
+                onClick={() => {
+                  setCurIndex(0);
+                  setCurIndex2(0);
+                  sessionStorage.setItem('curIndex', 0);
+                }}
+              />
+            </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-between">
             <Nav>

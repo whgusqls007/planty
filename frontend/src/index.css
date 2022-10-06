@@ -1,7 +1,23 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
+@font-face {
+  font-family: 'Godo';
+  font-style: normal;
+  font-weight: 400;
+  src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2')
+      format('woff2'),
+    url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'InkLipquid';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 * {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Godo';
 }
 
 body {
