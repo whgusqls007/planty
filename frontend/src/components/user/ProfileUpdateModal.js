@@ -4,16 +4,25 @@ import CloseIcon from '@mui/icons-material/Close';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfileImg } from '../../features/user/userActions';
+import { profileImgUpdateDone } from '../../features/user/userSlice';
 
 const ProfileImageModal = ({ modalOpen, closeModal }) => {
   const dispatch = useDispatch();
   const [imgFile, setImgFile] = useState(null); // img 전송용
   const [imgSrc, setImgSrc] = useState(null); // img 표시용
   const [isDragging, setIsDragging] = useState(false);
+  const { success } = useSelector((state) => state.user);
 
   const dragRef = useRef(null);
 
-  const closeGardenCreateModal = () => {
+  useEffect(() => {
+    if (success) {
+      dispatch(profileImgUpdateDone());
+      closeUpdateModal();
+    }
+  }, [success, dispatch]);
+
+  const closeUpdateModal = () => {
     setImgFile(null);
     setImgSrc(null);
     closeModal();
@@ -42,7 +51,7 @@ const ProfileImageModal = ({ modalOpen, closeModal }) => {
       const formData = new FormData();
       formData.append('files', imgFile);
       formData.append('enctype', 'multipart/form-data');
-      dispatch(updateProfileImg());
+      dispatch(updateProfileImg(formData));
     }
   };
 
@@ -124,9 +133,9 @@ const ProfileImageModal = ({ modalOpen, closeModal }) => {
 
   return (
     <Wrapper modalOpen={modalOpen}>
-      <div className="close-modal" onClick={closeGardenCreateModal} />
+      <div className="close-modal" onClick={closeUpdateModal} />
       <div className="modal-div">
-        <CloseIcon className="close-btn" onClick={closeGardenCreateModal} />
+        <CloseIcon className="close-btn" onClick={closeUpdateModal} />
         <ProfileImageForm onSubmit={onSubmitHandler}>
           <div
             className={isDragging ? 'img-div dragging' : 'img-div'}

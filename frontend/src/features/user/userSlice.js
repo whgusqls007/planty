@@ -49,6 +49,12 @@ const userSlice = createSlice({
     passwordUpdateDone: (state) => {
       state.success = false;
     },
+
+    profileImgUpdateDone: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+    },
   },
   extraReducers: {
     // 유저 로그인
@@ -211,5 +217,6 @@ export const {
   confirmError,
   usernameUpdateDone,
   passwordUpdateDone,
+  profileImgUpdateDone,
 } = userSlice.actions;
 export default userSlice.reducer;

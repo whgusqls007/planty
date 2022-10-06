@@ -66,8 +66,8 @@ export const userLikes = async () => {
   return response;
 };
 
-export const patchProfile = async () => {
-  const response = await client.patch('accounts/profileimage/');
+export const patchProfile = async (params) => {
+  const response = await client.patch('accounts/profileimage/', params);
 
   return response;
 };

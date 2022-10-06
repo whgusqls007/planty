@@ -155,12 +155,12 @@ export const updateProfileImg = createAsyncThunk(
   'user/updateProfileImg',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await patchProfile();
+      const { data } = await patchProfile(params);
 
       return data;
     } catch (error) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);
       }
