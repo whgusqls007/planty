@@ -37,6 +37,14 @@ const Wrapper = styled.div`
   text-align: center;
   border: 1px solid white;
   box-shadow: 2px 2px 3px #999;
+
+  &:hover {
+    background-color: white;
+    color: gray;
+    box-shadow: 3px 3px 3px #999;
+    border: 2px solid rgb(217, 217, 217);
+    transition: all 0.5s;
+  }
 `;
 
 export default React.memo(TopButton);
