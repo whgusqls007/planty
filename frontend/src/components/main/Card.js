@@ -32,7 +32,7 @@ const PlantImg = styled.img`
   width: 300px;
   height: 200px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.themeColor[5]};
+  /* background-color: ${({ theme }) => theme.themeColor[5]}; */
   object-fit: cover;
 
   &:hover {

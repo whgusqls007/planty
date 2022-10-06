@@ -87,3 +87,14 @@ export const WorldCupWrapper = styled.div`
     }
   }
 `;
+
+export const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  & > span {
+    margin-top: 200px;
+    & svg {
+      color: ${({ theme }) => theme.themeColor[1]};
+    }
+  }
+`;
