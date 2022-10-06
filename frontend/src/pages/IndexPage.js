@@ -167,7 +167,7 @@ const IndexPage = () => {
             }
           >
             <WorldCupWrapper>
-              <ContentSubTitle>당신의 취향에 맞는 식물이에요!</ContentSubTitle>
+              <ContentSubTitle>이런 식물은 어떤가요?</ContentSubTitle>
               <button
                 onClick={() => {
                   setItems(WorldcupList);
@@ -213,7 +213,7 @@ const IndexPage = () => {
         <div style={{ marginBottom: '10%' }}>
           <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
           <WorldCupWrapper>
-            <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+            <ContentSubTitle>강아지도 고양이도 괜찮아요 :)</ContentSubTitle>
             <button
               onClick={() => {
                 setItems(petsafePlants);
