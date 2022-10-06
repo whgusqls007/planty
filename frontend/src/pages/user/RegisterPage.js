@@ -174,21 +174,31 @@ const RegisterPage = () => {
         </div>
         <UserForm onSubmit={submitHandler}>
           <LabelContainer>
-            <label htmlFor="username">NICKNAME</label>
+            <label htmlFor="username">닉네임</label>
             {registerInputs.username && (
               <RegisterMessage username={inputErrors.usernameError} />
             )}
           </LabelContainer>
-          <input type="text" id="username" onChange={usernameChangeHandler} />
+          <input
+            type="text"
+            id="username"
+            onChange={usernameChangeHandler}
+            placeholder="호미"
+          />
           <LabelContainer>
-            <label htmlFor="email">EMAIL</label>
+            <label htmlFor="email">이메일</label>
             {registerInputs.email && (
               <RegisterMessage email={inputErrors.emailError} />
             )}
           </LabelContainer>
-          <input type="text" id="email" onChange={emailChangeHandler} />
+          <input
+            type="text"
+            id="email"
+            onChange={emailChangeHandler}
+            placeholder="ex) user@example.com"
+          />
           <LabelContainer>
-            <label htmlFor="password1">PASSWORD</label>
+            <label htmlFor="password1">비밀번호</label>
             {registerInputs.password1 && (
               <RegisterMessage password1={inputErrors.passwordError} />
             )}
@@ -197,10 +207,10 @@ const RegisterPage = () => {
             type="password"
             id="password1"
             onChange={passwordChangeHandler}
-            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+            placeholder="8자 이상의 문자+숫자+특수문자를 입력해주세요."
           />
           <LabelContainer>
-            <label htmlFor="password2">PASSWORD CONFIRM</label>
+            <label htmlFor="password2">비밀번호 확인</label>
             {registerInputs.password1 && registerInputs.password2 && (
               <RegisterMessage password2={inputErrors.passwordConfirmError} />
             )}
@@ -209,15 +219,15 @@ const RegisterPage = () => {
             type="password"
             id="password2"
             onChange={inputChangeHandler}
-            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+            placeholder="8자 이상의 문자+숫자+특수문자를 입력해주세요."
           />
           <LabelContainer>
-            <label htmlFor="date_of_birth">BIRTH DATE</label>
+            <label htmlFor="date_of_birth">생년월일</label>
           </LabelContainer>
           <input type="date" id="date_of_birth" onChange={inputChangeHandler} />
-          <SubmitButton disabled={!formState}>SIGN UP</SubmitButton>
+          <SubmitButton disabled={!formState}>회원가입</SubmitButton>
           <div className="option-div">
-            <Link to={-1}>Back</Link>
+            <Link to={-1}>뒤로가기</Link>
           </div>
         </UserForm>
       </UserWrapper>
