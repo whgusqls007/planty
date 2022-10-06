@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+
+from core.utils import s3_upload_image
 from .models import Magazine, MagazineComment
 from rest_framework import viewsets, status
 from .serializers import MagazineSerializer, MagazineCommentSerializer, MagazineDetailSerializer
@@ -266,3 +268,18 @@ class MainMagazineViewSet(viewsets.ViewSet):
         serializers = MagazineSerializer(magazines, many=True)
 
         return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+# 이미지 업로드 url
+class MagazineImageUploadViewSet(viewsets.ViewSet):
+
+    # post에 매칭, 리스트
+    def create(self, request):
+        try:
+            file = request.FILES['file']
+            file_path = s3_upload_image(file, 'magazine/')
+        
+            return Response({'img_url': file_path}, status=status.HTTP_200_OK)
+
+        except:
+            return Response({'data': 'error'}, status=status.HTTP_400_BAD_REQUEST)
