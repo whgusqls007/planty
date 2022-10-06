@@ -103,13 +103,6 @@ class MagazineViewSet(viewsets.ModelViewSet):
         user = request.user
 
         if serializer.is_valid(raise_exception=True):
-
-            # try:
-            #     p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
-            #     m = p.search(request.data['content'])
-            #     img_url = m.group()[1:-1]
-            # except:
-
             if not request.data['img_url']:
                 img_url = "https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png"
                 serializer.save(user=user, img_url=img_url)
@@ -124,20 +117,15 @@ class MagazineViewSet(viewsets.ModelViewSet):
     
     def update(self, request, pk):
         magazine = get_object_or_404(Magazine, pk=pk)
-        user = request.user
 
         serializer = MagazineSerializer(magazine, data=request.data)
 
         if serializer.is_valid(raise_exception=True):
-            try:
-                p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
-                m = p.search(request.data['content'])
-                img_url = m.group()[1:-1]
-            except:
-                img_url = "https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png"
-            serializer.save(user=user, img_url=img_url)
+            img_url = magazine.img_url
+            if request.data['img_url']:
+                img_url = request.data['img_url']
 
-            user.save()
+            serializer.save(img_url=img_url)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
