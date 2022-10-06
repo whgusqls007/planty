@@ -16,6 +16,17 @@ const MagazineInputPage = () => {
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   const [contentData, setContentData] = useState('');
+  const [img, setImg] = useState(null);
+  const [isImg, setIsImg] = useState(false);
+
+  useEffect(() => {
+    setImg(null);
+    setIsImg(false);
+    return () => {
+      setImg(null);
+      setIsImg(false);
+    };
+  }, []);
 
   const activeLabel = {
     position: 'absolute',
@@ -45,10 +56,13 @@ const MagazineInputPage = () => {
         title: title,
         sub_title: subTitle,
         content: contentData,
-        img_url: 'aa',
+        img_url: img,
       }),
-    );
-    navigate('/magazine', { replace: true });
+    ).then(() => {
+      setImg(null);
+      setIsImg(false);
+      navigate('/magazine', { replace: true });
+    });
   };
 
   return (
@@ -97,7 +111,12 @@ const MagazineInputPage = () => {
       <ButtonWrapper>
         <button onClick={onSubmitHandler}>글 작성</button>
       </ButtonWrapper>
-      <Ckeditor5 onChangeHandler={onChangeHandler} />
+      <Ckeditor5
+        onChangeHandler={onChangeHandler}
+        setImg={setImg}
+        setIsImg={setIsImg}
+        isImg={isImg}
+      />
     </Container>
   );
 };

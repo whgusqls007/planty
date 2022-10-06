@@ -14,9 +14,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const API_URL = 'http://127.0.0.1:8000/api/magazines/image_upload/';
+const API_URL = 'https://j7e103.p.ssafy.io/api/magazines/image_upload/';
 
-const Ckeditor5 = ({ onChangeHandler, data }) => {
+const Ckeditor5 = ({ onChangeHandler, data, setImg, setIsImg, isImg }) => {
   const customUploadAdapter = (loader) => {
     return {
       upload() {
@@ -28,6 +28,10 @@ const Ckeditor5 = ({ onChangeHandler, data }) => {
             axios
               .post(API_URL, data)
               .then((res) => {
+                if (!isImg) {
+                  setIsImg(true);
+                  setImg(res.data.img_url);
+                }
                 resolve({
                   default: res.data.img_url,
                 });
