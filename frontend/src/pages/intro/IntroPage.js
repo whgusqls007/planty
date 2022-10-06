@@ -55,7 +55,7 @@ const IntroPage = () => {
         <div
           className="back full-height"
           style={{
-            background: 'url(' + require('./css/Last.gif') + ') no-repeat',
+            background: 'url(' + require('./css/Last.webp') + ') no-repeat',
             backgroundSize: `${screenWidth}px ${screenHeight}px`,
           }}
         ></div>

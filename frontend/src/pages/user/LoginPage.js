@@ -56,7 +56,7 @@ const LoginPage = () => {
         </div>
         <UserForm onSubmit={submitHandler}>
           <LabelContainer>
-            <label htmlFor="email">EMAIL</label>
+            <label htmlFor="email">이메일</label>
           </LabelContainer>
           <input
             type="text"
@@ -65,23 +65,23 @@ const LoginPage = () => {
             placeholder="ex) user@example.com"
           />
           <LabelContainer>
-            <label htmlFor="password">PASSWORD</label>
+            <label htmlFor="password">비밀번호</label>
           </LabelContainer>
           <input
             type="password"
             id="password"
             onChange={inputChangeHandler}
-            placeholder="비밀번호를 입력해주세요. (8자 이상 문자+숫자)"
+            placeholder="비밀번호를 입력해주세요. (8자 이상 문자+숫자+특수기호)"
           />
           <div className="checkbox-div">
             <input type="checkbox" id="remember" />
-            <label htmlFor="remember">REMEMBER ME</label>
+            <label htmlFor="remember">아이디 기억하기</label>
           </div>
-          <SubmitButton disabled={loading}>LOG IN</SubmitButton>
+          <SubmitButton disabled={loading}>로그인</SubmitButton>
           <div className="option-div">
-            <Link to="">Lost your password?</Link>
-            <Link to="/register">Join Us</Link>
-            <Link to={-1}>Back to My Website</Link>
+            <Link to="">비밀번호 찾기</Link>
+            <Link to="/register">회원가입</Link>
+            <Link to={-1}>뒤로가기</Link>
           </div>
         </UserForm>
       </UserWrapper>
