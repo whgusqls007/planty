@@ -5,7 +5,7 @@ import 'aos/dist/aos.css';
 
 const Tag = styled.button`
   border: 1px solid ${({ theme }) => theme.themeColor[1]};
-  border-radius: 15px;
+  border-radius: 20px;
   font-size: 20px;
   font-weight: 500;
   padding-top: 1px;
