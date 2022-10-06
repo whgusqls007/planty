@@ -5,7 +5,7 @@ const IntroSixthPage = ({ screenWidth, screenHeight, currentPage }) => {
     <div
       className="full-height first-page sixth-page"
       style={{
-        background: 'url(' + require('../css/Sixth.gif') + ') no-repeat',
+        background: 'url(' + require('../css/Sixth.webp') + ') no-repeat',
         backgroundSize: `${screenWidth}px ${screenHeight}px`,
       }}
     >

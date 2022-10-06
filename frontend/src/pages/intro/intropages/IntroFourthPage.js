@@ -3,7 +3,7 @@ const IntroFourthPage = ({ screenWidth, screenHeight, currentPage }) => {
     <div
       className="full-height first-page fourth-page"
       style={{
-        background: 'url(' + require('../css/Fourth.gif') + ') no-repeat',
+        background: 'url(' + require('../css/Fourth.webp') + ') no-repeat',
         backgroundSize: `${screenWidth * 1.02}px ${screenHeight * 1.02}px`,
       }}
     >
