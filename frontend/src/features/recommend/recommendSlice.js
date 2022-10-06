@@ -16,6 +16,7 @@ const initialState = {
   keywordPlants: [],
   WorldcupList: [],
   userRecommend: [],
+  recommendSuccess: false,
 };
 
 const recommendSlice = createSlice({
@@ -61,7 +62,6 @@ const recommendSlice = createSlice({
     },
     [fetchKeywordRecommend.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.success = true;
       state.keywordPlants = payload;
     },
     [fetchKeywordRecommend.rejected]: (state, { payload }) => {
@@ -77,6 +77,7 @@ const recommendSlice = createSlice({
     // 유저 추천
     [fetchUserRecommend.fulfilled]: (state, { payload }) => {
       state.userRecommend = payload;
+      state.recommendSuccess = true;
     },
   },
 });

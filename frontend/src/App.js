@@ -53,7 +53,6 @@ const App = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   useEffect(() => {
     if (userInfo) {
-      console.log('dispatch index plants!');
       dispatch(fetchUserRecommend());
       dispatch(fetchPlantWordcup());
     }
