@@ -13,6 +13,7 @@ from datetime import datetime
 from django.contrib.auth.password_validation import validate_password
 from core.utils import s3_upload_image
 
+
 # 나의 정원 유저 프로필
 class ProfileViewSet(viewsets.ViewSet):
 
@@ -58,14 +59,15 @@ class ProfileImageViewSet(viewsets.ViewSet):
         profile = get_object_or_404(get_user_model(), pk=request.user.id)
         serializer = profileImageSerializer(instance=profile, data=request.data)
 
+ 
         if serializer.is_valid(raise_exception=True):
             try:
                 file=request.FILES['files']
             except:
                 file=''
             file_path = s3_upload_image(file, 'user/')
-            serializer.save(profile_img=file_path)
-            
+            serializer.save(user=request.user, profile_img=file_path)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
