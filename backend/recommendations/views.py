@@ -10,6 +10,7 @@ from django.forms.models import model_to_dict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 import random
+import time
 
 from core.utils import get_recommendation_top_percent
 
@@ -142,13 +143,19 @@ class UserRecommendViewSet(viewsets.ViewSet):
     def list(self, request):
         user = request.user
         if user.pk:
-            recommends = get_recommendation_top_percent(user.pk)
+            start = time.time()
+            try:
+                recommends = get_recommendation_top_percent(user.pk)
+            except:
+                recommends = []
+            print(f"추천 시간 : {time.time()-start:.3}s")
+            current = time.time()
             recommends = [data[1] for data in recommends]
             
             plants = Plant.objects.filter(pk__in=recommends)
 
             serializers = PlantListSerializer(plants, many=True)
-
+            print(f"응답 시간 : {time.time() - current:.3}s")
             return Response(serializers.data, status=status.HTTP_200_OK)
         else:
             return Response({'data': 'Please Login'}, status=status.HTTP_401_UNAUTHORIZED)
