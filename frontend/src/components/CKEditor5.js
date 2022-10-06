@@ -25,7 +25,15 @@ const Ckeditor5 = ({ onChangeHandler, data }) => {
           loader.file.then((file) => {
             data.append('name', file.name);
             data.append('file', file);
-            axios.post(API_URL, data).catch((err) => reject(err));
+            axios
+              .post(API_URL, data)
+              .then((res) => {
+                console.log(res);
+                resolve({
+                  default: `https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png`,
+                });
+              })
+              .catch((err) => reject(err));
           });
         });
       },
