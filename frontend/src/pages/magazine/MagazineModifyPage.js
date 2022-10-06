@@ -25,13 +25,15 @@ const MagazineModifyPage = () => {
     setTitle(magazine?.title);
     setSubTitle(magazine?.sub_title);
     setContentData(magazine?.content);
-    setImg(magazine?.img_url);
     if (
       magazine?.img_url ===
       'https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png'
-    )
+    ) {
       setIsImg(false);
-    else setImg(true);
+    } else {
+      setImg(magazine?.img_url);
+      setIsImg(true);
+    }
     return () => {
       setImg(null);
       setIsImg(false);
