@@ -31,6 +31,7 @@ const GardenDetailPage = () => {
 
   useEffect(() => {
     dispatch(fetchMyGarden(gardenId));
+    console.log(gardenId);
   }, [dispatch, gardenId]);
 
   const { gardenPlant, loading } = useSelector((state) => state.garden);
