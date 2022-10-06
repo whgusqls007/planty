@@ -28,7 +28,6 @@ const PlantDescription = ({ plant }) => {
     water_cycle_winter,
     img_url,
   } = plant;
-  console.log(manage_level);
   return (
     <Wrapper>
       <div className="plant-header">
