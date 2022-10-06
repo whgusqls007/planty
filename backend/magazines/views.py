@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+
+from core.utils import s3_upload_image
 from .models import Magazine, MagazineComment
 from rest_framework import viewsets, status
 from .serializers import MagazineSerializer, MagazineCommentSerializer, MagazineDetailSerializer
@@ -102,13 +104,17 @@ class MagazineViewSet(viewsets.ModelViewSet):
 
         if serializer.is_valid(raise_exception=True):
 
-            try:
-                p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
-                m = p.search(request.data['content'])
-                img_url = m.group()[1:-1]
-            except:
+            # try:
+            #     p = re.compile(r"\"data[0-9A-Za-z\\/\+;:,]*=\"")
+            #     m = p.search(request.data['content'])
+            #     img_url = m.group()[1:-1]
+            # except:
+
+            if not request.data['img_url']:
                 img_url = "https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png"
-            serializer.save(user=user, img_url=img_url)
+                serializer.save(user=user, img_url=img_url)
+            else:
+                serializer.save(user=user)
 
             user.exp = user.exp + 20
             user.articles_count = user.articles_count + 1
@@ -266,3 +272,18 @@ class MainMagazineViewSet(viewsets.ViewSet):
         serializers = MagazineSerializer(magazines, many=True)
 
         return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+# 이미지 업로드 url
+class MagazineImageUploadViewSet(viewsets.ViewSet):
+
+    # post에 매칭, 리스트
+    def create(self, request):
+        try:
+            file = request.FILES['file']
+            file_path = s3_upload_image(file, 'magazine/')
+        
+            return Response({'img_url': file_path}, status=status.HTTP_200_OK)
+
+        except:
+            return Response({'data': 'error'}, status=status.HTTP_400_BAD_REQUEST)
