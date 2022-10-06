@@ -21,6 +21,12 @@ export const gardenCreate = async (params) => {
   return response;
 };
 
+export const gardenDelete = async (params) => {
+  const response = client.delete(`mygardens/${params}`);
+
+  return response;
+};
+
 export const postFollowUser = async (username) => {
   const response = client.post(`accounts/follow/${username}/`);
 
@@ -53,6 +59,12 @@ export const diaryCreate = async ({ mygardenId, params }) => {
 
 export const gardenDiary = async ({ gardenId, diaryId }) => {
   const response = client.get(`mygardens/${gardenId}/diary/${diaryId}`);
+
+  return response;
+};
+
+export const diaryDelete = async ({ mygardenId, diaryId }) => {
+  const response = client.delete(`mygardens/${mygardenId}/diary/${diaryId}`);
 
   return response;
 };
