@@ -6,9 +6,6 @@ export const Wrapper = styled.div`
   width: 100vw;
   background-color: #ffffff;
   position: absolute;
-  @media (min-width: 993px) {
-    z-index: -1;
-  }
 
   top: 0;
   left: 0;

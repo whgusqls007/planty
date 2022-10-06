@@ -81,7 +81,7 @@ const GardenUserInfo = () => {
             </button>
           </form>
         ) : (
-          <span>
+          <span className="description">
             {description}
             {me === username && (
               <BorderColorIcon

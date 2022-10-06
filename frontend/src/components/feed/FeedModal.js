@@ -103,7 +103,7 @@ const MobileModal = ({ closeModal }) => {
       <div className="mobile-feed-writer">
         <Link to={`/garden/${user?.username}`}>
           <CloudIcon />
-          <span>{user?.username}</span>
+          <span title="클릭하여 정원으로 이동">{user?.username}</span>
         </Link>
       </div>
       <ModalImgCarousel />

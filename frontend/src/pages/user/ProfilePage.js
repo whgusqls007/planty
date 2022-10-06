@@ -11,6 +11,8 @@ import {
   fetchUserLikes,
   fetchUserInfo,
 } from '../../features/user/userActions';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ProfileUpdateModal from '../../components/user/ProfileUpdateModal';
 
 const ProfilePage = () => {
   const [profileNum, setProfileNum] = useState(1);
@@ -18,6 +20,7 @@ const ProfilePage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const {
     profile_img,
@@ -34,6 +37,13 @@ const ProfilePage = () => {
       : 1;
     setProfileNum(query);
   }, [searchParams]);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   useEffect(() => {
     dispatch(fetchUserInfo());
     dispatch(fetchUserComments());
@@ -41,54 +51,63 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <Container>
-      <Wrapper>
-        <div className="profile-user-info">
-          <img src={profile_img} alt="" className="profile-user-img" />
-          <div className="profile-user-detail">
-            <div className="profile-user-name">{username}</div>
-            <div className="profile-user-score">
-              <span>레벨 {grade}</span>
-              <span>나의 글 {articles_count}</span>
-              <span>나의 댓글 {comments_count}</span>
-              <span>좋아요한 글 {likes_count}</span>
+    <>
+      <ProfileUpdateModal modalOpen={modalOpen} closeModal={closeModal} />
+      <Container>
+        <Wrapper>
+          <div className="profile-user-info">
+            <div className="profile-img-div">
+              <img src={profile_img} alt="" className="profile-user-img" />
+              <AddCircleIcon
+                className="profile-edit-icon"
+                onClick={openModal}
+              />
+            </div>
+            <div className="profile-user-detail">
+              <div className="profile-user-name">{username}</div>
+              <div className="profile-user-score">
+                <span>레벨 {grade}</span>
+                <span>나의 글 {articles_count}</span>
+                <span>나의 댓글 {comments_count}</span>
+                <span>좋아요한 글 {likes_count}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="profile-nav">
-          <div className="profile-nav-tab">
-            {profileNav.map((e, i) => (
-              <div
-                className={
-                  profileNum === i + 1
-                    ? 'profile-nav-item active'
-                    : 'profile-nav-item'
-                }
-                key={i}
-                onClick={() => setProfileNum(i + 1)}
-              >
-                <Link to={`?tab=${i + 1}`} replace>
-                  {e}
-                </Link>
-              </div>
-            ))}
+          <div className="profile-nav">
+            <div className="profile-nav-tab">
+              {profileNav.map((e, i) => (
+                <div
+                  className={
+                    profileNum === i + 1
+                      ? 'profile-nav-item active'
+                      : 'profile-nav-item'
+                  }
+                  key={i}
+                  onClick={() => setProfileNum(i + 1)}
+                >
+                  <Link to={`?tab=${i + 1}`} replace>
+                    {e}
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <div
+              className="profile-setting"
+              onClick={() => {
+                navigate('/profile/update');
+              }}
+            >
+              <span>정보 수정</span>
+              <SettingsIcon />
+            </div>
           </div>
-          <div
-            className="profile-setting"
-            onClick={() => {
-              navigate('/profile/update');
-            }}
-          >
-            <span>정보 수정</span>
-            <SettingsIcon />
-          </div>
-        </div>
-        <ProfileWrapper>
-          {profileNum === 1 && <ProfileCommentListItem />}
-          {profileNum === 2 && <ProfileLikeListItem />}
-        </ProfileWrapper>
-      </Wrapper>
-    </Container>
+          <ProfileWrapper>
+            {profileNum === 1 && <ProfileCommentListItem />}
+            {profileNum === 2 && <ProfileLikeListItem />}
+          </ProfileWrapper>
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 
@@ -98,15 +117,32 @@ const Wrapper = styled.div`
     align-items: center;
     margin: 40px 0px;
   }
+
+  & .profile-img-div {
+    margin-right: 20px;
+    position: relative;
+  }
   & .profile-user-img {
     width: 120px;
     height: 120px;
     border-radius: 60px;
     overflow: hidden;
     background-color: ${({ theme }) => theme.themeColor[1]};
-    margin-right: 20px;
   }
   & .profile-user-detail {
+  }
+
+  & .profile-edit-icon {
+    position: absolute;
+    right: 0px;
+    bottom: 8px;
+    font-size: 25px;
+
+    &:hover {
+      cursor: pointer;
+      color: ${({ theme }) => theme.themeColor[1]};
+      transition: all 0.2s;
+    }
   }
   & .profile-user-name {
     font-size: 2rem;

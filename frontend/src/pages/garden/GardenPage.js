@@ -54,7 +54,7 @@ const GardenPage = () => {
         <div className="toggle-div">
           <span>|</span>
           <div
-            className="toggle-btn1"
+            className={tabNum === 1 ? 'toggle-btn1 active' : 'toggle-btn1'}
             onClick={() => {
               navigate(`/garden/${userName}?tab=${1}`, { replace: true });
             }}
@@ -62,7 +62,7 @@ const GardenPage = () => {
             반려식물
           </div>
           <div
-            className="toggle-btn2"
+            className={tabNum === 2 ? 'toggle-btn2 active' : 'toggle-btn2'}
             onClick={() => {
               navigate(`/garden/${userName}?tab=${2}`, { replace: true });
             }}
