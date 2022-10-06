@@ -16,8 +16,8 @@ const IntroSeventhPage = ({ screenWidth, screenHeight, currentPage }) => {
               currentPage === 2 ? 'page-text third-page-ani' : 'page-text'
             }
           >
-            <h3>나의 반려식물들을 당신에게</h3>
-            <p>식물 정원</p>
+            <h3>나의 정원을 당신에게 보여줄게요</h3>
+            <p>남의 정원</p>
           </div>
           <div className="image-box">
             <img
