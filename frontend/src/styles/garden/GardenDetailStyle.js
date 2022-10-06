@@ -31,31 +31,90 @@ export const Wrapper = styled.div`
   & .button-div {
     position: absolute;
     right: 0;
+    padding-right: 2%;
     transform: translateY(-140%);
 
-    & button {
-      background-color: rgba(0, 0, 0, 0);
+    & .create-button {
+      background-color: ${({ theme }) => theme.themeColor[1]};
       border: 1px solid ${({ theme }) => theme.themeColor[5]};
       border-radius: 10px;
-      width: 130px;
-      height: 42px;
-      font-size: 20px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
+      margin-left: 8px;
+      transition: 0.4s;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #ffffff;
+        transition: 0.2s;
+        color: #111111;
+      }
+      @media (max-width: 992px) {
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        width: 82px;
+        height: 34px;
+        font-size: 16px;
+      }
+    }
+
+    & .delete-button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid ${({ theme }) => theme.themeColor[6]};
+      border-radius: 10px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
       margin-left: 8px;
       transition: 0.4s;
 
       &:hover {
-        background-color: ${({ theme }) => theme.themeColor[1]};
+        background-color: ${({ theme }) => theme.themeColor[6]};
         transition: 0.2s;
+        color: #ffffff;
       }
-
       @media (max-width: 992px) {
-        width: 100px;
-        height: 38px;
-        font-size: 20px;
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
       }
 
       @media (max-width: 576px) {
-        width: 80px;
+        width: 82px;
+        height: 34px;
+        font-size: 16px;
+      }
+    }
+
+    & .update-button {
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid ${({ theme }) => theme.themeColor[5]};
+      border-radius: 10px;
+      width: 90px;
+      height: 35px;
+      font-size: 16px;
+      margin-left: 8px;
+      transition: 0.4s;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.themeColor[0]};
+        transition: 0.2s;
+        color: #ffffff;
+      }
+
+      @media (max-width: 992px) {
+        width: 85px;
+        height: 30px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 576px) {
+        width: 82px;
         height: 34px;
         font-size: 16px;
       }
@@ -73,9 +132,9 @@ export const Wrapper = styled.div`
 export const GardenDetailImage = styled.img`
   width: 40%;
   height: 365px;
-  border: 2px solid ${({ theme }) => theme.themeColor[5]};
+  /* border: 2px solid ${({ theme }) => theme.themeColor[5]}; */
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
-  border-radius: 15px 0 0 15px;
+  border-radius: 15px;
   object-fit: cover;
 
   @media (max-width: 992px) {
@@ -94,10 +153,10 @@ export const GardenDetailDescription = styled.div`
   min-height: 365px;
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 20px 30px 10px 30px;
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
   border-radius: 0 15px 15px 0;
-  border: 2px solid ${({ theme }) => theme.themeColor[5]};
+  /* border: 2px solid ${({ theme }) => theme.themeColor[5]}; */
 
   @media (max-width: 992px) {
     min-height: 330px;
@@ -147,12 +206,16 @@ export const GardenDetailDescription = styled.div`
     background-color: white;
 
     &:hover {
-      background-color: ${({ theme }) => theme.themeColor[5]};
+      background-color: ${({ theme }) => theme.themeColor[1]};
+      color: #ffffff;
     }
   }
   & .garden-detail-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     display: flex;
-    justify-content: space-between;
+    column-gap: 10px;
+    margin-top: 10px;
   }
 `;
 
@@ -199,17 +262,17 @@ export const GardenDiaryWrapper = styled.div`
 `;
 
 export const GardenDetailInfo = styled.div`
-  width: 30%;
+  width: 100%;
   min-height: 80px;
-  background-color: white;
-  border: 2px solid ${({ theme }) => theme.themeColor[5]};
-  border-radius: 5px;
-  font-weight: bold;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: 16px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 2px solid ${({ theme }) => theme.themeColor[5]};
+  /* font-size: 16px; */
+  padding: 1%;
 
   @media (max-width: 1200px) {
     font-size: 14px;
@@ -225,5 +288,15 @@ export const GardenDetailInfo = styled.div`
 
   @media (max-width: 576px) {
     font-size: 12px;
+  }
+  & p {
+    margin: 0;
+  }
+  & .info-title {
+    font-weight: bold;
+  }
+  & img {
+    width: 30%;
+    height: 100%;
   }
 `;
