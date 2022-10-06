@@ -68,3 +68,9 @@ export const diaryDelete = async ({ mygardenId, diaryId }) => {
 
   return response;
 };
+
+export const myGardenModify = async ({ mygardenId, params }) => {
+  const response = client.put(`mygardens/${mygardenId}/`, params);
+
+  return response;
+};

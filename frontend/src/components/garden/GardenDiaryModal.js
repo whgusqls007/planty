@@ -36,7 +36,8 @@ const GardenDiaryModal = () => {
 
   useEffect(() => {
     if (diaryId && gardenId) {
-      dispatch(fetchDiary({ diaryId, gardenId }));
+      console.log(gardenId);
+      dispatch(fetchDiary({ mygardenId: gardenId, diaryId: diaryId }));
     }
   }, [diaryId, gardenId]);
 
@@ -45,10 +46,12 @@ const GardenDiaryModal = () => {
   };
 
   const deleteHandler = () => {
-    dispatch(deleteDiary({ gardenId, diaryId })).then(() => {
-      closeModal();
-      dispatch(fetchMyGarden(gardenId));
-    });
+    dispatch(deleteDiary({ mygardenId: gardenId, diaryId: diaryId })).then(
+      () => {
+        closeModal();
+        dispatch(fetchMyGarden(gardenId));
+      },
+    );
   };
 
   return (

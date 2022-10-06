@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/esm/Container';
-import GardenCreateModal from '../../components/garden/GardenCreateModal';
+import GardenUpdateModal from '../../components/garden/GardenUpdateModal';
 import GardenDiaryCreateModal from '../../components/garden/GardenDiaryCreateModal';
 import GardenDiaryModal from '../../components/garden/GardenDiaryModal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +31,7 @@ const GardenDetailPage = () => {
 
   useEffect(() => {
     dispatch(fetchMyGarden(gardenId));
+    console.log(gardenId);
   }, [dispatch, gardenId]);
 
   const { gardenPlant, loading } = useSelector((state) => state.garden);
@@ -69,11 +70,13 @@ const GardenDetailPage = () => {
 
   return (
     <>
-      <GardenCreateModal
-        modalOpen={modalOpen}
-        closeModal={closeModal}
-        data={gardenPlant}
-      />
+      {Object.keys(gardenPlant).length && (
+        <GardenUpdateModal
+          modalOpen={modalOpen}
+          closeModal={closeModal}
+          gardenPlant={gardenPlant}
+        />
+      )}
       <GardenDiaryCreateModal
         modalOpen={diaryCreateOpen}
         closeModal={closeCreateDiary}
