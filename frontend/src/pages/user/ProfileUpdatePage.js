@@ -147,7 +147,7 @@ const ProfileUpdatePage = () => {
         </div>
         <UserForm onSubmit={onSubmitHandler}>
           <LabelContainer>
-            <label htmlFor="username">NICKNAME</label>
+            <label htmlFor="username">닉네임</label>
             {updateInputs.username && (
               <RegisterMessage username={inputErrors.usernameError} />
             )}
@@ -159,16 +159,16 @@ const ProfileUpdatePage = () => {
             onChange={usernameChangeHandler}
           />
           <LabelContainer>
-            <label htmlFor="password1">NEW PASSWORD</label>
+            <label htmlFor="password1">새 비밀번호</label>
           </LabelContainer>
           <input
             type="password"
             id="new_password1"
             onChange={inputChangeHandler}
-            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+            placeholder="8자 이상의 문자+숫자+특수문자를 입력해주세요."
           />
           <LabelContainer>
-            <label htmlFor="password2">NEW PASSWORD CONFIRM</label>
+            <label htmlFor="password2">비밀번호 확인</label>
             {updateInputs.new_password1 && updateInputs.new_password2 && (
               <RegisterMessage password2={inputErrors.passwordConfirmError} />
             )}
@@ -177,7 +177,7 @@ const ProfileUpdatePage = () => {
             type="password"
             id="new_password2"
             onChange={inputChangeHandler}
-            placeholder="8자 이상의 문자+숫자를 입력해주세요."
+            placeholder="8자 이상의 문자+숫자+특수문자를 입력해주세요."
           />
           <SubmitButton
             onClick={onSubmitHandler}
@@ -187,10 +187,10 @@ const ProfileUpdatePage = () => {
               inputErrors.usernameError
             }
           >
-            UPDATE
+            정보 수정
           </SubmitButton>
           <div className="option-div">
-            <Link to={-1}>Back</Link>
+            <Link to={-1}>뒤로가기</Link>
           </div>
         </UserForm>
       </UserWrapper>
