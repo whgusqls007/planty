@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   background: #44855d;
@@ -84,6 +84,17 @@ export const WorldCupWrapper = styled.div`
     @media (max-width: 576px) {
       font-size: 0.8rem;
       padding-bottom: 0rem;
+    }
+  }
+`;
+
+export const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  & > span {
+    margin-top: 200px;
+    & svg {
+      color: ${({ theme }) => theme.themeColor[1]};
     }
   }
 `;

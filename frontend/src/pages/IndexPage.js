@@ -13,6 +13,7 @@ import {
   ContentTitle,
   ContentSubTitle,
   WorldCupWrapper,
+  SpinnerWrapper,
 } from '../styles/index/IndexStyle.js';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchMainMagazines } from '../features/magazine/magazineActions';
@@ -26,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { CircularProgress } from '@mui/material';
 
 const arr = [
   '물을 자주 주는',
@@ -186,7 +188,7 @@ const IndexPage = () => {
           <div style={{ marginBottom: '10%' }}>
             <ContentTitle>반려동물에게 안전한 식물</ContentTitle>
             <WorldCupWrapper>
-              <ContentSubTitle>강아지도 고양이도 괜찮아요!</ContentSubTitle>
+              <ContentSubTitle>강아지도 고양이도 괜찮아요 :)</ContentSubTitle>
               <button
                 onClick={() => {
                   setItems(petsafePlants);
@@ -200,7 +202,10 @@ const IndexPage = () => {
           </div>
         </Container>
       ) : (
-        <></>
+        <SpinnerWrapper>
+          {/* <img src="assets/img/spinner.gif" alt="spinner" /> */}
+          <CircularProgress />
+        </SpinnerWrapper>
       )}
     </>
   );
