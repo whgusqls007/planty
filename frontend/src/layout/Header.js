@@ -35,6 +35,10 @@ const Wrapper = styled.div`
     height: 40px;
   }
 
+  & a {
+    white-space: nowrap;
+  }
+
   & .nav-user-btn {
     & a {
       position: relative;

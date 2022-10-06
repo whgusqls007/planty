@@ -13,7 +13,7 @@ const IntroSeventhPage = ({ screenWidth, screenHeight, currentPage }) => {
         <div className="page-content">
           <div
             className={
-              currentPage === 2 ? 'page-text third-page-ani' : 'page-text'
+              currentPage === 6 ? 'page-text third-page-ani' : 'page-text'
             }
           >
             <h3>나의 반려식물들을 당신에게</h3>

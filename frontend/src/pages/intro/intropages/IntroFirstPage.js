@@ -1,3 +1,5 @@
+import { Link, useNavigate } from 'react-router-dom';
+
 const IntroFirstPage = ({ screenWidth, screenHeight, currentPage }) => {
   return (
     <div
@@ -21,9 +23,11 @@ const IntroFirstPage = ({ screenWidth, screenHeight, currentPage }) => {
         <p className={currentPage === 0 ? 'first-page-ani-11' : ''}>곳</p>
       </div>
       <div className="second-line">
-        <p className={currentPage === 0 ? 'first-page-ani-12' : ''}>플</p>
-        <p className={currentPage === 0 ? 'first-page-ani-13' : ''}>랜</p>
-        <p className={currentPage === 0 ? 'first-page-ani-14' : ''}>티</p>
+        <Link to="/index">
+          <p className={currentPage === 0 ? 'first-page-ani-12' : ''}>플</p>
+          <p className={currentPage === 0 ? 'first-page-ani-13' : ''}>랜</p>
+          <p className={currentPage === 0 ? 'first-page-ani-14' : ''}>티</p>
+        </Link>
       </div>
     </div>
   );
