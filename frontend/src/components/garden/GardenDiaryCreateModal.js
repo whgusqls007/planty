@@ -33,18 +33,10 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
     }
   }, [dispatch, success]);
 
-  // useEffect(() => {
-  //   if (success) {
-  //     dispatch(createConfirm());
-  //     closeFeedCreateModal();
-  //   }
-  // }, [success, dispatch, createConfirm]);
-
   const onImageChange = (e) => {
     e.preventDefault();
     const imgTarget = e.target.files[0];
     setImgFile(imgTarget);
-    console.log(imgTarget);
     if (imgTarget) {
       const reader = new FileReader();
       reader.readAsDataURL(imgTarget);
@@ -67,7 +59,6 @@ const GardenDiaryCreateModal = ({ modalOpen, closeModal }) => {
       formData.append('data', data);
       formData.append('files', imgFile);
       formData.append('enctype', 'multipart/form-data');
-      console.log(gardenId);
       dispatch(createDiary({ mygardenId: gardenId, params: formData }));
     } else if (!imgFile) {
       alert('사진을 추가해주세요!');

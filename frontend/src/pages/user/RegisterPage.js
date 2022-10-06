@@ -120,7 +120,6 @@ const RegisterPage = () => {
     });
     passwordCheck({ password: password1 }).then((res) => {
       const { data } = res.data;
-      console.log(data);
       if (data === true) {
         setInputErrors({
           ...inputErrors,

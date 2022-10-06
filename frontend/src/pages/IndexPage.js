@@ -47,6 +47,7 @@ const IndexPage = () => {
     useSelector((state) => state.recommend);
   const { popolarMagazines } = useSelector((state) => state.magazine);
   const { userInfo } = useSelector((state) => state.user);
+  const { recommendSuccess } = useSelector((state) => state.recommend);
   const [items, setItems] = useState([]);
 
   const clearItems = () => {
@@ -98,7 +99,7 @@ const IndexPage = () => {
           </ButtonWrapper>
         </Container>
       </Wrapper>
-      {(userInfo && userInfo?.plants_count && userRecommend?.length) ||
+      {recommendSuccess ||
       (!userInfo &&
         popularPlants.length &&
         petsafePlants.length &&
@@ -109,7 +110,6 @@ const IndexPage = () => {
             <ContentTitle
               style={
                 userInfo &&
-                userInfo?.plants_count > 0 &&
                 (userRecommend?.length > 0 || WorldcupList?.length > 0)
                   ? { display: 'block' }
                   : { display: 'none' }
@@ -119,9 +119,7 @@ const IndexPage = () => {
             </ContentTitle>
             <div
               style={
-                userInfo &&
-                userInfo?.plants_count > 0 &&
-                userRecommend?.length > 0
+                userInfo && userRecommend?.length > 0
                   ? { display: 'block' }
                   : { display: 'none' }
               }
@@ -133,9 +131,7 @@ const IndexPage = () => {
             </div>
             <div
               style={
-                userInfo &&
-                userInfo?.plants_count > 0 &&
-                WorldcupList?.length > 0
+                userInfo && WorldcupList?.length > 0
                   ? { display: 'block' }
                   : { display: 'none' }
               }
