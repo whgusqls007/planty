@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import IndexPage from './pages/IndexPage';
 // 식물 사전
 import DictionaryPage from './pages/dictionary/DictionaryPage';
@@ -29,6 +29,14 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import FeedModal from './components/feed/FeedModal';
 import { fetchFeed } from './features/feed/feedAction';
 import Layout from './layout/Layout';
+import {
+  fetchPopularPlant,
+  fetchPetSafetyPlants,
+  fetchKeywordRecommend,
+  fetchPlantWordcup,
+  fetchUserRecommend,
+} from './features/recommend/recommendActions';
+import { fetchMainMagazines } from './features/magazine/magazineActions';
 
 const App = () => {
   const [searchParams] = useSearchParams();
@@ -42,6 +50,17 @@ const App = () => {
     if (feed) dispatch(fetchFeed(feed));
     setFeedId(feed);
   }, [searchParams]);
+  const userInfo = useSelector((state) => state.user.userInfo);
+  useEffect(() => {
+    if (userInfo) {
+      console.log('dispatch index plants!');
+      dispatch(fetchUserRecommend());
+      dispatch(fetchPopularPlant());
+      dispatch(fetchPetSafetyPlants());
+      dispatch(fetchMainMagazines());
+      dispatch(fetchPlantWordcup());
+    }
+  }, [dispatch, userInfo]);
 
   return (
     <>
