@@ -144,7 +144,10 @@ class UserRecommendViewSet(viewsets.ViewSet):
         user = request.user
         if user.pk:
             start = time.time()
-            recommends = get_recommendation_top_percent(user.pk)
+            try:
+                recommends = get_recommendation_top_percent(user.pk)
+            except:
+                recommends = []
             print(f"추천 시간 : {time.time()-start:.3}s")
             current = time.time()
             recommends = [data[1] for data in recommends]
