@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const API_URL = 'http://127.0.0.1:8000/api/magazines/';
+const API_URL = 'http://127.0.0.1:8000/api/magazines/image_upload/';
 
 const Ckeditor5 = ({ onChangeHandler, data }) => {
   const customUploadAdapter = (loader) => {
@@ -28,9 +28,8 @@ const Ckeditor5 = ({ onChangeHandler, data }) => {
             axios
               .post(API_URL, data)
               .then((res) => {
-                console.log(res);
                 resolve({
-                  default: `https://homidu.s3.ap-northeast-2.amazonaws.com/magazine/magazine-thumnails.png`,
+                  default: res.data.img_url,
                 });
               })
               .catch((err) => reject(err));
