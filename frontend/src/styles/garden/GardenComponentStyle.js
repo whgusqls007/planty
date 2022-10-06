@@ -122,6 +122,7 @@ export const GardenUserInfoWrapper = styled.div`
       opacity: 0.4;
       cursor: pointer;
       font-size: 20px;
+      margin-left: 5px;
       &:hover {
         opacity: 1;
       }
@@ -132,6 +133,11 @@ export const GardenUserInfoWrapper = styled.div`
         font-size: 12px;
       }
     }
+  }
+
+  & .description {
+    display: flex;
+    align-items: center;
   }
 
   & .user-info {
