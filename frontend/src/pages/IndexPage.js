@@ -98,11 +98,12 @@ const IndexPage = () => {
           </ButtonWrapper>
         </Container>
       </Wrapper>
-      {popularPlants.length &&
-      petsafePlants.length &&
-      WorldcupList.length &&
-      userRecommend.length &&
-      popolarMagazines.length ? (
+      {(userInfo && userInfo?.plants_count && userRecommend?.length) ||
+      (!userInfo &&
+        popularPlants.length &&
+        petsafePlants.length &&
+        // WorldcupList.length &&
+        popolarMagazines.length) ? (
         <Container>
           <div>
             <ContentTitle

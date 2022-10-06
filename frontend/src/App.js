@@ -55,11 +55,11 @@ const App = () => {
     if (userInfo) {
       console.log('dispatch index plants!');
       dispatch(fetchUserRecommend());
-      dispatch(fetchPopularPlant());
-      dispatch(fetchPetSafetyPlants());
-      dispatch(fetchMainMagazines());
       dispatch(fetchPlantWordcup());
     }
+    dispatch(fetchPopularPlant());
+    dispatch(fetchPetSafetyPlants());
+    dispatch(fetchMainMagazines());
   }, [dispatch, userInfo]);
 
   return (
