@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
   & .toggle-btn1 {
     position: absolute;
     cursor: pointer;
+    color: rgb(191, 191, 191);
     /* top: 0; */
     left: 50%;
     transform: translateX(calc(-100% - 16px));
@@ -35,11 +36,13 @@ export const Wrapper = styled.div`
       font-size: 12px;
     }
   }
+
   & .toggle-btn2 {
     position: absolute;
     cursor: pointer;
     left: 50%;
     transform: translateX(20px);
+    color: rgb(191, 191, 191);
 
     @media (max-width: 576px) {
       font-size: 16px;
@@ -48,6 +51,10 @@ export const Wrapper = styled.div`
     @media (max-width: 380px) {
       font-size: 12px;
     }
+  }
+
+  & .active {
+    color: black;
   }
 `;
 
