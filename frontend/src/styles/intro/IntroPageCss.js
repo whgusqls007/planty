@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 
   & .contents {
     width: 100%;
-    margin: -82px 0 0 0;
+    margin: -72px 0 0 0;
 
     & .full-height {
       width: 100%;
