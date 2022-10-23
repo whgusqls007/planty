@@ -37,7 +37,7 @@ const GardenDiaryModal = () => {
   useEffect(() => {
     if (diaryId && gardenId) {
       console.log(gardenId);
-      dispatch(fetchDiary({ gardenId: gardenId, diaryId: diaryId }));
+      dispatch(fetchDiary({ mygardenId: gardenId, diaryId: diaryId }));
     }
   }, [diaryId, gardenId]);
 
